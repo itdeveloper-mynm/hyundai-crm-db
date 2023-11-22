@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch extends Model
+class Customer extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'name',
-        'city_id',
-        'status',
+        'first_name',
+        'last_name',
+        'mobile',
+        'email',
+        'customer_bank',
     ];
-
-    public function city(){
-        return $this->belongsTo(City::class);
-    }
-
 
 }

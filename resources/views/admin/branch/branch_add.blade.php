@@ -31,6 +31,17 @@
                                             <input type="text" name="name" id="name" class="form-control mb-2"
                                                 required />
                                         </div>
+                                        <div class="col-lg-6 col-sm-4 col-md-4">
+                                            <label class="required form-label">{{ __('City') }}</label>
+                                            <select class="form-select mb-2" name="city_id" id="city_id" required="required"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                <option value=""></option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{$city->id}}">{{$city->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
                                     </div>
 

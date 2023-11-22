@@ -49,23 +49,27 @@
 								<div class="separator separator-content my-14">
 									<span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
 								</div>
+								<!--end::Separator-->
+								<!--begin::Input group=-->
+								<div class="fv-row mb-8">
+									<!--begin::Email-->
+									<input type="text" placeholder="Email" name="email" autocomplete="off" required class="form-control bg-transparent  @error('email') is-invalid @enderror" />
 									@error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 	@enderror
-								<!--end::Separator-->
-								<!--begin::Input group=-->
-								<div class="fv-row mb-8">
-									<!--begin::Email-->
-									<input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" />
-									
 									<!--end::Email-->
 								</div>
 								<!--end::Input group=-->
 								<div class="fv-row mb-3">
 									<!--begin::Password-->
-									<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" />
+									<input type="password" placeholder="Password" name="password" autocomplete="off" required class="form-control bg-transparent   @error('password') is-invalid @enderror" />
+									@error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                	@enderror
 									<!--end::Password-->
 								</div>
 								<!--end::Input group=-->

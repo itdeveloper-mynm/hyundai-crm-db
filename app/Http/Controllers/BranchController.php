@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Branch;
 use Illuminate\Support\Facades\Validator;
+use App\Models\City;
 
 class BranchController extends Controller
 {
@@ -25,7 +26,8 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('admin.branch.branch_add');
+        $data['cities'] = City::get();
+        return view('admin.branch.branch_add' , $data);
     }
 
     /**
@@ -96,7 +98,13 @@ class BranchController extends Controller
         $countAll = Branch::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Branch::orderBy($columnName, $columnSortOrder)
+        $paginate =  Branch::when( request('search')['value'],function($q) use($searchValue){
+            $q->where('name','LIKE','%'.strtoupper($searchValue).'%')
+            ->orwhereHas('city',function($q1) use($searchValue){
+                $q1->whereName($searchValue);
+            });;
+        })
+        ->orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
@@ -108,6 +116,7 @@ class BranchController extends Controller
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
+                "city_id" => $row->city->name ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;

@@ -8,6 +8,7 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\ExternalLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ use App\Http\Controllers\LeadController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return to_route('login');
 });
 
 Auth::routes();
@@ -63,4 +64,10 @@ Route::controller(CampaignController::class)->group(function(){
 Route::resource('lead', LeadController::class);
 Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
+});
+
+
+Route::controller(ExternalLeadController::class)->group(function(){
+    Route::post('addleads',  'store')->name('addleads.store');
+    Route::get('addleads/create',  'create');
 });

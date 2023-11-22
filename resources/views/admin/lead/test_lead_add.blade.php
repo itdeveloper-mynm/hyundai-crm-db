@@ -7,7 +7,7 @@
     <div id="kt_app_content_container" class="app-container ">
 
         <form class="form d-flex flex-column flex-lg-row" method="post" id="myForm">
-            @csrf
+            <!-- @csrf -->
 
             <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
                 <div class="tab-content">
@@ -28,12 +28,12 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" name="first_name" id="first_name" class="form-control mb-2"
+                                            <input type="text" name="firstName" id="firstName" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" name="last_name" id="last_name" class="form-control mb-2"
+                                            <input type="text" name="lastName" id="lastName" class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -53,29 +53,29 @@
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer City') }}</label>
-                                            <select class="form-select mb-2" name="city_id" required="required"
+                                            <select class="form-select mb-2" name="dealerCity" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($cities as $city)
-                                                    <option value="{{$city->id}}">{{$city->name}}</option>
+                                                    <option value="{{$city->name}}">{{$city->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer Branch') }}</label>
-                                            <select class="form-select mb-2" name="branch_id" required="required"
+                                            <select class="form-select mb-2" name="branch" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($branches as $branch)
-                                                    <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                                    <option value="{{$branch->name}}">{{$branch->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Purchase Plan') }}</label>
-                                            <select class="form-select mb-2" name="purchase_plan" id="purchase_plan"
+                                            <select class="form-select mb-2" name="purchasePlan" id="purchasePlan"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                     <option value=""></option>
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Monthly Salary') }}</label>
-                                            <select class="form-select mb-2" name="monthly_salary" id="monthly_salary"
+                                            <select class="form-select mb-2" name="monthlySalary" id="monthlySalary"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
@@ -98,7 +98,7 @@
 
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select class="form-select mb-2" name="customer_bank" id="customer_bank"
+                                            <select class="form-select mb-2" name="customersBank" id="customersBank"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
@@ -116,7 +116,7 @@
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred appointment time') }}</label>
-                                            <select class="form-select mb-2" name="preferred_appointment_time" required="required"
+                                            <select class="form-select mb-2" name="preferredTime" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
@@ -130,35 +130,29 @@
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Vehicle') }}</label>
-                                            <select class="form-select mb-2" name="vehicle_id" required="required"
+                                            <select class="form-select mb-2" name="vehicle" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
+                                                <option value="Others">Others</option>
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Source') }}</label>
-                                            <select class="form-select mb-2" name="source_id" required="required"
+                                            <select class="form-select mb-2" name="sourcee" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                @foreach ($sources as $source)
-                                                    <option value="{{$source->id}}">{{$source->name}}</option>
-                                                @endforeach
+                                                <option value="Others">Others</option>
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Campaign') }}</label>
-                                            <select class="form-select mb-2" name="campaign_id" required="required"
+                                            <select class="form-select mb-2" name="campaignName" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                @foreach ($campaigns as $campaign)
-                                                    <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                                @endforeach
+                                                <option value="Others">Others</option>
                                             </select>
                                         </div>
                                     </div>
@@ -223,7 +217,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('lead.store') }}",
+                url: "{{ route('addleads.store') }}",
                 data: data,
                 processData: false,
                 contentType: false,
