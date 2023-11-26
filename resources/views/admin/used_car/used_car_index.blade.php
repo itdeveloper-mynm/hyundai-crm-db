@@ -14,10 +14,10 @@
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
             
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Leads List') }}</h1>
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Used Cars List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('lead.index') }}" class="text-muted text-hover-primary">{{ __('Lead') }}</a>
+                                            <a href="{{ route('used-car.index') }}" class="text-muted text-hover-primary">{{ __('Used Car') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -126,7 +126,7 @@
                         </button>
 
 
-                        <a href="{{ route('lead.create') }}" class="btn btn-primary">
+                        <a href="{{ route('used-car.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
                     </div>
@@ -144,9 +144,7 @@
                             <th>{{ __('First Name') }}</th>
                             <th>{{ __('Last Name') }}</th>
                             <th>{{ __('City') }}</th>
-                            <th>{{ __('Branch') }}</th>
                             <th>{{ __('Vehicle') }}</th>
-                            <th>{{ __('Source') }}</th>
                             <th>{{ __('Campaign') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -172,7 +170,7 @@ var table = $('#user_table').DataTable({
     filter: true,
 
     ajax: {
-        "url": "{{ route('leads.pagination') }}",
+        "url": "{{ route('usedCar.pagination') }}",
         "type": "GET",
         'data': function(data) {
 
@@ -213,23 +211,7 @@ var table = $('#user_table').DataTable({
             }
         },
         {
-            data: 'branch_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
             data: 'vehicle_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'source_id',
             render: function(data, type, row) {
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -250,7 +232,7 @@ var table = $('#user_table').DataTable({
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
-                res = '<a href="{{  url("lead")  }}/' + data +
+                res = '<a href="{{  url("used-car")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
 
                 res2 =
@@ -367,7 +349,7 @@ function rowDelete(id) {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: '{{ url("lead") }}/' + id,
+                url: '{{ url("used-car") }}/' + id,
                 method: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"

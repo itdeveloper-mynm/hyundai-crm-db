@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Campaign;
+use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
@@ -148,6 +149,9 @@ class CityController extends Controller
         if($className=='Campaign'){
             $row = Campaign::findorFail($id);
         }
+        if($className=='Bank'){
+            $row = Bank::findorFail($id);
+        }
         $row->status= $request->status_id;
         $row->save();
         
@@ -158,11 +162,16 @@ class CityController extends Controller
    {
         //dd($request->all());
 
-        $field_name= 'name';
+        //$field_name= 'name';
+        $field_name= $request->fieldName ?? 'name';
         $table_name=$request->tableName;
-
+        $input = request()->all();
+        if($field_name == 'mobile'){
+            $input['mobile'] = formatInputNumber($input['mobile']);
+        }
+        //dd($input);
         if(request('check')==0){
-            $validator = Validator::make(request()->all(), 
+            $validator = Validator::make($input,
             [
                 //'name' => 'unique:cities,name',
                  $field_name => 'unique:'.$table_name.','.$field_name.'',
@@ -170,7 +179,7 @@ class CityController extends Controller
         }
         if(request('check')!=0){
             $id=request('check');
-            $validator = Validator::make(request()->all(), 
+            $validator = Validator::make($input, 
             [
                 //'name' => 'unique:cities,name,'.$id,
                 $field_name => 'unique:'.$table_name.','.$field_name.','.$id,

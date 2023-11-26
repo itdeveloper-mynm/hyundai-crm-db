@@ -14,10 +14,10 @@
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
             
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Leads List') }}</h1>
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Banks List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('lead.index') }}" class="text-muted text-hover-primary">{{ __('Lead') }}</a>
+                                            <a href="{{ route('campaign.index') }}" class="text-muted text-hover-primary">{{ __('Banks') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -126,7 +126,7 @@
                         </button>
 
 
-                        <a href="{{ route('lead.create') }}" class="btn btn-primary">
+                        <a href="{{ route('bank.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
                     </div>
@@ -141,13 +141,8 @@
                     <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                         <tr>
                             <th class="text-center">#</th>
-                            <th>{{ __('First Name') }}</th>
-                            <th>{{ __('Last Name') }}</th>
-                            <th>{{ __('City') }}</th>
-                            <th>{{ __('Branch') }}</th>
-                            <th>{{ __('Vehicle') }}</th>
-                            <th>{{ __('Source') }}</th>
-                            <th>{{ __('Campaign') }}</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -172,7 +167,7 @@ var table = $('#user_table').DataTable({
     filter: true,
 
     ajax: {
-        "url": "{{ route('leads.pagination') }}",
+        "url": "{{ route('bank.pagination') }}",
         "type": "GET",
         'data': function(data) {
 
@@ -189,68 +184,45 @@ var table = $('#user_table').DataTable({
             className: 'center'
         },
         {
-            data: 'first_name',
+            data: 'name',
             render: function(data, type, row) {
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
                 return result;
             }
         },
+
         {
-            data: 'last_name',
+            data: [{
+                id: 'id',
+                status: "status"
+            }, ],
+            data: 'status',
             render: function(data, type, row) {
+                if (row.status == true) {
+                    var result =
+                        '<i class="fa fa-toggle-on" aria-hidden="true" onclick="updateStatus(' + row
+                        .id + ',' + 0 + ')" style="font-size:25px; color:green;"></i>';
+                    return result;
+                }
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
+                if (row.status == false) {
+                    var result =
+                        '<i class="fa fa-toggle-off" aria-hidden="true" onclick="updateStatus(' + row
+                        .id + ',' + 1 + ')" style="font-size:25px; color:red;"></i>';
+                    return result;
+                }
+
             }
         },
-        {
-            data: 'city_id',
-            render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'branch_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'vehicle_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'source_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'campaign_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
 
         {
             data: 'id',
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
-                res = '<a href="{{  url("lead")  }}/' + data +
+                res = '<a href="{{  url("bank")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
 
                 res2 =
@@ -263,7 +235,7 @@ var table = $('#user_table').DataTable({
         }
     ],
     order: [
-        [3, "desc"]
+        [1, "desc"]
     ],
     dom: 'lBfrtip',
     buttons: [{
@@ -293,13 +265,13 @@ var table = $('#user_table').DataTable({
         },
         {
             targets: 1,
-            sortable: false,
-            orderable: false
+            sortable: true,
+            orderable: true
         },
         {
             targets: 2,
-            sortable: false,
-            orderable: false
+            sortable: true,
+            orderable: true
         },
         {
             "className": "dt-center",
@@ -351,6 +323,52 @@ $('.export_print').on('click', function() {
     $(".buttons-print").trigger("click");
 });
 
+function updateStatus(id, status_id) {
+    Swal.fire({
+        title: "{{ __('Status') }}",
+        text: "{{ __('Are you Sure') }}",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "{{ __('Confirm') }}",
+        cancelButtonText: "{{ __('Cancel') }}",
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            var className = 'Bank';
+
+            $.ajax({
+                url: "{{ route('change.status') }}",
+                method: "get",
+                data: {
+                    id: id,
+                    status_id: status_id,
+                    className: className
+                },
+                success: function(data) {
+                    if (data.result == 'success') {
+                        Swal.fire(
+                            "{{ __('Updated') }}",
+                            data.message,
+                            data.result
+                        )
+                        table.ajax.reload(null, false);
+                    }
+                    if (data.result == 'error') {
+                        Swal.fire(
+                            "{{ __('Not Updated') }}",
+                            data.message,
+                            data.result
+                        )
+                    }
+
+                }
+            })
+        }
+    })
+}
+
 
 function rowDelete(id) {
 
@@ -367,7 +385,7 @@ function rowDelete(id) {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: '{{ url("lead") }}/' + id,
+                url: '{{ url("bank") }}/' + id,
                 method: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"

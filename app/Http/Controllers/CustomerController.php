@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Branch;
+use App\Models\Customer;
+use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
-use App\Models\City;
 
-class BranchController extends Controller
+class CustomerController extends Controller
 {
     public function __construct()
     {
@@ -18,7 +18,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('admin.branch.branch_index');
+        return view('admin.customer.customer_index');
     }
 
     /**
@@ -26,8 +26,8 @@ class BranchController extends Controller
      */
     public function create()
     {
-        $data['cities'] = City::get();
-        return view('admin.branch.branch_add' , $data);
+        $data['banks']=Bank::whereStatus(1)->get();
+        return view('admin.customer.customer_add' , $data);
     }
 
     /**
@@ -35,8 +35,12 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $branch= Branch::create($request->all());
-        
+        $input = request()->all();
+        if($request->mobile){
+            $input['mobile'] = formatInputNumber($input['mobile']);
+        }
+
+        Customer::create($input);
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -53,8 +57,9 @@ class BranchController extends Controller
      */
     public function edit(string $id)
     {
-        $data['branch']= Branch::findorFail($id);
-        return view('admin.branch.branch_edit', $data);
+        $data['customer']= Customer::findorFail($id);
+        $data['banks']= Bank::whereStatus(1)->get();
+        return view('admin.customer.customer_edit' , $data);
     }
 
     /**
@@ -62,8 +67,16 @@ class BranchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $row = Branch::findorFail($id);
-        $row->update($request->all());
+
+        
+        $row = Customer::findorFail($id);
+
+        $input = request()->all();
+        if($request->mobile){
+            $input['mobile'] = formatInputNumber($input['mobile']);
+        }
+        $row->update($input);
+
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -73,14 +86,14 @@ class BranchController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = Branch::findorFail($id);
+        $row = Customer::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
-    public function branchPagination()
+        
+    public function customerPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
         $draw = request('draw');
@@ -95,16 +108,10 @@ class BranchController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Branch::count();
+        $countAll = Customer::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Branch::when( request('search')['value'],function($q) use($searchValue){
-            $q->where('name','LIKE','%'.strtoupper($searchValue).'%')
-            ->orwhereHas('city',function($q1) use($searchValue){
-                $q1->whereName($searchValue);
-            });
-        })
-        ->orderBy($columnName, $columnSortOrder)
+        $paginate =  Customer::orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
@@ -114,9 +121,11 @@ class BranchController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "status" => $row['status'],
-                "name" => ucwords($row['name']),
-                "city_id" => $row->city->name ?? "",
+                "first_name" => ucwords($row->first_name),
+                "last_name" => ucwords($row->last_name),
+                "mobile" => $row->mobile,
+                "email" => $row->email,
+                "bank_id" => $row->bank->name ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;

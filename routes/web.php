@@ -7,8 +7,12 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ExternalLeadController;
+use App\Http\Controllers\LeadController;
+use App\Http\Controllers\BankController;
+use App\Http\Controllers\AfterSaleController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UsedCarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +68,26 @@ Route::controller(CampaignController::class)->group(function(){
 Route::resource('lead', LeadController::class);
 Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
+});
+
+Route::resource('bank', BankController::class);
+Route::controller(BankController::class)->group(function(){
+    Route::get('bank-pagination',  'banksPagination')->name('bank.pagination');
+});
+
+Route::resource('after-sale', AfterSaleController::class);
+Route::controller(AfterSaleController::class)->group(function(){
+    Route::get('after-sale-pagination',  'afterSalePagination')->name('afterSale.pagination');
+});
+
+Route::resource('customer', CustomerController::class);
+Route::controller(CustomerController::class)->group(function(){
+    Route::get('customer-pagination',  'customerPagination')->name('customer.pagination');
+});
+
+Route::resource('used-car', UsedCarController::class);
+Route::controller(UsedCarController::class)->group(function(){
+    Route::get('used-car-pagination',  'usedCarPagination')->name('usedCar.pagination');
 });
 
 

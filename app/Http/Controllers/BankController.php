@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Branch;
+use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
-use App\Models\City;
 
-class BranchController extends Controller
+class BankController extends Controller
 {
     public function __construct()
     {
@@ -18,7 +17,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('admin.branch.branch_index');
+        return view('admin.bank.bank_index');
     }
 
     /**
@@ -26,8 +25,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        $data['cities'] = City::get();
-        return view('admin.branch.branch_add' , $data);
+        return view('admin.bank.bank_add');
     }
 
     /**
@@ -35,7 +33,7 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $branch= Branch::create($request->all());
+        $bank= Bank::create($request->all());
         
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -53,8 +51,8 @@ class BranchController extends Controller
      */
     public function edit(string $id)
     {
-        $data['branch']= Branch::findorFail($id);
-        return view('admin.branch.branch_edit', $data);
+        $data['bank']= Bank::findorFail($id);
+        return view('admin.bank.bank_edit', $data);
     }
 
     /**
@@ -62,7 +60,7 @@ class BranchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $row = Branch::findorFail($id);
+        $row = Bank::findorFail($id);
         $row->update($request->all());
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
@@ -73,14 +71,14 @@ class BranchController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = Branch::findorFail($id);
+        $row = Bank::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
     
-    public function branchPagination()
+    public function banksPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
         $draw = request('draw');
@@ -95,16 +93,10 @@ class BranchController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Branch::count();
+        $countAll = Bank::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Branch::when( request('search')['value'],function($q) use($searchValue){
-            $q->where('name','LIKE','%'.strtoupper($searchValue).'%')
-            ->orwhereHas('city',function($q1) use($searchValue){
-                $q1->whereName($searchValue);
-            });
-        })
-        ->orderBy($columnName, $columnSortOrder)
+        $paginate =  Bank::orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
@@ -116,7 +108,6 @@ class BranchController extends Controller
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
-                "city_id" => $row->city->name ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;

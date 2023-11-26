@@ -10,6 +10,7 @@ use App\Models\Source;
 use App\Models\Campaign;
 use App\Models\Lead;
 use App\Models\Customer;
+use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
 
 class ExternalLeadController extends Controller
@@ -43,13 +44,26 @@ class ExternalLeadController extends Controller
 
         //dd($request->all());
         \Log::info('customer api hit');
-        $customer =new Customer();
-        $customer->first_name = $request->input('firstName');
-        $customer->last_name = $request->input('lastName');
-        $customer->mobile = $request->input('mobile');
-        $customer->email = $request->input('email');
-        $customer->customer_bank = $request->input('customersBank');
-        $customer->save();
+
+        $bank = Bank::where('name', $request->input('customersBank'))->first();
+        
+        if(is_null($bank)){
+            $bank = Bank::create(['name' => $request->input('customersBank')]);
+        }
+
+
+        $customer = Customer::whereEmail($request->input('email'))
+        ->whereMobile($request->input('mobile'))->first();
+      
+        if(is_null($customer)){
+            $customer =new Customer();
+            $customer->first_name = $request->input('firstName');
+            $customer->last_name = $request->input('lastName');
+            $customer->mobile = $request->input('mobile');
+            $customer->email = $request->input('email');
+            $customer->bank_id = $bank->id;
+            $customer->save();
+        }
 
         $city = City::where('name', $request->input('dealerCity'))->first();
         $branch = Branch::where('name', $request->input('branch'))->first();

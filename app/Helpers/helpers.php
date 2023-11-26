@@ -23,6 +23,28 @@ function activeMenuRoute($submenus): string
         return '';
     }
 
+}
 
+function formatInputNumber($mobile) {
+    
+    $length = strlen($mobile);
 
+    if (substr($mobile, 0, 4) === '+966' && strlen($mobile) === 14) {
+        $mobile = '+966' . ltrim(substr($mobile, 4), '0');
+    }
+
+    if(substr($mobile, 0, strlen(966)) === '966'  && $length == '12') {
+       $mobile = '+'.$mobile;
+    }
+
+    if (substr($mobile, 0, 1) !== '0' && $length == '9') {
+        $mobile = '+966'.$mobile;
+    }
+    
+    if (substr($mobile, 0, 1) === '0' && $length == '10') {
+        $mobile = ltrim($mobile, '0');
+        $mobile = '+966'.$mobile;
+    }
+
+    return $mobile;
 }

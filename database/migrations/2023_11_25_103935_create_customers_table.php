@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
-            $table->string('customer_bank')->nullable();
+            $table->unsignedBigInteger('bank_id')->nullable();
+            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Lead Add') }}</h2>
+                                        <h2>{{ __('Used Car Add') }}</h2>
                                     </div>
                                 </div>
 
@@ -62,51 +62,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Dealer Branch') }}</label>
-                                            <select class="form-select mb-2" name="branch_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($branches as $branch)
-                                                    <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="form-label">{{ __('Purchase Plan') }}</label>
-                                            <select class="form-select mb-2" name="purchase_plan" id="purchase_plan"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    <option value="1 month">1 month</option>
-                                                    <option value="2-3 month">2-3 month</option>
-                                                    <option value="After 3 month">After 3 month</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="form-label">{{ __('Monthly Salary') }}</label>
-                                            <select class="form-select mb-2" name="monthly_salary" id="monthly_salary"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                    <option value="Between 5,000 and 10,000">Between 5,000 and 10,000</option>
-                                                    <option value="Above 10,000">Above 10,000</option>
-                                                    <option value="Cash Deal">Cash Deal</option>
-                                            </select>
-                                        </div>
 
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select class="form-select mb-2" name="bank_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($banks as $bank)
-                                                    <option value="{{$bank->id}}">{{$bank->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred appointment time') }}</label>
                                             <select class="form-select mb-2" name="preferred_appointment_time" required="required"
@@ -129,17 +85,6 @@
                                                 <option value=""></option>
                                                 @foreach ($vehicles as $vehicle)
                                                     <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Source') }}</label>
-                                            <select class="form-select mb-2" name="source_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($sources as $source)
-                                                    <option value="{{$source->id}}">{{$source->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -173,6 +118,7 @@
                     </div>
                 </div>
             </div>
+            
         </form>
     </div>
 </div>
@@ -216,7 +162,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('lead.store') }}",
+                url: "{{ route('used-car.store') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -236,7 +182,7 @@ $(document).ready(function() {
                             data.result,
                         )
 
-                        window.location.href = "{{route('lead.index')}}";
+                        window.location.href = "{{route('used-car.index')}}";
 
                     }
                     if (data.result == 'error') {

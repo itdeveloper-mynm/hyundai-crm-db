@@ -14,7 +14,11 @@ class Customer extends Model
         'last_name',
         'mobile',
         'email',
-        'customer_bank',
+        'bank_id',
     ];
+
+    public function bank(){
+        return $this->belongsTo(Bank::class,'bank_id');
+    }
 
 }

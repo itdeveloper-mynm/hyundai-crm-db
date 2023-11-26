@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lead extends Model
+class UsedCar extends Model
 {
     use HasFactory;
 
+    
     protected $fillable = [
         'customer_id',
         'city_id',
-        'branch_id',
         'vehicle_id',
-        'source_id',
         'campaign_id',
         'created_at',
     ];
