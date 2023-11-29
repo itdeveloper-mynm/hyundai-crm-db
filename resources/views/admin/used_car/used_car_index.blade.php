@@ -10,19 +10,22 @@
 
             <div class="card-toolbar ">
                 <div class="row  mt-5">
-                <div class="col-lg-4">
-                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
-                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Used Cars List') }}</h1>
-                                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                        <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('used-car.index') }}" class="text-muted text-hover-primary">{{ __('Used Car') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="col-lg-4">
+                        <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <h1
+                                    class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    {{ __('Used Cars List') }}</h1>
+                                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                                    <li class="breadcrumb-item text-muted">
+                                        <a href="{{ route('used-car.index') }}"
+                                            class="text-muted text-hover-primary">{{ __('Used Car') }}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                    </div>
                     <div class="col-lg-4">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
@@ -111,9 +114,9 @@
                                     </div>
 
                                 </div>
-                                <form>
+                            </form>
                         </div>
-
+                        <!-- 
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                             {{ __('Excel') }}
@@ -123,8 +126,11 @@
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
                             {{ __('Print') }}
 
-                        </button>
+                        </button> -->
 
+                        <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="fa fa-upload"></i>
+                            {{ __('Import') }}</a>
 
                         <a href="{{ route('used-car.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
@@ -156,6 +162,72 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Used Car Leads</h3>
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
+                                fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body">
+                <form class="form d-flex flex-column flex-lg-row" method="post" id="csv_form"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_ecommerce_add_product_general"
+                                role="tab-panel">
+                                <div class="d-flex flex-column gap-7 gap-lg-10">
+
+                                    <div class="card card-flush py-4">
+
+                                        <div class="tab-content">
+
+                                            <div class="card-body pt-0  tab-pane fade show active agency_tab" id=""
+                                                role="tabpanel" aria-labelledby="">
+                                                <div class="row ">
+                                                    <div class="col-lg-12 col-sm-12 col-md-12">
+                                                        <label class="required form-label">{{ __('Select File')
+                                                        }}</label>
+
+                                                        <input type="file" name="csvfile" id="products_uploaded"
+                                                            class="form-control" value="Upload" required>
+                                                    </div>
+                                                </div>
+                                                <!-- row  -->
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary " id="btnSubmit">
+                                                <span class="indicator-label "> {{ __('Upload') }}</span>
+                                            </button>
+                                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
 </div>
 
 @endsection
@@ -253,7 +325,7 @@ var table = $('#user_table').DataTable({
             className: 'btn-success',
             text: "{{ __('table.print') }}",
             exportOptions: {
-                columns: [0,1,2,3]
+                columns: [0, 1, 2, 3]
             }
         },
 
@@ -262,7 +334,7 @@ var table = $('#user_table').DataTable({
             className: 'btn-warning',
             text: "{{ __('table.excel') }}",
             exportOptions: {
-                columns: [0,1,2,3]
+                columns: [0, 1, 2, 3]
             }
         },
 
@@ -379,6 +451,47 @@ function rowDelete(id) {
         }
     })
 }
+
+
+$('#csv_form').submit(function(e) {
+        e.preventDefault();
+        var form = $('#csv_form')[0];
+        var data = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('used-car.import') }}",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 800000,
+            success: function(data) {
+                if (data.result == 'success') {
+                    Swal.fire(
+                        "{{ __('Add') }}",
+                        data.message,
+                        data.result,
+                    )
+
+                }
+                if (data.result == 'error') {
+                    Swal.fire(
+                        "{{ __('not_add') }}",
+                        "{{ __('not_add') }}",
+                        data.result
+                    )
+                    return false;
+                }
+                $("#importModal").modal('hide');
+                table.draw();
+
+                $("#btnSubmit").prop("disabled", false);
+            }
+        });
+    });
+
+
 </script>
 
 

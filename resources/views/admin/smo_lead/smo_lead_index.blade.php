@@ -10,19 +10,22 @@
 
             <div class="card-toolbar ">
                 <div class="row  mt-5">
-                <div class="col-lg-4">
-                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
-                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('After Sale Listing') }}</h1>
-                                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                        <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('after-sale.index') }}" class="text-muted text-hover-primary">{{ __('After Sale') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="col-lg-4">
+                        <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <h1
+                                    class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    {{ __('Smo Leads List') }}</h1>
+                                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                                    <li class="breadcrumb-item text-muted">
+                                        <a href="{{ route('smo-lead.index') }}"
+                                            class="text-muted text-hover-primary">{{ __('Smo Lead') }}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                    </div>
                     <div class="col-lg-4">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
@@ -125,12 +128,12 @@
 
                         </button> -->
 
+
                         <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
                             <i class="fa fa-upload"></i>
                             {{ __('Import') }}</a>
 
-
-                        <a href="{{ route('after-sale.create') }}" class="btn btn-primary">
+                        <a href="{{ route('smo-lead.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
                     </div>
@@ -148,10 +151,8 @@
                             <th>{{ __('First Name') }}</th>
                             <th>{{ __('Last Name') }}</th>
                             <th>{{ __('City') }}</th>
-                            <th>{{ __('Branch') }}</th>
                             <th>{{ __('Vehicle') }}</th>
                             <th>{{ __('Source') }}</th>
-                            <th>{{ __('Campaign') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -164,11 +165,14 @@
     </div>
 </div>
 
+
+
+
 <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Import After Sale Leads</h3>
+                <h3 class="modal-title">Import Smo Leads</h3>
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
@@ -214,19 +218,19 @@
                                         </div>
 
                                         <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary " id="btnSubmit">
-                            <span class="indicator-label "> {{ __('Upload') }}</span>
-                        </button>
-                    </div>
+                                            <button type="submit" class="btn btn-primary " id="btnSubmit">
+                                                <span class="indicator-label "> {{ __('Upload') }}</span>
+                                            </button>
+                                        </div>
                 </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
             </div>
         </div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
 </div>
 
 @endsection
@@ -241,7 +245,7 @@ var table = $('#user_table').DataTable({
     filter: true,
 
     ajax: {
-        "url": "{{ route('afterSale.pagination') }}",
+        "url": "{{ route('smoLead.pagination') }}",
         "type": "GET",
         'data': function(data) {
 
@@ -282,14 +286,6 @@ var table = $('#user_table').DataTable({
             }
         },
         {
-            data: 'branch_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
             data: 'vehicle_id',
             render: function(data, type, row) {
 
@@ -305,21 +301,13 @@ var table = $('#user_table').DataTable({
                 return result;
             }
         },
-        {
-            data: 'campaign_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
 
         {
             data: 'id',
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
-                res = '<a href="{{  url("after-sale")  }}/' + data +
+                res = '<a href="{{  url("smo-lead")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
 
                 res2 =
@@ -340,7 +328,7 @@ var table = $('#user_table').DataTable({
             className: 'btn-success',
             text: "{{ __('table.print') }}",
             exportOptions: {
-                columns: [0,1,2,3]
+                columns: [0, 1, 2, 3]
             }
         },
 
@@ -349,7 +337,7 @@ var table = $('#user_table').DataTable({
             className: 'btn-warning',
             text: "{{ __('table.excel') }}",
             exportOptions: {
-                columns: [0,1,2,3]
+                columns: [0, 1, 2, 3]
             }
         },
 
@@ -436,7 +424,7 @@ function rowDelete(id) {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: '{{ url("after-sale") }}/' + id,
+                url: '{{ url("smo-lead") }}/' + id,
                 method: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -475,7 +463,7 @@ $('#csv_form').submit(function(e) {
 
         $.ajax({
             type: "POST",
-            url: "{{ route('after-sale.import') }}",
+            url: "{{ route('smo-lead.import') }}",
             data: data,
             processData: false,
             contentType: false,
@@ -504,10 +492,8 @@ $('#csv_form').submit(function(e) {
                 $("#btnSubmit").prop("disabled", false);
             }
         });
-        
     });
-
-
+    
 </script>
 
 

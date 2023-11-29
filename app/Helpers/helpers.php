@@ -1,5 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
+use App\Models\Customer;
+use Illuminate\Http\Request;
 
 function activeRoute($route): string
 {
@@ -13,6 +16,7 @@ function activeRoute($route): string
     }
 }
 
+
 function activeMenuRoute($submenus): string
 {
     $urlToCheck = request()->fullUrl();
@@ -23,6 +27,30 @@ function activeMenuRoute($submenus): string
         return '';
     }
 
+}
+
+function formateDate($date) {
+    return Carbon::parse($date)->format('Y-m-d');
+}
+
+function addCustomer(Request $request) {
+    
+    $mobile = $request->input('mobile');
+
+    $mobile =formatInputNumber($mobile);
+
+    $customer = Customer::whereMobile($mobile)->first();
+    if(is_null($customer)){
+        $customer =new Customer();
+        $customer->first_name = $request->input('first_name');
+        $customer->last_name = $request->input('last_name');
+        $customer->mobile = $mobile;
+        $customer->email = $request->input('email') ?? null;
+        $customer->bank_id = $request->input('bank_id') ?? null;
+        $customer->save();
+    }
+
+    return $customer;
 }
 
 function formatInputNumber($mobile) {

@@ -29,23 +29,23 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" name="first_name" id="first_name" value="{{$lead->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$lead->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" name="last_name" id="last_name" value="{{$lead->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$lead->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" name="mobile" id="mobile" value="{{$lead->customer->mobile}}"  class="form-control mb-2"
+                                            <input type="text" disabled value="{{$lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" name="email" id="email" value="{{$lead->customer->email}}"  class="form-control mb-2"
+                                            <input type="text" disabled value="{{$lead->customer->email}}"  class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -99,7 +99,7 @@
 
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select class="form-select mb-2" name="bank_id" required="required"
+                                            <select class="form-select mb-2" disabled required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>

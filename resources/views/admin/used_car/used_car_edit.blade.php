@@ -29,23 +29,23 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" name="first_name" id="first_name" value="{{$used_car->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$used_car->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" name="last_name" id="last_name" value="{{$used_car->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$used_car->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" name="mobile" id="mobile" value="{{$used_car->customer->mobile}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$used_car->customer->mobile}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" name="email" id="email" value="{{$used_car->customer->email}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$used_car->customer->email}}" class="form-control mb-2"
                                                 required />
                                         </div>
 

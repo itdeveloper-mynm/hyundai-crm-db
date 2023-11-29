@@ -10,19 +10,22 @@
 
             <div class="card-toolbar ">
                 <div class="row  mt-5">
-                <div class="col-lg-4">
-                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
-                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Leads List') }}</h1>
-                                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                        <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('lead.index') }}" class="text-muted text-hover-primary">{{ __('Lead') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="col-lg-4">
+                        <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <h1
+                                    class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    {{ __('Leads List') }}</h1>
+                                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                                    <li class="breadcrumb-item text-muted">
+                                        <a href="{{ route('lead.index') }}"
+                                            class="text-muted text-hover-primary">{{ __('Lead') }}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                    </div>
                     <div class="col-lg-4">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
@@ -111,10 +114,10 @@
                                     </div>
 
                                 </div>
-                                <form>
+                            </form>
                         </div>
 
-                        <button type="button" class="btn btn-success me-3 export_excel">
+                        <!-- <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                             {{ __('Excel') }}
                         </button>
@@ -123,7 +126,13 @@
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
                             {{ __('Print') }}
 
-                        </button>
+                        </button> -->
+
+
+
+                        <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="fa fa-upload"></i>
+                            {{ __('Import') }}</a>
 
 
                         <a href="{{ route('lead.create') }}" class="btn btn-primary">
@@ -160,244 +169,348 @@
     </div>
 </div>
 
-@endsection
 
-@section('js')
-<script>
-var table = $('#user_table').DataTable({
-    processing: true,
-    serverSide: true,
-    responsive: true,
-    searching: true,
-    filter: true,
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Leads</h3>
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
+                                fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body">
+                <form class="form d-flex flex-column flex-lg-row" method="post" id="csv_form"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_ecommerce_add_product_general"
+                                role="tab-panel">
+                                <div class="d-flex flex-column gap-7 gap-lg-10">
 
-    ajax: {
-        "url": "{{ route('leads.pagination') }}",
-        "type": "GET",
-        'data': function(data) {
+                                    <div class="card card-flush py-4">
 
-            data.state_id = $('#state_id').val();
-            data.status = $('#status').val();
-            data.from = $('#from').val();
-            data.to = $('#to').val();
-        }
-    },
-    columns: [{
-            data: 'no',
-            name: 'no',
-            width: '5%',
-            className: 'center'
-        },
-        {
-            data: 'first_name',
-            render: function(data, type, row) {
+                                        <div class="tab-content">
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
+                                            <div class="card-body pt-0  tab-pane fade show active agency_tab" id=""
+                                                role="tabpanel" aria-labelledby="">
+                                                <div class="row ">
+                                                    <div class="col-lg-12 col-sm-12 col-md-12">
+                                                        <label class="required form-label">{{ __('Select File')
+                                                        }}</label>
+
+                                                        <input type="file" name="csvfile" id="products_uploaded"
+                                                            class="form-control" value="Upload" required>
+                                                    </div>
+                                                </div>
+                                                <!-- row  -->
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary " id="btnSubmit">
+                            <span class="indicator-label "> {{ __('Upload') }}</span>
+                        </button>
+                    </div>
+                </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    @endsection
+
+    @section('js')
+    <script>
+    var table = $('#user_table').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        searching: true,
+        filter: true,
+
+        ajax: {
+            "url": "{{ route('leads.pagination') }}",
+            "type": "GET",
+            'data': function(data) {
+
+                data.state_id = $('#state_id').val();
+                data.status = $('#status').val();
+                data.from = $('#from').val();
+                data.to = $('#to').val();
             }
         },
-        {
-            data: 'last_name',
-            render: function(data, type, row) {
+        columns: [{
+                data: 'no',
+                name: 'no',
+                width: '5%',
+                className: 'center'
+            },
+            {
+                data: 'first_name',
+                render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'last_name',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'city_id',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'branch_id',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'vehicle_id',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'source_id',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+            {
+                data: 'campaign_id',
+                render: function(data, type, row) {
+
+                    var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                    return result;
+                }
+            },
+
+            {
+                data: 'id',
+                render: function(data, type, row) {
+                    var res = '-';
+                    var res2 = '-';
+                    res = '<a href="{{  url("lead")  }}/' + data +
+                        '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
+
+                    res2 =
+                        '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
+                        data + ')" ><i class="bi-trash"></i></a>';
+
+
+                    return res + res2;
+                }
             }
+        ],
+        order: [
+            [3, "desc"]
+        ],
+        dom: 'lBfrtip',
+        buttons: [{
+                extend: 'excel',
+                className: 'btn-success',
+                text: "{{ __('table.print') }}",
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+
+            {
+                extend: 'print',
+                className: 'btn-warning',
+                text: "{{ __('table.excel') }}",
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+
+        ],
+
+        columnDefs: [{
+                targets: 0,
+                sortable: false,
+                orderable: false
+            },
+            {
+                targets: 1,
+                sortable: false,
+                orderable: false
+            },
+            {
+                targets: 2,
+                sortable: false,
+                orderable: false
+            },
+            {
+                "className": "dt-center",
+                "targets": "_all"
+            },
+
+        ],
+        "oLanguage": {
+            "sSearch": "{{ __('search') }}",
+            "sEmptyTable": "{{ __('not data found') }}"
         },
-        {
-            data: 'city_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'branch_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'vehicle_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'source_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'campaign_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-
-        {
-            data: 'id',
-            render: function(data, type, row) {
-                var res = '-';
-                var res2 = '-';
-                res = '<a href="{{  url("lead")  }}/' + data +
-                    '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
-
-                res2 =
-                    '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
-                    data + ')" ><i class="bi-trash"></i></a>';
-
-
-                return res + res2;
-            }
-        }
-    ],
-    order: [
-        [3, "desc"]
-    ],
-    dom: 'lBfrtip',
-    buttons: [{
-            extend: 'excel',
-            className: 'btn-success',
-            text: "{{ __('table.print') }}",
-            exportOptions: {
-                columns: [0,1,2,3]
-            }
-        },
-
-        {
-            extend: 'print',
-            className: 'btn-warning',
-            text: "{{ __('table.excel') }}",
-            exportOptions: {
-                columns: [0,1,2,3]
-            }
-        },
-
-    ],
-
-    columnDefs: [{
-            targets: 0,
-            sortable: false,
-            orderable: false
-        },
-        {
-            targets: 1,
-            sortable: false,
-            orderable: false
-        },
-        {
-            targets: 2,
-            sortable: false,
-            orderable: false
-        },
-        {
-            "className": "dt-center",
-            "targets": "_all"
-        },
-
-    ],
-    "oLanguage": {
-        "sSearch": "{{ __('search') }}",
-        "sEmptyTable": "{{ __('not data found') }}"
-    },
-});
-table.on('draw.dt', function() {
-    var PageInfo = $('#user_table').DataTable().page.info();
-    table.column(0, {
-        page: 'current'
-    }).nodes().each(function(cell, i) {
-        cell.innerHTML = i + 1 + PageInfo.start;
     });
-});
+    table.on('draw.dt', function() {
+        var PageInfo = $('#user_table').DataTable().page.info();
+        table.column(0, {
+            page: 'current'
+        }).nodes().each(function(cell, i) {
+            cell.innerHTML = i + 1 + PageInfo.start;
+        });
+    });
 
-//filter apply and reset submit form
+    //filter apply and reset submit form
 
-$('#myForm').submit(function(e) {
-    e.preventDefault();
-    table.draw();
-});
+    $('#myForm').submit(function(e) {
+        e.preventDefault();
+        table.draw();
+    });
 
-$('#reset').click(function(e) {
-    e.preventDefault();
-    var from = document.querySelector('#from');
-    var to = document.querySelector('#to');
-    from.value = '';
-    to.value = '';
-    table.draw();
+    $('#reset').click(function(e) {
+        e.preventDefault();
+        var from = document.querySelector('#from');
+        var to = document.querySelector('#to');
+        from.value = '';
+        to.value = '';
+        table.draw();
 
-});
-
-
-
-$('#search').keyup(function() {
-    table.search($(this).val()).draw();
-})
-
-$('.export_excel').on('click', function() {
-    $(".buttons-excel").trigger("click");
-});
-$('.export_print').on('click', function() {
-    $(".buttons-print").trigger("click");
-});
+    });
 
 
-function rowDelete(id) {
 
-    Swal.fire({
-        title: "{{ __('Delete') }}",
-        text: "{{ __('Are You Sure') }}",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: "{{ __('Confirm') }}",
-        cancelButtonText: "{{ __('Cancel') }}",
-    }).then((result) => {
-        if (result.isConfirmed) {
+    $('#search').keyup(function() {
+        table.search($(this).val()).draw();
+    })
 
-            $.ajax({
-                url: '{{ url("lead") }}/' + id,
-                method: "DELETE",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                data: {
-                    id: id
-                },
-                success: function(data) {
-                    if (data.result == 'success') {
-                        Swal.fire(
-                            "{{ __('Deleted') }}",
-                            data.message,
-                            data.result
-                        )
-                        table.ajax.reload(null, false);
+    $('.export_excel').on('click', function() {
+        $(".buttons-excel").trigger("click");
+    });
+    $('.export_print').on('click', function() {
+        $(".buttons-print").trigger("click");
+    });
+
+
+    function rowDelete(id) {
+
+        Swal.fire({
+            title: "{{ __('Delete') }}",
+            text: "{{ __('Are You Sure') }}",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "{{ __('Confirm') }}",
+            cancelButtonText: "{{ __('Cancel') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: '{{ url("lead") }}/' + id,
+                    method: "DELETE",
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        if (data.result == 'success') {
+                            Swal.fire(
+                                "{{ __('Deleted') }}",
+                                data.message,
+                                data.result
+                            )
+                            table.ajax.reload(null, false);
+                        }
+                        if (data.result == 'error') {
+                            Swal.fire(
+                                "{{ __('Not Deleted') }}",
+                                data.message,
+                                data.result
+                            )
+                        }
+
                     }
-                    if (data.result == 'error') {
-                        Swal.fire(
-                            "{{ __('Not Deleted') }}",
-                            data.message,
-                            data.result
-                        )
-                    }
+                })
+            }
+        })
+    }
+
+    $('#csv_form').submit(function(e) {
+        e.preventDefault();
+        var form = $('#csv_form')[0];
+        var data = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('leads.import') }}",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 800000,
+            success: function(data) {
+                if (data.result == 'success') {
+                    Swal.fire(
+                        "{{ __('Add') }}",
+                        data.message,
+                        data.result,
+                    )
 
                 }
-            })
-        }
-    })
-}
-</script>
+                if (data.result == 'error') {
+                    Swal.fire(
+                        "{{ __('not_add') }}",
+                        "{{ __('not_add') }}",
+                        data.result
+                    )
+                    return false;
+                }
+                $("#importModal").modal('hide');
+                table.draw();
+
+                $("#btnSubmit").prop("disabled", false);
+            }
+        });
+    });
+    </script>
 
 
-@endsection
+    @endsection

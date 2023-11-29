@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\City;
-use App\Models\Branch;
 use App\Models\Vehicle;
 use App\Models\Source;
-use App\Models\Campaign;
-use App\Models\Lead;
 use App\Models\Customer;
-use App\Models\AfterSale;
+use App\Models\SmoLead;
 use Illuminate\Support\Facades\Validator;
-use App\Imports\AfterSalesImport;
+use App\Imports\SmoLeadsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
-class AfterSaleController extends Controller
+class SmoLeadController extends Controller
 {
     public function __construct()
     {
@@ -26,20 +23,19 @@ class AfterSaleController extends Controller
      */
     public function index()
     {
-        return view('admin.after_sale.after_sale_index');
+        return view('admin.smo_lead.smo_lead_index');
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
         $data['vehicles']=Vehicle::whereStatus(1)->get();
         $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
-        return view('admin.after_sale.after_sale_add' , $data);
+        return view('admin.smo_lead.smo_lead_add' , $data);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -48,14 +44,12 @@ class AfterSaleController extends Controller
     {
         $customer = addCustomer($request);
 
-        $after_sale = new AfterSale();
-        $after_sale->city_id = $request->input('city_id');
-        $after_sale->branch_id = $request->input('branch_id');
-        $after_sale->vehicle_id = $request->input('vehicle_id');
-        $after_sale->source_id = $request->input('source_id');
-        $after_sale->campaign_id = $request->input('campaign_id');
-        $after_sale->customer_id= $customer->id;
-        $after_sale->save();
+        $smo_lead = new SmoLead();
+        $smo_lead->city_id = $request->input('city_id');
+        $smo_lead->vehicle_id = $request->input('vehicle_id');
+        $smo_lead->source_id = $request->input('source_id');
+        $smo_lead->customer_id= $customer->id;
+        $smo_lead->save();
         
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -74,14 +68,12 @@ class AfterSaleController extends Controller
     public function edit(string $id)
     {
         
-        $data['after_sale']= AfterSale::findorFail($id);
+        $data['smo_lead']= SmoLead::findorFail($id);
         $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
         $data['vehicles']=Vehicle::whereStatus(1)->get();
         $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
 
-        return view('admin.after_sale.after_sale_edit', $data);
+        return view('admin.smo_lead.smo_lead_edit', $data);
     }
 
     /**
@@ -89,24 +81,26 @@ class AfterSaleController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $smo_lead = SmoLead::findorFail($id);
         
-        $after_sale = AfterSale::findorFail($id);
+        $mobile = $request->input('mobile');
+        $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::findorFail($after_sale->customer_id);
+        //dd($request->all(),$mobile);
+        
+        $customer = Customer::findorFail($smo_lead->customer_id);
         $customer->first_name = $request->input('first_name');
         $customer->last_name = $request->input('last_name');
-        $customer->mobile = $request->input('mobile');
+        $customer->mobile = $mobile;
         $customer->email = $request->input('email');
         $customer->save();
 
-        $after_sale->city_id = $request->input('city_id');
-        $after_sale->branch_id = $request->input('branch_id');
-        $after_sale->vehicle_id = $request->input('vehicle_id');
-        $after_sale->source_id = $request->input('source_id');
-        $after_sale->campaign_id = $request->input('campaign_id');
-        $after_sale->customer_id= $customer->id;
-        $after_sale->save();
-        
+        $smo_lead->city_id = $request->input('city_id');
+        $smo_lead->vehicle_id = $request->input('vehicle_id');
+        $smo_lead->source_id = $request->input('source_id');
+        $smo_lead->customer_id= $customer->id;
+        $smo_lead->save();
+
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
 
@@ -115,14 +109,14 @@ class AfterSaleController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = AfterSale::findorFail($id);
+        $row = SmoLead::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-        
-    public function afterSalePagination()
+    
+    public function smoLeadPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
         $draw = request('draw');
@@ -137,10 +131,10 @@ class AfterSaleController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = AfterSale::count();
+        $countAll = SmoLead::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  AfterSale::orderBy($columnName, $columnSortOrder)
+        $paginate =  SmoLead::orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
@@ -153,10 +147,8 @@ class AfterSaleController extends Controller
                 "first_name" => ucwords($row->customer->first_name),
                 "last_name" => ucwords($row->customer->last_name),
                 "city_id" => $row->city->name ?? "",
-                "branch_id" => $row->branch->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
-                "campaign_id" => $row->campaign->name ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;
@@ -173,12 +165,12 @@ class AfterSaleController extends Controller
      
    }
 
-   
-    public function afterSaleImport() {
-        //dd(1);
-        Excel::import(new AfterSalesImport,request()->file('csvfile'));
+   public function smoLeadImport() {
+        
+    //dd(1);
+    Excel::import(new SmoLeadsImport,request()->file('csvfile'));
 
-        return Response(['result'=>'success','message'=>__('After Sales Import Successfully')]);
-    }
+    return Response(['result'=>'success','message'=>__('Smo Leads Import Successfully')]);
+}
 
 }

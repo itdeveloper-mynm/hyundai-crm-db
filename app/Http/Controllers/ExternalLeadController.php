@@ -54,12 +54,17 @@ class ExternalLeadController extends Controller
 
         $customer = Customer::whereEmail($request->input('email'))
         ->whereMobile($request->input('mobile'))->first();
+
+        
+        $mobile = $request->input('mobile');
+
+        $mobile =formatInputNumber($mobile);
       
         if(is_null($customer)){
             $customer =new Customer();
             $customer->first_name = $request->input('firstName');
             $customer->last_name = $request->input('lastName');
-            $customer->mobile = $request->input('mobile');
+            $customer->mobile = $mobile;
             $customer->email = $request->input('email');
             $customer->bank_id = $bank->id;
             $customer->save();

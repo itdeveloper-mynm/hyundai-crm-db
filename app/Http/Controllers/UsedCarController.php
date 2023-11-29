@@ -10,6 +10,9 @@ use App\Models\Lead;
 use App\Models\Customer;
 use App\Models\UsedCar;
 use Illuminate\Support\Facades\Validator;
+use App\Imports\UsedCarsImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class UsedCarController extends Controller
 {
@@ -41,22 +44,7 @@ class UsedCarController extends Controller
      */
     public function store(Request $request)
     {
-        $mobile = $request->input('mobile');
-
-        $mobile =formatInputNumber($mobile);
-
-        //dd($request->all(),$mobile);
-        
-        $customer = Customer::whereEmail($request->input('email'))
-        ->whereMobile($mobile)->first();
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $request->input('first_name');
-            $customer->last_name = $request->input('last_name');
-            $customer->mobile = $mobile;
-            $customer->email = $request->input('email');
-            $customer->save();
-        }
+        $customer = addCustomer($request);
 
         $used_car = new UsedCar();
         $used_car->city_id = $request->input('city_id');
@@ -180,4 +168,13 @@ class UsedCarController extends Controller
         //-- END CREATE JSON RESPONSE FOR DATATABLES
      
    }
+
+
+    public function usedCarImport() {
+        //dd(1);
+        Excel::import(new UsedCarsImport,request()->file('csvfile'));
+
+        return Response(['result'=>'success','message'=>__('Used Cars Import Successfully')]);
+    }
+
 }

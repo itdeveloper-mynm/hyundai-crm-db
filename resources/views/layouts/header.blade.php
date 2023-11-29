@@ -23,13 +23,13 @@
 						</div>
 						<!--end::Mobile logo-->
 						<!--begin::Header wrapper-->
-						{{-- <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
+						 <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
 							<!--begin::Menu wrapper-->
 							<div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
 								<!--begin::Menu-->
 								<div class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
 									<!--begin:Menu item-->
-									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-lg-down-accordion menu-here-bg me-0 me-lg-2">
+									{{--	<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-lg-down-accordion menu-here-bg me-0 me-lg-2">
 										<!--begin:Menu link-->
 										<span class="menu-link">
 											<span class="menu-title">Dashboards</span>
@@ -365,7 +365,7 @@
 											<!--end:Dashboards menu-->
 										</div>
 										<!--end:Menu sub-->
-									</div>
+									</div> --}}
 									<!--end:Menu item-->
 								</div>
 								<!--end::Menu-->
@@ -374,7 +374,8 @@
 							<!--begin::Navbar-->
 							<div class="app-navbar flex-shrink-0">
 								<!--begin::Notifications-->
-								<div class="app-navbar-item ms-1 ms-lg-3">
+								{{-- 
+									<div class="app-navbar-item ms-1 ms-lg-3">
 									<!--begin::Menu- wrapper-->
 									<div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 										<!--begin::Svg Icon | path: icons/duotune/general/gen022.svg-->
@@ -913,6 +914,7 @@
 									<!--end::Menu-->
 									<!--end::Menu wrapper-->
 								</div>
+								 --}}
 								<!--end::Notifications-->
 								<!--begin::Theme mode-->
 								<div class="app-navbar-item ms-1 ms-lg-3">
@@ -1074,7 +1076,7 @@
 								<!--end::Header menu toggle-->
 							</div>
 							<!--end::Navbar-->
-						</div> --}}
+						</div>
 						<!--end::Header wrapper-->
 					</div>
 					<!--end::Header container-->

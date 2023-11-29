@@ -13,6 +13,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\AfterSaleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UsedCarController;
+use App\Http\Controllers\SmoLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,28 +69,38 @@ Route::controller(CampaignController::class)->group(function(){
 Route::resource('lead', LeadController::class);
 Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
+    Route::post('leads-import',  'leadsImport')->name('leads.import');
 });
+
+Route::resource('after-sale', AfterSaleController::class);
+Route::controller(AfterSaleController::class)->group(function(){
+    Route::get('after-sale-pagination',  'afterSalePagination')->name('afterSale.pagination');
+    Route::post('after-sale-import',  'afterSaleImport')->name('after-sale.import');
+});
+
+Route::resource('used-car', UsedCarController::class);
+Route::controller(UsedCarController::class)->group(function(){
+    Route::get('used-car-pagination',  'usedCarPagination')->name('usedCar.pagination');
+    Route::post('used-car-import',  'usedCarImport')->name('used-car.import');
+});
+
+Route::resource('smo-lead', SmoLeadController::class);
+Route::controller(SmoLeadController::class)->group(function(){
+    Route::get('smo-lead-pagination',  'smoLeadPagination')->name('smoLead.pagination');
+    Route::post('smo-lead-import',  'smoLeadImport')->name('smo-lead.import');
+});
+
 
 Route::resource('bank', BankController::class);
 Route::controller(BankController::class)->group(function(){
     Route::get('bank-pagination',  'banksPagination')->name('bank.pagination');
 });
 
-Route::resource('after-sale', AfterSaleController::class);
-Route::controller(AfterSaleController::class)->group(function(){
-    Route::get('after-sale-pagination',  'afterSalePagination')->name('afterSale.pagination');
-});
 
 Route::resource('customer', CustomerController::class);
 Route::controller(CustomerController::class)->group(function(){
     Route::get('customer-pagination',  'customerPagination')->name('customer.pagination');
 });
-
-Route::resource('used-car', UsedCarController::class);
-Route::controller(UsedCarController::class)->group(function(){
-    Route::get('used-car-pagination',  'usedCarPagination')->name('usedCar.pagination');
-});
-
 
 Route::controller(ExternalLeadController::class)->group(function(){
     Route::post('addleads',  'store')->name('addleads.store');

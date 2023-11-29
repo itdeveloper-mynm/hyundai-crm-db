@@ -6,7 +6,7 @@
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container ">
 
-        <form class="form d-flex flex-column flex-lg-row" method="post" id="myForm">
+    <form class="form d-flex flex-column flex-lg-row" method="post" id="myForm">
             @csrf
             @method('PUT')
 
@@ -19,7 +19,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('After Sale Edit') }}</h2>
+                                        <h2>{{ __('Smo Lead Edit') }}</h2>
                                     </div>
                                 </div>
 
@@ -29,24 +29,23 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$smo_lead->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$smo_lead->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
-                                        
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->mobile}}" class="form-control mb-2"
+                                            <input type="text" disabled value="{{$smo_lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->email}}"  class="form-control mb-2"
+                                            <input type="text" disabled value="{{$smo_lead->customer->email}}"  class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -60,22 +59,10 @@
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($cities as $city)
-                                                    <option value="{{$city->id}}" @selected($after_sale->city_id==$city->id)>{{$city->name}}</option>
+                                                    <option value="{{$city->id}}" @selected($smo_lead->city_id==$city->id)>{{$city->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Dealer Branch') }}</label>
-                                            <select class="form-select mb-2" name="branch_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($branches as $branch)
-                                                    <option value="{{$branch->id}}"  @selected($after_sale->branch_id==$branch->id)>{{$branch->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
@@ -85,7 +72,7 @@
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}" @selected($after_sale->vehicle_id==$vehicle->id)>{{$vehicle->name}}</option>
+                                                    <option value="{{$vehicle->id}}" @selected($smo_lead->vehicle_id==$vehicle->id)>{{$vehicle->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -96,18 +83,7 @@
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($sources as $source)
-                                                    <option value="{{$source->id}}"  @selected($after_sale->source_id==$source->id)>{{$source->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Campaign') }}</label>
-                                            <select class="form-select mb-2" name="campaign_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($campaigns as $campaign)
-                                                    <option value="{{$campaign->id}}"  @selected($after_sale->campaign_id==$campaign->id)>{{$campaign->name}}</option>
+                                                    <option value="{{$source->id}}"  @selected($smo_lead->source_id==$source->id)>{{$source->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -118,7 +94,7 @@
                                 <div class="d-flex justify-content-center">
                                     <button type="submit" class="btn btn-dark btn_submit sub_button" disabled
                                         id="btnSubmit" style="background-color: #000044">
-                                        <span class="indicator-label">{{ __('Update') }}</span>
+                                        <span class="indicator-label">{{ __('Save') }}</span>
                                         <span class="indicator-progress">Please wait...
                                             <span
                                                 class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -168,7 +144,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('after-sale.update', [$after_sale->id]) }}",
+                url: "{{ route('smo-lead.update', [$smo_lead->id]) }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -188,7 +164,7 @@ $(document).ready(function() {
                             data.result,
                         )
 
-                        window.location.href = "{{route('after-sale.index')}}";
+                        window.location.href = "{{route('smo-lead.index')}}";
 
                     }
                     if (data.result == 'error') {
