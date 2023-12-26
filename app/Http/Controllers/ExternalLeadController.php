@@ -52,13 +52,12 @@ class ExternalLeadController extends Controller
         }
 
 
-        $customer = Customer::whereEmail($request->input('email'))
-        ->whereMobile($request->input('mobile'))->first();
-
-        
         $mobile = $request->input('mobile');
 
         $mobile =formatInputNumber($mobile);
+
+        $customer = Customer::whereMobile($mobile)->first();
+
       
         if(is_null($customer)){
             $customer =new Customer();
@@ -110,35 +109,90 @@ class ExternalLeadController extends Controller
     
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    public function saveformjson(Request $request) {
+        
+        
+        \Log::info('saveformjson api hit');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        
+        $city = City::where('name', $request->input('customerCity'))->first();
+        if(is_null($city)){
+            $city = City::create(['name' => $request->input('customerCity')]);
+        }
+        
+        $mobile = $request->input('mobile');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        $mobile =formatInputNumber($mobile);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $customer = Customer::whereMobile($mobile)->first();
+
+      
+        if(is_null($customer)){
+            $customer =new Customer();
+            $customer->first_name = $request->input('firstName');
+            $customer->last_name = $request->input('lastName');
+            $customer->mobile = $mobile;
+            $customer->email = $request->input('email');
+            $customer->city_id = $city->id;
+            $customer->save();
+        }
+
+        $city = City::where('name', $request->input('dealerCity'))->first();
+        $branch = Branch::where('name', $request->input('branch'))->first();
+        $vehicle = Vehicle::where('name', $request->input('vehicle'))->first();
+        $sourcee = Source::where('name', $request->input('sourcee'))->first();
+        $campaign = Campaign::where('name', $request->input('pagesub'))->first();
+        if(is_null($city)){
+            $city = City::create(['name' => $request->input('dealerCity')]);
+        }
+        if(is_null($branch)){
+            $branch = Branch::create([
+                'name' => $request->input('branch'),
+                'city_id' => $city->id,
+            ]);
+        }
+        if(is_null($vehicle)){
+            $vehicle = Vehicle::create(['name' => $request->input('vehicle')]);
+        }
+        if(is_null($sourcee)){
+            $sourcee = Source::create(['name' => $request->input('sourcee')]);
+        }
+        if(is_null($campaign)){
+            $campaign = Campaign::create(['name' => $request->input('pagesub')]);
+        }
+
+        $type= checkApplicationType($request->input('page')) ?? 'leads';
+
+        $applyfor = $request->input('applyFor');
+        $bookingreason = $request->input('bookingreason');
+        $bookingcategory = $request->input('bookingcategory');
+        $department = $request->input('department');
+        $title = $request->input('salutation');
+        $second_surname = $request->input('middleName');
+        $nationalid = $request->input('nationalId');
+        $zip_code = $request->input('zipCode');
+        $vin = $request->input('vin');
+        $yearr = $request->input('manufacturingYear');
+        $plateno = $request->input('plateNumbers');
+        $platealphabets = $request->input('plateAlphabets');
+        $klmm = $request->input('mileage');
+        $intention = $request->input('purchasePlan');
+        $monthlysalary = $request->input('monthlySalary');
+        $bankk = $request->input('customerBank');
+        $requestdate = $request->input('date');
+        $preferredtime = $request->input('preferredTime');
+        $comments = $request->input('comments');
+        $sharingcv = $request->input('sharingCv');
+        $privacycheck = $request->input('privacyCheck');
+        $marketingagreement = $request->input('marketingAgreement');
+        $language = $request->input('language');
+        $company = $request->input('companyName');
+        $customers_type = $request->input('customers_type');
+        $number_of_vehicles = $request->input('number_of_vehicles');
+        $fleet_range = $request->input('fleet_range');
+
+        
+        \Log::info('saveformjson api hit end');
+        
     }
 }

@@ -7,7 +7,7 @@ use App\Models\City;
 use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Customer;
-use App\Models\SmoLead;
+use App\Models\Application;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\SmoLeadsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -42,14 +42,8 @@ class SmoLeadController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = addCustomer($request);
-
-        $smo_lead = new SmoLead();
-        $smo_lead->city_id = $request->input('city_id');
-        $smo_lead->vehicle_id = $request->input('vehicle_id');
-        $smo_lead->source_id = $request->input('source_id');
-        $smo_lead->customer_id= $customer->id;
-        $smo_lead->save();
+    
+        Application::storeData($request,'smo_leads');
         
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -68,7 +62,7 @@ class SmoLeadController extends Controller
     public function edit(string $id)
     {
         
-        $data['smo_lead']= SmoLead::findorFail($id);
+        $data['smo_lead']= Application::findorFail($id);
         $data['cities']=City::whereStatus(1)->get();
         $data['vehicles']=Vehicle::whereStatus(1)->get();
         $data['sources']=Source::whereStatus(1)->get();
@@ -81,25 +75,8 @@ class SmoLeadController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $smo_lead = SmoLead::findorFail($id);
-        
-        $mobile = $request->input('mobile');
-        $mobile =formatInputNumber($mobile);
 
-        //dd($request->all(),$mobile);
-        
-        $customer = Customer::findorFail($smo_lead->customer_id);
-        $customer->first_name = $request->input('first_name');
-        $customer->last_name = $request->input('last_name');
-        $customer->mobile = $mobile;
-        $customer->email = $request->input('email');
-        $customer->save();
-
-        $smo_lead->city_id = $request->input('city_id');
-        $smo_lead->vehicle_id = $request->input('vehicle_id');
-        $smo_lead->source_id = $request->input('source_id');
-        $smo_lead->customer_id= $customer->id;
-        $smo_lead->save();
+        Application::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -109,7 +86,7 @@ class SmoLeadController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = SmoLead::findorFail($id);
+        $row = Application::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -131,11 +108,12 @@ class SmoLeadController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = SmoLead::count();
+        $countAll = Application::where('type','smo_leads')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  SmoLead::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
+        $paginate =  Application::where('type','smo_leads')
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
         $items = array();

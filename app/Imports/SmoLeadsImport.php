@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\SmoLead;
+use App\Models\Application;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -53,11 +53,12 @@ class SmoLeadsImport implements ToModel , WithHeadingRow
             $sourcee = Source::create(['name' => $row['channel'] ]);
         }
         
-        $smo_lead = new SmoLead();
+        $smo_lead = new Application();
         $smo_lead->city_id = $city->id;
         $smo_lead->vehicle_id = $vehicle->id;
         $smo_lead->source_id = $sourcee->id;
         $smo_lead->customer_id= $customer->id;
+        $smo_lead->type= 'smo_leads';
         $smo_lead->save();
 
        // return $lead;

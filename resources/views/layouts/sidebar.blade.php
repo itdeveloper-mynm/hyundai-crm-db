@@ -45,7 +45,7 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="{{url('/')}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -66,122 +66,113 @@
                     </a>
                     <!--end:Menu link-->
                 </div>
-                <!--begin:Menu item-->
-                <div class="menu-item">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit') ])}}">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{activeRoute(route('lead.index'))}}" href="{{route('lead.index')}}">
+                    <span class="menu-link {activeMenuRoute([route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit')])}}">
                         <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
-                            <span class="svg-icon svg-icon-warning svg-icon-1">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
+                            <span class="svg-icon svg-icon-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
+                                        d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
                                         fill="currentColor" />
                                     <path opacity="0.3"
-                                        d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
+                                        d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
                                         fill="currentColor" />
                                 </svg>
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">Leads</span>
-                    </a>
+                        <span class="menu-title">All Leads</span>
+                        <span class="menu-arrow"></span>
+                    </span>
                     <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('lead.index'))}} {{activeRoute(route('lead.create'))}} {{ request()->is('lead/*/edit') ? 'active' : '' }}" href="{{route('lead.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Campaign Leads</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('after-sale.index'))}} {{activeRoute(route('after-sale.create'))}} {{ request()->is('after-sale/*/edit') ? 'active' : '' }}" href="{{route('after-sale.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">After Sale Leads</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('used-car.index'))}} {{activeRoute(route('used-car.create'))}} {{ request()->is('used-car/*/edit') ? 'active' : '' }}" href="{{route('used-car.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Used Car Leads</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('smo-lead.index'))}} {{activeRoute(route('smo-lead.create'))}} {{ request()->is('smo-lead/*/edit') ? 'active' : '' }}" href="{{route('smo-lead.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Smo Leads</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
                 </div>
-                <!--end:Menu item-->
+        
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{activeRoute(route('after-sale.index'))}}" href="{{route('after-sale.index')}}">
+                    <a class="menu-link {{activeRoute(route('contact.index'))}} {{activeRoute(route('contact.create'))}} {{ request()->is('contact/*/edit') ? 'active' : '' }}" href="{{route('contact.index')}}">
                         <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
-                            <span class="svg-icon svg-icon-warning svg-icon-1">
+                               <span class="svg-icon svg-icon-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
+                                        d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
                                         fill="currentColor" />
                                     <path opacity="0.3"
-                                        d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
+                                        d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
                                         fill="currentColor" />
                                 </svg>
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">After Sale Leads</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{activeRoute(route('used-car.index'))}}" href="{{route('used-car.index')}}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
-                            <span class="svg-icon svg-icon-warning svg-icon-1">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
-                                        fill="currentColor" />
-                                    <path opacity="0.3"
-                                        d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Used Car Leads</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{activeRoute(route('smo-lead.index'))}}" href="{{route('smo-lead.index')}}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
-                            <span class="svg-icon svg-icon-warning svg-icon-1">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
-                                        fill="currentColor" />
-                                    <path opacity="0.3"
-                                        d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Smo Leads</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{activeRoute(route('customer.index'))}}" href="{{route('customer.index')}}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
-                            <span class="svg-icon svg-icon-warning svg-icon-1">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
-                                        fill="currentColor" />
-                                    <path opacity="0.3"
-                                        d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Customers</span>
+                        <span class="menu-title">Contacts</span>
                     </a>
                     <!--end:Menu link-->
                 </div>
@@ -195,9 +186,9 @@
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index')])}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index'),route('city.create'),route('branch.create'),route('vehicle.create'),route('source.create'),route('campaign.create'),route('bank.create'),request()->is('city/*/edit'),request()->is('branch/*/edit'),request()->is('vehicle/*/edit'),request()->is('source/*/edit'),request()->is('campaign/*/edit'),request()->is('bank/*/edit') ])}}">
                     <!--begin:Menu link-->
-                    <span class="menu-link {{activeRoute(route('city.index'))}} || {{activeRoute(route('branch.index'))}} || {{activeRoute(route('vehicle.index'))}} || {{activeRoute(route('source.index'))}} ||  {{activeRoute(route('campaign.index'))}} || {{activeRoute(route('bank.index'))}} ">
+                    <span class="menu-link {activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index'),route('city.create'),route('branch.create'),route('vehicle.create'),route('source.create'),route('campaign.create'),route('bank.create'),request()->is('city/*/edit'),request()->is('branch/*/edit'),request()->is('vehicle/*/edit'),request()->is('source/*/edit'),request()->is('campaign/*/edit'),request()->is('bank/*/edit') ])}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -222,7 +213,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('city.index'))}}" href="{{route('city.index')}}">
+                            <a class="menu-link {{activeRoute(route('city.index'))}}  {{activeRoute(route('city.create'))}} {{ request()->is('city/*/edit') ? 'active' : '' }}" href="{{route('city.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -234,7 +225,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('branch.index'))}}" href="{{route('branch.index')}}">
+                            <a class="menu-link {{activeRoute(route('branch.index'))}} {{activeRoute(route('branch.create'))}} {{ request()->is('branch/*/edit') ? 'active' : '' }}" href="{{route('branch.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -246,7 +237,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('vehicle.index'))}}" href="{{route('vehicle.index')}}">
+                            <a class="menu-link {{activeRoute(route('vehicle.index'))}} {{activeRoute(route('vehicle.create'))}}  {{activeRoute(route('vehicle.create'))}} {{ request()->is('vehicle/*/edit') ? 'active' : '' }}" href="{{route('vehicle.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -258,7 +249,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('source.index'))}}" href="{{route('source.index')}}">
+                            <a class="menu-link {{activeRoute(route('source.index'))}} {{activeRoute(route('source.create'))}} {{ request()->is('source/*/edit') ? 'active' : '' }}" href="{{route('source.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -270,7 +261,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('campaign.index'))}}" href="{{route('campaign.index')}}">
+                            <a class="menu-link {{activeRoute(route('campaign.index'))}} {{activeRoute(route('campaign.create'))}} {{ request()->is('campaign/*/edit') ? 'active' : '' }}" href="{{route('campaign.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -282,7 +273,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{activeRoute(route('bank.index'))}}" href="{{route('bank.index')}}">
+                            <a class="menu-link {{activeRoute(route('bank.index'))}} {{activeRoute(route('bank.create'))}} {{ request()->is('bank/*/edit') ? 'active' : '' }}" href="{{route('bank.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -294,6 +285,7 @@
                     </div>
                     <!--end:Menu sub-->
                 </div>
+                <!--end:Menu item-->
             </div>
             <!--end::Menu-->
         </div>

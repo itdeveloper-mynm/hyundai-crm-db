@@ -15,6 +15,7 @@ class Customer extends Model
         'mobile',
         'email',
         'bank_id',
+        'city_id',
     ];
 
     public function bank(){

@@ -8,9 +8,8 @@ use App\Models\Branch;
 use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Campaign;
-use App\Models\Lead;
 use App\Models\Customer;
-use App\Models\AfterSale;
+use App\Models\Application;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\AfterSalesImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -46,16 +45,7 @@ class AfterSaleController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = addCustomer($request);
-
-        $after_sale = new AfterSale();
-        $after_sale->city_id = $request->input('city_id');
-        $after_sale->branch_id = $request->input('branch_id');
-        $after_sale->vehicle_id = $request->input('vehicle_id');
-        $after_sale->source_id = $request->input('source_id');
-        $after_sale->campaign_id = $request->input('campaign_id');
-        $after_sale->customer_id= $customer->id;
-        $after_sale->save();
+        Application::storeData($request,'after_sales');
         
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -74,7 +64,7 @@ class AfterSaleController extends Controller
     public function edit(string $id)
     {
         
-        $data['after_sale']= AfterSale::findorFail($id);
+        $data['after_sale']= Application::findorFail($id);
         $data['cities']=City::whereStatus(1)->get();
         $data['branches']=Branch::whereStatus(1)->get();
         $data['vehicles']=Vehicle::whereStatus(1)->get();
@@ -89,23 +79,8 @@ class AfterSaleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
-        $after_sale = AfterSale::findorFail($id);
 
-        $customer = Customer::findorFail($after_sale->customer_id);
-        $customer->first_name = $request->input('first_name');
-        $customer->last_name = $request->input('last_name');
-        $customer->mobile = $request->input('mobile');
-        $customer->email = $request->input('email');
-        $customer->save();
-
-        $after_sale->city_id = $request->input('city_id');
-        $after_sale->branch_id = $request->input('branch_id');
-        $after_sale->vehicle_id = $request->input('vehicle_id');
-        $after_sale->source_id = $request->input('source_id');
-        $after_sale->campaign_id = $request->input('campaign_id');
-        $after_sale->customer_id= $customer->id;
-        $after_sale->save();
+        Application::updateData($request,$id);
         
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -115,7 +90,7 @@ class AfterSaleController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = AfterSale::findorFail($id);
+        $row = Application::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -137,11 +112,12 @@ class AfterSaleController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = AfterSale::count();
+        $countAll = Application::where('type','after_sales')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  AfterSale::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
+        $paginate =  Application::where('type','after_sales')
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
         $items = array();

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Lead Add')
+
 @section('content')
 
 

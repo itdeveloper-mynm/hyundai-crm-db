@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Lead;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -13,6 +12,7 @@ use App\Models\Source;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Bank;
+use App\Models\Application;
 use Carbon\Carbon;
 
 class LeadsImport implements ToModel , WithHeadingRow
@@ -81,7 +81,7 @@ class LeadsImport implements ToModel , WithHeadingRow
             $campaign = Campaign::create(['name' => $row['campaign'] ]);
         }
         
-        $lead = new Lead();
+        $lead = new Application();
         $lead->city_id = $city->id;
         $lead->branch_id = $branch->id;
         $lead->vehicle_id = $vehicle->id;
@@ -92,6 +92,7 @@ class LeadsImport implements ToModel , WithHeadingRow
         $lead->preferred_appointment_time = $row['prferred_time'];
         $lead->request_date = formateDate($request_date) ?? null;
         $lead->customer_id= $customer->id;
+        $lead->type= 'leads';
         $lead->save();
 
        // return $lead;

@@ -47,11 +47,37 @@ function addCustomer(Request $request) {
         $customer->mobile = $mobile;
         $customer->email = $request->input('email') ?? null;
         $customer->bank_id = $request->input('bank_id') ?? null;
+        $customer->city_id = $request->input('city_id') ?? null;
         $customer->save();
     }
 
     return $customer;
 }
+
+function checkApplicationType($type) {
+    
+    switch ($type) {
+        case 'Leads':
+            return 'leads';
+        case 'Request a Quote':
+            return 'request_a_quote';
+        case 'Online Service Booking':
+            return 'online_service_booking';
+        case 'Special Offers':
+            return 'special_offers';
+        case 'Service Offers':
+            return 'service_offers';
+        case 'Fleet Sales':
+            return 'fleet_sales';
+        case 'Request a Test Drive':
+            return 'request_a_test_drive';
+        case 'Used Cars':
+            return 'used_cars';
+        default:
+            return 'leads';
+    }
+}
+
 
 function formatInputNumber($mobile) {
     

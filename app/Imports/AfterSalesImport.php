@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\AfterSale;
+use App\Models\Application;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -73,13 +73,14 @@ class AfterSalesImport implements  ToModel , WithHeadingRow
             $campaign = Campaign::create(['name' => $row['campaign'] ]);
         }
         
-        $after_sale = new AfterSale();
+        $after_sale = new Application();
         $after_sale->city_id = $city->id;
         $after_sale->branch_id = $branch->id;
         $after_sale->vehicle_id = $vehicle->id;
         $after_sale->source_id = $sourcee->id;
         $after_sale->campaign_id = $campaign->id;
         $after_sale->customer_id= $customer->id;
+        $after_sale->type= 'after_sales';
         $after_sale->save();
 
        // return $lead;

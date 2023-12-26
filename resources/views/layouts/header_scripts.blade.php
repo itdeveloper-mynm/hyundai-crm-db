@@ -1,5 +1,5 @@
 <head><base href=""/>
-		<title>Dashboard</title>
+		<title>@yield('title')</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Hyundai" />
 		<meta name="keywords" content="Hyundai" />

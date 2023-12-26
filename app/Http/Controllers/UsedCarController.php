@@ -8,7 +8,7 @@ use App\Models\Campaign;
 use App\Models\City;
 use App\Models\Lead;
 use App\Models\Customer;
-use App\Models\UsedCar;
+use App\Models\Application;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\UsedCarsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -44,15 +44,8 @@ class UsedCarController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = addCustomer($request);
 
-        $used_car = new UsedCar();
-        $used_car->city_id = $request->input('city_id');
-        $used_car->vehicle_id = $request->input('vehicle_id');
-        $used_car->campaign_id = $request->input('campaign_id');
-        $used_car->preferred_appointment_time = $request->input('preferred_appointment_time');
-        $used_car->customer_id= $customer->id;
-        $used_car->save();
+        Application::storeData($request,'used_cars');
         
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -71,7 +64,7 @@ class UsedCarController extends Controller
     public function edit(string $id)
     {
         
-        $data['used_car']= UsedCar::findorFail($id);
+        $data['used_car']= Application::findorFail($id);
         $data['cities']=City::whereStatus(1)->get();
         $data['vehicles']=Vehicle::whereStatus(1)->get();
         $data['campaigns']=Campaign::whereStatus(1)->get();
@@ -84,26 +77,8 @@ class UsedCarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $used_car = UsedCar::findorFail($id);
         
-        $mobile = $request->input('mobile');
-        $mobile =formatInputNumber($mobile);
-
-        //dd($request->all(),$mobile);
-        
-        $customer = Customer::findorFail($used_car->customer_id);
-        $customer->first_name = $request->input('first_name');
-        $customer->last_name = $request->input('last_name');
-        $customer->mobile = $mobile;
-        $customer->email = $request->input('email');
-        $customer->save();
-
-        $used_car->city_id = $request->input('city_id');
-        $used_car->vehicle_id = $request->input('vehicle_id');
-        $used_car->campaign_id = $request->input('campaign_id');
-        $used_car->preferred_appointment_time = $request->input('preferred_appointment_time');
-        $used_car->customer_id= $customer->id;
-        $used_car->save();
+        Application::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -113,7 +88,7 @@ class UsedCarController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = UsedCar::findorFail($id);
+        $row = Application::findorFail($id);
         $row->delete();
         
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -135,11 +110,12 @@ class UsedCarController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = UsedCar::count();
+        $countAll = Application::where('type','used_cars')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  UsedCar::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
+        $paginate =  Application::where('type','used_cars')
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
         
         $num = 1;
         $items = array();

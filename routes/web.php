@@ -97,12 +97,13 @@ Route::controller(BankController::class)->group(function(){
 });
 
 
-Route::resource('customer', CustomerController::class);
+Route::resource('contact', CustomerController::class);
 Route::controller(CustomerController::class)->group(function(){
-    Route::get('customer-pagination',  'customerPagination')->name('customer.pagination');
+    Route::get('customer-pagination',  'customerPagination')->name('contact.pagination');
 });
 
 Route::controller(ExternalLeadController::class)->group(function(){
     Route::post('addleads',  'store')->name('addleads.store');
     Route::get('addleads/create',  'create');
+    Route::get('saveformjson/create',  'saveformjson');
 });

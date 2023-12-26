@@ -18,7 +18,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Customer Add') }}</h2>
+                                        <h2>{{ __('Contact Add') }}</h2>
                                     </div>
                                 </div>
 
@@ -175,7 +175,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('customer.store') }}",
+                url: "{{ route('contact.store') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -195,7 +195,7 @@ $(document).ready(function() {
                             data.result,
                         )
 
-                        window.location.href = "{{route('customer.index')}}";
+                        window.location.href = "{{route('contact.index')}}";
 
                     }
                     if (data.result == 'error') {

@@ -42,16 +42,7 @@
                                             <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" disabled value="{{$smo_lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
-                                        </div>
-                                        <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" disabled value="{{$smo_lead->customer->email}}"  class="form-control mb-2"
-                                                required />
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row mt-5">
+                                        </div>  
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer City') }}</label>
                                             <select class="form-select mb-2" name="city_id" required="required"
