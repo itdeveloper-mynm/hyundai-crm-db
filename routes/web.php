@@ -14,6 +14,8 @@ use App\Http\Controllers\AfterSaleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UsedCarController;
 use App\Http\Controllers\SmoLeadController;
+use App\Http\Controllers\GoogleBusinessController;
+use App\Http\Controllers\OldLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,13 @@ Route::controller(SmoLeadController::class)->group(function(){
     Route::post('smo-lead-import',  'smoLeadImport')->name('smo-lead.import');
 });
 
+Route::resource('google-business', GoogleBusinessController::class);
+Route::controller(GoogleBusinessController::class)->group(function(){
+    Route::get('google-business-pagination',  'googleBusinessPagination')->name('google-business.pagination');
+    Route::post('google-business-import',  'googleBusinessImport')->name('google-business.import');
+    Route::get('get-branches/{city}',  'getCityBranches')->name('get-city-branches.ajx');
+});
+
 
 Route::resource('bank', BankController::class);
 Route::controller(BankController::class)->group(function(){
@@ -106,4 +115,9 @@ Route::controller(ExternalLeadController::class)->group(function(){
     Route::post('addleads',  'store')->name('addleads.store');
     Route::get('addleads/create',  'create');
     Route::get('saveformjson/create',  'saveformjson');
+});
+
+Route::resource('old-leads', OldLeadController::class);
+Route::controller(OldLeadController::class)->group(function(){
+    Route::get('old-leads-pagination',  'leadsPagination')->name('old-leads.pagination');
 });

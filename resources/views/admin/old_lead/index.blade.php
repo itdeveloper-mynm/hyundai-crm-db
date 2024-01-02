@@ -19,11 +19,11 @@
                             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <h1
                                     class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                    {{ __('Leads List') }}</h1>
+                                    {{ __('Old Leads List') }}</h1>
                                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                     <li class="breadcrumb-item text-muted">
-                                        <a href="{{ route('lead.index') }}"
-                                            class="text-muted text-hover-primary">{{ __('Lead') }}</a>
+                                        <a href="{{ route('old-leads.index') }}"
+                                            class="text-muted text-hover-primary">{{ __('Old Lead') }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -142,7 +142,7 @@
                             {{ __('Import') }}</a>
 
 
-                        <a href="{{ route('lead.create') }}" class="btn btn-primary">
+                        <a href="{{ route('old-leads.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
                     </div>
@@ -254,7 +254,7 @@
         filter: true,
 
         ajax: {
-            "url": "{{ route('leads.pagination') }}",
+            "url": "{{ route('old-leads.pagination') }}",
             "type": "GET",
             'data': function(data) {
 
@@ -332,7 +332,7 @@
                 render: function(data, type, row) {
                     var res = '-';
                     var res2 = '-';
-                    res = '<a href="{{  url("lead")  }}/' + data +
+                    res = '<a href="{{  url("old-leads")  }}/' + data +
                         '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
 
                     res2 =

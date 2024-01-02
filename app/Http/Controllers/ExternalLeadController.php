@@ -8,7 +8,7 @@ use App\Models\Branch;
 use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Campaign;
-use App\Models\Lead;
+use App\Models\Application;
 use App\Models\Customer;
 use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +46,7 @@ class ExternalLeadController extends Controller
         \Log::info('customer api hit');
 
         $bank = Bank::where('name', $request->input('customersBank'))->first();
-        
+
         if(is_null($bank)){
             $bank = Bank::create(['name' => $request->input('customersBank')]);
         }
@@ -58,7 +58,7 @@ class ExternalLeadController extends Controller
 
         $customer = Customer::whereMobile($mobile)->first();
 
-      
+
         if(is_null($customer)){
             $customer =new Customer();
             $customer->first_name = $request->input('firstName');
@@ -92,8 +92,8 @@ class ExternalLeadController extends Controller
         if(is_null($campaign)){
             $campaign = Campaign::create(['name' => $request->input('campaignName')]);
         }
-        
-        $lead = new Lead();
+
+        $lead = new Application();
         $lead->city_id = $city->id;
         $lead->branch_id = $branch->id;
         $lead->vehicle_id = $vehicle->id;
@@ -103,30 +103,31 @@ class ExternalLeadController extends Controller
         $lead->monthly_salary = $request->input('monthlySalary');
         $lead->preferred_appointment_time = $request->input('preferredTime');
         $lead->customer_id= $customer->id;
+        $lead->type = 'leads';
         $lead->save();
 
         \Log::info('customer api hit end');
-    
+
     }
 
     public function saveformjson(Request $request) {
-        
-        
+
+
         \Log::info('saveformjson api hit');
 
-        
+
         $city = City::where('name', $request->input('customerCity'))->first();
         if(is_null($city)){
             $city = City::create(['name' => $request->input('customerCity')]);
         }
-        
+
         $mobile = $request->input('mobile');
 
         $mobile =formatInputNumber($mobile);
 
         $customer = Customer::whereMobile($mobile)->first();
 
-      
+
         if(is_null($customer)){
             $customer =new Customer();
             $customer->first_name = $request->input('firstName');
@@ -191,8 +192,8 @@ class ExternalLeadController extends Controller
         $number_of_vehicles = $request->input('number_of_vehicles');
         $fleet_range = $request->input('fleet_range');
 
-        
+
         \Log::info('saveformjson api hit end');
-        
+
     }
 }

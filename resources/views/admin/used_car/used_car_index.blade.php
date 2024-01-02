@@ -116,7 +116,7 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- 
+                        <!--
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                             {{ __('Excel') }}
@@ -127,7 +127,9 @@
                             {{ __('Print') }}
 
                         </button> -->
-
+                        <a href="{{asset('excel_files/used-cars-sample.xlsx')}}" class="btn btn-success  me-3" download>
+                            <i class="fa fa-download"></i>
+                            {{ __('Sample') }}</a>
                         <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
                             <i class="fa fa-upload"></i>
                             {{ __('Import') }}</a>

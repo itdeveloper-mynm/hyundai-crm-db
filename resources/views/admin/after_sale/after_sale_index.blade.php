@@ -12,7 +12,7 @@
                 <div class="row  mt-5">
                 <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
+
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('After Sale Listing') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -124,7 +124,9 @@
                             {{ __('Print') }}
 
                         </button> -->
-
+                        <a href="{{asset('excel_files/after-sales-sample.xlsx')}}" class="btn btn-success  me-3" download>
+                            <i class="fa fa-download"></i>
+                            {{ __('Sample') }}</a>
                         <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
                             <i class="fa fa-upload"></i>
                             {{ __('Import') }}</a>
@@ -504,7 +506,7 @@ $('#csv_form').submit(function(e) {
                 $("#btnSubmit").prop("disabled", false);
             }
         });
-        
+
     });
 
 

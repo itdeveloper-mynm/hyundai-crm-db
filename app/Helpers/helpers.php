@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 function activeRoute($route): string
 {
-    
+
     $requestUrl = request()->fullUrl() === $route ? true : false;
 
     if($requestUrl == true) {
@@ -33,8 +33,12 @@ function formateDate($date) {
     return Carbon::parse($date)->format('Y-m-d');
 }
 
+function formateDateTime($date) {
+    return Carbon::parse($date)->format('Y-m-d h:i:s');
+}
+
 function addCustomer(Request $request) {
-    
+
     $mobile = $request->input('mobile');
 
     $mobile =formatInputNumber($mobile);
@@ -55,7 +59,7 @@ function addCustomer(Request $request) {
 }
 
 function checkApplicationType($type) {
-    
+
     switch ($type) {
         case 'Leads':
             return 'leads';
@@ -73,6 +77,8 @@ function checkApplicationType($type) {
             return 'request_a_test_drive';
         case 'Used Cars':
             return 'used_cars';
+        case 'Old Leads':
+            return 'old_leads';
         default:
             return 'leads';
     }
@@ -80,7 +86,7 @@ function checkApplicationType($type) {
 
 
 function formatInputNumber($mobile) {
-    
+
     $length = strlen($mobile);
 
     if (substr($mobile, 0, 4) === '+966' && strlen($mobile) === 14) {
@@ -94,7 +100,7 @@ function formatInputNumber($mobile) {
     if (substr($mobile, 0, 1) !== '0' && $length == '9') {
         $mobile = '+966'.$mobile;
     }
-    
+
     if (substr($mobile, 0, 1) === '0' && $length == '10') {
         $mobile = ltrim($mobile, '0');
         $mobile = '+966'.$mobile;

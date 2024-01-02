@@ -128,7 +128,9 @@
 
                         </button> -->
 
-
+                        <a href="{{asset('excel_files/smo-leads-sample.xlsx')}}" class="btn btn-success  me-3" download>
+                            <i class="fa fa-download"></i>
+                            {{ __('Sample') }}</a>
                         <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
                             <i class="fa fa-upload"></i>
                             {{ __('Import') }}</a>
@@ -493,7 +495,7 @@ $('#csv_form').submit(function(e) {
             }
         });
     });
-    
+
 </script>
 
 

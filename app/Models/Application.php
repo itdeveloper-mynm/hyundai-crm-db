@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Application extends Model
 {
@@ -44,7 +46,7 @@ class Application extends Model
     }
 
     static function storeData($request,$type) {
-        
+
         $customer = addCustomer($request);
 
         $application = new self;
@@ -58,6 +60,16 @@ class Application extends Model
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
         $application->customer_id= $customer->id;
         $application->type= $type;
+
+        if ($request->has('select_date')) {
+            // Assuming 'created_at' is in a format that Carbon can parse
+            $date = Carbon::parse($request->input('select_date'));
+            // Concatenate the current time (H:i:s) to the date
+            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+            // Set the 'created_at' field
+            $application->created_at = $dateWithCurrentTime;
+        }
+
         $application->save();
 
         return $application;
@@ -65,7 +77,7 @@ class Application extends Model
     }
 
     static function updateData($request,$id) {
-        
+
         $application = self::findorFail($id);
 
         $customer = Customer::findorFail($application->customer_id);
@@ -79,6 +91,16 @@ class Application extends Model
         $application->monthly_salary = $request->input('monthly_salary');
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
         $application->customer_id= $customer->id;
+
+        if ($request->has('select_date')) {
+            // Assuming 'created_at' is in a format that Carbon can parse
+            $date = Carbon::parse($request->input('select_date'));
+            // Concatenate the current time (H:i:s) to the date
+            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+            // Set the 'created_at' field
+            $application->created_at = $dateWithCurrentTime;
+        }
+
         $application->save();
 
         return $application;
