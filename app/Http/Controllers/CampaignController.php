@@ -34,7 +34,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $campaign= Campaign::create($request->all());
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -73,11 +73,11 @@ class CampaignController extends Controller
     {
         $row = Campaign::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function campaignPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -98,7 +98,7 @@ class CampaignController extends Controller
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Campaign::orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
-        
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -121,6 +121,6 @@ class CampaignController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 }

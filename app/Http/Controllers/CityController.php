@@ -39,7 +39,7 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $city= City::create($request->all());
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -70,7 +70,7 @@ class CityController extends Controller
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
 
-        
+
     }
 
     /**
@@ -80,7 +80,7 @@ class CityController extends Controller
     {
         $row = City::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
@@ -104,7 +104,7 @@ class CityController extends Controller
         //-- CREATE LARAVEL PAGINATION
         $paginate =  City::orderBy($columnName, $columnSortOrder)
                  ->paginate($limit, ["*"], 'page', $page);
-        
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -127,7 +127,7 @@ class CityController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 
    function changeStatus(Request $request) {
@@ -154,11 +154,11 @@ class CityController extends Controller
         }
         $row->status= $request->status_id;
         $row->save();
-        
+
         return Response(['result'=>'success','message'=>__('Status Updated Successfully')]);
    }
 
-   public function checkNameExist(Request $request) 
+   public function checkNameExist(Request $request)
    {
         //dd($request->all());
 
@@ -179,7 +179,7 @@ class CityController extends Controller
         }
         if(request('check')!=0){
             $id=request('check');
-            $validator = Validator::make($input, 
+            $validator = Validator::make($input,
             [
                 //'name' => 'unique:cities,name,'.$id,
                 $field_name => 'unique:'.$table_name.','.$field_name.','.$id,

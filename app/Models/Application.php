@@ -22,6 +22,67 @@ class Application extends Model
         'created_at',
     ];
 
+    // Define a scope for searching with conditions
+    public function scopeSearch($query, $conditions)
+    {
+        return $query->where(function ($query) use ($conditions) {
+            // Add your where conditions here based on $conditions array
+            if (isset($conditions['search']['value'])) {
+                $search = $conditions['search']['value'];
+                $query->where(function ($query) use ($search) {
+                    $query->whereHas('customer', function ($query) use ($search) {
+                        $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
+                            ->orWhere('mobile', $search)
+                            ->orWhere('email', $search);
+                    });
+                });
+            }
+
+            if (isset($conditions['city_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereHas('city', function ($query) use ($conditions) {
+                        $query->where('id', $conditions['city_id']);
+                    });
+                });
+            }
+
+            if (isset($conditions['branch_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereHas('branch', function ($query) use ($conditions) {
+                        $query->where('id', $conditions['branch_id']);
+                    });
+                });
+            }
+
+            if (isset($conditions['vehicle_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereHas('vehicle', function ($query) use ($conditions) {
+                        $query->where('id', $conditions['vehicle_id']);
+                    });
+                });
+            }
+
+            if (isset($conditions['source_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereHas('source', function ($query) use ($conditions) {
+                        $query->where('id', $conditions['source_id']);
+                    });
+                });
+            }
+
+            if (isset($conditions['campaign_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereHas('campaign', function ($query) use ($conditions) {
+                        $query->where('id', $conditions['campaign_id']);
+                    });
+                });
+            }
+
+            // Add more conditions as needed...
+        });
+    }
+
+
     public function customer(){
         return $this->belongsTo(Customer::class);
     }

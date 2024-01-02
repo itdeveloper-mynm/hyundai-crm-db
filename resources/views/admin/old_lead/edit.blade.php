@@ -57,7 +57,7 @@
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer City') }}</label>
-                                            <select class="form-select mb-2" name="city_id" required="required"
+                                            <select class="form-select mb-2" name="city_id" id="city_id" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer Branch') }}</label>
-                                            <select class="form-select mb-2" name="branch_id" required="required"
+                                            <select class="form-select mb-2" name="branch_id" id="branch_id" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
