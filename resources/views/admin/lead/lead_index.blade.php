@@ -75,7 +75,7 @@
 
                                             <div>
                                                 <select class="form-select mb-2" name="city_id" id="city_id"
-                                                    data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                    data-control="select" data-placeholder="{{ __('select option') }}"
                                                     data-allow-clear="true">
                                                     <option value="">--select--</option>
                                                     @foreach ($cities as $city)
@@ -87,7 +87,7 @@
                                         <div class="mb-1">
                                             <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
                                             <div>
-                                                <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select2"
+                                                <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
                                                     data-placeholder="{{ __('select option') }}"
                                                     data-allow-clear="true">
                                                     <option value="">--select--</option>
@@ -98,7 +98,7 @@
                                             <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
                                             <div>
                                                 <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                    data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                    data-control="select" data-placeholder="{{ __('select option') }}"
                                                     data-allow-clear="true">
                                                     <option value=""></option>
                                                     @foreach ($vehicles as $vehicle)
@@ -111,7 +111,7 @@
                                             <label class="form-label fw-semibold">{{ __('Source') }}</label>
                                             <div>
                                                 <select class="form-select mb-2" name="source_id" id="source_id"
-                                                    data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                    data-control="select" data-placeholder="{{ __('select option') }}"
                                                     data-allow-clear="true">
                                                     <option value=""></option>
                                                     @foreach ($sources as $source)
@@ -124,7 +124,7 @@
                                             <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
                                             <div>
                                             <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-control="select" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($campaigns as $campaign)
@@ -472,6 +472,13 @@
             var to = document.querySelector('#to');
             from.value = '';
             to.value = '';
+
+            $("#city_id").val([]).change();
+            $("#branch_id").val([]).change();
+            $("#vehicle_id").val([]).change();
+            $("#source_id").val([]).change();
+            $("#campaign_id").val([]).change();
+
             table.draw();
 
         });

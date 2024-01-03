@@ -67,24 +67,48 @@
                             <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                 <div class="px-7 py-5">
-                                    <div class="mb-10">
-                                        <label class="form-label fw-semibold">{{ __('status') }}</label>
+                                    <div class="mb-1">
+                                        <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
 
                                         <div>
-                                            <select class="form-select mb-2" name="status" id="status"
-                                                data-control="select2"
-                                                data-placeholder="{{ __('table.select_option',['title'=>__('table.status')]) }}"
+                                            <select class="form-select mb-2" name="city_id" id="city_id"
+                                                data-control="select" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
-                                                <option></option>
-                                                <option value="true">Active</option>
-                                                <option value="false">De-Active</option>
+                                                <option value="">--select--</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
-
-
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
+                                        <div>
+                                            <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
+                                                data-control="select" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                <option value=""></option>
+                                                @foreach ($vehicles as $vehicle)
+                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label fw-semibold">{{ __('Source') }}</label>
+                                        <div>
+                                            <select class="form-select mb-2" name="source_id" id="source_id"
+                                                data-control="select" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                <option value=""></option>
+                                                @foreach ($sources as $source)
+                                                    <option value="{{$source->id}}">{{$source->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-10">
+                                    <div class="mb-3">
 
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -103,7 +127,8 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <button type="submit" class="btn btn-sm btn-primary"
-                                                    data-kt-menu-dismiss="true" value="apply" id="apply">Apply</button>
+                                                    data-kt-menu-dismiss="true" value="apply"
+                                                    id="apply">Apply</button>
                                             </div>
                                             <div class="col-lg-6">
                                                 <a href="javascript:void(0)" class="btn btn-sm btn-primary"
@@ -250,9 +275,9 @@ var table = $('#user_table').DataTable({
         "url": "{{ route('smoLead.pagination') }}",
         "type": "GET",
         'data': function(data) {
-
-            data.state_id = $('#state_id').val();
-            data.status = $('#status').val();
+            data.city_id = $('#city_id').val();
+            data.vehicle_id = $('#vehicle_id').val();
+            data.source_id = $('#source_id').val();
             data.from = $('#from').val();
             data.to = $('#to').val();
         }
@@ -393,6 +418,10 @@ $('#reset').click(function(e) {
     var to = document.querySelector('#to');
     from.value = '';
     to.value = '';
+    $("#city_id").val([]).change();
+    $("#vehicle_id").val([]).change();
+    $("#source_id").val([]).change();
+
     table.draw();
 
 });

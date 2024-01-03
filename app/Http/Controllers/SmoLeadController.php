@@ -18,12 +18,25 @@ class SmoLeadController extends Controller
     {
         $this->middleware('auth');
     }
+
+    private function getCommonData()
+    {
+        $commonData = [
+            'cities' => City::whereStatus(1)->get(),
+            'vehicles' => Vehicle::whereStatus(1)->get(),
+            'sources' => Source::whereStatus(1)->get(),
+        ];
+
+        return $commonData;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.smo_lead.smo_lead_index');
+        $data = $this->getCommonData();
+        return view('admin.smo_lead.smo_lead_index', $data);
     }
 
     /**
@@ -31,9 +44,7 @@ class SmoLeadController extends Controller
      */
     public function create()
     {
-        $data['cities']=City::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
+        $data = $this->getCommonData();
         return view('admin.smo_lead.smo_lead_add' , $data);
     }
 
@@ -42,9 +53,9 @@ class SmoLeadController extends Controller
      */
     public function store(Request $request)
     {
-    
+
         Application::storeData($request,'smo_leads');
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -61,11 +72,8 @@ class SmoLeadController extends Controller
      */
     public function edit(string $id)
     {
-        
+        $data = $this->getCommonData();
         $data['smo_lead']= Application::findorFail($id);
-        $data['cities']=City::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
 
         return view('admin.smo_lead.smo_lead_edit', $data);
     }
@@ -88,11 +96,11 @@ class SmoLeadController extends Controller
     {
         $row = Application::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function smoLeadPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -106,15 +114,17 @@ class SmoLeadController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::where('type','smo_leads')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Application::where('type','smo_leads')
+        $paginate =  Application::search($conditions)
+                ->where('type','smo_leads')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
-        
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -140,11 +150,11 @@ class SmoLeadController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 
    public function smoLeadImport() {
-        
+
     //dd(1);
     Excel::import(new SmoLeadsImport,request()->file('csvfile'));
 

@@ -20,12 +20,25 @@ class UsedCarController extends Controller
     {
         $this->middleware('auth');
     }
+
+    private function getCommonData()
+    {
+        $commonData = [
+            'cities' => City::whereStatus(1)->get(),
+            'vehicles' => Vehicle::whereStatus(1)->get(),
+            'campaigns' => Campaign::whereStatus(1)->get(),
+        ];
+
+        return $commonData;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.used_car.used_car_index');
+        $data = $this->getCommonData();
+        return view('admin.used_car.used_car_index', $data);
     }
 
     /**
@@ -33,9 +46,7 @@ class UsedCarController extends Controller
      */
     public function create()
     {
-        $data['cities']=City::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
+        $data = $this->getCommonData();
         return view('admin.used_car.used_car_add' , $data);
     }
 
@@ -46,7 +57,7 @@ class UsedCarController extends Controller
     {
 
         Application::storeData($request,'used_cars');
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -63,12 +74,9 @@ class UsedCarController extends Controller
      */
     public function edit(string $id)
     {
-        
-        $data['used_car']= Application::findorFail($id);
-        $data['cities']=City::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
 
+        $data = $this->getCommonData();
+        $data['used_car']= Application::findorFail($id);
         return view('admin.used_car.used_car_edit', $data);
     }
 
@@ -77,7 +85,7 @@ class UsedCarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         Application::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
@@ -90,11 +98,11 @@ class UsedCarController extends Controller
     {
         $row = Application::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function usedCarPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -108,15 +116,17 @@ class UsedCarController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::where('type','used_cars')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Application::where('type','used_cars')
+        $paginate =  Application::search($conditions)
+                ->where('type','used_cars')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
-        
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -142,7 +152,7 @@ class UsedCarController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 
 

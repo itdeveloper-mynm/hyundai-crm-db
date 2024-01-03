@@ -20,22 +20,37 @@ class AfterSaleController extends Controller
     {
         $this->middleware('auth');
     }
+
+    private function getCommonData($cityId = null)
+    {
+        $commonData = [
+            'cities' => City::whereStatus(1)->get(),
+            'vehicles' => Vehicle::whereStatus(1)->get(),
+            'sources' => Source::whereStatus(1)->get(),
+            'campaigns' => Campaign::whereStatus(1)->get(),
+        ];
+
+        if ($cityId !== null) {
+            $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
+        } else {
+            $commonData['branches'] = Branch::whereStatus(1)->get();
+        }
+
+        return $commonData;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.after_sale.after_sale_index');
+        $data = $this->getCommonData();
+        return view('admin.after_sale.after_sale_index', $data);
     }
 
 
     public function create()
     {
-        $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
+        $data = $this->getCommonData();
         return view('admin.after_sale.after_sale_add' , $data);
     }
 
@@ -46,7 +61,7 @@ class AfterSaleController extends Controller
     public function store(Request $request)
     {
         Application::storeData($request,'after_sales');
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -63,13 +78,9 @@ class AfterSaleController extends Controller
      */
     public function edit(string $id)
     {
-        
-        $data['after_sale']= Application::findorFail($id);
-        $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
+        $after_sale= Application::findorFail($id);
+        $data =$this->getCommonData($after_sale->city_id);
+        $data['after_sale'] = $after_sale;
 
         return view('admin.after_sale.after_sale_edit', $data);
     }
@@ -81,7 +92,7 @@ class AfterSaleController extends Controller
     {
 
         Application::updateData($request,$id);
-        
+
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
 
@@ -92,11 +103,11 @@ class AfterSaleController extends Controller
     {
         $row = Application::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-        
+
     public function afterSalePagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -110,15 +121,17 @@ class AfterSaleController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::where('type','after_sales')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Application::where('type','after_sales')
+        $paginate =  Application::search($conditions)
+                ->where('type','after_sales')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
-        
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -146,10 +159,10 @@ class AfterSaleController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 
-   
+
     public function afterSaleImport() {
         //dd(1);
         Excel::import(new AfterSalesImport,request()->file('csvfile'));

@@ -9,6 +9,9 @@ $('#city_id').change(function() {
             // Populate the branches select box with the fetched data
             var branchesSelect = $('#branch_id');
             branchesSelect.empty();
+            // Append the default option
+            branchesSelect.append('<option value="">--select--</option>');
+
 
             $.each(data, function(key, value) {
                 branchesSelect.append('<option value="' + value.id + '">' + value.name +
