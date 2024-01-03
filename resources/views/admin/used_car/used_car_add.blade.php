@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Used Car Add')
+
 @section('content')
 
 
@@ -118,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </form>
     </div>
 </div>

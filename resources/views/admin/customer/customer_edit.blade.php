@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Contact Edit')
+
 @section('content')
 
 

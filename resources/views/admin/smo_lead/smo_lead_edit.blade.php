@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Smo Lead Edit')
+
 @section('content')
 
 
@@ -42,7 +44,7 @@
                                             <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" disabled value="{{$smo_lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
-                                        </div>  
+                                        </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Dealer City') }}</label>
                                             <select class="form-select mb-2" name="city_id" required="required"

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Smo Lead Add')
+
 @section('content')
 
 
@@ -65,7 +67,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        
+
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Source') }}</label>
                                             <select class="form-select mb-2" name="source_id" required="required"

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Contacts Listing')
+
 @section('content')
 
 
@@ -12,9 +14,9 @@
                 <div class="row  mt-5">
                 <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
+
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Contacts List') }}</h1>
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Contacts Listing') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
                                             <a href="{{ route('contact.index') }}" class="text-muted text-hover-primary">{{ __('Contacts') }}</a>

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Smo Leads Listing')
+
 @section('content')
 
 
@@ -16,7 +18,7 @@
                             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <h1
                                     class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                    {{ __('Smo Leads List') }}</h1>
+                                    {{ __('Smo Leads Listing') }}</h1>
                                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                     <li class="breadcrumb-item text-muted">
                                         <a href="{{ route('smo-lead.index') }}"
@@ -72,7 +74,7 @@
 
                                         <div>
                                             <select class="form-select mb-2" name="city_id" id="city_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value="">--select--</option>
                                                 @foreach ($cities as $city)

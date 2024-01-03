@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'After Sale Add')
+
 @section('content')
 
 

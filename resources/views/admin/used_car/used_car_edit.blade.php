@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Used Car Edit')
+
 @section('content')
 
 
@@ -19,7 +21,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Used Car Add') }}</h2>
+                                        <h2>{{ __('Used Car Edit') }}</h2>
                                     </div>
                                 </div>
 
