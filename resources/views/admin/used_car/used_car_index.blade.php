@@ -291,8 +291,10 @@ var table = $('#user_table').DataTable({
             data: 'first_name',
             render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                var result = '<a href="{{ url('used-car') }}/' + row.id +
+                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' + data + '</a>';
                 return result;
+
             }
         },
         {
