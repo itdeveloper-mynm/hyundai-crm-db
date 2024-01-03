@@ -12,7 +12,7 @@
                 <div class="row  mt-5">
                 <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
+
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Campaigns List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -44,7 +44,7 @@
                     <div class="col-lg-4 d-flex justify-content-end">
 
 
-                        <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                        {{-- <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-end">
                             <span class="svg-icon svg-icon-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -112,7 +112,7 @@
 
                                 </div>
                                 <form>
-                        </div>
+                        </div> --}}
 
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>

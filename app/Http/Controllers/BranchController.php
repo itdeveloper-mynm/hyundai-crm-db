@@ -36,7 +36,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $branch= Branch::create($request->all());
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -75,11 +75,11 @@ class BranchController extends Controller
     {
         $row = Branch::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function branchPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -93,20 +93,16 @@ class BranchController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Branch::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Branch::when( request('search')['value'],function($q) use($searchValue){
-            $q->where('name','LIKE','%'.strtoupper($searchValue).'%')
-            ->orwhereHas('city',function($q1) use($searchValue){
-                $q1->whereName($searchValue);
-            });
-        })
-        ->orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
-        
+        $paginate =  Branch::search($conditions)
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -130,6 +126,6 @@ class BranchController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 }

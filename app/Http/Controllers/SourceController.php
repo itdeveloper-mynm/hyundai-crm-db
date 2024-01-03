@@ -34,7 +34,7 @@ class SourceController extends Controller
     public function store(Request $request)
     {
         $branch= Source::create($request->all());
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -73,11 +73,11 @@ class SourceController extends Controller
     {
         $row = Source::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function sourcePagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -91,14 +91,16 @@ class SourceController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Source::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Source::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
-        
+        $paginate =  Source::search($conditions)
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -121,6 +123,6 @@ class SourceController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 }

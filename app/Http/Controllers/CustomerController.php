@@ -68,7 +68,7 @@ class CustomerController extends Controller
     public function update(Request $request, string $id)
     {
 
-        
+
         $row = Customer::findorFail($id);
 
         $input = request()->all();
@@ -88,11 +88,11 @@ class CustomerController extends Controller
     {
         $row = Customer::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-        
+
     public function customerPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -106,14 +106,16 @@ class CustomerController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Customer::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Customer::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
-        
+        $paginate =  Customer::search($conditions)
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -139,6 +141,6 @@ class CustomerController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 }

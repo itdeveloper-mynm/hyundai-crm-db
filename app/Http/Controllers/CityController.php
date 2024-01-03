@@ -97,13 +97,15 @@ class CityController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = City::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  City::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
+        $paginate =  City::search($conditions)
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
 
         $num = 1;
         $items = array();

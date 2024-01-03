@@ -66,7 +66,7 @@
                             <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                 <div class="px-7 py-5">
-                                    <div class="mb-10">
+                                    {{-- <div class="mb-10">
                                         <label class="form-label fw-semibold">{{ __('status') }}</label>
 
                                         <div>
@@ -81,7 +81,7 @@
                                         </div>
 
 
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mb-10">
 

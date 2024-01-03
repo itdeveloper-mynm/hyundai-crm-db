@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\NameSearchableTrait;
 
 class Bank extends Model
 {
-    use HasFactory;
+    use HasFactory, NameSearchableTrait;
 
     protected $fillable = [
         'id',

@@ -34,7 +34,7 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $vehicle= Vehicle::create($request->all());
-        
+
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
@@ -73,11 +73,11 @@ class VehicleController extends Controller
     {
         $row = Vehicle::findorFail($id);
         $row->delete();
-        
+
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
-    
+
     public function vehiclePagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
@@ -91,14 +91,17 @@ class VehicleController extends Controller
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
+
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Vehicle::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Vehicle::orderBy($columnName, $columnSortOrder)
-                 ->paginate($limit, ["*"], 'page', $page);
-        
+        $paginate =  Vehicle::search($conditions)
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
+
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
@@ -121,6 +124,6 @@ class VehicleController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
-     
+
    }
 }
