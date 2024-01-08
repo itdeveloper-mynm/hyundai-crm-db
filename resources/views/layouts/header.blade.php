@@ -374,7 +374,7 @@
 							<!--begin::Navbar-->
 							<div class="app-navbar flex-shrink-0">
 								<!--begin::Notifications-->
-								{{-- 
+								{{--
 									<div class="app-navbar-item ms-1 ms-lg-3">
 									<!--begin::Menu- wrapper-->
 									<div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
@@ -1052,7 +1052,14 @@
 
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
-											<a href="../../demo1/dist/authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+											<a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                          document.getElementById('logout-form').submit();"  class="menu-link px-5">Sign Out</a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+
 										</div>
 										<!--end::Menu item-->
 									</div>
