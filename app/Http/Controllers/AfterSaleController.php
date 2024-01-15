@@ -20,37 +20,19 @@ class AfterSaleController extends Controller
     {
         $this->middleware('auth');
     }
-
-    private function getCommonData($cityId = null)
-    {
-        $commonData = [
-            'cities' => City::whereStatus(1)->get(),
-            'vehicles' => Vehicle::whereStatus(1)->get(),
-            'sources' => Source::whereStatus(1)->get(),
-            'campaigns' => Campaign::whereStatus(1)->get(),
-        ];
-
-        if ($cityId !== null) {
-            $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
-        } else {
-            $commonData['branches'] = Branch::whereStatus(1)->get();
-        }
-
-        return $commonData;
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = $this->getCommonData();
+        $data = getCommonData();
         return view('admin.after_sale.after_sale_index', $data);
     }
 
 
     public function create()
     {
-        $data = $this->getCommonData();
+        $data = getCommonData();
         return view('admin.after_sale.after_sale_add' , $data);
     }
 
@@ -79,7 +61,7 @@ class AfterSaleController extends Controller
     public function edit(string $id)
     {
         $after_sale= Application::findorFail($id);
-        $data =$this->getCommonData($after_sale->city_id);
+        $data =getCommonData($after_sale->city_id);
         $data['after_sale'] = $after_sale;
 
         return view('admin.after_sale.after_sale_edit', $data);

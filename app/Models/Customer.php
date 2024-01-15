@@ -16,6 +16,7 @@ class Customer extends Model
         'email',
         'bank_id',
         'city_id',
+        'gender',
     ];
 
         // Define a scope for searching with conditions

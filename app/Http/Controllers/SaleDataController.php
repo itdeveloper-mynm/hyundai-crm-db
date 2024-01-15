@@ -3,39 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Vehicle;
-use App\Models\Campaign;
-use App\Models\City;
-use App\Models\Lead;
-use App\Models\Customer;
-use App\Models\Application;
-use Illuminate\Support\Facades\Validator;
-use App\Imports\UsedCarsImport;
+use App\Imports\SalesDataImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\SalesData;
 
-
-class UsedCarController extends Controller
+class SaleDataController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $data = getCommonData();
-        return view('admin.used_car.used_car_index', $data);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $data = getCommonData();
-        return view('admin.used_car.used_car_add' , $data);
+        return view('admin.sales-data.index' , $data);
     }
 
     /**
@@ -44,29 +30,22 @@ class UsedCarController extends Controller
     public function store(Request $request)
     {
 
-        Application::storeData($request,'used_cars');
+        SalesData::storeData($request);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-
         $data = getCommonData();
-        $data['used_car']= Application::findorFail($id);
-        return view('admin.used_car.used_car_edit', $data);
+
+        $sales_data = SalesData::findorFail($id);
+        $data['sales_data'] = $sales_data;
+
+
+        return view('admin.sales-data.edit', $data);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -74,7 +53,7 @@ class UsedCarController extends Controller
     public function update(Request $request, string $id)
     {
 
-        Application::updateData($request,$id);
+        SalesData::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -84,14 +63,14 @@ class UsedCarController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = Application::findorFail($id);
+        $row = SalesData::findorFail($id);
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
 
 
-    public function usedCarPagination()
+    public function salesDataPagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
         $draw = request('draw');
@@ -103,31 +82,34 @@ class UsedCarController extends Controller
         $columnName = request('columns')[$columnIndex]['data']; // Column name
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
+        $conditions = request()->all();
         //-- END DEFAULT DATATABLE QUERY PARAMETER
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::where('type','used_cars')->count();
+        $countAll = SalesData::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Application::search($conditions)
-                ->where('type','used_cars')
+        $paginate =  SalesData::search($conditions)
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
         $num = 1;
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
-
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "first_name" => ucwords($row->customer->first_name),
-                "last_name" => ucwords($row->customer->last_name),
-                "city_id" => $row->city->name ?? "",
-                "vehicle_id" => $row->vehicle->name ?? "",
-                "campaign_id" => $row->campaign->name ?? "",
-                "created_at" =>$row['created_at'],
+                "mobile" => $row->customer->mobile ?? null,
+                "gender" => $row->customer->gender ?? null,
+                "inv_date" => $row->inv_date ?? "",
+                "year" => $row->year ?? "",
+                "s" => $row->s ?? "",
+                "chass" => $row->chass ?? "",
+                "vechile_id" => $row->vehicle->name ?? "",
+                "department" => $row->department ?? "",
+                "created_at" => formateDateTime($row['created_at']),
             );
             $num++;
         }
@@ -144,11 +126,12 @@ class UsedCarController extends Controller
    }
 
 
-    public function usedCarImport() {
-        //dd(1);
-        Excel::import(new UsedCarsImport,request()->file('csvfile'));
 
-        return Response(['result'=>'success','message'=>__('Used Cars Import Successfully')]);
+    public function saleDataImport () {
+
+        Excel::import(new SalesDataImport,request()->file('csvfile'));
+        return Response(['result'=>'success','message'=>__('Sales Data Import Successfully')]);
+
     }
 
 }

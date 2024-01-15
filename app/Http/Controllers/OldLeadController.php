@@ -21,12 +21,15 @@ class OldLeadController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.old_lead.index');
+        $data = getCommonData();
+
+        return view('admin.old_lead.index' , $data);
     }
 
     /**
@@ -34,12 +37,8 @@ class OldLeadController extends Controller
      */
     public function create()
     {
-        $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
-        $data['banks']=Bank::whereStatus(1)->get();
+        $data = getCommonData();
+
         return view('admin.old_lead.add' , $data);
     }
 
@@ -68,13 +67,10 @@ class OldLeadController extends Controller
     public function edit(string $id)
     {
 
-        $data['lead']= Application::findorFail($id);
-        $data['cities']=City::whereStatus(1)->get();
-        $data['branches']=Branch::whereStatus(1)->get();
-        $data['vehicles']=Vehicle::whereStatus(1)->get();
-        $data['sources']=Source::whereStatus(1)->get();
-        $data['campaigns']=Campaign::whereStatus(1)->get();
-        $data['banks']=Bank::whereStatus(1)->get();
+        $lead= Application::findorFail($id);
+        $data = getCommonData($lead->city_id);
+        $data['lead'] = $lead;
+
 
         return view('admin.old_lead.edit', $data);
     }
@@ -114,13 +110,15 @@ class OldLeadController extends Controller
         $columnName = request('columns')[$columnIndex]['data']; // Column name
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
+        $conditions = request()->all();
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::where('type','old_leads')->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  Application::where('type','old_leads')
+        $paginate =  Application::search($conditions)
+                ->where('type','old_leads')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

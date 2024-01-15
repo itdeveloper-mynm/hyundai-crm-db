@@ -114,7 +114,14 @@ class GoogleBusinessController extends Controller
         $countAll = GoogleBusiness::count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  GoogleBusiness::orderBy($columnName, $columnSortOrder)->paginate($limit, ["*"], 'page', $page);
+        $paginate =  GoogleBusiness::when(request('city_id'), function ($q){
+                                        $q->where('city_id', request('city_id'));
+                                    })
+                                    ->when(request('branch_id'), function ($q) {
+                                        $q->where('branch_id', request('branch_id'));
+                                    })
+                                    ->orderBy($columnName, $columnSortOrder)
+                                    ->paginate($limit, ["*"], 'page', $page);
 
         $num = 1;
         $items = array();

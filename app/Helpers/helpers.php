@@ -3,6 +3,12 @@ use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\City;
+use App\Models\Branch;
+use App\Models\Vehicle;
+use App\Models\Source;
+use App\Models\Campaign;
+use App\Models\Bank;
 
 function activeRoute($route): string
 {
@@ -52,6 +58,7 @@ function addCustomer(Request $request) {
         $customer->email = $request->input('email') ?? null;
         $customer->bank_id = $request->input('bank_id') ?? null;
         $customer->city_id = $request->input('city_id') ?? null;
+        $customer->gender = $request->input('gender') ?? null;
         $customer->save();
     }
 
@@ -108,3 +115,23 @@ function formatInputNumber($mobile) {
 
     return $mobile;
 }
+
+function getCommonData($cityId = null)
+{
+    $commonData = [
+        'cities' => City::whereStatus(1)->get(),
+        'vehicles' => Vehicle::whereStatus(1)->get(),
+        'sources' => Source::whereStatus(1)->get(),
+        'campaigns' => Campaign::whereStatus(1)->get(),
+        'banks' => Bank::whereStatus(1)->get(),
+    ];
+
+    if ($cityId !== null) {
+        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
+    } else {
+        $commonData['branches'] = Branch::whereStatus(1)->get();
+    }
+
+    return $commonData;
+}
+

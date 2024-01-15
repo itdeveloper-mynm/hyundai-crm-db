@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+@section('title', 'Dashboard')
 
 @section('content')
 
@@ -2714,5 +2715,5 @@
 								<!--end::Content container-->
 							</div>
 							<!--end::Content-->
-						
+
 @endsection

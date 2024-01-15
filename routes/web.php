@@ -16,6 +16,7 @@ use App\Http\Controllers\UsedCarController;
 use App\Http\Controllers\SmoLeadController;
 use App\Http\Controllers\GoogleBusinessController;
 use App\Http\Controllers\OldLeadController;
+use App\Http\Controllers\SaleDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,4 +121,10 @@ Route::controller(ExternalLeadController::class)->group(function(){
 Route::resource('old-leads', OldLeadController::class);
 Route::controller(OldLeadController::class)->group(function(){
     Route::get('old-leads-pagination',  'leadsPagination')->name('old-leads.pagination');
+});
+
+Route::resource('sales-data', SaleDataController::class);
+Route::controller(SaleDataController::class)->group(function(){
+    Route::get('sales-data-pagination',  'salesDataPagination')->name('sales-data.pagination');
+    Route::post('sales-data-import',  'saleDataImport')->name('sales-data.import');
 });

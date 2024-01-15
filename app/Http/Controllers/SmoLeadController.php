@@ -18,24 +18,12 @@ class SmoLeadController extends Controller
     {
         $this->middleware('auth');
     }
-
-    private function getCommonData()
-    {
-        $commonData = [
-            'cities' => City::whereStatus(1)->get(),
-            'vehicles' => Vehicle::whereStatus(1)->get(),
-            'sources' => Source::whereStatus(1)->get(),
-        ];
-
-        return $commonData;
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = $this->getCommonData();
+        $data = getCommonData();
         return view('admin.smo_lead.smo_lead_index', $data);
     }
 
@@ -44,7 +32,7 @@ class SmoLeadController extends Controller
      */
     public function create()
     {
-        $data = $this->getCommonData();
+        $data = getCommonData();
         return view('admin.smo_lead.smo_lead_add' , $data);
     }
 
@@ -72,7 +60,7 @@ class SmoLeadController extends Controller
      */
     public function edit(string $id)
     {
-        $data = $this->getCommonData();
+        $data = getCommonData();
         $data['smo_lead']= Application::findorFail($id);
 
         return view('admin.smo_lead.smo_lead_edit', $data);

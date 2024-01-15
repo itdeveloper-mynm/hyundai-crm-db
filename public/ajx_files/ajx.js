@@ -1,13 +1,18 @@
 
 $('#city_id').change(function() {
     var selectedCity = $(this).val();
+    getBranches(selectedCity, '#branch_id');
+
+});
+
+function getBranches(selectedCity, branch_id){
     // Make AJAX request to fetch branches based on the selected city
     $.ajax({
         url: '/get-branches/' + selectedCity,
         type: 'GET',
         success: function(data) {
             // Populate the branches select box with the fetched data
-            var branchesSelect = $('#branch_id');
+            var branchesSelect = $(branch_id);
             branchesSelect.empty();
             // Append the default option
             branchesSelect.append('<option value="">--select--</option>');
@@ -22,4 +27,4 @@ $('#city_id').change(function() {
             console.error(xhr.responseText);
         }
     });
-});
+}

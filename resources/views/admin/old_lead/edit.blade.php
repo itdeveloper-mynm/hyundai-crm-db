@@ -190,6 +190,10 @@
 @endsection
 
 @section('js')
+
+
+<script src="{{ asset('ajx_files/ajx.js') }}"></script>
+
 <script>
 $(document).ready(function() {
 

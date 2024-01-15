@@ -1,8 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'Google Business')
+
+@section('title', 'Sales Data')
 
 @section('content')
+
+
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container">
             <div class="card-header mb-3" style="padding: 0px;">
@@ -16,11 +19,11 @@
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1
                                         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                        {{ __('Google Business List') }}</h1>
+                                        {{ __('Sales Data List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('google-business.index') }}"
-                                                class="text-muted text-hover-primary">{{ __('Google Business') }}</a>
+                                            <a href="{{ route('sales-data.index') }}"
+                                                class="text-muted text-hover-primary">{{ __('Sales Data') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -67,32 +70,9 @@
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                     <div class="px-7 py-5">
+                                        <div class="mb-3">
 
-                                        <div class="mb-10">
                                             <div class="row">
-                                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                                    <label class="required form-label">{{ __('City') }}</label>
-                                                    <select class="form-select mb-2" name="f_city_id" id="f_city_id"
-                                                        required="required" data-control="select2"
-                                                        data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}">
-                                                                {{ $city->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-lg-12 col-sm-12 col-md-12 mb-5">
-                                                    <label class="required form-label">{{ __('Branch') }}</label>
-                                                    <select class="form-select mb-2" name="f_branch_id" id="f_branch_id"
-                                                        required="required" data-control="select2"
-                                                        data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                    </select>
-                                                </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="from" id="from" />
@@ -125,24 +105,32 @@
                             </div>
 
                             <!-- <button type="button" class="btn btn-success me-3 export_excel">
-                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                        {{ __('Excel') }}
-                                    </button>
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
 
-                                    <button type="button" class="btn btn-warning me-3 export_print">
-                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                                        {{ __('Print') }}
+                                <button type="button" class="btn btn-warning me-3 export_print">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
+                                    {{ __('Print') }}
 
-                                    </button> -->
+                                </button> -->
 
-                            <a href="{{asset('excel_files/google-business.xlsx')}}" class="btn btn-success  me-3" download>
-                            <i class="fa fa-download"></i>
-                            {{ __('Sample') }}</a>
+
+
+                            <a href="{{ asset('excel_files/sales-data-sample.xlsx') }}" class="btn btn-success  me-3"
+                                download>
+                                <i class="fa fa-download"></i>
+                                {{ __('Sample') }}</a>
+
                             <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
                                 data-bs-target="#importModal">
                                 <i class="fa fa-upload"></i>
                                 {{ __('Import') }}</a>
 
+                            {{--
+                            <a href="{{ route('old-leads.create') }}" class="btn btn-primary">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                {{ __('Add') }}</a> --}}
                         </div>
                     </div>
                 </div>
@@ -155,17 +143,15 @@
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>{{ __('City') }}</th>
-                                <th>{{ __('Branch') }}</th>
-                                <th>{{ __('greviews') }}</th>
-                                <th>{{ __('greplied') }}</th>
-                                <th>{{ __('gsearchlisting') }}</th>
-                                <th>{{ __('gmapslisting') }}</th>
-                                <th>{{ __('gwebsite') }}</th>
-                                <th>{{ __('gdirection') }}</th>
-                                <th>{{ __('gcalls') }}</th>
-                                <th>{{ __('gtype') }}</th>
-                                <th>{{ __('gdate') }}</th>
+                                <th>{{ __('Customer Name') }}</th>
+                                <th>{{ __('Phone') }}</th>
+                                <th>{{ __('Gender') }}</th>
+                                <th>{{ __('INV Date') }}</th>
+                                <th>{{ __('Year') }}</th>
+                                <th>{{ __('S') }}</th>
+                                <th>{{ __('Chass') }}</th>
+                                <th>{{ __('Vehicle') }}</th>
+                                <th>{{ __('Department') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -179,13 +165,11 @@
     </div>
 
 
-
-
     <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Import Google Business</h3>
+                    <h3 class="modal-title">Import Sales Data</h3>
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
@@ -219,74 +203,27 @@
                                                 <div class="card-body pt-0  tab-pane fade show active agency_tab"
                                                     id="" role="tabpanel" aria-labelledby="">
                                                     <div class="row ">
-                                                        <div class="col-lg-6 col-sm-6 col-md-6">
-                                                            <label class="required form-label">{{ __('City') }}</label>
-                                                            <select class="form-select mb-2" name="city_id" id="city_id"
-                                                                required="required" data-control="select2"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value="">--select--</option>
-                                                                @foreach ($cities as $city)
-                                                                    <option value="{{ $city->id }}">
-                                                                        {{ $city->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-6 col-sm-6 col-md-6">
-                                                            <label class="required form-label">{{ __('Branch') }}</label>
-                                                            <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                                required="required" data-control="select2"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value="">--select--</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-6 col-sm-6 col-md-6">
-                                                            <label class="required form-label">{{ __('Month') }}</label>
-                                                            <select class="form-select mb-2" name="month"
-                                                                required="required" data-control="select2"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value="">--select--</option>
-                                                                @foreach (range(1, 12) as $month)
-                                                                    <option
-                                                                        value="{{ date('F', mktime(0, 0, 0, $month, 1)) }}">
-                                                                        {{ date('F', mktime(0, 0, 0, $month, 1)) }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-6 col-sm-6 col-md-6">
-                                                            <label class="required form-label">{{ __('Year') }}</label>
-                                                            <select class="form-select mb-2" name="year"
-                                                                required="required" data-control="select2"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value="">--select--</option>
-                                                                @foreach (range(date('Y'), 2010) as $year)
-                                                                    <option value="{{ $year }}">
-                                                                        {{ $year }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                                            <label class="required form-label">{{ __('Type') }}</label>
-                                                            <select class="form-select mb-2" name="gtype"
-                                                                required="required" data-control="select2"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value="">--select--</option>
-                                                                <option value="Showroom">Showroom</option>
-                                                                <option value="Service">Service</option>
-                                                                <option value="Genuineparts">Genuineparts</option>
-                                                            </select>
-                                                        </div>
                                                         <div class="col-lg-12 col-sm-12 col-md-12">
                                                             <label
                                                                 class="required form-label">{{ __('Select File') }}</label>
 
                                                             <input type="file" name="csvfile" id="products_uploaded"
                                                                 class="form-control" value="Upload" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        <div class="col-lg-12 col-sm-12 col-md-12">
+                                                            <label
+                                                                class="required form-label">{{ __('Select Department') }}</label>
+                                                            <select class="form-select mb-2" name="department"
+                                                                id="department" required="required" data-control="select2"
+                                                                data-placeholder="{{ __('select option') }}"
+                                                                data-allow-clear="true">
+                                                                <option value=""></option>
+                                                                <option value="Sales">Sales</option>
+                                                                <option value="Aftersales">After Sales</option>
+                                                            </select>
+
                                                         </div>
                                                     </div>
                                                     <!-- row  -->
@@ -308,12 +245,12 @@
     </div>
     </div>
     </div>
+
 @endsection
 
 @section('js')
 
-
-<script src="{{ asset('ajx_files/ajx.js') }}"></script>
+    <script src="{{ asset('ajx_files/ajx.js') }}"></script>
 
     <script>
         var table = $('#user_table').DataTable({
@@ -324,12 +261,9 @@
             filter: true,
 
             ajax: {
-                "url": "{{ route('google-business.pagination') }}",
+                "url": "{{ route('sales-data.pagination') }}",
                 "type": "GET",
                 'data': function(data) {
-
-                    data.city_id = $('#f_city_id').val();
-                    data.branch_id = $('#f_branch_id').val();
                     data.from = $('#from').val();
                     data.to = $('#to').val();
                 }
@@ -341,7 +275,7 @@
                     className: 'center'
                 },
                 {
-                    data: 'city_id',
+                    data: 'first_name',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -349,7 +283,7 @@
                     }
                 },
                 {
-                    data: 'branch_id',
+                    data: 'mobile',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -357,7 +291,7 @@
                     }
                 },
                 {
-                    data: 'greviews',
+                    data: 'gender',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -365,7 +299,7 @@
                     }
                 },
                 {
-                    data: 'greplied',
+                    data: 'inv_date',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -373,7 +307,7 @@
                     }
                 },
                 {
-                    data: 'gsearchlisting',
+                    data: 'year',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -381,7 +315,7 @@
                     }
                 },
                 {
-                    data: 'gmapslisting',
+                    data: 's',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -389,7 +323,7 @@
                     }
                 },
                 {
-                    data: 'gwebsite',
+                    data: 'chass',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -397,7 +331,7 @@
                     }
                 },
                 {
-                    data: 'gdirection',
+                    data: 'vechile_id',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -405,36 +339,19 @@
                     }
                 },
                 {
-                    data: 'gcalls',
+                    data: 'department',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
                         return result;
                     }
                 },
-                {
-                    data: 'gtype',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
-                    }
-                },
-                {
-                    data: 'gdate',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
-                    }
-                },
-
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
-                        res = '<a href="{{ url('google-business') }}/' + data +
+                        res = '<a href="{{ url('sales-data') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
 
                         res2 =
@@ -447,7 +364,7 @@
                 }
             ],
             order: [
-                [3, "desc"]
+                [6, "desc"]
             ],
             dom: 'lBfrtip',
             buttons: [{
@@ -486,6 +403,11 @@
                     orderable: false
                 },
                 {
+                    targets: 3,
+                    sortable: false,
+                    orderable: false
+                },
+                {
                     "className": "dt-center",
                     "targets": "_all"
                 },
@@ -517,8 +439,12 @@
             var from = document.querySelector('#from');
             var to = document.querySelector('#to');
 
-            $("#f_city_id").val([]).change();
-            $("#f_branch_id").val([]).change();
+
+            $("#city_id").val([]).change();
+            $("#branch_id").val([]).change();
+            $("#vehicle_id").val([]).change();
+            $("#source_id").val([]).change();
+            $("#campaign_id").val([]).change();
 
             from.value = '';
             to.value = '';
@@ -555,7 +481,7 @@
                 if (result.isConfirmed) {
 
                     $.ajax({
-                        url: '{{ url('google-business') }}/' + id,
+                        url: '{{ url('sales-data') }}/' + id,
                         method: "DELETE",
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -586,7 +512,6 @@
             })
         }
 
-
         $('#csv_form').submit(function(e) {
             e.preventDefault();
             var form = $('#csv_form')[0];
@@ -594,7 +519,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('google-business.import') }}",
+                url: "{{ route('sales-data.import') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -624,11 +549,7 @@
                 }
             });
         });
-
-        $('#f_city_id').change(function () {
-            var selectedCity = $(this).val();
-            getBranches(selectedCity, f_branch_id);
-        });
-
     </script>
+
+
 @endsection

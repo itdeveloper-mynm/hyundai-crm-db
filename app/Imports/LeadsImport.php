@@ -17,9 +17,9 @@ use Carbon\Carbon;
 
 class LeadsImport implements ToModel , WithHeadingRow
 {
-    
+
     use Importable;
-    
+
     /**
     * @param array $row
     *
@@ -29,7 +29,7 @@ class LeadsImport implements ToModel , WithHeadingRow
     {
         //dd($row,formateDate($row['request_date']));
         $bank = Bank::where('name', $row['bank'])->first();
-        
+
         if(is_null($bank)){
             $bank = Bank::create(['name' =>  $row['bank'] ]);
         }
@@ -40,13 +40,13 @@ class LeadsImport implements ToModel , WithHeadingRow
         $mobile =formatInputNumber($mobile);
 
         $dateValue = $row['request_date'];
-    
+
         $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue));
 
         //$request_date =$date->format('Y-m-d');
 
         $customer = Customer::whereMobile($mobile)->first();
-      
+
         if(is_null($customer)){
             $customer =new Customer();
             $customer->first_name = $row['first_name'];
@@ -80,7 +80,7 @@ class LeadsImport implements ToModel , WithHeadingRow
         if(is_null($campaign)){
             $campaign = Campaign::create(['name' => $row['campaign'] ]);
         }
-        
+
         $lead = new Application();
         $lead->city_id = $city->id;
         $lead->branch_id = $branch->id;
@@ -92,7 +92,20 @@ class LeadsImport implements ToModel , WithHeadingRow
         $lead->preferred_appointment_time = $row['prferred_time'];
         $lead->request_date = formateDate($request_date) ?? null;
         $lead->customer_id= $customer->id;
-        $lead->type= 'leads';
+
+        if (request()->has('select_date')) {
+            // Assuming 'created_at' is in a format that Carbon can parse
+            $date = Carbon::parse(request()->input('select_date'));
+            // Concatenate the current time (H:i:s) to the date
+            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+            // Set the 'created_at' field
+            $lead->created_at = $dateWithCurrentTime;
+            $lead->type= 'old_leads';
+        }else{
+
+            $lead->type= 'leads';
+        }
+
         $lead->save();
 
        // return $lead;

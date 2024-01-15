@@ -5,7 +5,7 @@
     <!--begin::Logo-->
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
-        <a href="#">
+        <a href="{{url('/dashboard')}}">
             <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"
                 class="h-25px app-sidebar-logo-default" />
             <img alt="Logo" src="{{ asset('login_asset') }}/assets/media/logos/default-small.svg"
@@ -66,7 +66,8 @@
                     </a>
                     <!--end:Menu link-->
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit') ])}}">
+                {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit') ])}}"> --}}
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover show">
                     <!--begin:Menu link-->
                     <span class="menu-link {activeMenuRoute([route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit')])}}">
                         <span class="menu-icon">
@@ -152,8 +153,56 @@
                         <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('google-business.index'))}} {{activeRoute(route('google-business.create'))}} {{ request()->is('google-business/*/edit') ? 'active' : '' }}" href="{{route('google-business.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Google Business</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('old-leads.index'))}} {{activeRoute(route('old-leads.create'))}} {{ request()->is('old-leads/*/edit') ? 'active' : '' }}" href="{{route('old-leads.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Old Leads</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{activeRoute(route('sales-data.index'))}} {{activeRoute(route('sales-data.create'))}} {{ request()->is('sales-data/*/edit') ? 'active' : '' }}" href="{{route('sales-data.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Sales Data</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
                 </div>
-        
+
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
@@ -186,7 +235,8 @@
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index'),route('city.create'),route('branch.create'),route('vehicle.create'),route('source.create'),route('campaign.create'),route('bank.create'),request()->is('city/*/edit'),request()->is('branch/*/edit'),request()->is('vehicle/*/edit'),request()->is('source/*/edit'),request()->is('campaign/*/edit'),request()->is('bank/*/edit') ])}}">
+                {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index'),route('city.create'),route('branch.create'),route('vehicle.create'),route('source.create'),route('campaign.create'),route('bank.create'),request()->is('city/*/edit'),request()->is('branch/*/edit'),request()->is('vehicle/*/edit'),request()->is('source/*/edit'),request()->is('campaign/*/edit'),request()->is('bank/*/edit') ])}}"> --}}
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover show">
                     <!--begin:Menu link-->
                     <span class="menu-link {activeMenuRoute([route('city.index'),route('branch.index'),route('vehicle.index'),route('source.index'),route('campaign.index'),route('bank.index'),route('city.create'),route('branch.create'),route('vehicle.create'),route('source.create'),route('campaign.create'),route('bank.create'),request()->is('city/*/edit'),request()->is('branch/*/edit'),request()->is('vehicle/*/edit'),request()->is('source/*/edit'),request()->is('campaign/*/edit'),request()->is('bank/*/edit') ])}}">
                         <span class="menu-icon">
