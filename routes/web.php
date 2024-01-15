@@ -17,6 +17,7 @@ use App\Http\Controllers\SmoLeadController;
 use App\Http\Controllers\GoogleBusinessController;
 use App\Http\Controllers\OldLeadController;
 use App\Http\Controllers\SaleDataController;
+use App\Http\Controllers\SocialDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,4 +128,9 @@ Route::resource('sales-data', SaleDataController::class);
 Route::controller(SaleDataController::class)->group(function(){
     Route::get('sales-data-pagination',  'salesDataPagination')->name('sales-data.pagination');
     Route::post('sales-data-import',  'saleDataImport')->name('sales-data.import');
+});
+
+Route::resource('social-data', SocialDataController::class);
+Route::controller(SocialDataController::class)->group(function(){
+    Route::get('social-data-pagination',  'socialDataPagination')->name('social-data.pagination');
 });

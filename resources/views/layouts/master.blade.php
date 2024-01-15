@@ -33,7 +33,7 @@ License: For each use you must have a valid license purchased only from above li
 						@include('layouts.sidebar')
 					<!--end::sidebar-->
 					<!--begin::Main-->
-					<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+					<div class="app-main flex-column flex-row-fluid mt-10" id="kt_app_main">
 						<!--begin::Content wrapper-->
 
 <div class="d-flex flex-column flex-column-fluid">
