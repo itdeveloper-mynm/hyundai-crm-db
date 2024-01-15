@@ -210,7 +210,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Sales Data</span>
+                                <span class="menu-title">Social Data</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
