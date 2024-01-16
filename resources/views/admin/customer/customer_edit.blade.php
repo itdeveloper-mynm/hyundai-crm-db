@@ -42,12 +42,14 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" name="mobile" id="mobile" value="{{$customer->mobile}}" class="form-control mb-2"
-                                                required />
+                                            <small>Please follow the format: (+966123456789)</small>
+                                            <input type="number" name="mobile" id="mobile" value="{{$customer->mobile}}" class="form-control mb-2"
+                                                required pattern="[0-9]{9,14}" title="Mobile number must be between 9 and 12 digits"
+                                                placeholder="e.g., +966123456789"  oninput="validity.valid||(value='');"/>
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" name="email" id="email" value="{{$customer->email}}" class="form-control mb-2"
+                                            <input type="edit" name="email" id="email" value="{{$customer->email}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
