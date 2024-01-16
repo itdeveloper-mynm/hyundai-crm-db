@@ -41,12 +41,14 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" name="mobile" id="mobile" class="form-control mb-2"
-                                                required />
+                                            <small>Please follow the format: (+966123456789)</small>
+                                            <input type="number" name="mobile" id="mobile" class="form-control mb-2"
+                                                required pattern="[0-9]{9,14}" title="Mobile number must be between 9 and 12 digits"
+                                                placeholder="e.g., +966123456789"  oninput="validity.valid||(value='');"/>
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" name="email" id="email" class="form-control mb-2"
+                                            <input type="email" name="email" id="email" class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -64,6 +66,7 @@
                                                     <option value="{{$bank->id}}">{{$bank->name}}</option>
                                                 @endforeach
                                             </select>
+                                            {{-- <label id="bank_id-error" class="error" for="bank_id" style="display: none;">This field is required.</label> --}}
                                         </div>
                                     </div>
 

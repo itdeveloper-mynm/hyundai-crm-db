@@ -26,7 +26,9 @@ class BranchController extends Controller
      */
     public function create()
     {
-        $data['cities'] = City::get();
+        $gdata = getCommonData();
+        $data['cities'] = $gdata['cities'];
+
         return view('admin.branch.branch_add' , $data);
     }
 
@@ -53,7 +55,10 @@ class BranchController extends Controller
      */
     public function edit(string $id)
     {
+        $gdata = getCommonData();
+        $data['cities'] = $gdata['cities'];
         $data['branch']= Branch::findorFail($id);
+
         return view('admin.branch.branch_edit', $data);
     }
 
