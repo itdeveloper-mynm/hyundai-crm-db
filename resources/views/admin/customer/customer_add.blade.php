@@ -41,10 +41,10 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <small>Please follow the format: (+966123456789)</small>
+                                            <small>Please follow the format: (966123456789)</small>
                                             <input type="number" name="mobile" id="mobile" class="form-control mb-2"
                                                 required pattern="[0-9]{9,14}" title="Mobile number must be between 9 and 12 digits"
-                                                placeholder="e.g., +966123456789"  oninput="validity.valid||(value='');"/>
+                                                placeholder="e.g., 966123456789"  oninput="validity.valid||(value='');"/>
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
