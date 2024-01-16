@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="edit" name="email" id="email" value="{{$customer->email}}" class="form-control mb-2"
+                                            <input type="email" name="email" id="email" value="{{$customer->email}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
