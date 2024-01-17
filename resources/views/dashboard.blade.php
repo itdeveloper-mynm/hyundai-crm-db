@@ -85,7 +85,7 @@
                         <div style="display: flex;align-items:center;justify-content:space-between; width: 100%">
                             <div class="d-flex flex-column my-7">
                                 <!--begin::Number-->
-                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Facebook'][0]['followers'] ?? 0 }}</span>
                                 <!--end::Number-->
                                 <!--begin::Follower-->
                                 <div class="m-0">
@@ -96,7 +96,7 @@
                             <div class="d-flex flex-column">
                                 <!--end::Follower-->
                                 <!--begin::Number-->
-                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Facebook'][0]['likes'] ?? 0 }}</span>
                                 <!--end::Number-->
                                 <!--begin::Follower-->
                                 <div class="m-0">
@@ -126,7 +126,7 @@
                         <div style="display: flex;align-items:center;justify-content:space-between; width: 100%">
                             <div class="d-flex flex-column my-7">
                                 <!--begin::Number-->
-                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Twitter'][0]['followers'] ?? 0 }}</span>
                                 <!--end::Number-->
                                 <!--begin::Follower-->
                                 <div class="m-0">
@@ -137,7 +137,7 @@
                             <div class="d-flex flex-column">
                                 <!--end::Follower-->
                                 <!--begin::Number-->
-                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Twitter'][0]['tweets'] ?? 0 }}</span>
                                 <!--end::Number-->
                                 <!--begin::Follower-->
                                 <div class="m-0">
@@ -166,7 +166,7 @@
                         <!--begin::Section-->
                         <div class="d-flex flex-column my-7">
                             <!--begin::Number-->
-                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">84k</span>
+                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Linkedin'][0]['followers'] ?? 0 }}</span>
                             <!--end::Number-->
                             <!--begin::Follower-->
                             <div class="m-0">
@@ -195,7 +195,7 @@
                         <!--begin::Section-->
                         <div class="d-flex flex-column my-7">
                             <!--begin::Number-->
-                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">320k</span>
+                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">{{$socialData['Youtube'][0]['followers'] ?? 0 }}</span>
                             <!--end::Number-->
                             <!--begin::Follower-->
                             <div class="m-0">

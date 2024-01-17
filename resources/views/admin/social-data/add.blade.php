@@ -42,42 +42,42 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Total Visits') }}</label>
-                                            <input type="number" name="total_visits" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="total_visits" class="form-control mb-2"
+                                            required />
                                         </div>
 
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Page Views') }}</label>
-                                            <input type="number" name="page_views" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="page_views" class="form-control mb-2"
+                                            required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Unique Visitors') }}</label>
-                                            <input type="number" name="unique_visitors" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="unique_visitors" class="form-control mb-2"
+                                            required/>
                                         </div>
 
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Followers') }}</label>
-                                            <input type="number" name="followers" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="followers" class="form-control mb-2"
+                                            required/>
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Likes') }}</label>
-                                            <input type="number" name="likes" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="likes" class="form-control mb-2"
+                                            required/>
                                         </div>
 
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Tweets') }}</label>
-                                            <input type="number" name="tweets" class="form-control mb-2"
-                                            required   min="0" oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="tweets" class="form-control mb-2"
+                                            required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Priority') }}</label>

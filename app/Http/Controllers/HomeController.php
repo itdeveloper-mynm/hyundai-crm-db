@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\SocialData;
 
 class HomeController extends Controller
 {
@@ -59,7 +60,12 @@ class HomeController extends Controller
         $data['total_performance_count'] = array_sum($sale_count) + array_sum($test_drive_count) + array_sum($service_booking_count) + array_sum($service_offers_count) + array_sum($used_cars_count);
        // dd($data);
 
-        return view('dashboard' , $data);
+       $data['socialData'] = SocialData::select('social_platform', 'followers', 'likes', 'tweets')
+       ->get()
+       ->groupBy('social_platform')
+       ->toArray();
+
+       return view('dashboard' , $data);
     }
 
     function getPerformanceMonthWise($types,$startDate,$endDate,$months_diff,$deptchk=false) {
