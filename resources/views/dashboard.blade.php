@@ -42,7 +42,7 @@
                             <!--begin::Tab pane-->
                             <div class="tab-pane fade active show" id="" role="tabpanel">
 
-                                <canvas id="kt_chartjs_2" class="mh-400px"></canvas>
+                                <canvas id="1st_graph" class="mh-400px"></canvas>
                                 <!--begin::Chart-->
                                 <!--end::Chart-->
                             </div>
@@ -57,6 +57,160 @@
             <!--end::Col-->
         </div>
 
+
+        <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <!--begin::Col-->
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-3 mb-md-5 mb-xl-10">
+                <!--begin::Card widget 20-->
+                <div class="card card-bordered">
+                    <div class="card-body">
+                        <div id="graph_2" style="height: 350px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-5 g-xl-10">
+            <!--begin::Col-->
+            <div class="col-sm-6 col-xl-3 mb-xl-10">
+                <!--begin::Card widget 2-->
+                <div class="card h-lg-100">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex justify-content-between align-items-start flex-column">
+                        <!--begin::Icon-->
+                        <div class="m-0">
+                            <img src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/facebook-3.svg" class="w-35px" alt="">
+                        </div>
+                        <!--end::Icon-->
+                        <!--begin::Section-->
+                        <div style="display: flex;align-items:center;justify-content:space-between; width: 100%">
+                            <div class="d-flex flex-column my-7">
+                                <!--begin::Number-->
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <!--end::Number-->
+                                <!--begin::Follower-->
+                                <div class="m-0">
+                                    <span class="fw-semibold fs-6 text-gray-400">Followers</span>
+                                </div>
+                                <!--end::Follower-->
+                            </div>
+                            <div class="d-flex flex-column">
+                                <!--end::Follower-->
+                                <!--begin::Number-->
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <!--end::Number-->
+                                <!--begin::Follower-->
+                                <div class="m-0">
+                                    <span class="fw-semibold fs-6 text-gray-400">Likes</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card widget 2-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-sm-6 col-xl-3 mb-xl-10">
+                <!--begin::Card widget 2-->
+                <div class="card h-lg-100">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex justify-content-between align-items-start flex-column">
+                        <!--begin::Icon-->
+                        <div class="m-0">
+                            <img src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/twitter.svg" class="w-35px" alt="">
+                        </div>
+                        <!--end::Icon-->
+                        <!--begin::Section-->
+                        <div style="display: flex;align-items:center;justify-content:space-between; width: 100%">
+                            <div class="d-flex flex-column my-7">
+                                <!--begin::Number-->
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <!--end::Number-->
+                                <!--begin::Follower-->
+                                <div class="m-0">
+                                    <span class="fw-semibold fs-6 text-gray-400">Followers</span>
+                                </div>
+                                <!--end::Follower-->
+                            </div>
+                            <div class="d-flex flex-column">
+                                <!--end::Follower-->
+                                <!--begin::Number-->
+                                <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">570k</span>
+                                <!--end::Number-->
+                                <!--begin::Follower-->
+                                <div class="m-0">
+                                    <span class="fw-semibold fs-6 text-gray-400">Tweets</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card widget 2-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-sm-6 col-xl-3 mb-xl-10">
+                <!--begin::Card widget 2-->
+                <div class="card h-lg-100">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex justify-content-between align-items-start flex-column">
+                        <!--begin::Icon-->
+                        <div class="m-0">
+                            <img src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/linkedin-2.svg" class="w-35px" alt="">
+                        </div>
+                        <!--end::Icon-->
+                        <!--begin::Section-->
+                        <div class="d-flex flex-column my-7">
+                            <!--begin::Number-->
+                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">84k</span>
+                            <!--end::Number-->
+                            <!--begin::Follower-->
+                            <div class="m-0">
+                                <span class="fw-semibold fs-6 text-gray-400">Followers</span>
+                            </div>
+                            <!--end::Follower-->
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card widget 2-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-sm-6 col-xl-3 mb-xl-10">
+                <!--begin::Card widget 2-->
+                <div class="card h-lg-100">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex justify-content-between align-items-start flex-column">
+                        <!--begin::Icon-->
+                        <div class="m-0">
+                            <img src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/youtube-3.svg" class="w-40px" alt="">
+                        </div>
+                        <!--end::Icon-->
+                        <!--begin::Section-->
+                        <div class="d-flex flex-column my-7">
+                            <!--begin::Number-->
+                            <span class="fw-semibold fs-2x text-gray-800 lh-1 ls-n2">320k</span>
+                            <!--end::Number-->
+                            <!--begin::Follower-->
+                            <div class="m-0">
+                                <span class="fw-semibold fs-6 text-gray-400">Followers</span>
+                            </div>
+                            <!--end::Follower-->
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card widget 2-->
+            </div>
+            <!--end::Col-->
+        </div>
 
         <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
             <!--begin::Col-->
@@ -2769,9 +2923,12 @@
 
 @section('js')
 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <script>
 
-var ctx = document.getElementById('kt_chartjs_2');
+//var ctx = document.getElementById('kt_chartjs_2');
+var ctx = document.getElementById('1st_graph');
 
 // Define colors
 var primaryColor = KTUtil.getCssVariableValue('--kt-primary');
@@ -2850,6 +3007,92 @@ const config = {
 // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
 var myChart = new Chart(ctx, config);
 
+
+
+////second chart
+
+var options = {
+          series: [{
+          name: 'Count',
+          data:  <?php echo json_encode($second_graph_data) ?>
+        }],
+          chart: {
+          height: 350,
+          type: 'bar',
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top', // top, center, bottom
+            },
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return val;
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#304758",'#546E7A']
+          }
+        },
+
+        xaxis: {
+          categories: ["Sales", "Test Drive", "Service Booking", "Service Offers", "Used Cars"],
+          position: 'top',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          crosshairs: {
+            fill: {
+              type: 'gradient',
+              gradient: {
+                colorFrom: '#D8E3F0',
+                colorTo: '#BED1E6',
+                stops: [0, 100],
+                opacityFrom: 0.4,
+                opacityTo: 0.5,
+              }
+            }
+          },
+          tooltip: {
+            enabled: true,
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: false,
+            formatter: function (val) {
+              return val;
+            }
+          }
+
+        },
+        title: {
+          text: 'Departments Overall Leads',
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
+        chart.render();
 
 </script>
 

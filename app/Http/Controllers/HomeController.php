@@ -55,7 +55,7 @@ class HomeController extends Controller
         $data['service_booking_count'] = $service_booking_count;
         $data['service_offers_count'] = $service_offers_count;
         $data['used_cars_count'] = $used_cars_count;
-
+        $data['second_graph_data'] = [array_sum($sale_count) , array_sum($test_drive_count) , array_sum($service_booking_count) , array_sum($service_offers_count) , array_sum($used_cars_count)];
         $data['total_performance_count'] = array_sum($sale_count) + array_sum($test_drive_count) + array_sum($service_booking_count) + array_sum($service_offers_count) + array_sum($used_cars_count);
        // dd($data);
 
@@ -104,8 +104,8 @@ class HomeController extends Controller
         $startDate = request('start_date');
         $endDate = request('end_date');
 
-        // $startDate = Carbon::parse('2023-11-01');
-        // $endDate = Carbon::parse('2024-01-17');
+        //$startDate = Carbon::parse('2023-06-01');
+        //$endDate = Carbon::parse('2024-01-17');
 
         if(!is_null($startDate)){
             $days_diff = $startDate->diffInDays($endDate);

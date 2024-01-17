@@ -1,6 +1,6 @@
 	<!--begin::Javascript-->
 		<!--begin::Global Javascript Bundle(used by all pages)-->
-		
+
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -31,7 +31,8 @@
 		<script src="{{ asset('login_asset') }}/assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
-		
+
+
 		<script src="{{ asset('login_asset') }}/assets/plugins/custom/datatables/datatables.bundle.js"></script>
 		<!-- validation -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
