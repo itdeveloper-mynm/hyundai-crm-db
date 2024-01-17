@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\SocialData;
+use App\Models\Application;
 
 class HomeController extends Controller
 {
@@ -64,6 +65,8 @@ class HomeController extends Controller
        ->get()
        ->groupBy('social_platform')
        ->toArray();
+
+        $data['countsByCampaign'] = $this->getCampaignWiseData($startDate, $endDate);
 
        return view('dashboard' , $data);
     }
@@ -154,8 +157,49 @@ class HomeController extends Controller
         return $data;
     }
 
-    public function leads_index()
-    {
-        return view('home');
+    function getCampaignWiseData($startDate, $endDate) {
+
+        $allrecords = Application::selectRaw('campaign_id, source_id, COUNT(*) as count')
+        ->with(['campaign:id,name', 'source:id,name'])
+        ->whereNotNull('campaign_id')
+        ->whereNotNull('source_id')
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->groupBy(['campaign_id', 'source_id'])
+        ->get();
+
+        // Transform the result into the desired pattern
+        $result = [];
+        foreach ($allrecords as $count) {
+            $campaignId = $count->campaign_id;
+            $sourceId = $count->source_id;
+            // If the campaign doesn't exist in the result array, create it
+            if (!isset($result[$campaignId])) {
+                $result[$campaignId] = [
+                    'campaign_id' => $campaignId,
+                    'name' => $count->campaign->name,
+                    'count' => 0,
+                    'source' => [],
+                ];
+            }
+
+            // Add the count to the campaign total
+            $result[$campaignId]['count'] += $count->count;
+
+            // Add the source information to the campaign
+            $result[$campaignId]['source'][] = [
+                'name' => $count->source->name,
+                'count' => $count->count,
+            ];
+        }
+
+            // Convert the associative array into indexed array
+            $result = array_values($result);
+
+            return $result;
+        }
+
+        public function leads_index()
+        {
+            return view('home');
+        }
     }
-}
