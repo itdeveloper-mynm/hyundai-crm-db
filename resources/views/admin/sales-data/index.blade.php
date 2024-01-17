@@ -220,8 +220,8 @@
                                                                 data-placeholder="{{ __('select option') }}"
                                                                 data-allow-clear="true">
                                                                 <option value=""></option>
-                                                                <option value="Sales">Sales</option>
-                                                                <option value="Aftersales">After Sales</option>
+                                                                <option value="sales">Sales</option>
+                                                                <option value="aftersales">After Sales</option>
                                                             </select>
 
                                                         </div>

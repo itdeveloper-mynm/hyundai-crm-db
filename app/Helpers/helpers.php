@@ -72,6 +72,8 @@ function checkApplicationType($type) {
             return 'leads';
         case 'Request a Quote':
             return 'request_a_quote';
+        case 'Request a Test Quote':
+            return 'request_a_test_quote';
         case 'Online Service Booking':
             return 'online_service_booking';
         case 'Special Offers':
@@ -86,6 +88,14 @@ function checkApplicationType($type) {
             return 'used_cars';
         case 'Old Leads':
             return 'old_leads';
+        case 'Events':
+            return 'events';
+        case 'Contact Us':
+            return 'contact_us';
+        case 'Sales Maketing':
+            return 'sales_marketing';
+        case 'After sales':
+            return 'after_sales';
         default:
             return 'leads';
     }

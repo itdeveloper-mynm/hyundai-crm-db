@@ -121,6 +121,12 @@ class ExternalLeadController extends Controller
             $city = City::create(['name' => $request->input('customerCity')]);
         }
 
+        $bank = Bank::where('name', $request->input('customerBank'))->first();
+
+        if(is_null($bank)){
+            $bank = Bank::create(['name' => $request->input('customerBank')]);
+        }
+
         $mobile = $request->input('mobile');
 
         $mobile =formatInputNumber($mobile);
@@ -135,6 +141,7 @@ class ExternalLeadController extends Controller
             $customer->mobile = $mobile;
             $customer->email = $request->input('email');
             $customer->city_id = $city->id;
+            $customer->bank_id = $bank->id;
             $customer->save();
         }
 
@@ -165,8 +172,8 @@ class ExternalLeadController extends Controller
         $type= checkApplicationType($request->input('page')) ?? 'leads';
 
         $applyfor = $request->input('applyFor');
-        $bookingreason = $request->input('bookingreason');
-        $bookingcategory = $request->input('bookingcategory');
+        $booking_reason = $request->input('bookingreason');
+        $booking_category = $request->input('bookingcategory');
         $department = $request->input('department');
         $title = $request->input('salutation');
         $second_surname = $request->input('middleName');
@@ -175,22 +182,60 @@ class ExternalLeadController extends Controller
         $vin = $request->input('vin');
         $yearr = $request->input('manufacturingYear');
         $plateno = $request->input('plateNumbers');
-        $platealphabets = $request->input('plateAlphabets');
+        $plate_alphabets = $request->input('plateAlphabets');
         $klmm = $request->input('mileage');
         $intention = $request->input('purchasePlan');
-        $monthlysalary = $request->input('monthlySalary');
-        $bankk = $request->input('customerBank');
-        $requestdate = $request->input('date');
-        $preferredtime = $request->input('preferredTime');
+        $monthly_salary = $request->input('monthlySalary');
+        $request_date = $request->input('date');
+        $preferred_time = $request->input('preferredTime');
         $comments = $request->input('comments');
         $sharingcv = $request->input('sharingCv');
-        $privacycheck = $request->input('privacyCheck');
+        $privacy_check = $request->input('privacyCheck');
         $marketingagreement = $request->input('marketingAgreement');
         $language = $request->input('language');
         $company = $request->input('companyName');
         $customers_type = $request->input('customers_type');
         $number_of_vehicles = $request->input('number_of_vehicles');
         $fleet_range = $request->input('fleet_range');
+
+        $lead = new Application();
+        $lead->type = $type;
+        $lead->city_id = $city->id;
+        $lead->branch_id = $branch->id;
+        $lead->vehicle_id = $vehicle->id;
+        $lead->source_id = $sourcee->id;
+        $lead->campaign_id = $campaign->id;
+        $lead->monthly_salary = $monthly_salary;
+        $lead->customer_id= $customer->id;
+        $lead->apply_for = $apply_for;
+        $lead->booking_reason = $booking_reason;
+        $lead->booking_category = $booking_category;
+        $lead->department = $department;
+        $lead->title = $title;
+        $lead->second_surname = $second_surname;
+        $lead->nationalid = $nationalid;
+        $lead->zip_code = $zip_code;
+        $lead->vin = $vin;
+        $lead->yearr = $yearr;
+        $lead->plateno = $plateno;
+        $lead->plate_alphabets = $plate_alphabets;
+        $lead->klmm = $klmm;
+        $lead->intention = $intention;
+        $lead->request_date = $request_date;
+        $lead->preferred_time = $preferred_time;
+        $lead->comments = $comments;
+        $lead->sharingcv = $sharingcv;
+        $lead->privacy_check = $privacy_check;
+        $lead->marketingagreement = $marketingagreement;
+        $lead->language = $language;
+        $lead->company = $company;
+        $lead->customers_type = $customers_type;
+        $lead->number_of_vehicles = $number_of_vehicles;
+        $lead->fleet_range = $fleet_range;
+        // Additional fields can be added as needed
+
+        $lead->save();
+
 
 
         \Log::info('saveformjson api hit end');

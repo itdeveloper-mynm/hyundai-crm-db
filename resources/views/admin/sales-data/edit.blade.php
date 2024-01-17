@@ -94,8 +94,8 @@
                                                 data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                <option value="Sales"  @selected($sales_data->department=='Sales')>Sales</option>
-                                                <option value="Aftersales"  @selected($sales_data->department=='Aftersales')>After Sales</option>
+                                                <option value="sales"  @selected($sales_data->department=='sales')>Sales</option>
+                                                <option value="aftersales"  @selected($sales_data->department=='aftersales')>After Sales</option>
                                             </select>
                         </div>
                                     </div>
