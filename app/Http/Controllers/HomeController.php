@@ -113,10 +113,10 @@ class HomeController extends Controller
         $startDate = request('start_date');
         $endDate = request('end_date');
 
-        //$startDate = Carbon::parse('2023-06-01');
-        //$endDate = Carbon::parse('2024-01-17');
 
         if(!is_null($startDate)){
+            $startDate = Carbon::parse($startDate);
+            $endDate = Carbon::parse($endDate);
             $days_diff = $startDate->diffInDays($endDate);
             $months_diff = $days_diff / 30.44; // Approximate average days in a month
         }
@@ -159,10 +159,24 @@ class HomeController extends Controller
 
     function getCampaignWiseData($startDate, $endDate) {
 
+        $all_types = [
+            'request_a_test_quote',
+            'request_a_quote',
+            'special_offers',
+            'leads',
+            'events',
+            'request_a_test_drive',
+            'online_service_booking',
+            'contact_us',
+            'service_offers',
+            'used_cars'
+        ];
+
         $allrecords = Application::selectRaw('campaign_id, source_id, COUNT(*) as count')
         ->with(['campaign:id,name', 'source:id,name'])
         ->whereNotNull('campaign_id')
         ->whereNotNull('source_id')
+        ->whereIn('type',$all_types)
         ->whereBetween('created_at', [$startDate, $endDate])
         ->groupBy(['campaign_id', 'source_id'])
         ->get();

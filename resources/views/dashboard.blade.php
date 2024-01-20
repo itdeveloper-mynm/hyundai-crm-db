@@ -4,20 +4,75 @@
 
 @section('content')
 
-
-    <!--begin::Toolbar-->
-    <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-        <!--begin::Toolbar container-->
-
-        <!--end::Toolbar container-->
-    </div>
-    <!--end::Toolbar-->
-
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-fluid">
             <!--begin::Row-->
+            <!--begin::Toolbar container-->
+            <div class="card-header mb-3" style="padding: 0px;">
+                <div class="card-toolbar ">
+                    <div class="row  mt-5">
+                        <div class="col-lg-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                                data-kt-menu-placement="bottom-end">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>Filter</button>
+
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                                id="kt_menu_62fe86549b38d">
+                                <div class="px-7 py-5">
+                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                                </div>
+                                <div class="separator border-gray-200"></div>
+                                <form method="GET" action="{{route('dashboard')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
+                                    @csrf
+                                    <div class="px-7 py-5">
+
+                                        <div class="mb-3">
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <input type="date" class="form-control form-control-solid ps-12"
+                                                        placeholder="Select a date" name="start_date" value="{{now()->subMonths(5)->startOfMonth()->format('Y-m-d')}}" id="start_date" />
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <input type="date" class="form-control form-control-solid ps-12"
+                                                        placeholder="Select a date" name="end_date" value="{{now()->format('Y-m-d')}}" id="end_date" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="apply"
+                                                        id="apply">Apply</button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a href="{{route('dashboard')}}" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Toolbar container-->
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -61,7 +116,7 @@
 
             <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
                 <!--begin::Col-->
-                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-3 mb-md-5 mb-xl-10">
+                <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
                     <div class="card card-bordered">
                         <div class="card-body">
@@ -245,7 +300,7 @@
                             @else
                                 @php $first_show = ""; @endphp
                             @endif
-                            <div class="card-body pt-6 pb-0">
+                            <div class="card-body pt-2 pb-0">
                                 <div class="row g-5 g-xl-10 mb-5">
                                     <!--begin::Accordion-->
                                     <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['campaign_id'] }}">
@@ -344,35 +399,35 @@
                     data: <?php echo json_encode($sale_count); ?>,
                     fill: false,
                     borderColor: primaryColor,
-                    tension: 0.1
+                    tension: 0.6
                 },
                 {
                     label: 'Test Drive',
                     data: <?php echo json_encode($test_drive_count); ?>,
                     fill: false,
                     borderColor: dangerColor,
-                    tension: 0.1
+                    tension: 0.6
                 },
                 {
                     label: 'Service Booking',
                     data: <?php echo json_encode($service_booking_count); ?>,
                     fill: false,
                     borderColor: successColor,
-                    tension: 0.1
+                    tension: 0.6
                 },
                 {
                     label: 'Service Offers',
                     data: <?php echo json_encode($service_offers_count); ?>,
                     fill: false,
                     borderColor: warningColor,
-                    tension: 0.1
+                    tension: 0.6
                 },
                 {
                     label: 'Used Cars',
                     data: <?php echo json_encode($used_cars_count); ?>,
                     fill: false,
                     borderColor: defaultColor,
-                    tension: 0.1
+                    tension: 0.6
                 }
             ]
         };
