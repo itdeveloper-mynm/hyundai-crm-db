@@ -9,10 +9,29 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Carbon\Carbon;
 use App\Models\Customer;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SalesDataImport implements ToModel , WithHeadingRow
+class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
 {
     use Importable;
+
+    public function rules(): array
+    {
+        return [
+            'inv_date' => 'required',
+            'year'  => 'required',
+            's'  => 'required',
+            'chass'  => 'required',
+            'model'  => 'required',
+            'mobile'  => 'required',
+            'customer_name'  => 'required',
+            'gender'  => 'required',
+            //'request_date'  => 'required',
+            //'van_code'  => 'required|unique:vans,van_code',
+        ];
+    }
+
     /**
     * @param array $row
     *

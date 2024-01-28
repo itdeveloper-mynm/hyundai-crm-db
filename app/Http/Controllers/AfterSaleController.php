@@ -145,10 +145,17 @@ class AfterSaleController extends Controller
    }
 
 
-    public function afterSaleImport() {
-        //dd(1);
-        Excel::import(new AfterSalesImport,request()->file('csvfile'));
-
+    public function afterSaleImport()
+    {
+        try {
+            $import = new AfterSalesImport();
+            $import->import(request()->file('csvfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                return Response(['result' => 'error', 'message' => $failure->errors()[0] . ' of row no ' . $failure->row()]);
+            }
+        }
         return Response(['result'=>'success','message'=>__('After Sales Import Successfully')]);
     }
 

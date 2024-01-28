@@ -14,8 +14,10 @@ use App\Models\Customer;
 use App\Models\Bank;
 use App\Models\Application;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class LeadsImport implements ToModel , WithHeadingRow
+class LeadsImport implements ToModel ,  WithHeadingRow, WithValidation
 {
 
     use Importable;
@@ -25,6 +27,25 @@ class LeadsImport implements ToModel , WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+
+
+    public function rules(): array
+    {
+        return [
+            'dealer_city' => 'required',
+            'dealer_branch'  => 'required',
+            'vehicle'  => 'required',
+            'purchase_plan'  => 'required',
+            'prferred_time'  => 'required',
+            'monthly_salary'  => 'required',
+            'bank'  => 'required',
+            'channel'  => 'required',
+            'campaign'  => 'required',
+            //'request_date'  => 'required',
+            //'van_code'  => 'required|unique:vans,van_code',
+        ];
+    }
+
     public function model(array $row)
     {
         //dd($row,formateDate($row['request_date']));

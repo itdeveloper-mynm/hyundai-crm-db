@@ -141,12 +141,18 @@ class SmoLeadController extends Controller
 
    }
 
-   public function smoLeadImport() {
+   public function smoLeadImport(){
+        try {
+            $import = new SmoLeadsImport();
+            $import->import(request()->file('csvfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                return Response(['result' => 'error', 'message' => $failure->errors()[0] . ' of row no ' . $failure->row()]);
+            }
+        }
 
-    //dd(1);
-    Excel::import(new SmoLeadsImport,request()->file('csvfile'));
-
-    return Response(['result'=>'success','message'=>__('Smo Leads Import Successfully')]);
-}
+        return Response(['result'=>'success','message'=>__('Smo Leads Import Successfully')]);
+    }
 
 }

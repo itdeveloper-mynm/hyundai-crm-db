@@ -144,9 +144,17 @@ class UsedCarController extends Controller
    }
 
 
-    public function usedCarImport() {
-        //dd(1);
-        Excel::import(new UsedCarsImport,request()->file('csvfile'));
+    public function usedCarImport()
+    {
+        try {
+            $import = new UsedCarsImport();
+            $import->import(request()->file('csvfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                return Response(['result' => 'error', 'message' => $failure->errors()[0] . ' of row no ' . $failure->row()]);
+            }
+        }
 
         return Response(['result'=>'success','message'=>__('Used Cars Import Successfully')]);
     }

@@ -11,13 +11,29 @@ use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Customer;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 
-class SmoLeadsImport implements ToModel , WithHeadingRow
+class SmoLeadsImport implements ToModel , WithHeadingRow, WithValidation
 {
-    
+
     use Importable;
-    
+
+
+    public function rules(): array
+    {
+        return [
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'email'  => 'required',
+            'mobile'  => 'required',
+            'dealer_city'  => 'required',
+            'vehicle'  => 'required',
+            'channel'  => 'required',
+        ];
+    }
+
     /**
     * @param array $row
     *
@@ -31,7 +47,7 @@ class SmoLeadsImport implements ToModel , WithHeadingRow
         $mobile =formatInputNumber($mobile);
 
         $customer = Customer::whereMobile($mobile)->first();
-      
+
         if(is_null($customer)){
             $customer =new Customer();
             $customer->first_name = $row['first_name'];
@@ -52,7 +68,7 @@ class SmoLeadsImport implements ToModel , WithHeadingRow
         if(is_null($sourcee)){
             $sourcee = Source::create(['name' => $row['channel'] ]);
         }
-        
+
         $smo_lead = new Application();
         $smo_lead->city_id = $city->id;
         $smo_lead->vehicle_id = $vehicle->id;

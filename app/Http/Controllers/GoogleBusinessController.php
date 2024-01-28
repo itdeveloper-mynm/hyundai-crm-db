@@ -169,11 +169,18 @@ class GoogleBusinessController extends Controller
    }
 
    public function googleBusinessImport() {
+        try {
+            $import = new GoogleBusinessImport();
+            $import->import(request()->file('csvfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                return Response(['result' => 'error', 'message' => $failure->errors()[0] . ' of row no ' . $failure->row()]);
+            }
+        }
 
-    Excel::import(new GoogleBusinessImport,request()->file('csvfile'));
-
-    return Response(['result'=>'success','message'=>__('Google Business data imported successfully')]);
-}
+        return Response(['result'=>'success','message'=>__('Google Business data imported successfully')]);
+    }
 
 
 }

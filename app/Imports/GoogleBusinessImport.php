@@ -8,11 +8,30 @@ use App\Models\GoogleBusiness;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class GoogleBusinessImport implements ToModel, WithHeadingRow
+class GoogleBusinessImport implements ToModel, WithHeadingRow, WithValidation
 {
 
     use Importable;
+
+    public function rules(): array
+    {
+        return [
+            'greviews'  => 'required',
+            'greplied'  => 'required',
+            'gsearchlisting'  => 'required',
+            'gmapslisting'  => 'required',
+            'gwebsite'  => 'required',
+            'gdirection'  => 'required',
+            'gcalls'  => 'required',
+            //'request_date'  => 'required',
+            //'van_code'  => 'required|unique:vans,van_code',
+        ];
+    }
+
     /**
     * @param Collection $collection
     */

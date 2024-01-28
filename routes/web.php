@@ -18,6 +18,7 @@ use App\Http\Controllers\GoogleBusinessController;
 use App\Http\Controllers\OldLeadController;
 use App\Http\Controllers\SaleDataController;
 use App\Http\Controllers\SocialDataController;
+use App\Http\Controllers\SaleGraphController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,4 +134,8 @@ Route::controller(SaleDataController::class)->group(function(){
 Route::resource('social-data', SocialDataController::class);
 Route::controller(SocialDataController::class)->group(function(){
     Route::get('social-data-pagination',  'socialDataPagination')->name('social-data.pagination');
+});
+
+Route::controller(SaleGraphController::class)->group(function(){
+    Route::get('sale-graph',  'index')->name('sale-graph.index');
 });

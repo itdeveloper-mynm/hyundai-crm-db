@@ -127,11 +127,20 @@ class SaleDataController extends Controller
 
 
 
-    public function saleDataImport () {
+    public function saleDataImport ()
+    {
+        try {
+            $import = new SalesDataImport();
+            $import->import(request()->file('csvfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                return Response(['result' => 'error', 'message' => $failure->errors()[0] . ' of row no ' . $failure->row()]);
+            }
+        }
 
-        Excel::import(new SalesDataImport,request()->file('csvfile'));
         return Response(['result'=>'success','message'=>__('Sales Data Import Successfully')]);
-
     }
+
 
 }

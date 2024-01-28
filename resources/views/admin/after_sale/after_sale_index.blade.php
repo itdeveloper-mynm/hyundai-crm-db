@@ -557,10 +557,10 @@ $('#csv_form').submit(function(e) {
                 }
                 if (data.result == 'error') {
                     Swal.fire(
-                        "{{ __('not_add') }}",
-                        "{{ __('not_add') }}",
-                        data.result
-                    )
+                            "{{ __('Not Add') }}",
+                            data.message,
+                            'error'
+                        )
                     return false;
                 }
                 $("#importModal").modal('hide');
