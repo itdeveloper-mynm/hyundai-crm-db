@@ -31,21 +31,102 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{route('dashboard')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
+                                <form method="GET" action="{{ route('sale-graph.index') }}"
+                                    class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
                                     <div class="px-7 py-5">
 
                                         <div class="mb-3">
-
                                             <div class="row">
                                                 <div class="col-lg-6">
+                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
+
+                                                    <div>
+                                                        <select class="form-select mb-2" name="city_id" id="city_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value="">--select--</option>
+                                                            @foreach ($dropdown['cities'] as $city)
+                                                                <option value="{{ $city->id }}">{{ $city->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value="">--select--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value=""></option>
+                                                            @foreach ($dropdown['vehicles'] as $vehicle)
+                                                                <option value="{{ $vehicle->id }}">{{ $vehicle->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label class="form-label fw-semibold">{{ __('Source') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="source_id" id="source_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value=""></option>
+                                                            @foreach ($dropdown['sources'] as $source)
+                                                                <option value="{{ $source->id }}">{{ $source->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="campaign_id" id="campaign_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value=""></option>
+                                                            @foreach ($dropdown['campaigns'] as $campaign)
+                                                                <option value="{{ $campaign->id }}">{{ $campaign->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date" value="{{now()->subMonths(5)->startOfMonth()->format('Y-m-d')}}" id="start_date" />
+                                                        placeholder="Select a date" name="start_date"
+                                                        value="{{ now()->subMonths(5)->startOfMonth()->format('Y-m-d') }}"
+                                                        id="start_date" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date" value="{{now()->format('Y-m-d')}}" id="end_date" />
+                                                        placeholder="Select a date" name="end_date"
+                                                        value="{{ now()->format('Y-m-d') }}" id="end_date" />
                                                 </div>
                                             </div>
                                         </div>
@@ -58,8 +139,9 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{route('dashboard')}}" class="btn btn-sm btn-primary"
-                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('sale-graph.index') }}"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 
@@ -209,6 +291,217 @@
                 <!--end::Col-->
             </div>
 
+            <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Vehicles Interested</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_3" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
+            <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">City</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        @foreach ($citygraph as $campaign_wise)
+                            @if ($loop->first)
+                                @php $first_show = "show"; @endphp
+                            @else
+                                @php $first_show = ""; @endphp
+                            @endif
+                            <div class="card-body pt-2 pb-0">
+                                <div class="row g-5 g-xl-10 mb-5">
+                                    <!--begin::Accordion-->
+                                    <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['city_id'] }}">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button fs-4 fw-semibold" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
+                                                    aria-expanded="true"
+                                                    aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}">
+                                                    {{ $campaign_wise['name'] ?? '' }}
+                                                    <span
+                                                        class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                </button>
+                                            </h2>
+                                            <div id="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
+                                                class="accordion-collapse collapse {{ $first_show }}"
+                                                aria-labelledby="kt_accordion_1_header_1"
+                                                data-bs-parent="#kt_accordion_{{ $campaign_wise['city_id'] }}">
+                                                <div class="accordion-body">
+                                                    <div class="card-body pt-5">
+                                                        @foreach ($campaign_wise['branches'] as $source_data)
+                                                            @if (isset($source_data))
+                                                                <!--begin::Item-->
+                                                                <div class="d-flex flex-stack">
+                                                                    <!--begin::Section-->
+                                                                    <span
+                                                                        class="text-black fw-semibold fs-6 me-2">{{ $source_data['name'] ?? '' }}</span>
+                                                                    <!--end::Section-->
+                                                                    <!--begin::Action-->
+                                                                    <span
+                                                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
+                                                                        <span
+                                                                            class="badge py-3 px-4 fs-7 badge-light-primary">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </span>
+                                                                    <!--end::Action-->
+                                                                </div>
+                                                                <!--end::Item-->
+                                                                <!--begin::Separator-->
+                                                                <div class="separator separator-dashed my-3"></div>
+                                                                <!--end::Separator-->
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Accordion-->
+                                </div>
+                            </div>
+                        @endforeach
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
+            <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xl-4">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Monthly Salary</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            {{-- <div id="graph_4" style="height: 350px;"></div> --}}
+                            <canvas id="graph_4" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-4">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Purchase Plan</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <canvas id="graph_5" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+                <div class="col-xl-4">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Banks</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                                <div class="card-body pt-5">
+                                    @foreach ($banks_graph as $bank)
+                                            <!--begin::Item-->
+                                            <div class="d-flex flex-stack">
+                                                <!--begin::Section-->
+                                                <span
+                                                    class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
+                                                <!--end::Section-->
+                                                <!--begin::Action-->
+                                                <span
+                                                    class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
+                                                    <span
+                                                        class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                                <!--end::Action-->
+                                            </div>
+                                            <!--end::Item-->
+                                            <!--begin::Separator-->
+                                            <div class="separator separator-dashed my-3"></div>
+                                            <!--end::Separator-->
+                                    @endforeach
+                                </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+            </div>
+
         </div>
         <!--end::Content container-->
     </div>
@@ -218,7 +511,9 @@
 
 @section('js')
 
+    <script src="{{ asset('ajx_files/ajx.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
         //var ctx = document.getElementById('kt_chartjs_2');
@@ -380,6 +675,142 @@
 
         var chart = new ApexCharts(document.querySelector("#graph_2"), options);
         chart.render();
+
+
+        // Example data
+        //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
+        //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
+        var xData = <?php echo json_encode($vehcile_graph['vehicle_names']); ?>;
+        var yData = <?php echo json_encode($vehcile_graph['vehicle_count']); ?>;
+
+        // Generate random fill colors
+        var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData = xData.map((x, index) => ({
+        x: x,
+        y: yData[index],
+        fill: fillColors[index]
+        }));
+
+        // Function to generate a random color
+        function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+        }
+
+        // Chart options
+        var options = {
+        series: [{
+            data: seriesData
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+            horizontal: true,
+            distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: xData,
+        }
+        };
+
+        // Render the chart
+        var chart = new ApexCharts(document.querySelector("#graph_3"), options);
+        chart.render();
+
+
+        var ctx1 = document.getElementById('graph_4');
+
+        const data1 = {
+        labels: <?php echo json_encode($salary_graph['monthly_salary']); ?> ,
+        datasets: [
+            {
+            label: 'Dataset',
+            data: <?php echo json_encode($salary_graph['monthly_salary_count']); ?>,
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                ],
+            }
+        ]
+        };
+
+
+        const config1 = {
+        type: 'doughnut',
+        data: data1,
+        options: {
+                responsive: true,
+                plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                    text: 'Pie Chart'
+                }
+                }
+            },
+        };
+
+    var myChart = new Chart(ctx1, config1);
+
+
+
+    var ctx2 = document.getElementById('graph_5');
+
+    const data2 = {
+    labels: <?php echo json_encode($purchase_plan_graph['purchase_plan']); ?> ,
+    datasets: [
+        {
+        label: 'Dataset',
+        data: <?php echo json_encode($purchase_plan_graph['purchase_plan_count']); ?>,
+        backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            ],
+        }
+    ]
+    };
+
+
+    const config2 = {
+    type: 'pie',
+    data: data2,
+    options: {
+            responsive: true,
+            plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: false,
+                text: 'Pie Chart'
+            }
+            }
+        },
+    };
+
+    var myChart = new Chart(ctx2, config2);
+
     </script>
 
 @endsection

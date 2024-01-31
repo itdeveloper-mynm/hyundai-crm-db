@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $dates =$this->getPerformanceLabel();
+        $dates = Application::getPerformanceLabel();
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];
@@ -39,181 +39,33 @@ class HomeController extends Controller
         $service_offers_types = ['service_offers'];
         $used_cars_types = ['used_cars'];
 
-        $sales_data= $this->getPerformanceMonthWise($sale_types,$startDate,$endDate,$months_diff);
-        $test_drive_data= $this->getPerformanceMonthWise($test_drive_types,$startDate,$endDate,$months_diff);
-        $service_booking_data= $this->getPerformanceMonthWise($service_booking_types,$startDate,$endDate,$months_diff,true);
-        $service_offers_data= $this->getPerformanceMonthWise($service_offers_types,$startDate,$endDate,$months_diff);
-        $used_cars_data= $this->getPerformanceMonthWise($used_cars_types,$startDate,$endDate,$months_diff);
+        $filters = [];
+
+        $opt_filters = [
+            'department' => 'aftersales',
+        ];
 
 
-        $sale_count = $sales_data->pluck('count')->toArray();
-        $test_drive_count = $test_drive_data->pluck('count')->toArray();
-        $service_booking_count = $service_booking_data->pluck('count')->toArray();
-        $service_offers_count = $service_offers_data->pluck('count')->toArray();
-        $used_cars_count = $used_cars_data->pluck('count')->toArray();
+        $data['first_count'] = Application::getPerformanceMonthWise($sale_types,$startDate,$endDate,$months_diff,$filters);
+        $data['second_count'] =Application::getPerformanceMonthWise($test_drive_types,$startDate,$endDate,$months_diff,$filters);
+        $data['third_count'] = Application::getPerformanceMonthWise($service_booking_types,$startDate,$endDate,$months_diff,$filters,$opt_filters);
+        $data['fourth_count'] =Application::getPerformanceMonthWise($service_offers_types,$startDate,$endDate,$months_diff,$filters);
+        $data['fifth_count'] = Application::getPerformanceMonthWise($used_cars_types,$startDate,$endDate,$months_diff,$filters);
 
-        $data['sale_count'] = $sale_count;
-        $data['test_drive_count'] = $test_drive_count;
-        $data['service_booking_count'] = $service_booking_count;
-        $data['service_offers_count'] = $service_offers_count;
-        $data['used_cars_count'] = $used_cars_count;
-        $data['second_graph_data'] = [array_sum($sale_count) , array_sum($test_drive_count) , array_sum($service_booking_count) , array_sum($service_offers_count) , array_sum($used_cars_count)];
-        $data['total_performance_count'] = array_sum($sale_count) + array_sum($test_drive_count) + array_sum($service_booking_count) + array_sum($service_offers_count) + array_sum($used_cars_count);
+        $data['second_graph_data'] = [array_sum($data['first_count']) , array_sum($data['second_count']) , array_sum($data['third_count']) , array_sum($data['fourth_count']) , array_sum($data['fifth_count'])];
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']) + array_sum($data['fifth_count']);
        // dd($data);
 
-       $data['socialData'] = SocialData::select('social_platform', 'followers', 'likes', 'tweets')
-       ->get()
-       ->groupBy('social_platform')
-       ->toArray();
+       $data['socialData'] = SocialData::select('social_platform', 'followers', 'likes', 'tweets')->get()->groupBy('social_platform')->toArray();
 
-        $data['countsByCampaign'] = $this->getCampaignWiseData($startDate, $endDate);
+       $all_types = [
+        'request_a_test_quote','request_a_quote','special_offers','leads','events',
+        'request_a_test_drive','online_service_booking','contact_us','service_offers','used_cars'
+        ];
+
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types);
 
        return view('dashboard' , $data);
     }
 
-    function getPerformanceMonthWise($types,$startDate,$endDate,$months_diff,$deptchk=false) {
-
-        // $currentYear = date('Y');
-        if($months_diff > 3){
-            $maincounts = DB::table('applications')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%M %Y") as month_year'), DB::raw('COUNT(*) as count'))
-            //->whereYear('created_at', $currentYear)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('type', $types)
-            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%M %Y")'))
-            ->orderBy(DB::raw('MIN(created_at)'), 'asc');
-
-            $maincounts->when($deptchk, function ($query) {
-                return $query->where('department' ,'aftersales');
-            });
-
-            $counts = $maincounts->get();
-
-        }else{
-            $maincounts = DB::table('applications')
-                ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as month_year'), DB::raw('COUNT(*) as count'))
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->whereIn('type', $types)
-                ->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))
-                ->orderBy(DB::raw('MIN(created_at)'), 'asc');
-            // Conditionally add the where clause for department
-            $maincounts->when($deptchk, function ($query) {
-                return $query->where('department', 'aftersales');
-            });
-
-            $counts = $maincounts->get();
-        }
-
-        return $counts;
-    }
-
-    function getPerformanceLabel() {
-
-
-        $startDate = request('start_date');
-        $endDate = request('end_date');
-
-
-        if(!is_null($startDate)){
-            $startDate = Carbon::parse($startDate);
-            $endDate = Carbon::parse($endDate);
-            $days_diff = $startDate->diffInDays($endDate);
-            $months_diff = $days_diff / 30.44; // Approximate average days in a month
-        }
-
-        if(is_null($endDate)){
-            $startDate = now()->subMonths(5)->startOfMonth(); // Start of the month 4 months ago
-            $endDate = now()->endOfMonth(); // End of the current month
-            $months_diff = $startDate->diffInMonths($endDate);
-        }
-
-        if($months_diff >= 3){
-            // Generate an array of months between start and end dates
-            $monthsArray = [];
-            $currentMonth = $startDate->copy()->startOfMonth();
-            while ($currentMonth->lte($endDate)) {
-                $monthsArray[] = $currentMonth->format('F Y'); // Format as "Month Year"
-                $currentMonth->addMonth(); // Move to the next month
-            }
-
-            $data['months'] = $monthsArray;
-
-        }else{
-            // Generate an array of dates between start and end dates
-            $datesArray = [];
-            $currentDate = $startDate->copy();
-
-            while ($currentDate->lte($endDate)) {
-                $datesArray[] = $currentDate->toDateString();
-                $currentDate->addDay(); // Move to the next day
-            }
-
-            $data['months'] = $datesArray;
-        }
-
-        $data['startDate'] = $startDate;
-        $data['endDate'] = $endDate;
-        $data['months_diff'] = $months_diff;
-        return $data;
-    }
-
-    function getCampaignWiseData($startDate, $endDate) {
-
-        $all_types = [
-            'request_a_test_quote',
-            'request_a_quote',
-            'special_offers',
-            'leads',
-            'events',
-            'request_a_test_drive',
-            'online_service_booking',
-            'contact_us',
-            'service_offers',
-            'used_cars'
-        ];
-
-        $allrecords = Application::selectRaw('campaign_id, source_id, COUNT(*) as count')
-        ->with(['campaign:id,name', 'source:id,name'])
-        ->whereNotNull('campaign_id')
-        ->whereNotNull('source_id')
-        ->whereIn('type',$all_types)
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->groupBy(['campaign_id', 'source_id'])
-        ->get();
-
-        // Transform the result into the desired pattern
-        $result = [];
-        foreach ($allrecords as $count) {
-            $campaignId = $count->campaign_id;
-            $sourceId = $count->source_id;
-            // If the campaign doesn't exist in the result array, create it
-            if (!isset($result[$campaignId])) {
-                $result[$campaignId] = [
-                    'campaign_id' => $campaignId,
-                    'name' => $count->campaign->name,
-                    'count' => 0,
-                    'source' => [],
-                ];
-            }
-
-            // Add the count to the campaign total
-            $result[$campaignId]['count'] += $count->count;
-
-            // Add the source information to the campaign
-            $result[$campaignId]['source'][] = [
-                'name' => $count->source->name,
-                'count' => $count->count,
-            ];
-        }
-
-            // Convert the associative array into indexed array
-            $result = array_values($result);
-
-            return $result;
-        }
-
-        public function leads_index()
-        {
-            return view('home');
-        }
-    }
+}

@@ -396,35 +396,35 @@
             labels: labels,
             datasets: [{
                     label: 'Sales',
-                    data: <?php echo json_encode($sale_count); ?>,
+                    data: <?php echo json_encode($first_count); ?>,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
                     label: 'Test Drive',
-                    data: <?php echo json_encode($test_drive_count); ?>,
+                    data: <?php echo json_encode($second_count); ?>,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Booking',
-                    data: <?php echo json_encode($service_booking_count); ?>,
+                    data: <?php echo json_encode($third_count); ?>,
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Offers',
-                    data: <?php echo json_encode($service_offers_count); ?>,
+                    data: <?php echo json_encode($fourth_count); ?>,
                     fill: false,
                     borderColor: warningColor,
                     tension: 0.6
                 },
                 {
                     label: 'Used Cars',
-                    data: <?php echo json_encode($used_cars_count); ?>,
+                    data: <?php echo json_encode($fifth_count); ?>,
                     fill: false,
                     borderColor: defaultColor,
                     tension: 0.6
