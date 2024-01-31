@@ -119,10 +119,36 @@ class Application extends Model
         });
     }
 
-    public static function countBySalaryGroup()
+
+    public function scopeGraphSearch($query, $filters)
+    {
+        return $query
+            ->when(isset($filters['city_id']), function ($query) use ($filters) {
+                return $query->where('applications.city_id', $filters['city_id']);
+            })
+            ->when(isset($filters['branch_id']), function ($query) use ($filters) {
+                return $query->where('applications.branch_id', $filters['branch_id']);
+            })
+            ->when(isset($filters['vehicle_id']), function ($query) use ($filters) {
+                return $query->where('applications.vehicle_id', $filters['vehicle_id']);
+            })
+            ->when(isset($filters['source_id']), function ($query) use ($filters) {
+                return $query->where('applications.source_id', $filters['source_id']);
+            })
+            ->when(isset($filters['campaign_id']), function ($query) use ($filters) {
+                return $query->where('applications.campaign_id', $filters['campaign_id']);
+            });
+    }
+
+
+
+
+    public static function countBySalaryGroup($startDate, $endDate, $filters)
     {
         $records = self::select('monthly_salary', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('purchase_plan')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
             ->groupBy('monthly_salary')
             ->get();
 
@@ -133,10 +159,12 @@ class Application extends Model
 
     }
 
-    public static function countByPurchasePlanGroup()
+    public static function countByPurchasePlanGroup($startDate, $endDate, $filters)
     {
         $records = self::select('purchase_plan', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('purchase_plan')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
             ->groupBy('purchase_plan')
             ->get();
 
@@ -147,12 +175,14 @@ class Application extends Model
 
     }
 
-    public static function countByBank()
+    public static function countByBank($startDate, $endDate, $filters)
     {
         $records = self::join('customers', 'applications.customer_id', '=', 'customers.id')
             ->join('banks', 'customers.bank_id', '=', 'banks.id')
             ->select('customers.bank_id', 'banks.name as bank_name', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('applications.customer_id')
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
             ->groupBy('customers.bank_id', 'banks.name')
             ->get();
 
@@ -162,7 +192,7 @@ class Application extends Model
             return $records;
     }
 
-    public static function getCityWiseData($startDate, $endDate) {
+    public static function getCityWiseData($startDate, $endDate, $filters) {
         $all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
 
         $allrecords = self::selectRaw('city_id, branch_id, COUNT(*) as count')
@@ -170,6 +200,7 @@ class Application extends Model
             ->whereNotNull(['city_id', 'branch_id'])
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
             ->groupBy(['city_id', 'branch_id'])
             ->get();
 
@@ -198,13 +229,14 @@ class Application extends Model
     }
 
 
-    public static function getCampaignWiseData($startDate, $endDate, $all_types) {
+    public static function getCampaignWiseData($startDate, $endDate, $all_types, $filters) {
 
         $allrecords = self::selectRaw('campaign_id, source_id, COUNT(*) as count')
             ->with(['campaign:id,name', 'source:id,name'])
             ->whereNotNull(['campaign_id', 'source_id'])
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
             ->groupBy(['campaign_id', 'source_id'])
             ->get();
 
@@ -237,7 +269,7 @@ class Application extends Model
     }
 
 
-    public static function getVechileGraph($startDate, $endDate) {
+    public static function getVechileGraph($startDate, $endDate, $filters) {
 
         $types = [
             'request_a_quote',
@@ -246,11 +278,11 @@ class Application extends Model
             'contact_us'
         ];
 
-        $alldata = DB::table('applications')
-        ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+        $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
         ->select('vehicles.name as vehicle_name', DB::raw('COUNT(*) as count'))
         ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $types)
+        ->graphsearch($filters)
         ->groupBy('applications.vehicle_id', 'vehicles.name')
         ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
         ->get();
@@ -315,16 +347,15 @@ class Application extends Model
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
 
-        $maincounts = DB::table('applications')
-            ->select(DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"), DB::raw('COUNT(*) as count'))
+        $maincounts = self::select(DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"), DB::raw('COUNT(*) as count'))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->whereIn('type', $types)
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
-            ->orderBy(DB::raw('MIN(created_at)'), 'asc');
-
-        $maincounts->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
-            return $query->where('department', $opt_filters['department']);
-        });
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->graphsearch($filters)
+            ->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
+                return $query->where('department', $opt_filters['department']);
+            });
 
         //$counts = $maincounts->get();
         $counts = $maincounts->get()->pluck('count')->toArray();

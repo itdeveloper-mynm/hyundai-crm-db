@@ -48,7 +48,7 @@
                                                             data-allow-clear="true">
                                                             <option value="">--select--</option>
                                                             @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}">{{ $city->name }}
+                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -76,7 +76,7 @@
                                                             data-allow-clear="true">
                                                             <option value=""></option>
                                                             @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}">{{ $vehicle->name }}
+                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -91,7 +91,7 @@
                                                             data-allow-clear="true">
                                                             <option value=""></option>
                                                             @foreach ($dropdown['sources'] as $source)
-                                                                <option value="{{ $source->id }}">{{ $source->name }}
+                                                                <option value="{{ $source->id }}" @selected(request('source_id') == $source->id)>{{ $source->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -108,7 +108,7 @@
                                                             data-allow-clear="true">
                                                             <option value=""></option>
                                                             @foreach ($dropdown['campaigns'] as $campaign)
-                                                                <option value="{{ $campaign->id }}">{{ $campaign->name }}
+                                                                <option value="{{ $campaign->id }}" @selected(request('campaign_id') == $campaign->id)>{{ $campaign->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

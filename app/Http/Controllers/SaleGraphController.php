@@ -50,13 +50,13 @@ class SaleGraphController extends Controller
         $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']);
 
         $all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
-        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types);
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
 
-        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate);
-        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate);
-        $data['salary_graph'] = Application::countBySalaryGroup();
-        $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup();
-        $data['banks_graph'] = Application::countByBank();
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $filters);
+        $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $filters);
+        $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $filters);
+        $data['banks_graph'] = Application::countByBank($startDate, $endDate, $filters);
         $data['dropdown'] = getCommonData();
         //dd($data);
 

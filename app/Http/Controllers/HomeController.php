@@ -63,7 +63,7 @@ class HomeController extends Controller
         'request_a_test_drive','online_service_booking','contact_us','service_offers','used_cars'
         ];
 
-        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types);
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types , $filters);
 
        return view('dashboard' , $data);
     }
