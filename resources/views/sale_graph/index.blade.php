@@ -119,14 +119,14 @@
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="start_date"
-                                                        value="{{ now()->subMonths(5)->startOfMonth()->format('Y-m-d') }}"
+                                                        value="{{ formateDate($startDate) }}"
                                                         id="start_date" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="end_date"
-                                                        value="{{ now()->format('Y-m-d') }}" id="end_date" />
+                                                        value="{{ formateDate($endDate)}}" id="end_date" />
                                                 </div>
                                             </div>
                                         </div>

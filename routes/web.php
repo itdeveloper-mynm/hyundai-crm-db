@@ -138,4 +138,5 @@ Route::controller(SocialDataController::class)->group(function(){
 
 Route::controller(SaleGraphController::class)->group(function(){
     Route::get('sale-graph',  'index')->name('sale-graph.index');
+    Route::get('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
 });

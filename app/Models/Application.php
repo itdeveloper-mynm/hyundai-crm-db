@@ -295,10 +295,8 @@ class Application extends Model
     }
 
 
-    public static function getPerformanceLabel() {
+    public static function getPerformanceLabel($startDate,$endDate) {
 
-        $startDate = request('start_date');
-        $endDate = request('end_date');
 
         if(!is_null($startDate)){
             $startDate = Carbon::parse($startDate);

@@ -27,7 +27,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $dates = Application::getPerformanceLabel();
+        $startDate = request('start_date');
+        $endDate = request('end_date');
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];
