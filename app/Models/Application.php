@@ -143,10 +143,11 @@ class Application extends Model
 
 
 
-    public static function countBySalaryGroup($startDate, $endDate, $filters)
+    public static function countBySalaryGroup($startDate, $endDate, $all_types, $filters)
     {
         $records = self::select('monthly_salary', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('purchase_plan')
+            ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('monthly_salary')
@@ -159,10 +160,11 @@ class Application extends Model
 
     }
 
-    public static function countByPurchasePlanGroup($startDate, $endDate, $filters)
+    public static function countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters)
     {
         $records = self::select('purchase_plan', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('purchase_plan')
+            ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('purchase_plan')
@@ -175,12 +177,46 @@ class Application extends Model
 
     }
 
-    public static function countByBank($startDate, $endDate, $filters)
+    public static function countByCity($startDate, $endDate, $all_types, $filters)
+    {
+        $records = self::select('city_id', \DB::raw('COUNT(*) as count'))
+            ->with(['city:id,name'])
+            ->whereNotNull('city_id')
+            ->whereIn('type', $all_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->groupBy('city_id')
+            ->get();
+
+
+            return $records;
+
+    }
+
+
+    public static function countByPreferredAppointmentTime($startDate, $endDate, $filters)
+    {
+        $records = self::select('preferred_appointment_time', \DB::raw('COUNT(*) as count'))
+            ->whereNotNull('purchase_plan')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->groupBy('preferred_appointment_time')
+            ->get();
+
+            $data['preferred_appointment_time'] = $records->pluck('preferred_appointment_time')->toArray();
+            $data['preferred_appointment_time_count'] = $records->pluck('count')->toArray();
+
+            return $data;
+
+    }
+
+    public static function countByBank($startDate, $endDate, $all_types, $filters)
     {
         $records = self::join('customers', 'applications.customer_id', '=', 'customers.id')
             ->join('banks', 'customers.bank_id', '=', 'banks.id')
             ->select('customers.bank_id', 'banks.name as bank_name', \DB::raw('COUNT(*) as count'))
             ->whereNotNull('applications.customer_id')
+            ->whereIn('type', $all_types)
             ->whereBetween('applications.created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('customers.bank_id', 'banks.name')
@@ -192,8 +228,9 @@ class Application extends Model
             return $records;
     }
 
-    public static function getCityWiseData($startDate, $endDate, $filters) {
-        $all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
+    public static function getCityWiseData($startDate, $endDate, $all_types, $filters) {
+
+        //$all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
 
         $allrecords = self::selectRaw('city_id, branch_id, COUNT(*) as count')
             ->with(['city:id,name', 'branch:id,name'])
@@ -269,19 +306,19 @@ class Application extends Model
     }
 
 
-    public static function getVechileGraph($startDate, $endDate, $filters) {
+    public static function getVechileGraph($startDate, $endDate, $all_types, $filters) {
 
-        $types = [
-            'request_a_quote',
-            'special_offers',
-            'smo_leads',
-            'contact_us'
-        ];
+        // $types = [
+        //     'request_a_quote',
+        //     'special_offers',
+        //     'smo_leads',
+        //     'contact_us'
+        // ];
 
         $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
         ->select('vehicles.name as vehicle_name', DB::raw('COUNT(*) as count'))
         ->whereBetween('applications.created_at', [$startDate, $endDate])
-        ->whereIn('applications.type', $types)
+        ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
         ->groupBy('applications.vehicle_id', 'vehicles.name')
         ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
