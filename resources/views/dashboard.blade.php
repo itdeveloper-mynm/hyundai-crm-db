@@ -40,7 +40,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date" value="{{now()->subMonths(5)->startOfMonth()->format('Y-m-d')}}" id="start_date" />
+                                                        placeholder="Select a date" name="start_date" value="{{now()->subMonths(3)->startOfMonth()->format('Y-m-d')}}" id="start_date" />
                                                 </div>
 
                                                 <div class="col-lg-6">
