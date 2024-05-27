@@ -17,8 +17,8 @@ class SaleGraphController extends Controller
 
     public function index(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -60,17 +60,17 @@ class SaleGraphController extends Controller
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
-        $data['banks_graph'] = Application::countByBank($startDate, $endDatee, $all_types, $filters);
+        $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
         $data['dropdown'] = getCommonData();
         //dd($data);
 
-       return view('sale_graph.index' , $data);
+       return view('admin.sale_graph.index' , $data);
     }
 
     public function comparisonIndex(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -112,13 +112,13 @@ class SaleGraphController extends Controller
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
-        $data['banks_graph'] = Application::countByBank($startDate, $endDatee, $all_types, $filters);
+        $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
         $data['dropdown'] = getCommonData();
         //dd($data);
 
         // for right side
-        $startDate_comp = request('start_date_comp');
-        $endDate_comp = request('end_date_comp');
+        $startDate_comp = request('start_date_comp') ?? startDate();
+        $endDate_comp = request('end_date_comp') ?? endDate();
         $dates_comp = Application::getPerformanceLabel($startDate_comp,$endDate_comp);
         $startDate_comp = $dates_comp['startDate'];
         $endDate_comp = $dates_comp['endDate'];
@@ -161,16 +161,16 @@ class SaleGraphController extends Controller
         $data['citygraph_comp'] = Application::getCityWiseData($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
         $data['salary_graph_comp'] = Application::countBySalaryGroup($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
         $data['purchase_plan_graph_comp'] = Application::countByPurchasePlanGroup($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
-        $data['banks_graph_comp'] = Application::countByBank($startDate_comp, $endDate_compe, $all_types_comp, $filters_comp);
+        $data['banks_graph_comp'] = Application::countByBank($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
 
         //dd($data);
-       return view('sale_graph.comparison-index' , $data);
+       return view('admin.sale_graph.comparison-index' , $data);
     }
 
     public function indexAfterSale(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -206,13 +206,13 @@ class SaleGraphController extends Controller
         $data['dropdown'] = getCommonData();
         //dd($data);
 
-       return view('after_sale_graph.index' , $data);
+       return view('admin.after_sale_graph.index' , $data);
     }
 
     public function comparisonIndexAfterSale(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -247,8 +247,8 @@ class SaleGraphController extends Controller
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
 
         //right side
-        $startDate_comp = request('start_date_comp');
-        $endDate_comp = request('end_date_comp');
+        $startDate_comp = request('start_date_comp') ?? startDate();
+        $endDate_comp = request('end_date_comp') ?? endDate();
         $dates_comp = Application::getPerformanceLabel($startDate_comp,$endDate_comp);
         $startDate_comp = $dates_comp['startDate'];
         $endDate_comp = $dates_comp['endDate'];
@@ -284,14 +284,14 @@ class SaleGraphController extends Controller
 
         $data['dropdown'] = getCommonData();
 
-       return view('after_sale_graph.comparison-index' , $data);
+       return view('admin.after_sale_graph.comparison-index' , $data);
     }
 
 
     public function testDriveIndex(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -323,13 +323,13 @@ class SaleGraphController extends Controller
         $data['city_graph'] = Application::countByCity($startDate, $endDate, $first_types, $filters);
         $data['dropdown'] = getCommonData();
 
-       return view('test_drive.index' , $data);
+       return view('admin.test_drive.index' , $data);
     }
 
     public function serviceBookingIndex(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
@@ -359,8 +359,43 @@ class SaleGraphController extends Controller
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
         $data['dropdown'] = getCommonData();
 
-       return view('service_booking.index' , $data);
+       return view('admin.service_booking.index' , $data);
     }
 
+
+
+    public function serviceOffersIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['service_offers'];
+
+        $filters = [
+            'city_id' => request('city_id'),
+            'branch_id' => request('branch_id'),
+            'vehicle_id' => request('vehicle_id')
+        ];
+
+        $opt_filters = [];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.service_offers.index' , $data);
+    }
 
 }

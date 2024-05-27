@@ -106,7 +106,7 @@ class AfterSaleController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::where('type','after_sales')->count();
+        $countAll = Application::search($conditions)->where('type','after_sales')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)

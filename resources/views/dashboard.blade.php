@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="separator border-gray-200"></div>
                                 <form method="GET" action="{{route('dashboard')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    @csrf
+                                    {{-- @csrf --}}
                                     <div class="px-7 py-5">
 
                                         <div class="mb-3">
@@ -40,12 +40,12 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date" value="{{now()->subMonths(3)->startOfMonth()->format('Y-m-d')}}" id="start_date" />
+                                                        placeholder="Select a date" name="start_date" value="{{ formateDate($startDate) }}" id="start_date" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date" value="{{now()->format('Y-m-d')}}" id="end_date" />
+                                                        placeholder="Select a date" name="end_date" value="{{ formateDate($endDate) }}" id="end_date" />
                                                 </div>
                                             </div>
                                         </div>

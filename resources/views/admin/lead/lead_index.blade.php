@@ -71,7 +71,8 @@
 
                                     <div class="px-7 py-5">
                                         <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
+                                            {{-- <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
 
                                             <div>
                                                 <select class="form-select mb-2" name="city_id" id="city_id"
@@ -82,7 +83,7 @@
                                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="mb-1">
                                             <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
@@ -139,12 +140,12 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from" id="from" />
+                                                        placeholder="Select a date" name="from" value="{{ currentDate() }}" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to" id="to" />
+                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}" id="to" />
                                                 </div>
                                             </div>
                                         </div>

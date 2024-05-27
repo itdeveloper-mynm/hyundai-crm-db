@@ -107,7 +107,7 @@ class UsedCarController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::where('type','used_cars')->count();
+        $countAll = Application::search($conditions)->where('type','used_cars')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)

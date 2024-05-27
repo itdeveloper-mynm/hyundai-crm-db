@@ -55,11 +55,11 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
         $customer = Customer::whereMobile($mobile)->first();
         if(is_null($customer)){
             $customer =new Customer();
-        }
             $customer->first_name = $row['customer_name'];
             $customer->mobile = $mobile;
             $customer->gender = $row['gender'];
             $customer->save();
+        }
 
             return new SalesData([
                 'customer_id' => $customer->id,
@@ -68,7 +68,8 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
                 's' => $row['s'],
                 'chass' => $row['chass'],
                 'vehicle_id' => $vehicle->id,
-                'department' => request('department'),
+                //'department' => request('department') ?? 'sales',
+                'department' =>  'sales',
                 // Add other columns as needed
             ]);
     }

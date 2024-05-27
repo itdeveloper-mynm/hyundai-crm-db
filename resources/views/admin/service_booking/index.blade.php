@@ -318,7 +318,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Test Drive',
+                    label: 'Online Service Booking',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,

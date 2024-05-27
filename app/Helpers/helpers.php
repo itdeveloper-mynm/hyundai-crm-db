@@ -35,12 +35,26 @@ function activeMenuRoute($submenus): string
 
 }
 
+function currentDate() {
+    return formateDate(now());
+    //return formateDate(now()->endOfMonth());
+}
+
 function formateDate($date) {
     return Carbon::parse($date)->format('Y-m-d');
 }
 
 function formateDateTime($date) {
     return Carbon::parse($date)->format('Y-m-d h:i:s');
+}
+
+function startDate() {
+    return formateDate(now()->subMonths(3)->startOfMonth());
+}
+
+function endDate() {
+    return formateDate(now());
+    //return formateDate(now()->endOfMonth());
 }
 
 function addCustomer(Request $request) {
@@ -59,8 +73,24 @@ function addCustomer(Request $request) {
         $customer->bank_id = $request->input('bank_id') ?? null;
         $customer->city_id = $request->input('city_id') ?? null;
         $customer->gender = $request->input('gender') ?? null;
+        $customer->national_id = $request->input('national_id') ?? null;
         $customer->save();
     }
+
+    return $customer;
+}
+
+function updCustomer(Request $request,$id) {
+
+    $mobile = $request->input('mobile');
+
+    $mobile =formatInputNumber($mobile);
+
+    $customer = Customer::whereId($id)->first();
+    $customer->bank_id = $request->input('bank_id') ?? null;
+    $customer->gender = $request->input('gender') ?? null;
+    $customer->national_id = $request->input('national_id') ?? null;
+    $customer->save();
 
     return $customer;
 }
@@ -96,6 +126,8 @@ function checkApplicationType($type) {
             return 'sales_marketing';
         case 'After sales':
             return 'after_sales';
+        case 'Smo Leads':
+            return 'smo_leads';
         default:
             return 'leads';
     }

@@ -46,38 +46,14 @@
                                         </div>
 
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Dealer City') }}</label>
-                                            <select class="form-select mb-2" name="city_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{$city->id}}">{{$city->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Vehicle') }}</label>
-                                            <select class="form-select mb-2" name="vehicle_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])
                                         </div>
 
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Source') }}</label>
-                                            <select class="form-select mb-2" name="source_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($sources as $source)
-                                                    <option value="{{$source->id}}">{{$source->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.source' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                     </div>
 

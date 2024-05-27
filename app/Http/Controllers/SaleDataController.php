@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Imports\SalesDataImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\SalesData;
+use App\Jobs\ApplicationImportExcel;
+use Illuminate\Support\Facades\Storage;
 
 class SaleDataController extends Controller
 {
@@ -20,6 +22,12 @@ class SaleDataController extends Controller
     public function index()
     {
         $data = getCommonData();
+
+        // $filePath = 'storage/queue_file/sales-data-sample.xlsx';
+        // $path = Storage::putFile('queue_file', new \Illuminate\Http\File($filePath));
+        // $fullPath = Storage::path($path);
+
+        // ApplicationImportExcel::dispatch($fullPath);
 
         return view('admin.sales-data.index' , $data);
     }
@@ -87,7 +95,7 @@ class SaleDataController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = SalesData::count();
+        $countAll = SalesData::search($conditions)->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  SalesData::search($conditions)
@@ -127,8 +135,32 @@ class SaleDataController extends Controller
 
 
 
-    public function saleDataImport ()
+    public function saleDataImport (Request $request)
     {
+        // $request->validate([
+        //     'csvfile' => 'required|mimes:xlsx,xls,csv|max:20480', // Adjust max size as needed
+        // ]);
+
+    //    // Increase memory limit to 256MB
+    //    ini_set('memory_limit', '512M');
+
+        // $path = $request->file('csvfile')->store('public/queue_file');
+
+        // ApplicationImportExcel::dispatch($path);
+
+        // // Get all files in the 'queue_file' directory
+        // $files = Storage::disk('public')->allFiles('queue_file');
+        // // Dispatch a job for each file
+        // foreach ($files as $file) {
+        //     //$fullPath = Storage::url($file);
+        //     $fullPath = 'storage/queue_file/sales-data-sample.xlsx';
+        //     // dd($fullPath);
+        //     // $fullUrl = asset('storage/' . $file);
+        //     ApplicationImportExcel::dispatch($fullPath);
+        // }
+
+        //return response()->json(['message' => 'File uploaded and import process started.']);
+
         try {
             $import = new SalesDataImport();
             $import->import(request()->file('csvfile'));

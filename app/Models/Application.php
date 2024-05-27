@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Cache;
 
 
 class Application extends Model
@@ -122,22 +123,27 @@ class Application extends Model
 
     public function scopeGraphSearch($query, $filters)
     {
-        return $query
-            ->when(isset($filters['city_id']), function ($query) use ($filters) {
-                return $query->where('applications.city_id', $filters['city_id']);
-            })
-            ->when(isset($filters['branch_id']), function ($query) use ($filters) {
-                return $query->where('applications.branch_id', $filters['branch_id']);
-            })
-            ->when(isset($filters['vehicle_id']), function ($query) use ($filters) {
-                return $query->where('applications.vehicle_id', $filters['vehicle_id']);
-            })
-            ->when(isset($filters['source_id']), function ($query) use ($filters) {
-                return $query->where('applications.source_id', $filters['source_id']);
-            })
-            ->when(isset($filters['campaign_id']), function ($query) use ($filters) {
-                return $query->where('applications.campaign_id', $filters['campaign_id']);
-            });
+        // Check if $filters is not empty
+        if (!empty($filters)) {
+            return $query
+                ->when(isset($filters['city_id']), function ($query) use ($filters) {
+                    return $query->where('applications.city_id', $filters['city_id']);
+                })
+                ->when(isset($filters['branch_id']), function ($query) use ($filters) {
+                    return $query->where('applications.branch_id', $filters['branch_id']);
+                })
+                ->when(isset($filters['vehicle_id']), function ($query) use ($filters) {
+                    return $query->where('applications.vehicle_id', $filters['vehicle_id']);
+                })
+                ->when(isset($filters['source_id']), function ($query) use ($filters) {
+                    return $query->where('applications.source_id', $filters['source_id']);
+                })
+                ->when(isset($filters['campaign_id']), function ($query) use ($filters) {
+                    return $query->where('applications.campaign_id', $filters['campaign_id']);
+                });
+        }
+
+        return $query;
     }
 
 
@@ -378,6 +384,27 @@ class Application extends Model
         return $data;
     }
 
+    // public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
+    //     $cacheKey = md5(serialize([$types, $startDate, $endDate, $months_diff, $filters, $opt_filters]));
+    //     $cacheDuration = now()->addMinutes(60); // Cache for 60 minutes (adjust as needed)
+
+    //     return Cache::remember($cacheKey, $cacheDuration, function () use ($types, $startDate, $endDate, $months_diff, $filters, $opt_filters) {
+    //         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
+
+    //         $maincounts = self::select(DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"), DB::raw('COUNT(*) as count'))
+    //             ->whereBetween('created_at', [$startDate, $endDate])
+    //             ->whereIn('type', $types)
+    //             ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
+    //             ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+    //             ->graphsearch($filters)
+    //             ->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
+    //                 return $query->where('department', $opt_filters['department']);
+    //             });
+
+    //         return $maincounts->pluck('count')->toArray();
+    //     });
+    // }
+
     public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
@@ -392,8 +419,8 @@ class Application extends Model
                 return $query->where('department', $opt_filters['department']);
             });
 
-        //$counts = $maincounts->get();
-        $counts = $maincounts->get()->pluck('count')->toArray();
+        $counts = $maincounts->pluck('count')->toArray();
+        //$counts = $maincounts->get()->pluck('count')->toArray();
         //dd($counts);
 
         return $counts;
@@ -459,7 +486,7 @@ class Application extends Model
 
         $application = self::findorFail($id);
 
-        $customer = Customer::findorFail($application->customer_id);
+        //$customer = Customer::findorFail($application->customer_id);
 
         $application->city_id = $request->input('city_id');
         $application->branch_id = $request->input('branch_id');
@@ -469,7 +496,7 @@ class Application extends Model
         $application->purchase_plan = $request->input('purchase_plan');
         $application->monthly_salary = $request->input('monthly_salary');
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
-        $application->customer_id= $customer->id;
+        //$application->customer_id= $customer->id;
 
         if ($request->has('select_date')) {
             // Assuming 'created_at' is in a format that Carbon can parse

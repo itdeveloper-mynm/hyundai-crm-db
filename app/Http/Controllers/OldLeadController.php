@@ -114,7 +114,7 @@ class OldLeadController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::where('type','old_leads')->count();
+        $countAll = Application::search($conditions)->where('type','old_leads')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)

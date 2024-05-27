@@ -105,7 +105,7 @@ class SmoLeadController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::where('type','smo_leads')->count();
+        $countAll = Application::search($conditions)->where('type','smo_leads')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)

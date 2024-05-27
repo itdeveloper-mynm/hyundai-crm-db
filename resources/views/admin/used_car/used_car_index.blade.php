@@ -115,12 +115,12 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" name="from" id="from" />
+                                                    placeholder="Select a date" value="{{ currentDate() }}" name="from" id="from" />
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" name="to" id="to" />
+                                                    placeholder="Select a date" value="{{ currentDate() }}" name="to" id="to" />
                                             </div>
                                         </div>
                                     </div>

@@ -27,13 +27,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $startDate = request('start_date');
-        $endDate = request('end_date');
+        $startDate = request('start_date') ?? formateDate(now()->subMonths(3)->startOfMonth());
+        $endDate = request('end_date') ?? formateDate(now());
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];
         $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
 
         $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events'];
         $test_drive_types = ['request_a_test_drive'];

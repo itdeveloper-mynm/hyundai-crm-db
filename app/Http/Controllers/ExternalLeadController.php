@@ -44,18 +44,20 @@ class ExternalLeadController extends Controller
 
         //dd($request->all());
         \Log::info('customer api hit');
-
-        $bank = Bank::where('name', $request->input('customersBank'))->first();
-
-        if(is_null($bank)){
-            $bank = Bank::create(['name' => $request->input('customersBank')]);
-        }
-
-
+        $bank_name= $request->input('customersBank');
+        $city_name= $request->input('dealerCity');
+        $branch_name= $request->input('branch');
+        $vehicle_name= $request->input('vehicle');
+        $sourcee_name= $request->input('sourcee');
+        $campaign_name= $request->input('campaignName');
         $mobile = $request->input('mobile');
 
-        $mobile =formatInputNumber($mobile);
+        $bank = Bank::where('name', $bank_name)->first();
+        if(is_null($bank)){
+            $bank = Bank::create(['name' => $bank_name]);
+        }
 
+        $mobile =formatInputNumber($mobile);
         $customer = Customer::whereMobile($mobile)->first();
 
 
@@ -69,28 +71,28 @@ class ExternalLeadController extends Controller
             $customer->save();
         }
 
-        $city = City::where('name', $request->input('dealerCity'))->first();
-        $branch = Branch::where('name', $request->input('branch'))->first();
-        $vehicle = Vehicle::where('name', $request->input('vehicle'))->first();
-        $sourcee = Source::where('name', $request->input('sourcee'))->first();
-        $campaign = Campaign::where('name', $request->input('campaignName'))->first();
+        $city = City::where('name', $city_name)->first();
+        $branch = Branch::where('name', $branch_name)->first();
+        $vehicle = Vehicle::where('name', $vehicle_name)->first();
+        $sourcee = Source::where('name', $sourcee_name)->first();
+        $campaign = Campaign::where('name', $campaign_name)->first();
         if(is_null($city)){
-            $city = City::create(['name' => $request->input('dealerCity')]);
+            $city = City::create(['name' => $city_name]);
         }
         if(is_null($branch)){
             $branch = Branch::create([
-                'name' => $request->input('branch'),
+                'name' => $branch_name,
                 'city_id' => $city->id,
             ]);
         }
         if(is_null($vehicle)){
-            $vehicle = Vehicle::create(['name' => $request->input('vehicle')]);
+            $vehicle = Vehicle::create(['name' => $vehicle_name]);
         }
         if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $request->input('sourcee')]);
+            $sourcee = Source::create(['name' => $sourcee_name]);
         }
         if(is_null($campaign)){
-            $campaign = Campaign::create(['name' => $request->input('campaignName')]);
+            $campaign = Campaign::create(['name' => $campaign_name]);
         }
 
         $lead = new Application();
@@ -127,6 +129,11 @@ class ExternalLeadController extends Controller
             $bank = Bank::create(['name' => $request->input('customerBank')]);
         }
 
+        $city_name= $request->input('dealerCity');
+        $branch_name= $request->input('branch');
+        $vehicle_name= $request->input('vehicle');
+        $sourcee_name= $request->input('sourcee');
+        $campaign_name= $request->input('pagesub');
         $mobile = $request->input('mobile');
 
         $mobile =formatInputNumber($mobile);
@@ -145,28 +152,28 @@ class ExternalLeadController extends Controller
             $customer->save();
         }
 
-        $city = City::where('name', $request->input('dealerCity'))->first();
-        $branch = Branch::where('name', $request->input('branch'))->first();
-        $vehicle = Vehicle::where('name', $request->input('vehicle'))->first();
-        $sourcee = Source::where('name', $request->input('sourcee'))->first();
-        $campaign = Campaign::where('name', $request->input('pagesub'))->first();
+        $city = City::where('name', $city_name)->first();
+        $branch = Branch::where('name', $branch_name)->first();
+        $vehicle = Vehicle::where('name', $vehicle_name)->first();
+        $sourcee = Source::where('name', $sourcee_name)->first();
+        $campaign = Campaign::where('name', $campaign_name)->first();
         if(is_null($city)){
-            $city = City::create(['name' => $request->input('dealerCity')]);
+            $city = City::create(['name' => $city_name]);
         }
         if(is_null($branch)){
             $branch = Branch::create([
-                'name' => $request->input('branch'),
+                'name' => $branch_name,
                 'city_id' => $city->id,
             ]);
         }
         if(is_null($vehicle)){
-            $vehicle = Vehicle::create(['name' => $request->input('vehicle')]);
+            $vehicle = Vehicle::create(['name' => $vehicle_name]);
         }
         if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $request->input('sourcee')]);
+            $sourcee = Source::create(['name' => $sourcee_name]);
         }
         if(is_null($campaign)){
-            $campaign = Campaign::create(['name' => $request->input('pagesub')]);
+            $campaign = Campaign::create(['name' => $campaign_name]);
         }
 
         $type= checkApplicationType($request->input('page')) ?? 'leads';

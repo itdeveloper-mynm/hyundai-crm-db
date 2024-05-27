@@ -19,6 +19,7 @@ use App\Http\Controllers\OldLeadController;
 use App\Http\Controllers\SaleDataController;
 use App\Http\Controllers\SocialDataController;
 use App\Http\Controllers\SaleGraphController;
+use App\Http\Controllers\CrmLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,5 +143,13 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::get('after-sale-graph',  'indexAfterSale')->name('after-sale-graph.index');
     Route::get('after-sale-graph-comparison',  'comparisonIndexAfterSale')->name('after-sale-graph-comparison.index');
     Route::get('test-drive-graph',  'testDriveIndex')->name('test-drive-graph.index');
-    Route::get('online-service-booking',  'serviceBookingIndex')->name('online-service-booking-graph.index');
+    Route::get('online-service-booking-graph',  'serviceBookingIndex')->name('online-service-booking-graph.index');
+    Route::get('service-offers-graph',  'serviceOffersIndex')->name('service-offers-graph.index');
+});
+
+
+Route::resource('crm-leads', CrmLeadController::class);
+Route::controller(CrmLeadController::class)->group(function(){
+    Route::get('crm-leads-pagination',  'crmLeadPagination')->name('crm-leads.pagination');
+    Route::post('crm-leads-import',  'crmleadsImport')->name('crm-leads.import');
 });

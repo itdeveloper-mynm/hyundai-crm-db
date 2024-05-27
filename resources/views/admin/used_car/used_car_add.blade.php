@@ -54,52 +54,20 @@
 
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Dealer City') }}</label>
-                                            <select class="form-select mb-2" name="city_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{$city->id}}">{{$city->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
                                         </div>
 
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Preferred appointment time') }}</label>
-                                            <select class="form-select mb-2" name="preferred_appointment_time" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                    <option value="Morning (08:00AM~12:00PM)">Morning (08:00AM~12:00PM)</option>
-                                                    <option value="Afternoon (12:00PM~04:00PM)">Afternoon (12:00PM~04:00PM)</option>
-                                                    <option value="Any Time">Any Time</option>
-                                            </select>
+                                            @include('admin.common_files.preferred_appointment_time' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                     </div>
 
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Vehicle') }}</label>
-                                            <select class="form-select mb-2" name="vehicle_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Campaign') }}</label>
-                                            <select class="form-select mb-2" name="campaign_id" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($campaigns as $campaign)
-                                                    <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                     </div>
 
