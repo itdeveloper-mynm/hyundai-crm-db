@@ -20,6 +20,8 @@ use App\Http\Controllers\SaleDataController;
 use App\Http\Controllers\SocialDataController;
 use App\Http\Controllers\SaleGraphController;
 use App\Http\Controllers\CrmLeadController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +139,13 @@ Route::controller(SocialDataController::class)->group(function(){
     Route::get('social-data-pagination',  'socialDataPagination')->name('social-data.pagination');
 });
 
+Route::resource('roles', RoleController::class);
+
+Route::resource('users', UserController::class);
+Route::controller(UserController::class)->group(function(){
+    Route::get('users-pagination',  'usersPagination')->name('users.pagination');
+});
+
 Route::controller(SaleGraphController::class)->group(function(){
     Route::get('sale-graph',  'index')->name('sale-graph.index');
     Route::get('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
@@ -145,6 +154,11 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::get('test-drive-graph',  'testDriveIndex')->name('test-drive-graph.index');
     Route::get('online-service-booking-graph',  'serviceBookingIndex')->name('online-service-booking-graph.index');
     Route::get('service-offers-graph',  'serviceOffersIndex')->name('service-offers-graph.index');
+    Route::get('contact-us-graph',  'contactUsIndex')->name('contact-us-graph.index');
+    Route::get('used-cars-graph',  'usedCarsIndex')->name('used-cars-graph.index');
+    Route::get('hr-graph',  'hrIndex')->name('hr-graph.index');
+    Route::get('smo-graph',  'smoIndex')->name('smo-graph.index');
+    Route::get('events-graph',  'eventsIndex')->name('events-graph.index');
 });
 
 

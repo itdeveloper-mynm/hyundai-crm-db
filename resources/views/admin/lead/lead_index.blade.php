@@ -70,71 +70,72 @@
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                     <div class="px-7 py-5">
-                                        <div class="mb-1">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
-                                            {{-- <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
+                                        @can('campaign-leads-filters')
+                                            <div class="mb-1">
+                                                {{-- @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ]) --}}
+                                                <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
 
-                                            <div>
-                                                <select class="form-select mb-2" name="city_id" id="city_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div> --}}
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
-                                                    data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                </select>
+                                                <div>
+                                                    <select class="form-select mb-2" name="city_id" id="city_id"
+                                                        data-control="select" data-placeholder="{{ __('select option') }}"
+                                                        data-allow-clear="true">
+                                                        <option value="">--select--</option>
+                                                        @foreach ($cities as $city)
+                                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
+                                            <div class="mb-1">
+                                                <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
+                                                <div>
+                                                    <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
+                                                        data-placeholder="{{ __('select option') }}"
+                                                        data-allow-clear="true">
+                                                        <option value="">--select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
+                                                <div>
+                                                    <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
+                                                        data-control="select" data-placeholder="{{ __('select option') }}"
+                                                        data-allow-clear="true">
+                                                        <option value=""></option>
+                                                        @foreach ($vehicles as $vehicle)
+                                                            <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label fw-semibold">{{ __('Source') }}</label>
+                                                <div>
+                                                    <select class="form-select mb-2" name="source_id" id="source_id"
+                                                        data-control="select" data-placeholder="{{ __('select option') }}"
+                                                        data-allow-clear="true">
+                                                        <option value=""></option>
+                                                        @foreach ($sources as $source)
+                                                            <option value="{{$source->id}}">{{$source->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
+                                                <div>
+                                                <select class="form-select mb-2" name="campaign_id" id="campaign_id"
                                                     data-control="select" data-placeholder="{{ __('select option') }}"
                                                     data-allow-clear="true">
                                                     <option value=""></option>
-                                                    @foreach ($vehicles as $vehicle)
-                                                        <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
+                                                    @foreach ($campaigns as $campaign)
+                                                        <option value="{{$campaign->id}}">{{$campaign->name}}</option>
                                                     @endforeach
                                                 </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="source_id" id="source_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($sources as $source)
-                                                        <option value="{{$source->id}}">{{$source->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                            <div>
-                                            <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($campaigns as $campaign)
-                                                    <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                                @endforeach
-                                            </select>
-                                            </div>
-                                        </div>
-
+                                        @endcan
                                         <div class="mb-3">
 
                                             <div class="row">
@@ -181,20 +182,22 @@
                             </button> -->
 
 
+                            @can('campaign-leads-import')
+                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-success  me-3" download>
+                                    <i class="fa fa-download"></i>
+                                    {{ __('Sample') }}</a>
 
-                            <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-success  me-3" download>
-                                <i class="fa fa-download"></i>
-                                {{ __('Sample') }}</a>
+                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
+                                    data-bs-target="#importModal">
+                                    <i class="fa fa-upload"></i>
+                                    {{ __('Import') }}</a>
+                            @endcan
 
-                            <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                data-bs-target="#importModal">
-                                <i class="fa fa-upload"></i>
-                                {{ __('Import') }}</a>
-
-
-                            <a href="{{ route('lead.create') }}" class="btn btn-primary">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                {{ __('Add') }}</a>
+                            @can('campaign-leads-create')
+                                <a href="{{ route('lead.create') }}" class="btn btn-primary">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                    {{ __('Add') }}</a>
+                            @endcan
                         </div>
                     </div>
                 </div>

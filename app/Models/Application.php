@@ -200,10 +200,11 @@ class Application extends Model
     }
 
 
-    public static function countByPreferredAppointmentTime($startDate, $endDate, $filters)
+    public static function countByPreferredAppointmentTime($startDate, $endDate, $all_types, $filters)
     {
         $records = self::select('preferred_appointment_time', \DB::raw('COUNT(*) as count'))
-            ->whereNotNull('purchase_plan')
+            ->whereNotNull('preferred_appointment_time')
+            ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('preferred_appointment_time')

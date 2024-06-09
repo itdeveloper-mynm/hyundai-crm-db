@@ -389,42 +389,42 @@
 
         // Chart labels
         // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        const labels = <?php echo json_encode($months); ?>;
+        const labels = @json($months) ;
 
         // Chart data
         const data = {
             labels: labels,
             datasets: [{
                     label: 'Sales',
-                    data: <?php echo json_encode($first_count); ?>,
+                    data: @json($first_count) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
                     label: 'Test Drive',
-                    data: <?php echo json_encode($second_count); ?>,
+                    data: @json($second_count) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Booking',
-                    data: <?php echo json_encode($third_count); ?>,
+                    data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Offers',
-                    data: <?php echo json_encode($fourth_count); ?>,
+                    data: @json($fourth_count) ,
                     fill: false,
                     borderColor: warningColor,
                     tension: 0.6
                 },
                 {
                     label: 'Used Cars',
-                    data: <?php echo json_encode($fifth_count); ?>,
+                    data: @json($fifth_count) ,
                     fill: false,
                     borderColor: defaultColor,
                     tension: 0.6
@@ -461,7 +461,7 @@
         var options = {
             series: [{
                 name: 'Count',
-                data: <?php echo json_encode($second_graph_data); ?>
+                data: @json($second_graph_data)
             }],
             chart: {
                 height: 350,

@@ -22,11 +22,21 @@ function activeRoute($route): string
     }
 }
 
+function newactiveRoute($route): string
+{
+
+    $urlToCheck = request()->fullUrl();
+    if (in_array($urlToCheck, $route)) {
+        return 'active';
+    } else {
+        return '';
+    }
+}
+
 
 function activeMenuRoute($submenus): string
 {
     $urlToCheck = request()->fullUrl();
-
     if (in_array($urlToCheck, $submenus)) {
         return 'hover show';
     } else {
@@ -34,6 +44,54 @@ function activeMenuRoute($submenus): string
     }
 
 }
+
+function AllLeadsMenuArr()
+{
+    $array =[
+        route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),
+        route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),
+        route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),
+        route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit'),
+        route('google-business.index'),request()->is('google-business/*/edit'),
+        route('old-leads.index'),route('old-leads.create'),request()->is('old-leads/*/edit'),
+        route('sales-data.index'),request()->is('sales-data/*/edit'),
+        route('social-data.index'),route('social-data.create'),request()->is('social-data/*/edit'),
+    ];
+    return $array;
+}
+
+function GraphAllMenuArr()
+{
+    $array =[
+        route('sale-graph.index'),request()->is('sale-graph*'),
+        route('sale-graph-comparison.index'),request()->is('sale-graph-comparison*'),
+        route('after-sale-graph.index'),request()->is('after-sale-graph*'),
+        route('after-sale-graph-comparison.index'),request()->is('after-sale-graph-comparison*'),
+        route('test-drive-graph.index'),request()->is('test-drive-graph*'),
+        route('online-service-booking-graph.index'),request()->is('online-service-booking-graph*'),
+        route('service-offers-graph.index'),request()->is('service-offers-graph*'),
+        route('contact-us-graph.index'),request()->is('contact-us-graph*'),
+        route('used-cars-graph.index'),request()->is('used-cars-graph*'),
+        route('hr-graph.index'),request()->is('hr-graph*'),
+        route('smo-graph.index'),request()->is('smo-graph*'),
+        route('events-graph.index'),request()->is('events-graph*'),
+    ];
+    return $array;
+}
+
+function FormDataAllMenuArr()
+{
+    $array =[
+        route('city.index'),route('city.create'),request()->is('city/*/edit'),
+        route('branch.index'),route('branch.create'),request()->is('branch/*/edit'),
+        route('vehicle.index'),route('vehicle.create'),request()->is('vehicle/*/edit'),
+        route('source.index'),route('source.create'),request()->is('source/*/edit'),
+        route('campaign.index'),route('campaign.create'),request()->is('campaign/*/edit'),
+        route('bank.index'),route('bank.create'),request()->is('bank/*/edit'),
+    ];
+    return $array;
+}
+
 
 function currentDate() {
     return formateDate(now());
@@ -128,6 +186,8 @@ function checkApplicationType($type) {
             return 'after_sales';
         case 'Smo Leads':
             return 'smo_leads';
+        case 'Career':
+            return 'career';
         default:
             return 'leads';
     }

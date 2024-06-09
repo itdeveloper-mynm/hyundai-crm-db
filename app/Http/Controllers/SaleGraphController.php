@@ -211,6 +211,7 @@ class SaleGraphController extends Controller
 
     public function comparisonIndexAfterSale(Request $request)
     {
+
         $startDate = request('start_date') ?? startDate();
         $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
@@ -308,9 +309,7 @@ class SaleGraphController extends Controller
             'vehicle_id' => request('vehicle_id')
         ];
 
-        $opt_filters = [
-            'department' => 'sales_maketing',
-        ];
+        $opt_filters = [];
 
 
         $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
@@ -319,7 +318,7 @@ class SaleGraphController extends Controller
         $data['total_performance_count'] = array_sum($data['first_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
-        $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate, $filters);
+        $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
         $data['city_graph'] = Application::countByCity($startDate, $endDate, $first_types, $filters);
         $data['dropdown'] = getCommonData();
 
@@ -346,9 +345,7 @@ class SaleGraphController extends Controller
             'vehicle_id' => request('vehicle_id')
         ];
 
-        $opt_filters = [
-            'department' => 'sales_maketing',
-        ];
+        $opt_filters = [];
 
 
         $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
@@ -397,5 +394,176 @@ class SaleGraphController extends Controller
 
        return view('admin.service_offers.index' , $data);
     }
+
+    public function contactUsIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['contact_us'];
+
+        $filters = [
+            'city_id' => request('city_id'),
+            'branch_id' => request('branch_id'),
+            'vehicle_id' => request('vehicle_id')
+        ];
+
+        $opt_filters = [
+            'department' => 'after_sales',
+        ];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters,$opt_filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.contact_us.index' , $data);
+    }
+
+    public function usedCarsIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['used_cars'];
+
+        $filters = [
+        ];
+
+        $opt_filters = [];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.used_car.graph_index' , $data);
+    }
+
+    public function hrIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['career'];
+
+        $filters = [
+            'city_id' => request('city_id'),
+            'branch_id' => request('branch_id')
+        ];
+
+        $opt_filters = [];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.hr.index' , $data);
+    }
+
+
+    public function smoIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['smo_leads'];
+
+        $filters = [
+            'city_id' => request('city_id'),
+            'branch_id' => request('branch_id'),
+            'vehicle_id' => request('vehicle_id'),
+            'source_id' => request('source_id')
+        ];
+
+        $opt_filters = [];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.smo_lead.graph_index' , $data);
+    }
+
+    public function eventsIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $first_types = ['events'];
+
+        $filters = [
+            'city_id' => request('city_id'),
+            'branch_id' => request('branch_id'),
+            'vehicle_id' => request('vehicle_id'),
+            'source_id' => request('source_id'),
+            'campaign_id' => request('campaign_id')
+        ];
+
+        $opt_filters = [];
+
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+        $data['total_performance_count'] = array_sum($data['first_count']);
+
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.events.graph_index' , $data);
+    }
+
 
 }

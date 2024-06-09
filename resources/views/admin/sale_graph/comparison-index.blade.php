@@ -391,7 +391,7 @@
                                         <div class="separator border-gray-200"></div>
                                         <form method="GET" action="{{ route('sale-graph-comparison.index') }}"
                                             class="form d-flex flex-column flex-lg-row" id="myForm">
-                                            @csrf
+                                            {{-- @csrf --}}
                                             <div class="px-7 py-5">
                                                 <div class="row">
                                                     <div class="mb-3 col-6">

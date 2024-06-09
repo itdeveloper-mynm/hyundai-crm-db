@@ -31,9 +31,9 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('sale-graph.index') }}"
+                                <form method="GET" action="{{ route('service-offers-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    @csrf
+                                    {{-- @csrf --}}
                                     <div class="px-7 py-5">
 
                                         <div class="mb-3">
@@ -312,7 +312,7 @@
 
         // Chart labels
         // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        const labels = <?php echo json_encode($months); ?>;
+        const labels = @json($months) ;
 
         // Chart data
         const data = {
@@ -352,8 +352,8 @@
         // Example data
         //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
         //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-        var xData = <?php echo json_encode($vehcile_graph['vehicle_names']); ?>;
-        var yData = <?php echo json_encode($vehcile_graph['vehicle_count']); ?>;
+        var xData = @json($vehcile_graph['vehicle_names']) ;
+        var yData = @json($vehcile_graph['vehicle_count']) ;
 
         // Generate random fill colors
         var fillColors = Array.from({ length: xData.length }, () => getRandomColor());

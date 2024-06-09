@@ -31,7 +31,7 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('online-service-booking-graph.index') }}"
+                                <form method="GET" action="{{ route('hr-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
@@ -62,23 +62,6 @@
                                                             data-placeholder="{{ __('select option') }}"
                                                             data-allow-clear="true">
                                                             <option value="">--select--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value=""></option>
-                                                            @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                </option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -163,126 +146,6 @@
                 <!--end::Col-->
             </div>
 
-            <div class="row gx-5 gx-xl-10">
-                <!--begin::Col-->
-                <div class="col-xxl-12 mb-5 mb-xl-10">
-                    <!--begin::Chart widget 8-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-5">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Vehicles Interested</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body pt-6">
-                            <!--begin::Tab content-->
-                            <div class="tab-content">
-                                <!--end::Tab pane-->
-                                <!--begin::Tab pane-->
-                                <div class="tab-pane fade active show" id="" role="tabpanel">
-                                    <div id="graph_3" style="height: 350px;"></div>
-                                    <!--begin::Chart-->
-                                    <!--end::Chart-->
-                                </div>
-                                <!--end::Tab pane-->
-                            </div>
-                            <!--end::Tab content-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 8-->
-                </div>
-                <!--end::Col-->
-            </div>
-            {{--  --}}
-
-            <div class="row gx-5 gx-xl-10">
-                <!--begin::Col-->
-                <div class="col-xxl-12 mb-5 mb-xl-10">
-                    <!--begin::Chart widget 8-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-5">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">City</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        @foreach ($citygraph as $campaign_wise)
-                            @if ($loop->first)
-                                @php $first_show = "show"; @endphp
-                            @else
-                                @php $first_show = ""; @endphp
-                            @endif
-                            <div class="card-body pt-2 pb-0">
-                                <div class="row g-5 g-xl-10 mb-5">
-                                    <!--begin::Accordion-->
-                                    <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['city_id'] }}">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button fs-4 fw-semibold" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
-                                                    aria-expanded="true"
-                                                    aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}">
-                                                    {{ $campaign_wise['name'] ?? '' }}
-                                                    <span
-                                                        class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                </button>
-                                            </h2>
-                                            <div id="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
-                                                class="accordion-collapse collapse {{ $first_show }}"
-                                                aria-labelledby="kt_accordion_1_header_1"
-                                                data-bs-parent="#kt_accordion_{{ $campaign_wise['city_id'] }}">
-                                                <div class="accordion-body">
-                                                    <div class="card-body pt-5">
-                                                        @foreach ($campaign_wise['branches'] as $source_data)
-                                                            @if (isset($source_data))
-                                                                <!--begin::Item-->
-                                                                <div class="d-flex flex-stack">
-                                                                    <!--begin::Section-->
-                                                                    <span
-                                                                        class="text-black fw-semibold fs-6 me-2">{{ $source_data['name'] ?? '' }}</span>
-                                                                    <!--end::Section-->
-                                                                    <!--begin::Action-->
-                                                                    <span
-                                                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
-                                                                        <span
-                                                                            class="badge py-3 px-4 fs-7 badge-light-primary">{{ $source_data['count'] ?? 0 }}</span>
-                                                                        <!--end::Svg Icon-->
-                                                                    </span>
-                                                                    <!--end::Action-->
-                                                                </div>
-                                                                <!--end::Item-->
-                                                                <!--begin::Separator-->
-                                                                <div class="separator separator-dashed my-3"></div>
-                                                                <!--end::Separator-->
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Accordion-->
-                                </div>
-                            </div>
-                        @endforeach
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 8-->
-                </div>
-                <!--end::Col-->
-            </div>
-
         </div>
         <!--end::Content container-->
     </div>
@@ -318,7 +181,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Hr',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
@@ -348,60 +211,6 @@
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
-
-        // Example data
-        //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
-        //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-        var xData = @json($vehcile_graph['vehicle_names']) ;
-        var yData = @json($vehcile_graph['vehicle_count']) ;
-
-        // Generate random fill colors
-        var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
-
-        // Create series data
-        var seriesData = xData.map((x, index) => ({
-        x: x,
-        y: yData[index],
-        fill: fillColors[index]
-        }));
-
-        // Function to generate a random color
-        function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-        }
-
-        // Chart options
-        var options = {
-        series: [{
-            data: seriesData
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-            horizontal: true,
-            distributed: true
-            }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-            categories: xData,
-        }
-        };
-
-        // Render the chart
-        var chart = new ApexCharts(document.querySelector("#graph_3"), options);
-        chart.render();
-
 
 
     </script>

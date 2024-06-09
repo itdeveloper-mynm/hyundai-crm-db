@@ -31,7 +31,7 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('after-sale-graph.index') }}"
+                                <form method="GET" action="{{ route('smo-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
@@ -77,6 +77,21 @@
                                                             <option value="">--select--</option>
                                                             @foreach ($dropdown['vehicles'] as $vehicle)
                                                                 <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label class="form-label fw-semibold">{{ __('Source') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="source_id" id="source_id"
+                                                            data-control="select"
+                                                            data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value="">--select--</option>
+                                                            @foreach ($dropdown['sources'] as $source)
+                                                                <option value="{{ $source->id }}" @selected(request('source_id') == $source->id)>{{ $source->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -163,18 +178,42 @@
                 <!--end::Col-->
             </div>
 
-
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
-                    <!--begin::Card widget 20-->
-                    <div class="card card-bordered">
-                        <div class="card-body">
-                            <div id="graph_2" style="height: 350px;"></div>
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Vehicles Interested</span>
+                            </h3>
+                            <!--end::Title-->
                         </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_3" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
                     </div>
+                    <!--end::Chart widget 8-->
                 </div>
+                <!--end::Col-->
             </div>
+            {{--  --}}
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -185,13 +224,13 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                <span class="card-label fw-bold text-dark">City</span>
                             </h3>
                             <!--end::Title-->
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                        @foreach ($countsByCampaign as $campaign_wise)
+                        @foreach ($citygraph as $campaign_wise)
                             @if ($loop->first)
                                 @php $first_show = "show"; @endphp
                             @else
@@ -200,26 +239,26 @@
                             <div class="card-body pt-2 pb-0">
                                 <div class="row g-5 g-xl-10 mb-5">
                                     <!--begin::Accordion-->
-                                    <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['campaign_id'] }}">
+                                    <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['city_id'] }}">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
                                                 <button class="accordion-button fs-4 fw-semibold" type="button"
                                                     data-bs-toggle="collapse"
-                                                    data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
+                                                    data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
                                                     aria-expanded="true"
-                                                    aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}">
+                                                    aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}">
                                                     {{ $campaign_wise['name'] ?? '' }}
                                                     <span
                                                         class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
                                                 </button>
                                             </h2>
-                                            <div id="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
+                                            <div id="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
                                                 class="accordion-collapse collapse {{ $first_show }}"
                                                 aria-labelledby="kt_accordion_1_header_1"
-                                                data-bs-parent="#kt_accordion_{{ $campaign_wise['campaign_id'] }}">
+                                                data-bs-parent="#kt_accordion_{{ $campaign_wise['city_id'] }}">
                                                 <div class="accordion-body">
                                                     <div class="card-body pt-5">
-                                                        @foreach ($campaign_wise['source'] as $source_data)
+                                                        @foreach ($campaign_wise['branches'] as $source_data)
                                                             @if (isset($source_data))
                                                                 <!--begin::Item-->
                                                                 <div class="d-flex flex-stack">
@@ -294,24 +333,10 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
-                    data: @json($first_count) ,
-                    fill: false,
-                    borderColor: primaryColor,
-                    tension: 0.6
-                },
-                {
-                    label: 'Service Offers',
-                    data: @json($second_count) ,
+                    label: 'Smo Leads',
+                    data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
-                    tension: 0.6
-                },
-                {
-                    label: 'Contact Us (After Sales)',
-                    data: @json($third_count) ,
-                    fill: false,
-                    borderColor: successColor,
                     tension: 0.6
                 }
             ]
@@ -339,91 +364,57 @@
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
 
+        // Example data
+        //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
+        //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
+        var xData = @json($vehcile_graph['vehicle_names']) ;
+        var yData = @json($vehcile_graph['vehicle_count']) ;
 
+        // Generate random fill colors
+        var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
 
-        ////second chart
+        // Create series data
+        var seriesData = xData.map((x, index) => ({
+        x: x,
+        y: yData[index],
+        fill: fillColors[index]
+        }));
 
+        // Function to generate a random color
+        function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+        }
+
+        // Chart options
         var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
-
-            xaxis: {
-                categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
-
-            },
-            title: {
-                text: 'Departments Overall Leads',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
-                }
+        series: [{
+            data: seriesData
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+            horizontal: true,
+            distributed: true
             }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: xData,
+        }
         };
 
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
+        // Render the chart
+        var chart = new ApexCharts(document.querySelector("#graph_3"), options);
         chart.render();
 
 

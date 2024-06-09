@@ -33,7 +33,7 @@
                                 <div class="separator border-gray-200"></div>
                                 <form method="GET" action="{{ route('sale-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    @csrf
+                                    {{-- @csrf --}}
                                     <div class="px-7 py-5">
 
                                         <div class="mb-3">
@@ -74,7 +74,7 @@
                                                             data-control="select"
                                                             data-placeholder="{{ __('select option') }}"
                                                             data-allow-clear="true">
-                                                            <option value=""></option>
+                                                            <option value="">--select--</option>
                                                             @foreach ($dropdown['vehicles'] as $vehicle)
                                                                 <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
                                                                 </option>
@@ -89,7 +89,7 @@
                                                             data-control="select"
                                                             data-placeholder="{{ __('select option') }}"
                                                             data-allow-clear="true">
-                                                            <option value=""></option>
+                                                            <option value="">--select--</option>
                                                             @foreach ($dropdown['sources'] as $source)
                                                                 <option value="{{ $source->id }}" @selected(request('source_id') == $source->id)>{{ $source->name }}
                                                                 </option>
@@ -106,7 +106,7 @@
                                                             data-control="select"
                                                             data-placeholder="{{ __('select option') }}"
                                                             data-allow-clear="true">
-                                                            <option value=""></option>
+                                                            <option value="">--select--</option>
                                                             @foreach ($dropdown['campaigns'] as $campaign)
                                                                 <option value="{{ $campaign->id }}" @selected(request('campaign_id') == $campaign->id)>{{ $campaign->name }}
                                                                 </option>
@@ -531,35 +531,36 @@
 
         // Chart labels
         // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        const labels = <?php echo json_encode($months); ?>;
+     // Chart labels
+        const labels = @json($months);
 
         // Chart data
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Request a Quote',
-                    data: <?php echo json_encode($first_count); ?>,
+                    label: 'Request a Quote ('+ @json($second_graph_data[0]) +')',
+                    data: @json($first_count),
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Special Offers',
-                    data: <?php echo json_encode($second_count); ?>,
+                    label: 'Special Offers ('+ @json($second_graph_data[1]) +')',
+                    data: @json($second_count),
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Smo Leads',
-                    data: <?php echo json_encode($third_count); ?>,
+                    label: 'Smo Leads ('+ @json($second_graph_data[2]) +')',
+                    data: @json($third_count),
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (Sales & Marketing)',
-                    data: <?php echo json_encode($fourth_count); ?>,
+                    label: 'Contact Us (Sales & Marketing) ('+ @json($second_graph_data[3]) +')',
+                    data: @json($fourth_count),
                     fill: false,
                     borderColor: warningColor,
                     tension: 0.6
@@ -575,13 +576,32 @@
                 plugins: {
                     title: {
                         display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
                 }
             }
         };
@@ -590,13 +610,12 @@
         var myChart = new Chart(ctx, config);
 
 
-
         ////second chart
 
         var options = {
             series: [{
                 name: 'Count',
-                data: <?php echo json_encode($second_graph_data); ?>
+                data:  @json($second_graph_data)
             }],
             chart: {
                 height: 350,
@@ -680,8 +699,8 @@
         // Example data
         //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
         //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-        var xData = <?php echo json_encode($vehcile_graph['vehicle_names']); ?>;
-        var yData = <?php echo json_encode($vehcile_graph['vehicle_count']); ?>;
+        var xData = @json($vehcile_graph['vehicle_names']) ;
+        var yData = @json($vehcile_graph['vehicle_count']) ;
 
         // Generate random fill colors
         var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
@@ -734,11 +753,11 @@
         var ctx1 = document.getElementById('graph_4');
 
         const data1 = {
-        labels: <?php echo json_encode($salary_graph['monthly_salary']); ?> ,
+        labels: @json($salary_graph['monthly_salary']) ,
         datasets: [
             {
             label: 'Dataset',
-            data: <?php echo json_encode($salary_graph['monthly_salary_count']); ?>,
+            data: @json($salary_graph['monthly_salary_count']) ,
             backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
@@ -775,11 +794,11 @@
     var ctx2 = document.getElementById('graph_5');
 
     const data2 = {
-    labels: <?php echo json_encode($purchase_plan_graph['purchase_plan']); ?> ,
+    labels: @json($purchase_plan_graph['purchase_plan']) ,
     datasets: [
         {
         label: 'Dataset',
-        data: <?php echo json_encode($purchase_plan_graph['purchase_plan_count']); ?>,
+        data: @json($purchase_plan_graph['purchase_plan_count']) ,
         backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',

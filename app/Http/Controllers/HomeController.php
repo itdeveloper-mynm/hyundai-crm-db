@@ -27,8 +27,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $startDate = request('start_date') ?? formateDate(now()->subMonths(3)->startOfMonth());
-        $endDate = request('end_date') ?? formateDate(now());
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];

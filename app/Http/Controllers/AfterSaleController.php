@@ -19,6 +19,12 @@ class AfterSaleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:after-sale-leads-list', ['only' => ['index','show']]);
+        $this->middleware('permission:after-sale-leads-create', ['only' => ['create','store']]);
+        $this->middleware('permission:after-sale-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:after-sale-leads-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:after-sale-leads-import', ['only' => ['leadsImport']]);
+        $this->middleware('permission:after-sale-leads-export', ['only' => ['leadsImport']]);
     }
     /**
      * Display a listing of the resource.

@@ -181,9 +181,9 @@
                                             <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                         </div>
                                         <div class="separator border-gray-200"></div>
-                                        <form method="GET" action="{{ route('sale-graph-comparison.index') }}"
+                                        <form method="GET" action="{{ route('after-sale-graph-comparison.index') }}"
                                             class="form d-flex flex-column flex-lg-row" id="myForm">
-                                            @csrf
+                                            {{-- @csrf --}}
                                             <div class="px-7 py-5">
                                                 <div class="row">
                                                     <div class="mb-3 col-6">
@@ -582,21 +582,21 @@
             labels: labels,
             datasets: [{
                     label: 'Online Service Booking',
-                    data: <?php echo json_encode($first_count); ?>,
+                    data: @json($first_count) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Offers',
-                    data: <?php echo json_encode($second_count); ?>,
+                    data: @json($second_count) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
                     label: 'Contact Us (After Sales)',
-                    data: <?php echo json_encode($third_count); ?>,
+                    data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
@@ -739,21 +739,21 @@ const data_comp = {
     labels: labels_comp,
     datasets: [{
                     label: 'Online Service Booking',
-                    data: <?php echo json_encode($first_count_comp); ?>,
+                    data: @json($first_count_comp) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
                     label: 'Service Offers',
-                    data: <?php echo json_encode($second_count_comp); ?>,
+                    data: @json($second_count_comp) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
                     label: 'Contact Us (After Sales)',
-                    data: <?php echo json_encode($third_count_comp); ?>,
+                    data: @json($third_count_comp) ,
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
