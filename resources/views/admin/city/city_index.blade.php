@@ -113,22 +113,24 @@
                                 </div>
                                 <form>
                         </div> --}}
+                        @can('city-export')
+                            <button type="button" class="btn btn-success me-3 export_excel">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Excel') }}
+                            </button>
 
-                        <button type="button" class="btn btn-success me-3 export_excel">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                            {{ __('Excel') }}
-                        </button>
+                            <button type="button" class="btn btn-warning me-3 export_print">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
+                                {{ __('Print') }}
 
-                        <button type="button" class="btn btn-warning me-3 export_print">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                            {{ __('Print') }}
+                            </button>
+                        @endcan
 
-                        </button>
-
-
-                        <a href="{{ route('city.create') }}" class="btn btn-primary">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                            {{ __('Add') }}</a>
+                        @can('city-create')
+                            <a href="{{ route('city.create') }}" class="btn btn-primary">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                {{ __('Add') }}</a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -222,13 +224,15 @@ var table = $('#user_table').DataTable({
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
+                @can('city-edit')
                 res = '<a href="{{  url("city")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
-
+                @endcan
+                @can('city-delete')
                 res2 =
                     '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                     data + ')" ><i class="bi-trash"></i></a>';
-
+                @endcan
 
                 return res + res2;
             }

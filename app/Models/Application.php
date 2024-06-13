@@ -406,11 +406,45 @@ class Application extends Model
     //     });
     // }
 
+    // public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
+
+    //     $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
+
+    //     $maincounts = self::select(
+    //             DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"),
+    //             DB::raw('COUNT(*) as count'),
+    //             //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
+    //         )
+    //         ->whereBetween('created_at', [$startDate, $endDate])
+    //         ->whereIn('type', $types)
+    //         ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
+    //         ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+    //         ->graphsearch($filters)
+    //         ->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
+    //             return $query->where('department', $opt_filters['department']);
+    //         });
+
+    //     $counts = $maincounts->pluck('count')->toArray();
+    //    // $customerIds = $maincounts->pluck('customer_ids')->toArray();
+
+    //     //$counts = $maincounts->get()->pluck('count')->toArray();
+    //     //dd($counts);
+
+    //     return $counts;
+    // }
+
     public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
 
-        $maincounts = self::select(DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"), DB::raw('COUNT(*) as count'))
+        // Generate the date range sequence
+        $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
+
+        $maincounts = self::select(
+                DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"),
+                DB::raw('COUNT(*) as count'),
+                //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
+            )
             ->whereBetween('created_at', [$startDate, $endDate])
             ->whereIn('type', $types)
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
@@ -418,13 +452,35 @@ class Application extends Model
             ->graphsearch($filters)
             ->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
                 return $query->where('department', $opt_filters['department']);
-            });
+            })
+            ->get()
+            ->pluck('count', 'month_year');
 
-        $counts = $maincounts->pluck('count')->toArray();
-        //$counts = $maincounts->get()->pluck('count')->toArray();
-        //dd($counts);
+            $results = [];
+            foreach ($dates as $date) {
+                // $results[$date] = $maincounts->get($date, 0);
+                $results[$date] = $maincounts->get($date, );
+            }
 
-        return $counts;
+            return array_values($results);
+
+    }
+
+      // Helper function to generate the date range
+      public static function generateDateRange($startDate, $endDate, $dateFormat) {
+        $start = new \DateTime($startDate);
+        $end = new \DateTime($endDate);
+        $end->modify('+1 day'); // to include end date in the range
+
+        $interval = ($dateFormat == '%M %Y') ? new \DateInterval('P1M') : new \DateInterval('P1D');
+        $period = new \DatePeriod($start, $interval, $end);
+
+        $dates = [];
+        foreach ($period as $date) {
+            $dates[] = $date->format($dateFormat == '%M %Y' ? 'F Y' : 'Y-m-d');
+        }
+
+        return $dates;
     }
 
 

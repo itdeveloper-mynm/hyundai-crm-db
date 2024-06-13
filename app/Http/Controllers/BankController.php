@@ -11,6 +11,10 @@ class BankController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:bank-list', ['only' => ['index','show']]);
+        $this->middleware('permission:bank-create', ['only' => ['create','store']]);
+        $this->middleware('permission:bank-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:bank-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

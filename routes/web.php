@@ -78,6 +78,7 @@ Route::resource('lead', LeadController::class);
 Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
     Route::post('leads-import',  'leadsImport')->name('leads.import');
+    Route::get('leads-export',  'leadsExport')->name('leads.export');
 });
 
 Route::resource('after-sale', AfterSaleController::class);
@@ -159,6 +160,7 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::get('hr-graph',  'hrIndex')->name('hr-graph.index');
     Route::get('smo-graph',  'smoIndex')->name('smo-graph.index');
     Route::get('events-graph',  'eventsIndex')->name('events-graph.index');
+    Route::get('actualsales-graph',  'actualsalesGraphIndex')->name('actualsales-graph.index');
 });
 
 

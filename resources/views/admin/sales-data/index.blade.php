@@ -116,16 +116,18 @@
                                 </button> -->
 
 
+                            @can('sales-data-import')
 
-                            <a href="{{ asset('excel_files/sales-data-sample.xlsx') }}" class="btn btn-success  me-3"
-                                download>
-                                <i class="fa fa-download"></i>
-                                {{ __('Sample') }}</a>
+                                <a href="{{ asset('excel_files/sales-data-sample.xlsx') }}" class="btn btn-success  me-3"
+                                    download>
+                                    <i class="fa fa-download"></i>
+                                    {{ __('Sample') }}</a>
 
-                            <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                data-bs-target="#importModal">
-                                <i class="fa fa-upload"></i>
-                                {{ __('Import') }}</a>
+                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
+                                    data-bs-target="#importModal">
+                                    <i class="fa fa-upload"></i>
+                                    {{ __('Import') }}</a>
+                            @endcan
 
                             {{--
                             <a href="{{ route('old-leads.create') }}" class="btn btn-primary">
@@ -351,13 +353,16 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+
+                        @can('sales-data-edit')
                         res = '<a href="{{ url('sales-data') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
-
+                        @endcan
+                        @can('sales-data-delete')
                         res2 =
                             '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                             data + ')" ><i class="bi-trash"></i></a>';
-
+                        @endcan
 
                         return res + res2;
                     }

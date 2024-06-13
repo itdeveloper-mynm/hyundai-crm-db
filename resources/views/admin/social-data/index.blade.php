@@ -104,9 +104,11 @@
                                 </form>
                             </div>
 
-                            <a href="{{ route('social-data.create') }}" class="btn btn-primary">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                {{ __('Add') }}</a>
+                            @can('social-data-create')
+                                <a href="{{ route('social-data.create') }}" class="btn btn-primary">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                    {{ __('Add') }}</a>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -312,13 +314,15 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+                        @can('social-data-edit')
                         res = '<a href="{{ url('social-data') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
-
+                        @endcan
+                        @can('social-data-delet')
                         res2 =
                             '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                             data + ')" ><i class="bi-trash"></i></a>';
-
+                        @endcan
 
                         return res + res2;
                     }

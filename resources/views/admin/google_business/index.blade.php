@@ -70,6 +70,7 @@
 
                                         <div class="mb-10">
                                             <div class="row">
+                                                @can('google-business-filters')
                                                 <div class="col-lg-12 col-sm-12 col-md-12">
                                                     <label class="required form-label">{{ __('City') }}</label>
                                                     <select class="form-select mb-2" name="f_city_id" id="f_city_id"
@@ -92,7 +93,7 @@
                                                         <option value="">--select--</option>
                                                     </select>
                                                 </div>
-
+                                                @endcan
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="from" id="from" />
@@ -135,13 +136,15 @@
 
                                     </button> -->
 
-                            <a href="{{asset('excel_files/google-business.xlsx')}}" class="btn btn-success  me-3" download>
-                            <i class="fa fa-download"></i>
-                            {{ __('Sample') }}</a>
-                            <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                data-bs-target="#importModal">
-                                <i class="fa fa-upload"></i>
-                                {{ __('Import') }}</a>
+                            @can('google-business-import')
+                                <a href="{{asset('excel_files/google-business.xlsx')}}" class="btn btn-success  me-3" download>
+                                <i class="fa fa-download"></i>
+                                {{ __('Sample') }}</a>
+                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
+                                    data-bs-target="#importModal">
+                                    <i class="fa fa-upload"></i>
+                                    {{ __('Import') }}</a>
+                            @endcan
 
                         </div>
                     </div>
@@ -434,13 +437,15 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
-                        res = '<a href="{{ url('google-business') }}/' + data +
+                        @can('google-business-edit')
+                            res = '<a href="{{ url('google-business') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
-
-                        res2 =
+                        @endcan
+                        @can('google-business-delete')
+                            res2 =
                             '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                             data + ')" ><i class="bi-trash"></i></a>';
-
+                        @endcan
 
                         return res + res2;
                     }

@@ -20,6 +20,11 @@ class OldLeadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:old-leads-list', ['only' => ['index','show']]);
+        $this->middleware('permission:old-leads-create', ['only' => ['create','store']]);
+        $this->middleware('permission:old-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:old-leads-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:old-leads-export', ['only' => ['oldLeadsExport']]);
     }
 
     /**

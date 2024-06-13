@@ -15,6 +15,12 @@ class GoogleBusinessController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:google-business-list', ['only' => ['index','show']]);
+        $this->middleware('permission:google-business-create', ['only' => ['create','store']]);
+        $this->middleware('permission:google-business-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:google-business-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:google-business-import', ['only' => ['googleBusinessImport']]);
+        $this->middleware('permission:google-business-export', ['only' => ['googleBusinessExport']]);
     }
     /**
      * Display a listing of the resource.

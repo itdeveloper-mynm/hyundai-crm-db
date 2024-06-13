@@ -19,6 +19,12 @@ class UsedCarController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:used-car-leads-list', ['only' => ['index','show']]);
+        $this->middleware('permission:used-car-leads-create', ['only' => ['create','store']]);
+        $this->middleware('permission:used-car-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:used-car-leads-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:used-car-leads-import', ['only' => ['usedCarImport']]);
+        $this->middleware('permission:used-car-leads-export', ['only' => ['usedCarExport']]);
     }
     /**
      * Display a listing of the resource.

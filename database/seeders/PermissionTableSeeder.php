@@ -104,6 +104,9 @@ class PermissionTableSeeder extends Seeder
             'events-graph-list',
             'events-graph-export',
             'events-graph-filters',
+            'actualsales-graph-list',
+            'actualsales-graph-export',
+            'actualsales-graph-filters',
             'crm-leads-list',
             'crm-leads-create',
             'crm-leads-edit',
@@ -158,6 +161,10 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
+            'users-list',
+            'users-create',
+            'users-edit',
+            'users-delete',
          ];
 
          foreach ($permissions as $permission) {

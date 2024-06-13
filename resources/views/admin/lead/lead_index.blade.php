@@ -181,6 +181,12 @@
 
                             </button> -->
 
+                            {{-- <form action="{{ route('leads.export') }}" method="GET">
+                                <button type="submit" class="btn btn-success me-3">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            </form> --}}
 
                             @can('campaign-leads-import')
                                 <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-success  me-3" download>
@@ -394,13 +400,15 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+                        @can('campaign-leads-edit')
                         res = '<a href="{{ url('lead') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
-
+                        @endcan
+                        @can('campaign-leads-delete')
                         res2 =
                             '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                             data + ')" ><i class="bi-trash"></i></a>';
-
+                        @endcan
 
                         return res + res2;
                     }

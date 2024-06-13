@@ -17,6 +17,12 @@ class SmoLeadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:smo-leads-list', ['only' => ['index','show']]);
+        $this->middleware('permission:smo-leads-create', ['only' => ['create','store']]);
+        $this->middleware('permission:smo-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:smo-leads-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:smo-leads-import', ['only' => ['smoLeadImport']]);
+        $this->middleware('permission:smo-leads-export', ['only' => ['smoLeadExport']]);
     }
     /**
      * Display a listing of the resource.

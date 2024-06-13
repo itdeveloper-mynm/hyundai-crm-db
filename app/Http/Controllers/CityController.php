@@ -16,6 +16,10 @@ class CityController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:city-list', ['only' => ['index','show']]);
+        $this->middleware('permission:city-create', ['only' => ['create','store']]);
+        $this->middleware('permission:city-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:city-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

@@ -11,6 +11,10 @@ class SocialDataController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:social-data-list', ['only' => ['index','show']]);
+        $this->middleware('permission:social-data-create', ['only' => ['create','store']]);
+        $this->middleware('permission:social-data-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:social-data-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

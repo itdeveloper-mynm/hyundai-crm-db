@@ -15,6 +15,12 @@ class CrmLeadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:crm-leads-list', ['only' => ['index','show']]);
+        $this->middleware('permission:crm-leads-create', ['only' => ['create','store']]);
+        $this->middleware('permission:crm-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:crm-leads-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:crm-leads-import', ['only' => ['crmleadsImport']]);
+        $this->middleware('permission:crm-leads-export', ['only' => ['crmleadsExport']]);
     }
     /**
      * Display a listing of the resource.

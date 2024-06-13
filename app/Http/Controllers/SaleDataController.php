@@ -14,6 +14,11 @@ class SaleDataController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:sales-data-list', ['only' => ['index','show']]);
+        $this->middleware('permission:sales-data-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:sales-data-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:sales-data-import', ['only' => ['saleDataImport']]);
+        $this->middleware('permission:sales-data-export', ['only' => ['saleDataExport']]);
     }
 
     /**

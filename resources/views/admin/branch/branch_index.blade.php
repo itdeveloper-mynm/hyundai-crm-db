@@ -1,50 +1,51 @@
 @extends('layouts.master')
 
 @section('content')
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content_container" class="app-container">
+            <div class="card-header mb-3" style="padding: 0px;">
 
 
-<div id="kt_app_content" class="app-content flex-column-fluid">
-    <div id="kt_app_content_container" class="app-container">
-        <div class="card-header mb-3" style="padding: 0px;">
-
-
-            <div class="card-toolbar ">
-                <div class="row  mt-5">
-                <div class="col-lg-4">
+                <div class="card-toolbar ">
+                    <div class="row  mt-5">
+                        <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
 
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Branches List') }}</h1>
+                                    <h1
+                                        class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        {{ __('Branches List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('branch.index') }}" class="text-muted text-hover-primary">{{ __('Branch') }}</a>
+                                            <a href="{{ route('branch.index') }}"
+                                                class="text-muted text-hover-primary">{{ __('Branch') }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                    <div class="col-lg-4">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-6">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-                                            transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
-                                        <path
-                                            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-                                            fill="currentColor" />
-                                    </svg>
-                                </span>
-                                <input type="text" data-kt-customer-table-filter="search" name="search" id="search"
-                                    class="form-control w-250px ps-15" placeholder="Search" />
+                        <div class="col-lg-4">
+                            <div class="card-title">
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                            <path
+                                                d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                    <input type="text" data-kt-customer-table-filter="search" name="search"
+                                        id="search" class="form-control w-250px ps-15" placeholder="Search" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 d-flex justify-content-end">
+                        <div class="col-lg-4 d-flex justify-content-end">
 
 
-                        {{-- <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                            {{-- <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-end">
                             <span class="svg-icon svg-icon-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -113,318 +114,321 @@
                                 </div>
                                 <form>
                         </div> --}}
+                            @can('branch-export')
+                                <button type="button" class="btn btn-success me-3 export_excel">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
 
-                        <button type="button" class="btn btn-success me-3 export_excel">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                            {{ __('Excel') }}
-                        </button>
+                                <button type="button" class="btn btn-warning me-3 export_print">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
+                                    {{ __('Print') }}
 
-                        <button type="button" class="btn btn-warning me-3 export_print">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                            {{ __('Print') }}
+                                </button>
+                            @endcan
 
-                        </button>
-
-
-                        <a href="{{ route('branch.create') }}" class="btn btn-primary">
-                            <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                            {{ __('Add') }}</a>
+                            @can('branch-create')
+                                <a href="{{ route('branch.create') }}" class="btn btn-primary">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                    {{ __('Add') }}</a>
+                            @endcan
+                        </div>
                     </div>
                 </div>
+
+
             </div>
+            <div class="card">
+                <div class="card-body" style="padding: 1rem;">
+                    <table id="user_table" class="table table-striped table-bordered" width="100%">
+                        <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('City Name') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
 
+                        <tbody></tbody>
 
-        </div>
-        <div class="card">
-            <div class="card-body" style="padding: 1rem;">
-                <table id="user_table" class="table table-striped table-bordered" width="100%">
-                    <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th>{{ __('Name') }}</th>
-                            <th>{{ __('City Name') }}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th>{{ __('Action') }}</th>
-                        </tr>
-                    </thead>
-
-                    <tbody></tbody>
-
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 @endsection
 
 @section('js')
-<script>
-var table = $('#user_table').DataTable({
-    processing: true,
-    serverSide: true,
-    responsive: true,
-    searching: true,
-    filter: true,
+    <script>
+        var table = $('#user_table').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            searching: true,
+            filter: true,
 
-    ajax: {
-        "url": "{{ route('branch.pagination') }}",
-        "type": "GET",
-        'data': function(data) {
+            ajax: {
+                "url": "{{ route('branch.pagination') }}",
+                "type": "GET",
+                'data': function(data) {
 
-            data.state_id = $('#state_id').val();
-            data.status = $('#status').val();
-            data.from = $('#from').val();
-            data.to = $('#to').val();
-        }
-    },
-    columns: [{
-            data: 'no',
-            name: 'no',
-            width: '5%',
-            className: 'center'
-        },
-        {
-            data: 'name',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'city_id',
-            render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-
-        {
-            data: [{
-                id: 'id',
-                status: "status"
-            }, ],
-            data: 'status',
-            render: function(data, type, row) {
-                if (row.status == true) {
-                    var result =
-                        '<i class="fa fa-toggle-on" aria-hidden="true" onclick="updateStatus(' + row
-                        .id + ',' + 0 + ')" style="font-size:25px; color:green;"></i>';
-                    return result;
+                    data.state_id = $('#state_id').val();
+                    data.status = $('#status').val();
+                    data.from = $('#from').val();
+                    data.to = $('#to').val();
                 }
-
-                if (row.status == false) {
-                    var result =
-                        '<i class="fa fa-toggle-off" aria-hidden="true" onclick="updateStatus(' + row
-                        .id + ',' + 1 + ')" style="font-size:25px; color:red;"></i>';
-                    return result;
-                }
-
-            }
-        },
-
-
-        {
-            data: 'id',
-            render: function(data, type, row) {
-                var res = '-';
-                var res2 = '-';
-                res = '<a href="{{  url("branch")  }}/' + data +
-                    '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
-
-                res2 =
-                    '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
-                    data + ')" ><i class="bi-trash"></i></a>';
-
-
-                return res + res2;
-            }
-        }
-    ],
-    order: [
-        [1, "desc"]
-    ],
-    dom: 'lBfrtip',
-    buttons: [{
-            extend: 'excel',
-            className: 'btn-success',
-            text: "{{ __('table.print') }}",
-            exportOptions: {
-                columns: [0,1,2,3]
-            }
-        },
-
-        {
-            extend: 'print',
-            className: 'btn-warning',
-            text: "{{ __('table.excel') }}",
-            exportOptions: {
-                columns: [0,1,2,3]
-            }
-        },
-
-    ],
-
-    columnDefs: [{
-            targets: 0,
-            sortable: false,
-            orderable: false
-        },
-        {
-            targets: 1,
-            sortable: true,
-            orderable: true
-        },
-        {
-            targets: 2,
-            sortable: true,
-            orderable: true
-        },
-        {
-            "className": "dt-center",
-            "targets": "_all"
-        },
-
-    ],
-    "oLanguage": {
-        "sSearch": "{{ __('search') }}",
-        "sEmptyTable": "{{ __('not data found') }}"
-    },
-});
-table.on('draw.dt', function() {
-    var PageInfo = $('#user_table').DataTable().page.info();
-    table.column(0, {
-        page: 'current'
-    }).nodes().each(function(cell, i) {
-        cell.innerHTML = i + 1 + PageInfo.start;
-    });
-});
-
-//filter apply and reset submit form
-
-$('#myForm').submit(function(e) {
-    e.preventDefault();
-    table.draw();
-});
-
-$('#reset').click(function(e) {
-    e.preventDefault();
-    var from = document.querySelector('#from');
-    var to = document.querySelector('#to');
-    from.value = '';
-    to.value = '';
-    table.draw();
-
-});
-
-
-
-$('#search').keyup(function() {
-    table.search($(this).val()).draw();
-})
-
-$('.export_excel').on('click', function() {
-    $(".buttons-excel").trigger("click");
-});
-$('.export_print').on('click', function() {
-    $(".buttons-print").trigger("click");
-});
-
-function updateStatus(id, status_id) {
-    Swal.fire({
-        title: "{{ __('Status') }}",
-        text: "{{ __('Are you Sure') }}",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: "{{ __('Confirm') }}",
-        cancelButtonText: "{{ __('Cancel') }}",
-    }).then((result) => {
-        if (result.isConfirmed) {
-
-            var className = 'Branch';
-
-            $.ajax({
-                url: "{{ route('change.status') }}",
-                method: "get",
-                data: {
-                    id: id,
-                    status_id: status_id,
-                    className: className
+            },
+            columns: [{
+                    data: 'no',
+                    name: 'no',
+                    width: '5%',
+                    className: 'center'
                 },
-                success: function(data) {
-                    if (data.result == 'success') {
-                        Swal.fire(
-                            "{{ __('Updated') }}",
-                            data.message,
-                            data.result
-                        )
-                        table.ajax.reload(null, false);
-                    }
-                    if (data.result == 'error') {
-                        Swal.fire(
-                            "{{ __('Not Updated') }}",
-                            data.message,
-                            data.result
-                        )
-                    }
+                {
+                    data: 'name',
+                    render: function(data, type, row) {
 
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'city_id',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+
+                {
+                    data: [{
+                        id: 'id',
+                        status: "status"
+                    }, ],
+                    data: 'status',
+                    render: function(data, type, row) {
+                        if (row.status == true) {
+                            var result =
+                                '<i class="fa fa-toggle-on" aria-hidden="true" onclick="updateStatus(' + row
+                                .id + ',' + 0 + ')" style="font-size:25px; color:green;"></i>';
+                            return result;
+                        }
+
+                        if (row.status == false) {
+                            var result =
+                                '<i class="fa fa-toggle-off" aria-hidden="true" onclick="updateStatus(' +
+                                row
+                                .id + ',' + 1 + ')" style="font-size:25px; color:red;"></i>';
+                            return result;
+                        }
+
+                    }
+                },
+
+
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        var res = '-';
+                        var res2 = '-';
+                        @can('branch-edit')
+                            res = '<a href="{{ url('branch') }}/' + data +
+                                '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                        @endcan
+                        @can('branch-delete')
+                            res2 =
+                                '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
+                                data + ')" ><i class="bi-trash"></i></a>';
+                        @endcan
+
+
+                        return res + res2;
+                    }
+                }
+            ],
+            order: [
+                [1, "desc"]
+            ],
+            dom: 'lBfrtip',
+            buttons: [{
+                    extend: 'excel',
+                    className: 'btn-success',
+                    text: "{{ __('table.print') }}",
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    }
+                },
+
+                {
+                    extend: 'print',
+                    className: 'btn-warning',
+                    text: "{{ __('table.excel') }}",
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    }
+                },
+
+            ],
+
+            columnDefs: [{
+                    targets: 0,
+                    sortable: false,
+                    orderable: false
+                },
+                {
+                    targets: 1,
+                    sortable: true,
+                    orderable: true
+                },
+                {
+                    targets: 2,
+                    sortable: true,
+                    orderable: true
+                },
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+
+            ],
+            "oLanguage": {
+                "sSearch": "{{ __('search') }}",
+                "sEmptyTable": "{{ __('not data found') }}"
+            },
+        });
+        table.on('draw.dt', function() {
+            var PageInfo = $('#user_table').DataTable().page.info();
+            table.column(0, {
+                page: 'current'
+            }).nodes().each(function(cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
+            });
+        });
+
+        //filter apply and reset submit form
+
+        $('#myForm').submit(function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        $('#reset').click(function(e) {
+            e.preventDefault();
+            var from = document.querySelector('#from');
+            var to = document.querySelector('#to');
+            from.value = '';
+            to.value = '';
+            table.draw();
+
+        });
+
+
+
+        $('#search').keyup(function() {
+            table.search($(this).val()).draw();
+        })
+
+        $('.export_excel').on('click', function() {
+            $(".buttons-excel").trigger("click");
+        });
+        $('.export_print').on('click', function() {
+            $(".buttons-print").trigger("click");
+        });
+
+        function updateStatus(id, status_id) {
+            Swal.fire({
+                title: "{{ __('Status') }}",
+                text: "{{ __('Are you Sure') }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "{{ __('Confirm') }}",
+                cancelButtonText: "{{ __('Cancel') }}",
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var className = 'Branch';
+
+                    $.ajax({
+                        url: "{{ route('change.status') }}",
+                        method: "get",
+                        data: {
+                            id: id,
+                            status_id: status_id,
+                            className: className
+                        },
+                        success: function(data) {
+                            if (data.result == 'success') {
+                                Swal.fire(
+                                    "{{ __('Updated') }}",
+                                    data.message,
+                                    data.result
+                                )
+                                table.ajax.reload(null, false);
+                            }
+                            if (data.result == 'error') {
+                                Swal.fire(
+                                    "{{ __('Not Updated') }}",
+                                    data.message,
+                                    data.result
+                                )
+                            }
+
+                        }
+                    })
                 }
             })
         }
-    })
-}
 
 
-function rowDelete(id) {
+        function rowDelete(id) {
 
-    Swal.fire({
-        title: "{{ __('Delete') }}",
-        text: "{{ __('Are You Sure') }}",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: "{{ __('Confirm') }}",
-        cancelButtonText: "{{ __('Cancel') }}",
-    }).then((result) => {
-        if (result.isConfirmed) {
+            Swal.fire({
+                title: "{{ __('Delete') }}",
+                text: "{{ __('Are You Sure') }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "{{ __('Confirm') }}",
+                cancelButtonText: "{{ __('Cancel') }}",
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-            $.ajax({
-                url: '{{ url("branch") }}/' + id,
-                method: "DELETE",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                data: {
-                    id: id
-                },
-                success: function(data) {
-                    if (data.result == 'success') {
-                        Swal.fire(
-                            "{{ __('Deleted') }}",
-                            data.message,
-                            data.result
-                        )
-                        table.ajax.reload(null, false);
-                    }
-                    if (data.result == 'error') {
-                        Swal.fire(
-                            "{{ __('Not Deleted') }}",
-                            data.message,
-                            data.result
-                        )
-                    }
+                    $.ajax({
+                        url: '{{ url('branch') }}/' + id,
+                        method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        data: {
+                            id: id
+                        },
+                        success: function(data) {
+                            if (data.result == 'success') {
+                                Swal.fire(
+                                    "{{ __('Deleted') }}",
+                                    data.message,
+                                    data.result
+                                )
+                                table.ajax.reload(null, false);
+                            }
+                            if (data.result == 'error') {
+                                Swal.fire(
+                                    "{{ __('Not Deleted') }}",
+                                    data.message,
+                                    data.result
+                                )
+                            }
 
+                        }
+                    })
                 }
             })
         }
-    })
-}
-</script>
-
-
+    </script>
 @endsection

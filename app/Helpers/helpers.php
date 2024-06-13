@@ -45,6 +45,56 @@ function activeMenuRoute($submenus): string
 
 }
 
+function AllLeadsMenuPermissionArr()
+{
+    return [
+        'campaign-leads-list',
+        'after-sale-leads-list',
+        'used-car-leads-list',
+        'smo-leads-list',
+        'google-business-list',
+        'old-leads-list',
+        'sales-data-list',
+        'social-data-list',
+        //'crm-leads-list'
+    ];
+}
+
+function GraphMenuPermissionArr()
+{
+    return [
+        'sale-graph-list',
+        'sale-graph-comparison-list',
+        'after-sale-graph-list',
+        'after-sale-graph-comparison-list',
+        'test-drive-list',
+        'online-service-booking-list',
+        'service-offers-graph-list',
+        'contact-us-graph-list',
+        'used-cars-graph-list',
+        'hr-graph-list',
+        'smo-graph-list',
+        'events-graph-list',
+        'actualsales-graph-list',
+        //'crm-leads-list'
+    ];
+}
+
+function formDataPermissionArr()
+{
+    return [
+        'city-list',
+        'branch-list',
+        'vehicle-list',
+        'source-list',
+        'campaign-list',
+        'bank-list',
+        'sales-data-list',
+        'social-data-list',
+        //'crm-leads-list'
+    ];
+}
+
 function AllLeadsMenuArr()
 {
     $array =[
@@ -75,6 +125,7 @@ function GraphAllMenuArr()
         route('hr-graph.index'),request()->is('hr-graph*'),
         route('smo-graph.index'),request()->is('smo-graph*'),
         route('events-graph.index'),request()->is('events-graph*'),
+        route('actualsales-graph.index'),request()->is('actualsales-graph*'),
     ];
     return $array;
 }
@@ -235,5 +286,37 @@ function getCommonData($cityId = null)
     }
 
     return $commonData;
+}
+
+
+function human_readable_number($number, $precision = 1) {
+    if ($number < 900) {
+        // 0 - 900
+        $n_format = number_format($number, $precision);
+        $suffix = '';
+    } elseif ($number < 900000) {
+        // 0.9k-850k
+        $n_format = number_format($number / 1000, $precision);
+        $suffix = 'K';
+    } elseif ($number < 900000000) {
+        // 0.9m-850m
+        $n_format = number_format($number / 1000000, $precision);
+        $suffix = 'M';
+    } elseif ($number < 900000000000) {
+        // 0.9b-850b
+        $n_format = number_format($number / 1000000000, $precision);
+        $suffix = 'B';
+    } else {
+        // 0.9t+
+        $n_format = number_format($number / 1000000000000, $precision);
+        $suffix = 'T';
+    }
+
+    if ($precision > 0) {
+        $dotzero = '.' . str_repeat('0', $precision);
+        $n_format = str_replace($dotzero, '', $n_format);
+    }
+
+    return $n_format . $suffix;
 }
 

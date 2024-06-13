@@ -70,6 +70,7 @@
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                     <div class="px-7 py-5">
+                                        @can('crm-leads-filters')
                                         <div class="mb-1">
                                             <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
 
@@ -120,7 +121,7 @@
                                                 </select>
                                             </div>
                                         </div>
-
+                                        @endcan
                                         <div class="mb-3">
 
                                             <div class="row">
@@ -156,6 +157,7 @@
                             </div>
 
 
+                            @can('crm-leads-import')
                             <a href="{{ asset('excel_files/crm-leads-sample.xlsx') }}" class="btn btn-success  me-3" download>
                                 <i class="fa fa-download"></i>
                                 {{ __('Sample') }}</a>
@@ -164,11 +166,13 @@
                                 data-bs-target="#importModal">
                                 <i class="fa fa-upload"></i>
                                 {{ __('Import') }}</a>
+                            @endcan
 
-
-                            <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
+                            @can('crm-leads-create')
+                                <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
                                 <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                                 {{ __('Add') }}</a>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -355,13 +359,15 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+                        @can('crm-leads-edit')
                         res = '<a href="{{ url('crm-leads') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
-
+                        @endcan
+                        @can('crm-leads-delete')
                         res2 =
                             '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                             data + ')" ><i class="bi-trash"></i></a>';
-
+                        @endcan
 
                         return res + res2;
                     }

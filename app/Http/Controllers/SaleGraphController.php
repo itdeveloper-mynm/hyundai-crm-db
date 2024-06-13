@@ -7,12 +7,39 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\SocialData;
 use App\Models\Application;
+use App\Models\SalesData;
 
 class SaleGraphController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:sale-graph-list', ['only' => ['index']]);
+        $this->middleware('permission:sale-graph-export', ['only' => ['saleGraphExport']]);
+        $this->middleware('permission:sale-graph-comparison-list', ['only' => ['comparisonIndex']]);
+        $this->middleware('permission:sale-graph-comparison-export', ['only' => ['saleGraphComparisonExport']]);
+        $this->middleware('permission:after-sale-graph-list', ['only' => ['indexAfterSale']]);
+        $this->middleware('permission:after-sale-graph-export', ['only' => ['afterSaleGraphExport']]);
+        $this->middleware('permission:after-sale-graph-comparison-list', ['only' => ['comparisonIndexAfterSale']]);
+        $this->middleware('permission:after-sale-graph-comparison-export', ['only' => ['afterSaleGraphComparisonExport']]);
+        $this->middleware('permission:test-drive-list', ['only' => ['testDriveIndex']]);
+        $this->middleware('permission:test-drive-export', ['only' => ['testDriveGraphExport']]);
+        $this->middleware('permission:online-service-booking-graph-list', ['only' => ['serviceBookingIndex']]);
+        $this->middleware('permission:online-service-booking-graph-export', ['only' => ['serviceBookingGraphExport']]);
+        $this->middleware('permission:service-offers-graph-list', ['only' => ['serviceOffersIndex']]);
+        $this->middleware('permission:service-offers-graph-export', ['only' => ['serviceOffersGraphExport']]);
+        $this->middleware('permission:contact-us-graph-list', ['only' => ['contactUsIndex']]);
+        $this->middleware('permission:contact-us-graph-export', ['only' => ['contactUsGraphExport']]);
+        $this->middleware('permission:used-cars-graph-list', ['only' => ['usedCarsIndex']]);
+        $this->middleware('permission:used-cars-graph-export', ['only' => ['usedCarsGraphExport']]);
+        $this->middleware('permission:hr-graph-list', ['only' => ['hrIndex']]);
+        $this->middleware('permission:hr-graph-export', ['only' => ['hrGraphExport']]);
+        $this->middleware('permission:smo-graph-list', ['only' => ['smoIndex']]);
+        $this->middleware('permission:smo-graph-export', ['only' => ['smoGraphExport']]);
+        $this->middleware('permission:events-graph-list', ['only' => ['eventsIndex']]);
+        $this->middleware('permission:events-graph-export', ['only' => ['eventsGraphExport']]);
+        $this->middleware('permission:actualsales-graph-list', ['only' => ['eventsIndex']]);
+        $this->middleware('permission:actualsales-graph-export', ['only' => ['eventsGraphExport']]);
     }
 
     public function index(Request $request)
@@ -563,6 +590,80 @@ class SaleGraphController extends Controller
         $data['dropdown'] = getCommonData();
 
        return view('admin.events.graph_index' , $data);
+    }
+
+    public function actualsalesGraphIndex(Request $request)
+    {
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+        $filters = [
+            'department' => request('department'),
+            'vehicle_id' => request('vehicle_id'),
+        ];
+
+        $data['first_count'] = SalesData::getMonthWiseData($startDate,$endDate,$months_diff,$filters);
+        $data['actual_sales_data'] = SalesData::getActualSalesData($startDate,$endDate,$filters);
+        // for right side
+        $startDate_comp = request('start_date_comp') ?? startDate();
+        $endDate_comp = request('end_date_comp') ?? endDate();
+        $dates_comp = Application::getPerformanceLabel($startDate_comp,$endDate_comp);
+        $startDate_comp = $dates_comp['startDate'];
+        $endDate_comp = $dates_comp['endDate'];
+        $months_diff_comp = $dates_comp['months_diff'];
+        $data['months_comp'] = $dates_comp['months'];
+        $data['startDate_comp'] = $startDate_comp;
+        $data['endDate_comp'] = $endDate_comp;
+
+
+        if(request('department_2') == 'Sales'){
+            $second_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events'];
+            $opt_filters = [ 'department' => 'sales_maketing'] ;
+
+        }elseif(request('department_2') == 'Aftersales'){
+            $second_types = ['online_service_booking','service_offers','contact_us'];
+            $opt_filters = [ 'department' => 'after_sales' ];
+
+        }else{
+            $second_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','online_service_booking','service_offers','contact_us'];
+            $opt_filters = [];
+        }
+
+        $filters_comp = [
+            'department' => request('department_2'),
+            'vehicle_id' => request('vehicle_id_comp'),
+        ];
+
+        $data['second_count'] = SalesData::getPerformanceMonthWise($second_types,$startDate_comp,$endDate_comp,$months_diff,$filters_comp,$opt_filters);
+        $data['digital_compaign_Leads'] = SalesData::getDigitalCompaignVechileWise($second_types,$startDate,$endDate,$filters_comp);
+
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']['counts']);
+        if(count($data['second_count']['customerIds']) > 0){
+            $customer_ids = explode(',',$data['second_count']['customerIds'][0]);
+        }else{
+            $customer_ids = [];
+        }
+
+        $data['getLeadsConversions'] = SalesData::getLeadsConversions($startDate,$endDate,$filters,$customer_ids);
+        //dd($getLeadsConversions);
+        //dd(array_sum($getLeadsConversions));
+
+        if(array_sum($data['second_count']['counts'])){
+            $percent = array_sum($data['first_count']) / array_sum($data['second_count']['counts']);
+            $data['percent_friendly'] = number_format( $percent * 100, 2 ) . '%';
+        }else{
+            $data['percent_friendly'] = 0;
+        }
+        $data['dropdown'] = getCommonData();
+
+       return view('admin.actual_sales.graph_index' , $data);
     }
 
 

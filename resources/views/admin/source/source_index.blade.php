@@ -12,7 +12,7 @@
                 <div class="row  mt-5">
                 <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-            
+
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('Sources List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -114,6 +114,7 @@
                                 <form>
                         </div>
 
+                        @can('source-export')
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                             {{ __('Excel') }}
@@ -124,11 +125,14 @@
                             {{ __('Print') }}
 
                         </button>
+                        @endcan
 
 
+                        @can('source-create')
                         <a href="{{ route('source.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
+                            @endcan
                     </div>
                 </div>
             </div>
@@ -222,13 +226,15 @@ var table = $('#user_table').DataTable({
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
+                @can('source-edit')
                 res = '<a href="{{  url("source")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
-
+                @endcan
+                @can('source-delete')
                 res2 =
                     '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
                     data + ')" ><i class="bi-trash"></i></a>';
-
+                @endcan
 
                 return res + res2;
             }

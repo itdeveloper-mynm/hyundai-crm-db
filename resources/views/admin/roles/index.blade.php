@@ -50,9 +50,11 @@
                                 <input type="text" data-kt-customer-table-filter="search" name="search" id="search"
                                     class="form-control w-250px ps-15" placeholder="Search" />
                             </div> --}}
-                            <a href="{{ route('roles.create') }}" class="btn btn-primary" style="float: right">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                {{ __('Add') }}</a>
+                            @can('role-create')
+                                <a href="{{ route('roles.create') }}" class="btn btn-primary" style="float: right">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                    {{ __('Add') }}</a>
+                            @endcan
                         </div>
                     </div>
                     {{-- <div class="col-lg-4 d-flex justify-content-end">
@@ -97,8 +99,12 @@
                             </td>
                             <td>
                                 <a class="text-dark fw-bold">
-                                    <a href="{{route('roles.edit',['role' =>  $role->id ])}}" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete({{$role->id}})" ><i class="bi-trash"></i></a>
+                                    @can('role-edit')
+                                        <a href="{{route('roles.edit',['role' =>  $role->id ])}}" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a>
+                                    @endcan
+                                    @can('role-delete')
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete({{$role->id}})" ><i class="bi-trash"></i></a>
+                                    @endcan
                                 </a>
                             </td>
                         </tr>

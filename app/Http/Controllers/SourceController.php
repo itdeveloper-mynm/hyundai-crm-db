@@ -11,6 +11,10 @@ class SourceController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:source-list', ['only' => ['index','show']]);
+        $this->middleware('permission:source-create', ['only' => ['create','store']]);
+        $this->middleware('permission:source-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:source-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

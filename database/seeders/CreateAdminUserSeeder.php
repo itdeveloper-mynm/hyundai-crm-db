@@ -18,7 +18,7 @@ class CreateAdminUserSeeder extends Seeder
     {
         //php artisan db:seed --class=CreateAdminUserSeeder
 
-        $user = User::create([
+        $user = User::updateorCreate([
             'name' => 'Super Admin',
             'email' => 'profile@sohoby.com',
             'password' => Hash::make('098765qwerty')
