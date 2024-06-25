@@ -13,6 +13,8 @@ class ApplicationSeeder extends Seeder
      */
     public function run(): void
     {
+        // php artisan db:seed --class=ApplicationSeede
+        // $numbers = 1000000;
         $numbers = 100000;
         Application::factory()->count($numbers)->create();
     }

@@ -184,8 +184,21 @@
 
                             </button> -->
 
+
+                            @can('after-sale-leads-export')
+                            <form action="{{route('after-sale.export')}}" method="GET"  id="exportForm">
+                                <div id="export_form_div" style="display: none">
+
+                                </div>
+                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            </form>
+                            @endcan
+
                             @can('after-sale-leads-import')
-                            <a href="{{ asset('excel_files/after-sales-sample.xlsx') }}" class="btn btn-success  me-3"
+                            <a href="{{ asset('excel_files/after-sales-sample.xlsx') }}" class="btn btn-warning  me-3"
                                 download>
                                 <i class="fa fa-download"></i>
                                 {{ __('Sample') }}</a>

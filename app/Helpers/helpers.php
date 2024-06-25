@@ -288,6 +288,20 @@ function getCommonData($cityId = null)
     return $commonData;
 }
 
+function getCommonDataName()
+{
+    $commonData = [
+        'cities' => City::pluck('name','id')->all(),
+        'branches' => Branch::pluck('name','id')->all(),
+        'vehicles' => Vehicle::pluck('name','id')->all(),
+        'sources' => Source::pluck('name','id')->all(),
+        'campaigns' => Campaign::pluck('name','id')->all(),
+        'banks' => Bank::pluck('name','id')->all(),
+    ];
+
+    return $commonData;
+}
+
 
 function human_readable_number($number, $precision = 1) {
     if ($number < 900) {

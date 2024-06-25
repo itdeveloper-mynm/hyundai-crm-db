@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\SocialData;
 use App\Models\Application;
 use App\Models\SalesData;
+use Spatie\Browsershot\Browsershot;
 
 class SaleGraphController extends Controller
 {
@@ -92,6 +93,111 @@ class SaleGraphController extends Controller
         //dd($data);
 
        return view('admin.sale_graph.index' , $data);
+    }
+
+
+    // public function indexPdf(Request $request)
+    // {
+
+
+    //     // // $startDate = request('start_date') ?? startDate();
+    //     // $startDate = request('start_date') ?? '2024-05-01';
+    //     // $endDate = request('end_date') ?? '2024-06-01';
+    //     // // $endDate = request('end_date') ?? endDate();
+    //     // $dates = Application::getPerformanceLabel($startDate,$endDate);
+    //     // $startDate = $dates['startDate'];
+    //     // $endDate = $dates['endDate'];
+    //     // $months_diff = $dates['months_diff'];
+    //     // $data['months'] = $dates['months'];
+    //     // $data['startDate'] = $startDate;
+    //     // $data['endDate'] = $endDate;
+
+    //     // $first_types = ['request_a_quote'];
+    //     // $second_types = ['special_offers'];
+    //     // $third_types = ['smo_leads'];
+    //     // $fourth_types = ['contact_us'];
+
+    //     // $filters = [
+    //     //     'city_id' => request('city_id'),
+    //     //     'branch_id' => request('branch_id'),
+    //     //     'vehicle_id' => request('vehicle_id'),
+    //     //     'source_id' => request('source_id'),
+    //     //     'campaign_id' => request('campaign_id')
+    //     // ];
+
+    //     // $opt_filters = [
+    //     //     'department' => 'sales_maketing',
+    //     // ];
+
+
+    //     // $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+    //     // $data['second_count'] = Application::getPerformanceMonthWise($second_types,$startDate,$endDate,$months_diff,$filters);
+    //     // $data['third_count'] = Application::getPerformanceMonthWise($third_types,$startDate,$endDate,$months_diff,$filters);
+    //     // $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters,$opt_filters);
+
+    //     // $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),  array_sum($data['fourth_count'])];
+    //     // $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']);
+
+    //     // $all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
+    //     // $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
+
+    //     // $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $all_types, $filters);
+    //     // $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
+    //     // $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
+    //     // $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
+    //     // $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
+
+    //    // dd($data);
+    //     //$pdf = PDF::loadView('pdf', $data);
+    //     $pdf = PDF::loadView('admin.sale_graph.index-pdf', $data);
+    //     //dd($pdf);
+    //     // Download the PDF file
+    //     return $pdf->download('pdf_file.pdf');
+
+    //     //return view('admin.sale_graph.index-pdf' , $data);
+    // }
+
+
+    public function indexPdf(Request $request)
+    {
+        $data = [
+            "months" => [
+                "2024-05-01", "2024-05-02", "2024-05-03", "2024-05-04", "2024-05-05",
+                "2024-05-06", "2024-05-07", "2024-05-08", "2024-05-09", "2024-05-10",
+                "2024-05-11", "2024-05-12", "2024-05-13", "2024-05-14", "2024-05-15",
+                "2024-05-16", "2024-05-17", "2024-05-18", "2024-05-19", "2024-05-20",
+                "2024-05-21", "2024-05-22", "2024-05-23", "2024-05-24", "2024-05-25",
+                "2024-05-26", "2024-05-27", "2024-05-28", "2024-05-29", "2024-05-30",
+                "2024-05-31", "2024-06-01"
+            ],
+            "startDate" => '2024-05-01',
+            "endDate" => '2024-06-01',
+            "first_count" => array_fill(0, 32, null),
+            "second_count" => array_fill(0, 32, null),
+            "third_count" => array_fill(0, 32, null),
+            "fourth_count" => array_fill(0, 32, null),
+            "second_graph_data" => [0, 0, 0, 0],
+            "total_performance_count" => 0,
+            "countsByCampaign" => [],
+            "vehcile_graph" => [
+                "vehicle_names" => [],
+                "vehicle_count" => []
+            ],
+            "citygraph" => [],
+            "salary_graph" => [
+                "monthly_salary" => [],
+                "monthly_salary_count" => []
+            ],
+            "purchase_plan_graph" => [
+                "purchase_plan" => [],
+                "purchase_plan_count" => []
+            ],
+            "banks_graph" =>  []
+        ];
+
+        return view('admin.sale_graph.chart' , $data);
+
+        // return view('admin.sale_graph.index-pdf' , $data);
     }
 
     public function comparisonIndex(Request $request)

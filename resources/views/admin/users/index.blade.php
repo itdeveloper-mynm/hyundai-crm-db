@@ -103,6 +103,11 @@
                                 </div>
                             </form>
                         </div>
+                        <button type="button" class="btn btn-success me-3 export_excel">
+                            <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                            {{ __('Excel') }}
+                        </button>
+
                         @can('users-create')
                         <a href="{{ route('users.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
@@ -293,7 +298,7 @@ var table = $('#user_table').DataTable({
             className: 'btn-success',
             text: "{{ __('table.print') }}",
             exportOptions: {
-                columns: [0, 1, 2, 3]
+                columns: [0, 1, 2, 3,4]
             }
         },
 

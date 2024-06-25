@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Imports\CrmLeadsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\CrmLead;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\DB;
 
 class CrmLeadController extends Controller
 {
@@ -167,6 +169,85 @@ class CrmLeadController extends Controller
         }
 
         return Response(['result'=>'success','message'=>__('Crm Leads Import Successfully')]);
+    }
+
+    public function crmLeadsExport(Request $request)
+    {
+        //dd($request->all());
+        ini_set('max_execution_time', 300);
+        //    direct download file
+        $fileName = 'crm_leads_export_' . time() . '.csv';
+
+        $response = new StreamedResponse(function () {
+            $dataName = getCommonDataName();
+            $conditions = request()->all();
+
+            $fileHandle = fopen('php://output', 'w');
+            fputcsv($fileHandle, ['Name', 'Mobile','National Id', 'City','Branch','Vehicle','Year','Source','Campaign','Bank Name',
+                                'Purchase Plan','Monthly Salary','Preferred Appointment Time','KYC','Category','Sub Category',
+                                'Created At','Type']);
+            $chunkSize = 50000;
+
+            CrmLead::search($conditions)
+            ->join('customers as cust', 'crm_leads.customer_id', '=', 'cust.id')
+            ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
+            ->select(
+                DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
+                'cust.mobile',
+                'cust.national_id',
+                'bank.name as bank_name',
+                'crm_leads.city_id',
+                'crm_leads.branch_id',
+                'crm_leads.vehicle_id',
+                'crm_leads.yearr',
+                'crm_leads.source_id',
+                'crm_leads.campaign_id',
+                'crm_leads.purchase_plan',
+                'crm_leads.monthly_salary',
+                'crm_leads.preferred_appointment_time',
+                'crm_leads.kyc',
+                'crm_leads.category',
+                'crm_leads.sub_category',
+                'crm_leads.created_at'
+            )
+            ->orderBy('crm_leads.id')
+            ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
+                foreach ($records as $record) {
+                    $row = [
+                        $record->full_name,
+                        $record->mobile,
+                        $record->national_id,
+                        $dataName['cities'][$record->city_id] ?? "",
+                        $dataName['branches'][$record->branch_id] ?? "",
+                        $dataName['vehicles'][$record->vehicle_id] ?? "",
+                        $record->yearr,
+                        $dataName['sources'][$record->source_id] ?? "",
+                        $dataName['campaigns'][$record->campaign_id] ?? "",
+                        $record->bank_name,
+                        $record->purchase_plan,
+                        $record->monthly_salary,
+                        $record->preferred_appointment_time,
+                        $record->kyc,
+                        $record->category,
+                        $record->sub_category,
+                        formateDate($record->created_at),
+                        'Crm Leads',
+                    ];
+                    fputcsv($fileHandle, (array)$row);
+                }
+
+                // Flush the output buffer every chunk to keep the connection alive
+                ob_flush();
+                flush();
+            });
+
+            fclose($fileHandle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+        return $response;
     }
 
 }

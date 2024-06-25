@@ -114,11 +114,16 @@
                                     {{ __('Print') }}
 
                                 </button> -->
-
+                            @can('sales-data-export')
+                                <button type="button" class="btn btn-success me-3 export_excel">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            @endcan
 
                             @can('sales-data-import')
 
-                                <a href="{{ asset('excel_files/sales-data-sample.xlsx') }}" class="btn btn-success  me-3"
+                                <a href="{{ asset('excel_files/sales-data-sample.xlsx') }}" class="btn btn-warning  me-3"
                                     download>
                                     <i class="fa fa-download"></i>
                                     {{ __('Sample') }}</a>
@@ -377,7 +382,7 @@
                     className: 'btn-success',
                     text: "{{ __('table.print') }}",
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3,4,5,6,7,8,9]
                     }
                 },
 

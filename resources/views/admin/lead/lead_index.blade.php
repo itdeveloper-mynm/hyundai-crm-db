@@ -68,7 +68,6 @@
                                 </div>
                                 <div class="separator border-gray-200"></div>
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
-
                                     <div class="px-7 py-5">
                                         @can('campaign-leads-filters')
                                             <div class="mb-1">
@@ -181,15 +180,19 @@
 
                             </button> -->
 
-                            {{-- <form action="{{ route('leads.export') }}" method="GET">
-                                <button type="submit" class="btn btn-success me-3">
+                            @can('campaign-leads-export')
+                            <form action="{{route('leads.export')}}" method="GET"  id="exportForm">
+                                <div id="export_form_div" style="display: none">
+
+                                </div>
+                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                     {{ __('Excel') }}
                                 </button>
-                            </form> --}}
-
+                            </form>
+                            @endcan
                             @can('campaign-leads-import')
-                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-success  me-3" download>
+                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3" download>
                                     <i class="fa fa-download"></i>
                                     {{ __('Sample') }}</a>
 
@@ -594,6 +597,28 @@
                 }
             });
         });
+
+        $('#exportbutton').on('mouseenter', function(e) {
+            e.preventDefault(); // Prevent the form from submitting
+
+            // Get all the select elements from the first form
+            const selectElements = document.querySelectorAll('#myForm select, #myForm input[type="date"]');
+
+            // Clear the export_form_div
+            const exportFormDiv = document.getElementById('export_form_div');
+            exportFormDiv.innerHTML = '';
+
+            // Append the cloned elements to the export form
+            selectElements.forEach(element => {
+                const clonedElement = element.cloneNode(true);
+                clonedElement.value = element.value; // Set the cloned element's value to the original's value
+                clonedElement.name = element.name; // Ensure the name is set for form submission
+                exportFormDiv.appendChild(clonedElement);
+            });
+    });
+
+
+
     </script>
 
 

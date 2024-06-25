@@ -125,19 +125,19 @@
                                 </form>
                             </div>
 
-                            <!-- <button type="button" class="btn btn-success me-3 export_excel">
-                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                        {{ __('Excel') }}
-                                    </button>
+                            <!--
 
                                     <button type="button" class="btn btn-warning me-3 export_print">
                                         <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
                                         {{ __('Print') }}
 
                                     </button> -->
-
+                                    <button type="button" class="btn btn-success me-3 export_excel">
+                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                        {{ __('Excel') }}
+                                    </button>
                             @can('google-business-import')
-                                <a href="{{asset('excel_files/google-business.xlsx')}}" class="btn btn-success  me-3" download>
+                                <a href="{{asset('excel_files/google-business.xlsx')}}" class="btn btn-warning  me-3" download>
                                 <i class="fa fa-download"></i>
                                 {{ __('Sample') }}</a>
                                 <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
@@ -460,7 +460,7 @@
                     className: 'btn-success',
                     text: "{{ __('table.print') }}",
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11]
                     }
                 },
 
@@ -469,7 +469,7 @@
                     className: 'btn-warning',
                     text: "{{ __('table.excel') }}",
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11]
                     }
                 },
 

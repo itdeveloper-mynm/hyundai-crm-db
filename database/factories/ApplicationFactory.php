@@ -25,6 +25,7 @@ class ApplicationFactory extends Factory
             'request_a_test_drive',
             'used_cars',
             'old_leads',
+            'after_sales',
         ];
 
 

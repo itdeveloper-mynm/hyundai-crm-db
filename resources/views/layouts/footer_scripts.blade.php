@@ -39,3 +39,25 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+
+        <script>
+        $('#exportbutton').on('mouseenter', function(e) {
+            e.preventDefault(); // Prevent the form from submitting
+
+            // Get all the select elements from the first form
+            const selectElements = document.querySelectorAll('#myForm select, #myForm input[type="date"]');
+
+            // Clear the export_form_div
+            const exportFormDiv = document.getElementById('export_form_div');
+            exportFormDiv.innerHTML = '';
+
+            // Append the cloned elements to the export form
+            selectElements.forEach(element => {
+                const clonedElement = element.cloneNode(true);
+                clonedElement.value = element.value; // Set the cloned element's value to the original's value
+                clonedElement.name = element.name; // Ensure the name is set for form submission
+                exportFormDiv.appendChild(clonedElement);
+            });
+    });
+
+        </script>

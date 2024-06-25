@@ -14,6 +14,8 @@ use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\LeadsImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\DB;
 
 class OldLeadController extends Controller
 {
@@ -155,5 +157,76 @@ class OldLeadController extends Controller
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
 
+   }
+
+
+   public function oldLeadsExport(Request $request)
+   {
+       //dd($request->all());
+       ini_set('max_execution_time', 300);
+       //    direct download file
+       $fileName = 'old_leads_export_' . time() . '.csv';
+
+       $response = new StreamedResponse(function () {
+           $dataName = getCommonDataName();
+           $conditions = request()->all();
+
+           $fileHandle = fopen('php://output', 'w');
+           fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
+                               'Purchase Plan','Monthly Salary','Preferred Appointment Time','Created At','Type']);
+           $chunkSize = 50000;
+
+           Application::search($conditions)
+           ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
+           ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
+           ->select(
+               DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
+               'cust.mobile',
+               'bank.name as bank_name',
+               'applications.city_id',
+               'applications.branch_id',
+               'applications.vehicle_id',
+               'applications.source_id',
+               'applications.campaign_id',
+               'applications.purchase_plan',
+               'applications.monthly_salary',
+               'applications.preferred_appointment_time',
+               'applications.created_at'
+           )
+           ->whereNotNull('cust.bank_id')
+           ->where('applications.type', 'leads')
+           ->orderBy('applications.id')
+           ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
+               foreach ($records as $record) {
+                   $row = [
+                       $record->full_name,
+                       $record->mobile,
+                       $dataName['cities'][$record->city_id] ?? "",
+                       $dataName['branches'][$record->branch_id] ?? "",
+                       $dataName['vehicles'][$record->vehicle_id] ?? "",
+                       $dataName['sources'][$record->source_id] ?? "",
+                       $dataName['campaigns'][$record->campaign_id] ?? "",
+                       $record->bank_name,
+                       $record->purchase_plan,
+                       $record->monthly_salary,
+                       $record->preferred_appointment_time,
+                       formateDate($record->created_at),
+                       'Old Leads',
+                   ];
+                   fputcsv($fileHandle, (array)$row);
+               }
+
+               // Flush the output buffer every chunk to keep the connection alive
+               ob_flush();
+               flush();
+           });
+
+           fclose($fileHandle);
+       });
+
+       $response->headers->set('Content-Type', 'text/csv');
+       $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+       return $response;
    }
 }

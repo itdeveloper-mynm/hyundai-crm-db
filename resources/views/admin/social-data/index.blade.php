@@ -104,6 +104,12 @@
                                 </form>
                             </div>
 
+                            @can('social-data-export')
+                                <button type="button" class="btn btn-success me-3 export_excel">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            @endcan
                             @can('social-data-create')
                                 <a href="{{ route('social-data.create') }}" class="btn btn-primary">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
@@ -337,7 +343,7 @@
                     className: 'btn-success',
                     text: "{{ __('table.print') }}",
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3,4,5,6,7,8,9]
                     }
                 },
 

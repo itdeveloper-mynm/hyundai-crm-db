@@ -157,8 +157,19 @@
 
                         </button> -->
 
+                        @can('used-car-leads-export')
+                            <form action="{{route('used-car.export')}}" method="GET"  id="exportForm">
+                                <div id="export_form_div" style="display: none">
+                                </div>
+                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            </form>
+                            @endcan
+
                         @can('used-car-leads-create')
-                            <a href="{{asset('excel_files/used-cars-sample.xlsx')}}" class="btn btn-success  me-3" download>
+                            <a href="{{asset('excel_files/used-cars-sample.xlsx')}}" class="btn btn-warning  me-3" download>
                                 <i class="fa fa-download"></i>
                                 {{ __('Sample') }}</a>
                             <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal" data-bs-target="#importModal">
