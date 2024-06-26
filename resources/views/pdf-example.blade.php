@@ -1,14 +1,39 @@
-@extends('layouts.master')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ $title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+        .content {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-        {{-- <img style="width:100%" height="400" src="https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015, 2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}" alt=""> --}}
-        <div id="piechart" style="width: 100%; height: 500px; " class="mb-20"></div>
+        <h1>{{ $title }}</h1>
+        <div class="content">
+            <p>{{ $content }}</p>
+        </div>
+        <div class="container">
+            {{-- <img style="width:100%" height="400" src="https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015, 2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}" alt=""> --}}
+            <div id="piechart" style="width: 100%; height: 500px; " class="mb-20"></div>
 
-        <canvas id="1st_graph" width="800" height="400" style="display: none;"></canvas>
-        {{-- <button id="getImageDataBtn">Get Image Data URL</button> --}}
+            <canvas id="1st_graph" width="800" height="400" style="display: none;"></canvas>
+            {{-- <button id="getImageDataBtn">Get Image Data URL</button> --}}
+        </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -99,7 +124,6 @@
             function updateImage() {
                 setTimeout(function () {
                     var imageDataURL = ctx.canvas.toDataURL();
-                    console.log('Canvas Data URL:', imageDataURL);
                     var img = document.createElement('img');
                     img.src = imageDataURL;
                     img.className = 'img-responsive';
@@ -122,4 +146,5 @@
             });
         });
     </script>
-@endsection
+</body>
+</html>

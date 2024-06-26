@@ -2,6 +2,11 @@
 
 @section('title', 'Dashboard')
 
+{{-- @section('header-js')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+@endsection --}}
+
 @section('content')
 
     <!--begin::Content-->
@@ -14,6 +19,14 @@
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
                         <div class="col-lg-12 d-flex justify-content-end">
+                            {{-- <form action="{{route('exportPdf.index')}}" method="POST" target="blank">
+                               @csrf
+                               <input type="hidden" id="performance_data" name="performance_data">
+                                <button type="submit" class="btn btn-success me-3">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Pdf') }}
+                                </button>
+                            </form> --}}
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -829,6 +842,29 @@
     };
 
     var myChart = new Chart(ctx2, config2);
+
+
+
+    // $(document).ready(function() {
+    //         setTimeout(function() {
+    //             var div = $('#kt_app_content_container');
+    //             if (div.length > 0) {
+    //                 // Use html2canvas to render the div to a canvas
+    //                 html2canvas(div[0]).then(function(canvas) {
+    //                     // Convert the canvas to a Base64 string with the correct prefix
+    //                     var base64Content = canvas.toDataURL("image/png");
+
+    //                     // Log the Base64 content to the console
+    //                     console.log("Base64 Content:", base64Content);
+    //                     $('#page_data').val(base64Content);
+    //                 }).catch(function(error) {
+    //                     console.error("Error rendering canvas:", error);
+    //                 });
+    //             } else {
+    //                 console.warn("Div with id 'kt_app_content_container' not found");
+    //             }
+    //         }, 5000); // Delay of 5000 milliseconds (5 seconds)
+    // });
 
     </script>
 

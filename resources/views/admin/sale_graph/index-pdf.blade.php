@@ -15,6 +15,9 @@ License: For each use you must have a valid license purchased only from above li
 <head>
 		<link href="{{ asset('login_asset') }}/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('login_asset') }}/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous">
+
 
 </head>
 <!--end::Head-->
@@ -118,7 +121,7 @@ License: For each use you must have a valid license purchased only from above li
                                     </div>
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10">
+                                <div class="row gx-5 gx-xl-10" id="campaign">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Chart widget 8-->
@@ -741,6 +744,27 @@ License: For each use you must have a valid license purchased only from above li
 
                         var myChart = new Chart(ctx2, config2);
 
+
+
+
+        $(document).ready(function() {
+            // Ensure the div exists before trying to get its content
+            var div = $('#kt_app_content_container');
+            if (div.length > 0) {
+                // Use html2canvas to render the div to a canvas
+                html2canvas(div[0]).then(function(canvas) {
+                    // Convert the canvas to a Base64 string with the correct prefix
+                    var base64Content = canvas.toDataURL("image/png");
+
+                    // Log the Base64 content to the console
+                    console.log("Base64 Content:", base64Content);
+                }).catch(function(error) {
+                    console.error("Error rendering canvas:", error);
+                });
+            } else {
+                console.warn("Div with id 'kt_app_content_container' not found");
+            }
+        });
                         </script>
                         {{--  custom js end --}}
                         <!--end::Footer container-->
