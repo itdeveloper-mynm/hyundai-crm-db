@@ -472,6 +472,9 @@
                     <!--end::Chart widget 31-->
                 </div>
 
+            </div>
+
+            <div class="row gx-5 gx-xl-10 mt-10">
                 <div class="col-xl-12">
                     <!--begin::Chart widget 31-->
                     <div class="card card-flush h-xl-100">

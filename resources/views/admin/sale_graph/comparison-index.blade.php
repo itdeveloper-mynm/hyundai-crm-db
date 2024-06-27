@@ -695,15 +695,15 @@
                                             <h2 class="accordion-header">
                                                 <button class="accordion-button fs-4 fw-semibold" type="button"
                                                     data-bs-toggle="collapse"
-                                                    data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
+                                                    data-bs-target="#kt_accordion_1_body_11_{{ $campaign_wise['campaign_id'] }}"
                                                     aria-expanded="true"
-                                                    aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}">
+                                                    aria-controls="kt_accordion_1_body_11_{{ $campaign_wise['campaign_id'] }}">
                                                     {{ $campaign_wise['name'] ?? '' }}
                                                     <span
                                                         class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
                                                 </button>
                                             </h2>
-                                            <div id="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
+                                            <div id="kt_accordion_1_body_11_{{ $campaign_wise['campaign_id'] }}"
                                                 class="accordion-collapse collapse {{ $first_show }}"
                                                 aria-labelledby="kt_accordion_1_header_1"
                                                 data-bs-parent="#kt_accordion_{{ $campaign_wise['campaign_id'] }}">
