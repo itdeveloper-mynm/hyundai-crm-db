@@ -169,6 +169,15 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::any('export-pdf',  'exportPdf')->name('exportPdf.index');
 });
 
+Route::get('/chart', function () {
+    $chartData = [
+        'labels' => ['January', 'February', 'March', 'April', 'May'],
+        'values' => [65, 59, 80, 81, 56],
+    ];
+
+    return view('chart')->with('chartData', $chartData);
+});
+
 
 Route::resource('crm-leads', CrmLeadController::class);
 Route::controller(CrmLeadController::class)->group(function(){
