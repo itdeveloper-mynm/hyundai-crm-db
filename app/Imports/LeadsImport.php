@@ -16,8 +16,10 @@ use App\Models\Application;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class LeadsImport implements ToModel ,  WithHeadingRow, WithValidation
+class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithChunkReading
 {
 
     use Importable;
@@ -33,14 +35,14 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithValidation
     {
         return [
             'dealer_city' => 'required',
-            'dealer_branch'  => 'required',
-            'vehicle'  => 'required',
-            'purchase_plan'  => 'required',
+            //'dealer_branch'  => 'required',
+            //'vehicle'  => 'required',
+            //'purchase_plan'  => 'required',
             'prferred_time'  => 'required',
             'monthly_salary'  => 'required',
-            'bank'  => 'required',
-            'channel'  => 'required',
-            'campaign'  => 'required',
+            //'bank'  => 'required',
+            //'channel'  => 'required',
+            //'campaign'  => 'required',
             //'request_date'  => 'required',
             //'van_code'  => 'required|unique:vans,van_code',
         ];
@@ -48,88 +50,102 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithValidation
 
     public function model(array $row)
     {
-        //dd($row,formateDate($row['request_date']));
-        $bank = Bank::where('name', $row['bank'])->first();
+        ini_set('memory_limit',-1);
+        ini_set('max_execution_time',-1);
 
-        if(is_null($bank)){
-            $bank = Bank::create(['name' =>  $row['bank'] ]);
+        $bank = null;
+        $city = null;
+        $branch = null;
+        $vehicle = null;
+        $source = null;
+        $campaign = null;
+
+        // Collect data that can be null safely
+        $optionalData = [
+            'bank' => $row['bank'] ?? null,
+            'dealer_city' => $row['dealer_city'] ?? null,
+            'dealer_branch' => $row['dealer_branch'] ?? null,
+            'vehicle' => $row['vehicle'] ?? null,
+            'channel' => $row['channel'] ?? null,
+            'campaign' => $row['campaign'] ?? null,
+        ];
+
+        // Fetch or create related models in one go
+        foreach ($optionalData as $key => $value) {
+            if ($value) {
+                switch ($key) {
+                    case 'bank':
+                        $bank = Bank::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_city':
+                        $city = City::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_branch':
+                        if ($city) {
+                            $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
+                        }
+                        break;
+                    case 'vehicle':
+                        $vehicle = Vehicle::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'channel':
+                        $source = Source::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'campaign':
+                        $campaign = Campaign::firstOrCreate(['name' => $value]);
+                        break;
+                }
+            }
         }
 
+        $mobile = formatInputNumber($row['mobile']);
+        $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['request_date']));
 
-        $mobile = $row['mobile'];
-
-        $mobile =formatInputNumber($mobile);
-
-        $dateValue = $row['request_date'];
-
-        $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue));
-
-        //$request_date =$date->format('Y-m-d');
-
-        $customer = Customer::whereMobile($mobile)->first();
-
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $row['first_name'];
-            $customer->last_name =  $row['last_name'];
-            $customer->mobile = $mobile;
-            $customer->email = $row['email'];
-            $customer->bank_id = $bank->id;
-            $customer->save();
-        }
-
-        $city = City::where('name', $row['dealer_city'])->first();
-        $branch = Branch::where('name', $row['dealer_branch'])->first();
-        $vehicle = Vehicle::where('name', $row['vehicle'])->first();
-        $sourcee = Source::where('name', $row['channel'])->first();
-        $campaign = Campaign::where('name', $row['campaign'])->first();
-        if(is_null($city)){
-            $city = City::create(['name' => $row['dealer_city']]);
-        }
-        if(is_null($branch)){
-            $branch = Branch::create([
-                'name' => $row['dealer_branch'],
-                'city_id' => $city->id,
-            ]);
-        }
-        if(is_null($vehicle)){
-            $vehicle = Vehicle::create(['name' => $row['vehicle'] ]);
-        }
-        if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $row['channel'] ]);
-        }
-        if(is_null($campaign)){
-            $campaign = Campaign::create(['name' => $row['campaign'] ]);
-        }
+        $customer = Customer::firstOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $row['first_name'],
+                'last_name' => $row['last_name'],
+                'email' => $row['email'],
+                'national_id' => $row['national_id'],
+                'bank_id' => $bank->id ?? null,
+            ]
+        );
 
         $lead = new Application();
-        $lead->city_id = $city->id;
-        $lead->branch_id = $branch->id;
-        $lead->vehicle_id = $vehicle->id;
-        $lead->source_id = $sourcee->id;
-        $lead->campaign_id = $campaign->id;
-        $lead->purchase_plan = $row['purchase_plan'];
-        $lead->monthly_salary = $row['monthly_salary'];
-        $lead->preferred_appointment_time = $row['prferred_time'];
+        $lead->city_id = $city->id ?? null;
+        $lead->branch_id = $branch->id ?? null;
+        $lead->vehicle_id = $vehicle->id ?? null;
+        $lead->source_id = $source->id ?? null;
+        $lead->campaign_id = $campaign->id ?? null;
+        $lead->purchase_plan = $row['purchase_plan'] ?? null;
+        $lead->monthly_salary = $row['monthly_salary'] ?? null;
+        $lead->preferred_appointment_time = $row['prferred_time'] ?? null;
         $lead->request_date = formateDate($request_date) ?? null;
-        $lead->customer_id= $customer->id;
+        $lead->customer_id = $customer->id;
+        $lead->type = $row['data_type'] ? checkApplicationType($row['data_type']) : 'leads';
 
         if (request()->has('select_date')) {
-            // Assuming 'created_at' is in a format that Carbon can parse
             $date = Carbon::parse(request()->input('select_date'));
-            // Concatenate the current time (H:i:s) to the date
-            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
-            // Set the 'created_at' field
-            $lead->created_at = $dateWithCurrentTime;
-            $lead->type= 'old_leads';
-        }else{
-
-            $lead->type= 'leads';
+            $lead->created_at = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+            $lead->type = 'old_leads';
+        } elseif (isset($row['request_date'])) {
+            //dd(formateDate($request_date) . ' ' . Carbon::now()->format('H:i:s'));
+            $lead->created_at = formateDate($request_date) . ' ' . Carbon::now()->format('H:i:s');
         }
 
         $lead->save();
+    }
 
-       // return $lead;
 
+
+    public function batchSize(): int
+    {
+        return 3000;
+    }
+
+    public function chunkSize(): int
+    {
+        return 3000;
     }
 }

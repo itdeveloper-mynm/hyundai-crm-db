@@ -239,6 +239,8 @@ function checkApplicationType($type) {
             return 'smo_leads';
         case 'Career':
             return 'career';
+        case 'Crm Leads':
+            return 'crm_leads';
         default:
             return 'leads';
     }

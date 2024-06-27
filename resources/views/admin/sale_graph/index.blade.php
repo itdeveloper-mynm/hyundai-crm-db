@@ -425,7 +425,7 @@
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
                     <div class="card card-flush h-xl-100">
                         <!--begin::Header-->
@@ -449,7 +449,7 @@
                     <!--end::Chart widget 31-->
                 </div>
                 <!--end::Col-->
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
                     <div class="card card-flush h-xl-100">
                         <!--begin::Header-->
@@ -472,7 +472,7 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-                <div class="col-xl-4">
+                <div class="col-xl-12">
                     <!--begin::Chart widget 31-->
                     <div class="card card-flush h-xl-100">
                         <!--begin::Header-->
