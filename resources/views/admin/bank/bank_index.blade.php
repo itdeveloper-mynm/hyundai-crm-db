@@ -131,7 +131,7 @@
                         <a href="{{ route('bank.create') }}" class="btn btn-primary">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                             {{ __('Add') }}</a>
-                            @endcan
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -228,7 +228,7 @@ var table = $('#user_table').DataTable({
                 @can('bank-edit')
                 res = '<a href="{{  url("bank")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
-
+                @endcan
                 @can('bank-delete')
                 res2 =
                     '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
