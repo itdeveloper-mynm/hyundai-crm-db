@@ -166,7 +166,6 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::get('smo-graph',  'smoIndex')->name('smo-graph.index');
     Route::get('events-graph',  'eventsIndex')->name('events-graph.index');
     Route::get('actualsales-graph',  'actualsalesGraphIndex')->name('actualsales-graph.index');
-    Route::any('export-pdf',  'exportPdf')->name('exportPdf.index');
 });
 
 

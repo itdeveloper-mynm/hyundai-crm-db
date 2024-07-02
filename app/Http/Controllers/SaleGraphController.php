@@ -8,8 +8,7 @@ use Carbon\Carbon;
 use App\Models\SocialData;
 use App\Models\Application;
 use App\Models\SalesData;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+
 
 class SaleGraphController extends Controller
 {
@@ -97,50 +96,6 @@ class SaleGraphController extends Controller
     }
 
 
-    public function exportPdf(Request $request){
-
-        // Generate chart data or fetch from your data source
-        $chartData = [
-            'labels' => ['January', 'February', 'March', 'April', 'May'],
-            'values' => [65, 59, 80, 81, 56],
-        ];
-
-        // Render chart view
-        $view = view('chart')->with('chartData', $chartData)->render();
-
-        // Create PDF
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true); // Enable HTML5 parsing
-        $options->set('isPhpEnabled', true); // Enable PHP support
-        $options->set('defaultFont', 'Arial'); // Set default font (optional)
-
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($view);
-
-        // (Optional) Set paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
-
-        // Render PDF (save to file or output to browser)
-        $dompdf->render();
-
-        // Output the generated PDF (download or display)
-        return $dompdf->stream('chart.pdf');
-
-        dd($request->all());
-        $data['image'] = $request->page_data;
-
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-
-        $dompdf = new Dompdf($options);
-        $html = view('chart-pdf', $data);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape'); // Set paper size and orientation
-
-        $dompdf->render();
-
-        $dompdf->stream('chart.pdf');
-    }
 
     // public function indexPdf(Request $request)
     // {
