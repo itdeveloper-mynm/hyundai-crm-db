@@ -12,21 +12,22 @@ License: For each use you must have a valid license purchased only from above li
 -->
 <html lang="en">
 <!--begin::Head-->
-<head>
-		<link href="{{ asset('login_asset') }}/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="{{ asset('login_asset') }}/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous">
 
+<head>
+    <link href="{{ asset('login_asset') }}/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('login_asset') }}/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous">
 
 </head>
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-    class="app-default">
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
+    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
+    data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
+    data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
     <!--begin::Theme mode setup on page load-->
     <script>
         var defaultThemeMode = "light";
@@ -63,7 +64,7 @@ License: For each use you must have a valid license purchased only from above li
 
                     <div class="d-flex flex-column flex-column-fluid">
                         {{-- @include('layouts.breadcrumb') --}}
-                          <!--begin::Content-->
+                        <!--begin::Content-->
                         <div id="kt_app_content" class="app-content flex-column-fluid">
                             <!--begin::Content container-->
                             <div id="kt_app_content_container" class="app-container container-fluid">
@@ -91,7 +92,8 @@ License: For each use you must have a valid license purchased only from above li
                                                 <div class="tab-content">
                                                     <!--end::Tab pane-->
                                                     <!--begin::Tab pane-->
-                                                    <div class="tab-pane fade active show" id="" role="tabpanel">
+                                                    <div class="tab-pane fade active show" id=""
+                                                        role="tabpanel">
 
                                                         <canvas id="1st_graph" class="mh-400px"></canvas>
                                                         <!--begin::Chart-->
@@ -130,7 +132,8 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="card-header pt-5">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                                    <span class="card-label fw-bold text-dark">Campaign
+                                                        Performance</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -145,11 +148,12 @@ License: For each use you must have a valid license purchased only from above li
                                                 <div class="card-body pt-2 pb-0">
                                                     <div class="row g-5 g-xl-10 mb-5">
                                                         <!--begin::Accordion-->
-                                                        <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['campaign_id'] }}">
+                                                        <div class="accordion"
+                                                            id="kt_accordion_1_{{ $campaign_wise['campaign_id'] }}">
                                                             <div class="accordion-item">
                                                                 <h2 class="accordion-header">
-                                                                    <button class="accordion-button fs-4 fw-semibold" type="button"
-                                                                        data-bs-toggle="collapse"
+                                                                    <button class="accordion-button fs-4 fw-semibold"
+                                                                        type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
                                                                         aria-expanded="true"
                                                                         aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}">
@@ -184,7 +188,9 @@ License: For each use you must have a valid license purchased only from above li
                                                                                     </div>
                                                                                     <!--end::Item-->
                                                                                     <!--begin::Separator-->
-                                                                                    <div class="separator separator-dashed my-3"></div>
+                                                                                    <div
+                                                                                        class="separator separator-dashed my-3">
+                                                                                    </div>
                                                                                     <!--end::Separator-->
                                                                                 @endif
                                                                             @endforeach
@@ -213,7 +219,8 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="card-header pt-5">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-dark">Vehicles Interested</span>
+                                                    <span class="card-label fw-bold text-dark">Vehicles
+                                                        Interested</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -224,7 +231,8 @@ License: For each use you must have a valid license purchased only from above li
                                                 <div class="tab-content">
                                                     <!--end::Tab pane-->
                                                     <!--begin::Tab pane-->
-                                                    <div class="tab-pane fade active show" id="" role="tabpanel">
+                                                    <div class="tab-pane fade active show" id=""
+                                                        role="tabpanel">
                                                         <div id="graph_3" style="height: 350px;"></div>
                                                         <!--begin::Chart-->
                                                         <!--end::Chart-->
@@ -264,11 +272,12 @@ License: For each use you must have a valid license purchased only from above li
                                                 <div class="card-body pt-2 pb-0">
                                                     <div class="row g-5 g-xl-10 mb-5">
                                                         <!--begin::Accordion-->
-                                                        <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['city_id'] }}">
+                                                        <div class="accordion"
+                                                            id="kt_accordion_1_{{ $campaign_wise['city_id'] }}">
                                                             <div class="accordion-item">
                                                                 <h2 class="accordion-header">
-                                                                    <button class="accordion-button fs-4 fw-semibold" type="button"
-                                                                        data-bs-toggle="collapse"
+                                                                    <button class="accordion-button fs-4 fw-semibold"
+                                                                        type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
                                                                         aria-expanded="true"
                                                                         aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}">
@@ -303,7 +312,9 @@ License: For each use you must have a valid license purchased only from above li
                                                                                     </div>
                                                                                     <!--end::Item-->
                                                                                     <!--begin::Separator-->
-                                                                                    <div class="separator separator-dashed my-3"></div>
+                                                                                    <div
+                                                                                        class="separator separator-dashed my-3">
+                                                                                    </div>
                                                                                     <!--end::Separator-->
                                                                                 @endif
                                                                             @endforeach
@@ -325,14 +336,15 @@ License: For each use you must have a valid license purchased only from above li
 
                                 <div class="row gx-5 gx-xl-10">
                                     <!--begin::Col-->
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-6">
                                         <!--begin::Chart widget 31-->
                                         <div class="card card-flush h-xl-100">
                                             <!--begin::Header-->
                                             <div class="card-header pt-7 mb-7">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-gray-800">Monthly Salary</span>
+                                                    <span class="card-label fw-bold text-gray-800">Monthly
+                                                        Salary</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -349,7 +361,7 @@ License: For each use you must have a valid license purchased only from above li
                                         <!--end::Chart widget 31-->
                                     </div>
                                     <!--end::Col-->
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-6">
                                         <!--begin::Chart widget 31-->
                                         <div class="card card-flush h-xl-100">
                                             <!--begin::Header-->
@@ -371,8 +383,10 @@ License: For each use you must have a valid license purchased only from above li
                                         </div>
                                         <!--end::Chart widget 31-->
                                     </div>
+                                </div>
 
-                                    <div class="col-xl-4">
+                                <div class="row gx-5 gx-xl-10 mt-10">
+                                    <div class="col-xl-12">
                                         <!--begin::Chart widget 31-->
                                         <div class="card card-flush h-xl-100">
                                             <!--begin::Header-->
@@ -385,30 +399,30 @@ License: For each use you must have a valid license purchased only from above li
                                             </div>
                                             <!--end::Header-->
                                             <!--begin::Body-->
-                                                    <div class="card-body pt-5">
-                                                        @foreach ($banks_graph as $bank)
-                                                                <!--begin::Item-->
-                                                                <div class="d-flex flex-stack">
-                                                                    <!--begin::Section-->
-                                                                    <span
-                                                                        class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
-                                                                    <!--end::Section-->
-                                                                    <!--begin::Action-->
-                                                                    <span
-                                                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
-                                                                        <span
-                                                                            class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
-                                                                        <!--end::Svg Icon-->
-                                                                    </span>
-                                                                    <!--end::Action-->
-                                                                </div>
-                                                                <!--end::Item-->
-                                                                <!--begin::Separator-->
-                                                                <div class="separator separator-dashed my-3"></div>
-                                                                <!--end::Separator-->
-                                                        @endforeach
+                                            <div class="card-body pt-5">
+                                                @foreach ($banks_graph as $bank)
+                                                    <!--begin::Item-->
+                                                    <div class="d-flex flex-stack">
+                                                        <!--begin::Section-->
+                                                        <span
+                                                            class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
+                                                        <!--end::Section-->
+                                                        <!--begin::Action-->
+                                                        <span
+                                                            class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
+                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
+                                                            <span
+                                                                class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                        <!--end::Action-->
                                                     </div>
+                                                    <!--end::Item-->
+                                                    <!--begin::Separator-->
+                                                    <div class="separator separator-dashed my-3"></div>
+                                                    <!--end::Separator-->
+                                                @endforeach
+                                            </div>
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Chart widget 31-->
@@ -424,9 +438,9 @@ License: For each use you must have a valid license purchased only from above li
 
                     <!--end::Content wrapper-->
                     <!--begin::Footer-->
-                    <div id="kt_app_footer" class="app-footer">
+                    {{-- <div id="kt_app_footer" class="app-footer"> --}}
                         <!--begin::Footer container-->
-                        @include('layouts.footer')
+                        {{-- @include('layouts.footer') --}}
                         @include('layouts.footer_scripts')
                         {{-- custom js --}}
                         <script>
@@ -445,35 +459,35 @@ License: For each use you must have a valid license purchased only from above li
 
                             // Chart labels
                             // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-                         // Chart labels
+                            // Chart labels
                             const labels = @json($months);
 
                             // Chart data
                             const data = {
                                 labels: labels,
                                 datasets: [{
-                                        label: 'Request a Quote ('+ @json($second_graph_data[0]) +')',
+                                        label: 'Request a Quote (' + @json($second_graph_data[0]) + ')',
                                         data: @json($first_count),
                                         fill: false,
                                         borderColor: primaryColor,
                                         tension: 0.6
                                     },
                                     {
-                                        label: 'Special Offers ('+ @json($second_graph_data[1]) +')',
+                                        label: 'Special Offers (' + @json($second_graph_data[1]) + ')',
                                         data: @json($second_count),
                                         fill: false,
                                         borderColor: dangerColor,
                                         tension: 0.6
                                     },
                                     {
-                                        label: 'Smo Leads ('+ @json($second_graph_data[2]) +')',
+                                        label: 'Smo Leads (' + @json($second_graph_data[2]) + ')',
                                         data: @json($third_count),
                                         fill: false,
                                         borderColor: successColor,
                                         tension: 0.6
                                     },
                                     {
-                                        label: 'Contact Us (Sales & Marketing) ('+ @json($second_graph_data[3]) +')',
+                                        label: 'Contact Us (Sales & Marketing) (' + @json($second_graph_data[3]) + ')',
                                         data: @json($fourth_count),
                                         fill: false,
                                         borderColor: warningColor,
@@ -529,7 +543,7 @@ License: For each use you must have a valid license purchased only from above li
                             var options = {
                                 series: [{
                                     name: 'Count',
-                                    data:  @json($second_graph_data)
+                                    data: @json($second_graph_data)
                                 }],
                                 chart: {
                                     height: 350,
@@ -613,50 +627,52 @@ License: For each use you must have a valid license purchased only from above li
                             // Example data
                             //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
                             //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-                            var xData = @json($vehcile_graph['vehicle_names']) ;
-                            var yData = @json($vehcile_graph['vehicle_count']) ;
+                            var xData = @json($vehcile_graph['vehicle_names']);
+                            var yData = @json($vehcile_graph['vehicle_count']);
 
                             // Generate random fill colors
-                            var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
+                            var fillColors = Array.from({
+                                length: xData.length
+                            }, () => getRandomColor());
 
                             // Create series data
                             var seriesData = xData.map((x, index) => ({
-                            x: x,
-                            y: yData[index],
-                            fill: fillColors[index]
+                                x: x,
+                                y: yData[index],
+                                fill: fillColors[index]
                             }));
 
                             // Function to generate a random color
                             function getRandomColor() {
-                            var letters = '0123456789ABCDEF';
-                            var color = '#';
-                            for (var i = 0; i < 6; i++) {
-                                color += letters[Math.floor(Math.random() * 16)];
-                            }
-                            return color;
+                                var letters = '0123456789ABCDEF';
+                                var color = '#';
+                                for (var i = 0; i < 6; i++) {
+                                    color += letters[Math.floor(Math.random() * 16)];
+                                }
+                                return color;
                             }
 
                             // Chart options
                             var options = {
-                            series: [{
-                                data: seriesData
-                            }],
-                            chart: {
-                                type: 'bar',
-                                height: 350
-                            },
-                            plotOptions: {
-                                bar: {
-                                horizontal: true,
-                                distributed: true
+                                series: [{
+                                    data: seriesData
+                                }],
+                                chart: {
+                                    type: 'bar',
+                                    height: 350
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        horizontal: true,
+                                        distributed: true
+                                    }
+                                },
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                xaxis: {
+                                    categories: xData,
                                 }
-                            },
-                            dataLabels: {
-                                enabled: true
-                            },
-                            xaxis: {
-                                categories: xData,
-                            }
                             };
 
                             // Render the chart
@@ -667,108 +683,104 @@ License: For each use you must have a valid license purchased only from above li
                             var ctx1 = document.getElementById('graph_4');
 
                             const data1 = {
-                            labels: @json($salary_graph['monthly_salary']) ,
-                            datasets: [
-                                {
-                                label: 'Dataset',
-                                data: @json($salary_graph['monthly_salary_count']) ,
-                                backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 205, 86)',
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
+                                labels: @json($salary_graph['monthly_salary']),
+                                datasets: [{
+                                    label: 'Dataset',
+                                    data: @json($salary_graph['monthly_salary_count']),
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)',
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
                                     ],
-                                }
-                            ]
+                                }]
                             };
 
 
                             const config1 = {
-                            type: 'doughnut',
-                            data: data1,
-                            options: {
+                                type: 'doughnut',
+                                data: data1,
+                                options: {
                                     responsive: true,
                                     plugins: {
-                                    legend: {
-                                        position: 'top',
-                                    },
-                                    title: {
-                                        display: false,
-                                        text: 'Pie Chart'
-                                    }
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        title: {
+                                            display: false,
+                                            text: 'Pie Chart'
+                                        }
                                     }
                                 },
                             };
 
-                        var myChart = new Chart(ctx1, config1);
+                            var myChart = new Chart(ctx1, config1);
 
 
 
-                        var ctx2 = document.getElementById('graph_5');
+                            var ctx2 = document.getElementById('graph_5');
 
-                        const data2 = {
-                        labels: @json($purchase_plan_graph['purchase_plan']) ,
-                        datasets: [
-                            {
-                            label: 'Dataset',
-                            data: @json($purchase_plan_graph['purchase_plan_count']) ,
-                            backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 205, 86)',
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                ],
-                            }
-                        ]
-                        };
+                            const data2 = {
+                                labels: @json($purchase_plan_graph['purchase_plan']),
+                                datasets: [{
+                                    label: 'Dataset',
+                                    data: @json($purchase_plan_graph['purchase_plan_count']),
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)',
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                    ],
+                                }]
+                            };
 
 
-                        const config2 = {
-                        type: 'pie',
-                        data: data2,
-                        options: {
-                                responsive: true,
-                                plugins: {
-                                legend: {
-                                    position: 'top',
+                            const config2 = {
+                                type: 'pie',
+                                data: data2,
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        title: {
+                                            display: false,
+                                            text: 'Pie Chart'
+                                        }
+                                    }
                                 },
-                                title: {
-                                    display: false,
-                                    text: 'Pie Chart'
+                            };
+
+                            var myChart = new Chart(ctx2, config2);
+
+
+
+
+                            $(document).ready(function() {
+                                // Ensure the div exists before trying to get its content
+                                var div = $('#kt_app_content_container');
+                                if (div.length > 0) {
+                                    // Use html2canvas to render the div to a canvas
+                                    html2canvas(div[0]).then(function(canvas) {
+                                        // Convert the canvas to a Base64 string with the correct prefix
+                                        var base64Content = canvas.toDataURL("image/png");
+
+                                        // Log the Base64 content to the console
+                                        console.log("Base64 Content:", base64Content);
+                                    }).catch(function(error) {
+                                        console.error("Error rendering canvas:", error);
+                                    });
+                                } else {
+                                    console.warn("Div with id 'kt_app_content_container' not found");
                                 }
-                                }
-                            },
-                        };
-
-                        var myChart = new Chart(ctx2, config2);
-
-
-
-
-        $(document).ready(function() {
-            // Ensure the div exists before trying to get its content
-            var div = $('#kt_app_content_container');
-            if (div.length > 0) {
-                // Use html2canvas to render the div to a canvas
-                html2canvas(div[0]).then(function(canvas) {
-                    // Convert the canvas to a Base64 string with the correct prefix
-                    var base64Content = canvas.toDataURL("image/png");
-
-                    // Log the Base64 content to the console
-                    console.log("Base64 Content:", base64Content);
-                }).catch(function(error) {
-                    console.error("Error rendering canvas:", error);
-                });
-            } else {
-                console.warn("Div with id 'kt_app_content_container' not found");
-            }
-        });
+                            });
                         </script>
                         {{--  custom js end --}}
                         <!--end::Footer container-->
-                    </div>
+                    {{-- </div> --}}
                     <!--end::Footer-->
                 </div>
                 <!--end:::Main-->

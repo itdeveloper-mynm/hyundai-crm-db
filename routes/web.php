@@ -22,6 +22,7 @@ use App\Http\Controllers\SaleGraphController;
 use App\Http\Controllers\CrmLeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GraphController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,7 +154,6 @@ Route::controller(UserController::class)->group(function(){
 
 Route::controller(SaleGraphController::class)->group(function(){
     Route::get('sale-graph',  'index')->name('sale-graph.index');
-    Route::get('sale-graph-pdf',  'indexPdf')->name('sale-graph-pdf.index');
     Route::get('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
     Route::get('after-sale-graph',  'indexAfterSale')->name('after-sale-graph.index');
     Route::get('after-sale-graph-comparison',  'comparisonIndexAfterSale')->name('after-sale-graph-comparison.index');
@@ -166,6 +166,10 @@ Route::controller(SaleGraphController::class)->group(function(){
     Route::get('smo-graph',  'smoIndex')->name('smo-graph.index');
     Route::get('events-graph',  'eventsIndex')->name('events-graph.index');
     Route::get('actualsales-graph',  'actualsalesGraphIndex')->name('actualsales-graph.index');
+});
+
+Route::controller(GraphController::class)->group(function(){
+    Route::get('sale-graph-pdf',  'indexPdf')->name('sale-graph-pdf.index');
 });
 
 

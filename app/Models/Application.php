@@ -360,7 +360,8 @@ class Application extends Model
             $monthsArray = [];
             $currentMonth = $startDate->copy()->startOfMonth();
             while ($currentMonth->lte($endDate)) {
-                $monthsArray[] = $currentMonth->format('F Y'); // Format as "Month Year"
+                //$monthsArray[] = $currentMonth->format('F Y'); // Format as "Month Year"
+                $monthsArray[] = $currentMonth->format('M Y');
                 $currentMonth->addMonth(); // Move to the next month
             }
 
@@ -372,7 +373,8 @@ class Application extends Model
             $currentDate = $startDate->copy();
 
             while ($currentDate->lte($endDate)) {
-                $datesArray[] = $currentDate->toDateString();
+                //$datesArray[] = $currentDate->toDateString();
+                $datesArray[] = $currentDate->format('j-M-y');
                 $currentDate->addDay(); // Move to the next day
             }
 
