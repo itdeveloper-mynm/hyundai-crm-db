@@ -123,7 +123,7 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
         $lead->preferred_appointment_time = $row['prferred_time'] ?? null;
         $lead->request_date = formateDate($request_date) ?? null;
         $lead->customer_id = $customer->id;
-        $lead->type = checkApplicationType($row['data_type']) ?? 'leads';
+        $lead->type = isset($row['data_type']) ? checkApplicationType($row['data_type']) : 'leads';
 
         if (request()->has('select_date')) {
             $date = Carbon::parse(request()->input('select_date'));
