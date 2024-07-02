@@ -399,7 +399,7 @@ function rowDelete(id) {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: '{{ url("used-car") }}/' + id,
+                url: '{{ url("users") }}/' + id,
                 method: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"

@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Application;
+use Illuminate\Support\Facades\Http;
+
+class SendSMSService
+{
+    private $syncd_ids = [];
+
+    public function sendSMSAPI()
+    {
+        $contacts_data = $this->getUnsendSMSApplicationsArr();
+        if (count($this->syncd_ids) > 0) {
+            Application::whereIn('id', $this->syncd_ids)
+                ->update(['is_sms_send' => 1]);
+        }
+    }
+
+    public function getUnsendSMSApplicationsArr()
+    {
+        $db_data = $this->getDbData();
+        foreach ($db_data as $application) {
+            $this->syncd_ids[] = $application->id;
+
+            // $mobileNumber = ltrim($application->customer->mobile, '0');
+            // $to_number = '966' . $mobileNumber;
+            $to_number = $application->customer->mobile;
+
+            $username = 'hyundainaghiruwxep4ahtfa';
+            $password = '9f4ur1w30mytcn5kx7dj82ln09gcjbwn';
+
+            $id = '1025445076';
+            $templateinfo = '263457';
+
+            if ($this->isArabic($application->customer->first_name)) {
+                $id = '1025445073';
+                $templateinfo = '263458';
+            }
+
+            $postdata = json_encode([
+                'apiver' => '1.0',
+                'whatsapp' => [
+                    'ver' => '2.0',
+                    'dlr' => ['url' => ''],
+                    'messages' => [
+                        [
+                            'coding' => 1,
+                            'id' => $id,
+                            'msgtype' => 1,
+                            'templateinfo' => $templateinfo,
+                            'addresses' => [
+                                [
+                                    'seq' => '6310710c80900d37f7b99f56-20220901',
+                                    'to' => $to_number,
+                                    'from' => '9668001240191',
+                                    'tag' => '1'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+
+            $response = Http::withBasicAuth($username, $password)
+                ->withHeaders(['Content-Type' => 'application/json'])
+                ->post('https://api.goinfinito.me/unified/v2/send', $postdata);
+
+            $response_decoded = $response->json();
+        }
+
+        return 1;
+    }
+
+    public function getDbData()
+    {
+        return Application::where('is_sms_send', 0)
+            ->where('application_created', '>', now()->subDay())
+            ->limit(50)
+            ->get();
+    }
+
+    public function isArabic($str)
+    {
+        return preg_match('/[\p{Arabic}]/u', $str);
+    }
+
+    public function isEnglish($str)
+    {
+        return preg_match('/[a-zA-Z]/', $str);
+    }
+}

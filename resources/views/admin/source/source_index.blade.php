@@ -73,8 +73,8 @@
                                                 data-placeholder="{{ __('table.select_option',['title'=>__('table.status')]) }}"
                                                 data-allow-clear="true">
                                                 <option></option>
-                                                <option value="true">Active</option>
-                                                <option value="false">De-Active</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">De-Active</option>
                                             </select>
                                         </div>
 
@@ -174,8 +174,6 @@ var table = $('#user_table').DataTable({
         "url": "{{ route('source.pagination') }}",
         "type": "GET",
         'data': function(data) {
-
-            data.state_id = $('#state_id').val();
             data.status = $('#status').val();
             data.from = $('#from').val();
             data.to = $('#to').val();

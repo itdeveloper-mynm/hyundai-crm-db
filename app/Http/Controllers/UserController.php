@@ -122,8 +122,12 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $row = User::findorFail($id);
+        $row->delete();
+
+        return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
+
 
 
     public function usersPagination()

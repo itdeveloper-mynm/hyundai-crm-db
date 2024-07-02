@@ -14,4 +14,26 @@ class Source extends Model
         'name',
         'status',
     ];
+
+    public function scopeSearch($query, $conditions)
+    {
+
+        return $query->where(function ($query) use ($conditions) {
+            // Add your where conditions here based on $conditions array
+            if (isset($conditions['search']['value'])) {
+                $search = $conditions['search']['value'];
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+            }
+
+            if (isset($conditions['status'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->where('status', $conditions['status']);
+                });
+            }
+
+        });
+
+    }
 }

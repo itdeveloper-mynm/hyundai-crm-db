@@ -106,8 +106,8 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
             [
                 'first_name' => $row['first_name'],
                 'last_name' => $row['last_name'],
-                'email' => $row['email'],
-                'national_id' => $row['national_id'],
+                'email' => $row['email'] ?? null,
+                'national_id' => $row['national_id'] ?? null,
                 'bank_id' => $bank->id ?? null,
             ]
         );
