@@ -165,6 +165,13 @@ class PermissionTableSeeder extends Seeder
             'users-create',
             'users-edit',
             'users-delete',
+            'email-sending-criteria-list',
+            'email-sending-criteria-create',
+            'email-sending-criteria-edit',
+            'email-sending-criteria-delete',
+            'crm-leads-graph-list',
+            'crm-leads-graph-export',
+            'crm-leads-graph-filters',
          ];
 
          foreach ($permissions as $permission) {

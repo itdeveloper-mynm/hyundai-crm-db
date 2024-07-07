@@ -99,7 +99,11 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
         }
 
         $mobile = formatInputNumber($row['mobile']);
-        $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['request_date']));
+        if(isset($row['request_date'])){
+            $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['request_date']));
+        }else{
+            $request_date = null;
+        }
 
         $customer = Customer::firstOrCreate(
             ['mobile' => $mobile],

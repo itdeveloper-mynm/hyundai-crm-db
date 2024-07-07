@@ -53,7 +53,7 @@ class CrmLeadController extends Controller
     public function store(Request $request)
     {
 
-        CrmLead::storeData($request);
+        Application::storeData($request,'crm_leads');
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -72,7 +72,7 @@ class CrmLeadController extends Controller
     public function edit(string $id)
     {
 
-        $lead = CrmLead::findorFail($id);
+        $lead = Application::findorFail($id);
         $data = getCommonData($lead->city_id);
         $data['lead'] = $lead;
 
@@ -85,7 +85,7 @@ class CrmLeadController extends Controller
     public function update(Request $request, string $id)
     {
 
-        CrmLead::updateData($request,$id);
+        Application::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -95,7 +95,7 @@ class CrmLeadController extends Controller
      */
     public function destroy(string $id)
     {
-        $row = CrmLead::findorFail($id);
+        $row = Application::findorFail($id);
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -119,10 +119,11 @@ class CrmLeadController extends Controller
         //dd($conditions,$conditions['search']['value']);
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = CrmLead::count();
+        $countAll = Application::search($conditions)->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  CrmLead::search($conditions)
+        $paginate =  Application::search($conditions)
+                //->where('type','crm_leads')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -140,7 +141,8 @@ class CrmLeadController extends Controller
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" =>$row['created_at'],
+                "type" => reverseCheckApplicationType($row->type) ?? "",
+                "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;
         }
@@ -188,29 +190,30 @@ class CrmLeadController extends Controller
                                 'Created At','Type']);
             $chunkSize = 50000;
 
-            CrmLead::search($conditions)
-            ->join('customers as cust', 'crm_leads.customer_id', '=', 'cust.id')
+            Application::search($conditions)
+            ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
             ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
             ->select(
                 DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
                 'cust.mobile',
                 'cust.national_id',
                 'bank.name as bank_name',
-                'crm_leads.city_id',
-                'crm_leads.branch_id',
-                'crm_leads.vehicle_id',
-                'crm_leads.yearr',
-                'crm_leads.source_id',
-                'crm_leads.campaign_id',
-                'crm_leads.purchase_plan',
-                'crm_leads.monthly_salary',
-                'crm_leads.preferred_appointment_time',
-                'crm_leads.kyc',
-                'crm_leads.category',
-                'crm_leads.sub_category',
-                'crm_leads.created_at'
+                'applications.city_id',
+                'applications.branch_id',
+                'applications.vehicle_id',
+                'applications.yearr',
+                'applications.source_id',
+                'applications.campaign_id',
+                'applications.purchase_plan',
+                'applications.monthly_salary',
+                'applications.preferred_appointment_time',
+                'applications.kyc',
+                'applications.category',
+                'applications.sub_category',
+                'applications.created_at',
+                'applications.type',
             )
-            ->orderBy('crm_leads.id')
+            ->orderBy('applications.id' , 'DESC')
             ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
                 foreach ($records as $record) {
                     $row = [
@@ -231,7 +234,7 @@ class CrmLeadController extends Controller
                         $record->category,
                         $record->sub_category,
                         formateDate($record->created_at),
-                        'Crm Leads',
+                        reverseCheckApplicationType($record->type),
                     ];
                     fputcsv($fileHandle, (array)$row);
                 }

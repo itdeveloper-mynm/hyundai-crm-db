@@ -10,6 +10,31 @@ use App\Models\Source;
 use App\Models\Campaign;
 use App\Models\Bank;
 
+
+function currdate()
+{
+    return Carbon::today()->format('Y-m-d');
+    //return date('Y-m-d');
+}
+
+function dateTimeformat($date)
+{
+    return Carbon::parse($date)->format('d-m-Y h:i:s');
+}
+
+function arraycheck($value) {
+    if (is_array($value)) {
+        return $value;
+    }else{
+        return [$value];
+    }
+}
+
+function is_selected($value, $inputName)
+{
+    return in_array($value, request()->input($inputName, [])) ? 'selected' : '';
+}
+
 function activeRoute($route): string
 {
 
@@ -49,6 +74,7 @@ function AllLeadsMenuPermissionArr()
 {
     return [
         'campaign-leads-list',
+        'crm-leads-list',
         'after-sale-leads-list',
         'used-car-leads-list',
         'smo-leads-list',
@@ -64,6 +90,7 @@ function GraphMenuPermissionArr()
 {
     return [
         'sale-graph-list',
+        'crm-leads-graph-list',
         'sale-graph-comparison-list',
         'after-sale-graph-list',
         'after-sale-graph-comparison-list',
@@ -99,6 +126,7 @@ function AllLeadsMenuArr()
 {
     $array =[
         route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),
+        route('crm-leads.index'),route('crm-leads.create'),request()->is('crm-leads/*/edit'),
         route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),
         route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),
         route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit'),
@@ -114,6 +142,7 @@ function GraphAllMenuArr()
 {
     $array =[
         route('sale-graph.index'),request()->is('sale-graph*'),
+        route('crm-leads-graph.index'),request()->is('crm-leads-graph*'),
         route('sale-graph-comparison.index'),request()->is('sale-graph-comparison*'),
         route('after-sale-graph.index'),request()->is('after-sale-graph*'),
         route('after-sale-graph-comparison.index'),request()->is('after-sale-graph-comparison*'),
@@ -205,46 +234,88 @@ function updCustomer(Request $request,$id) {
 }
 
 function checkApplicationType($type) {
-
-    switch ($type) {
-        case 'Leads':
+    switch (strtolower($type)) {
+        case 'leads':
             return 'leads';
-        case 'Request a Quote':
+        case 'request a quote':
             return 'request_a_quote';
-        case 'Request a Test Quote':
+        case 'request a test quote':
             return 'request_a_test_quote';
-        case 'Online Service Booking':
+        case 'online service booking':
             return 'online_service_booking';
-        case 'Special Offers':
+        case 'special offers':
             return 'special_offers';
-        case 'Service Offers':
+        case 'service offers':
             return 'service_offers';
-        case 'Fleet Sales':
+        case 'fleet sales':
             return 'fleet_sales';
-        case 'Request a Test Drive':
+        case 'request a test drive':
             return 'request_a_test_drive';
-        case 'Used Cars':
+        case 'used cars':
             return 'used_cars';
-        case 'Old Leads':
+        case 'old leads':
             return 'old_leads';
-        case 'Events':
+        case 'events':
             return 'events';
-        case 'Contact Us':
+        case 'contact us':
             return 'contact_us';
-        case 'Sales Maketing':
+        case 'sales marketing':
             return 'sales_marketing';
-        case 'After sales':
+        case 'after sales':
             return 'after_sales';
-        case 'Smo Leads':
+        case 'smo leads':
             return 'smo_leads';
-        case 'Career':
+        case 'career':
             return 'career';
-        case 'Crm Leads':
+        case 'crm leads':
             return 'crm_leads';
         default:
             return 'leads';
     }
 }
+
+
+function reverseCheckApplicationType($value) {
+    switch ($value) {
+        case 'leads':
+            return 'Leads';
+        case 'request_a_quote':
+            return 'Request a Quote';
+        case 'request_a_test_quote':
+            return 'Request a Test Quote';
+        case 'online_service_booking':
+            return 'Online Service Booking';
+        case 'special_offers':
+            return 'Special Offers';
+        case 'service_offers':
+            return 'Service Offers';
+        case 'fleet_sales':
+            return 'Fleet Sales';
+        case 'request_a_test_drive':
+            return 'Request a Test Drive';
+        case 'used_cars':
+            return 'Used Cars';
+        case 'old_leads':
+            return 'Old Leads';
+        case 'events':
+            return 'Events';
+        case 'contact_us':
+            return 'Contact Us';
+        case 'sales_marketing':
+            return 'Sales Maketing';
+        case 'after_sales':
+            return 'After sales';
+        case 'smo_leads':
+            return 'Smo Leads';
+        case 'career':
+            return 'Career';
+        case 'crm_leads':
+            return 'Crm Leads';
+        default:
+            return 'Leads'; // Default to 'Leads' if no match found
+    }
+}
+
 
 
 function formatInputNumber($mobile) {

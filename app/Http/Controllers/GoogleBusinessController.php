@@ -166,8 +166,13 @@ class GoogleBusinessController extends Controller
 
    public function getCityBranches($city) {
 
-        // Perform logic to fetch branches based on the selected city
-        $branches = Branch::where('city_id', $city)->get();
+        if (strpos($city, ',') !== false) {
+            // Perform logic to fetch branches based on the selected city
+            $branches = Branch::whereIn('city_id', explode(',',$city))->get();
+        } else {
+            // Perform logic to fetch branches based on the selected city
+            $branches = Branch::where('city_id', $city)->get();
+        }
 
         // Return the branches as JSON
         return response()->json($branches);

@@ -158,7 +158,8 @@
                         </button> -->
 
                         @can('used-car-leads-export')
-                            <form action="{{route('used-car.export')}}" method="GET"  id="exportForm">
+                            <form action="{{route('used-car.export')}}" method="POST"  id="exportForm">
+                                @csrf
                                 <div id="export_form_div" style="display: none">
                                 </div>
                                 <button type="submit" class="btn btn-success me-3" id="exportbutton">

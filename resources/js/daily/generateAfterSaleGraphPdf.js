@@ -14,9 +14,10 @@ import puppeteer from 'puppeteer';
 
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
-
+        const baseurl = "http://127.0.0.1:8000";
+        console.log(baseurl);
         console.log('Navigating to page...');
-        const response = await page.goto('http://127.0.0.1:8000/sale-graph-pdf', {
+        const response = await page.goto(`${baseurl}/after-sale-graph-pdf`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
             timeout: 0 // Set timeout to 0 to disable it
         });
@@ -53,7 +54,7 @@ import puppeteer from 'puppeteer';
         console.log('Generating PDF...');
         const pdfOptions = {
             //path: 'storage/app/salegraph/chart(2).pdf',
-            path: `storage/${formattedDate}.pdf`,
+            path: `storage/app/public/pdf_graph/daily/${formattedDate}-after-sale-graph.pdf`,
             format: 'A4',
             landscape: false,
             timeout: 0, // Set timeout to 0 to disable it

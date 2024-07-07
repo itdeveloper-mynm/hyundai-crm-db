@@ -181,7 +181,8 @@
                             </button> -->
 
                             @can('campaign-leads-export')
-                            <form action="{{route('leads.export')}}" method="GET"  id="exportForm">
+                            <form action="{{route('leads.export')}}" method="POST"  id="exportForm">
+                                @csrf
                                 <div id="export_form_div" style="display: none">
 
                                 </div>

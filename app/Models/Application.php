@@ -48,6 +48,10 @@ class Application extends Model
         'customers_type',
         'number_of_vehicles',
         'fleet_range',
+        'category',
+        'sub_category',
+        'kyc',
+        'crm_lead_status',
     ];
 
 
@@ -62,7 +66,7 @@ class Application extends Model
                 $query->where(function ($query) use ($search) {
                     $query->whereHas('customer', function ($query) use ($search) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
-                            ->orWhere('mobile', $search)
+                            ->orWhere('mobile', 'like', '%' . $search . '%')
                             ->orWhere('email', $search);
                     });
                 });
@@ -70,41 +74,53 @@ class Application extends Model
 
             if (isset($conditions['city_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $query->whereHas('city', function ($query) use ($conditions) {
-                        $query->where('id', $conditions['city_id']);
-                    });
+                    $query->whereIn('applications.city_id', arraycheck($conditions['city_id']));
                 });
             }
 
             if (isset($conditions['branch_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $query->whereHas('branch', function ($query) use ($conditions) {
-                        $query->where('id', $conditions['branch_id']);
-                    });
+                    $query->whereIn('applications.branch_id', arraycheck($conditions['branch_id']));
                 });
             }
 
             if (isset($conditions['vehicle_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $query->whereHas('vehicle', function ($query) use ($conditions) {
-                        $query->where('id', $conditions['vehicle_id']);
-                    });
+                    $query->whereIn('applications.vehicle_id', arraycheck($conditions['vehicle_id']));
                 });
             }
 
             if (isset($conditions['source_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $query->whereHas('source', function ($query) use ($conditions) {
-                        $query->where('id', $conditions['source_id']);
-                    });
+                        $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
                 });
             }
 
             if (isset($conditions['campaign_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $query->whereHas('campaign', function ($query) use ($conditions) {
-                        $query->where('id', $conditions['campaign_id']);
-                    });
+                        $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
+                });
+            }
+
+            if (isset($conditions['purchase_plan'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
+                });
+            }
+
+            if (isset($conditions['monthly_salary'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
+                });
+            }
+            if (isset($conditions['preferred_appointment_time'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
+                });
+            }
+            if (isset($conditions['kyc'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
                 });
             }
 
@@ -120,31 +136,91 @@ class Application extends Model
         });
     }
 
-
-    public function scopeGraphSearch($query, $filters)
+    public function scopeGraphSearch($query, $conditions)
     {
-        // Check if $filters is not empty
-        if (!empty($filters)) {
-            return $query
-                ->when(isset($filters['city_id']), function ($query) use ($filters) {
-                    return $query->where('applications.city_id', $filters['city_id']);
-                })
-                ->when(isset($filters['branch_id']), function ($query) use ($filters) {
-                    return $query->where('applications.branch_id', $filters['branch_id']);
-                })
-                ->when(isset($filters['vehicle_id']), function ($query) use ($filters) {
-                    return $query->where('applications.vehicle_id', $filters['vehicle_id']);
-                })
-                ->when(isset($filters['source_id']), function ($query) use ($filters) {
-                    return $query->where('applications.source_id', $filters['source_id']);
-                })
-                ->when(isset($filters['campaign_id']), function ($query) use ($filters) {
-                    return $query->where('applications.campaign_id', $filters['campaign_id']);
-                });
-        }
+        return $query->where(function ($query) use ($conditions) {
 
-        return $query;
+            if (isset($conditions['city_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereIn('applications.city_id', arraycheck($conditions['city_id']));
+                });
+            }
+
+            if (isset($conditions['branch_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereIn('applications.branch_id', arraycheck($conditions['branch_id']));
+                });
+            }
+
+            if (isset($conditions['vehicle_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereIn('applications.vehicle_id', arraycheck($conditions['vehicle_id']));
+                });
+            }
+
+            if (isset($conditions['source_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
+                });
+            }
+
+            if (isset($conditions['campaign_id'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
+                });
+            }
+
+            if (isset($conditions['purchase_plan'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
+                });
+            }
+
+            if (isset($conditions['monthly_salary'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
+                });
+            }
+            if (isset($conditions['preferred_appointment_time'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
+                });
+            }
+            if (isset($conditions['kyc'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
+                });
+            }
+
+
+            // Add more conditions as needed...
+        });
     }
+
+    // public function scopeGraphSearch($query, $filters)
+    // {
+    //     // Check if $filters is not empty
+    //     if (!empty($filters)) {
+    //         return $query
+    //             ->when(isset($filters['city_id']), function ($query) use ($filters) {
+    //                 return $query->where('applications.city_id', $filters['city_id']);
+    //             })
+    //             ->when(isset($filters['branch_id']), function ($query) use ($filters) {
+    //                 return $query->where('applications.branch_id', $filters['branch_id']);
+    //             })
+    //             ->when(isset($filters['vehicle_id']), function ($query) use ($filters) {
+    //                 return $query->where('applications.vehicle_id', $filters['vehicle_id']);
+    //             })
+    //             ->when(isset($filters['source_id']), function ($query) use ($filters) {
+    //                 return $query->where('applications.source_id', $filters['source_id']);
+    //             })
+    //             ->when(isset($filters['campaign_id']), function ($query) use ($filters) {
+    //                 return $query->where('applications.campaign_id', $filters['campaign_id']);
+    //             });
+    //     }
+
+    //     return $query;
+    // }
 
 
 
@@ -382,7 +458,10 @@ class Application extends Model
         }
 
         $data['startDate'] = $startDate;
-        $data['endDate'] = $endDate;
+        // $data['endDate'] = $endDate;
+
+        // Adjust the end date to include the full day
+        $data['endDate'] = Carbon::parse($endDate)->endOfDay();
         $data['months_diff'] = $months_diff;
         return $data;
     }
@@ -438,7 +517,8 @@ class Application extends Model
     public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
-
+        // Adjust the end date to include the full day
+        //$endDate = Carbon::parse($endDate)->endOfDay();
         // Generate the date range sequence
         $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
 
@@ -524,6 +604,7 @@ class Application extends Model
         $application->monthly_salary = $request->input('monthly_salary');
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
         $application->customer_id= $customer->id;
+        $application->crm_lead_status= $request->crm_lead_status ?? 0;
         $application->type= $type;
 
         if ($request->has('select_date')) {

@@ -71,68 +71,19 @@
 
                                     <div class="px-7 py-5">
                                         @can('crm-leads-filters')
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                            <div>
-                                                <select class="form-select mb-2" name="city_id" id="city_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
-                                                    data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($vehicles as $vehicle)
-                                                        <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="source_id" id="source_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($sources as $source)
-                                                        <option value="{{$source->id}}">{{$source->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+                                            @include('admin.crn_lead.filters')
                                         @endcan
                                         <div class="mb-3">
 
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from" id="from" />
+                                                        placeholder="Select a date" name="from" value="{{ currentDate() }}" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to" id="to" />
+                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}" id="to" />
                                                 </div>
                                             </div>
                                         </div>
@@ -157,7 +108,8 @@
                             </div>
 
                             @can('crm-leads-export')
-                            <form action="{{route('crm-leads.export')}}" method="GET"  id="exportForm">
+                            <form action="{{route('crm-leads.export')}}" method="POST"  id="exportForm">
+                                @csrf
                                 <div id="export_form_div" style="display: none">
 
                                 </div>
@@ -202,6 +154,8 @@
                                 <th>{{ __('Branch') }}</th>
                                 <th>{{ __('Vehicle') }}</th>
                                 <th>{{ __('Source') }}</th>
+                                <th>{{ __('Type') }}</th>
+                                <th>{{ __('Created At') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -364,6 +318,22 @@
                         return result;
                     }
                 },
+                {
+                    data: 'type',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'created_at',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
 
                 {
                     data: 'id',
@@ -385,7 +355,7 @@
                 }
             ],
             order: [
-                [3, "desc"]
+                [8, "desc"]
             ],
             dom: 'lBfrtip',
             buttons: [{

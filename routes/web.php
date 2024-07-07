@@ -22,6 +22,7 @@ use App\Http\Controllers\SaleGraphController;
 use App\Http\Controllers\CrmLeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmailSendingCriteriaController;
 use App\Http\Controllers\GraphController;
 
 /*
@@ -79,28 +80,28 @@ Route::resource('lead', LeadController::class);
 Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
     Route::post('leads-import',  'leadsImport')->name('leads.import');
-    Route::get('leads-export',  'leadsExport')->name('leads.export');
+    Route::post('leads-export',  'leadsExport')->name('leads.export');
 });
 
 Route::resource('after-sale', AfterSaleController::class);
 Route::controller(AfterSaleController::class)->group(function(){
     Route::get('after-sale-pagination',  'afterSalePagination')->name('afterSale.pagination');
     Route::post('after-sale-import',  'afterSaleImport')->name('after-sale.import');
-    Route::get('after-sale-export',  'afterSaleExport')->name('after-sale.export');
+    Route::post('after-sale-export',  'afterSaleExport')->name('after-sale.export');
 });
 
 Route::resource('used-car', UsedCarController::class);
 Route::controller(UsedCarController::class)->group(function(){
     Route::get('used-car-pagination',  'usedCarPagination')->name('usedCar.pagination');
     Route::post('used-car-import',  'usedCarImport')->name('used-car.import');
-    Route::get('used-car-export',  'usedCarExport')->name('used-car.export');
+    Route::post('used-car-export',  'usedCarExport')->name('used-car.export');
 });
 
 Route::resource('smo-lead', SmoLeadController::class);
 Route::controller(SmoLeadController::class)->group(function(){
     Route::get('smo-lead-pagination',  'smoLeadPagination')->name('smoLead.pagination');
     Route::post('smo-lead-import',  'smoLeadImport')->name('smo-lead.import');
-    Route::get('smo-lead-export',  'smoLeadExport')->name('smo-lead.export');
+    Route::post('smo-lead-export',  'smoLeadExport')->name('smo-lead.export');
 });
 
 Route::resource('google-business', GoogleBusinessController::class);
@@ -131,7 +132,7 @@ Route::controller(ExternalLeadController::class)->group(function(){
 Route::resource('old-leads', OldLeadController::class);
 Route::controller(OldLeadController::class)->group(function(){
     Route::get('old-leads-pagination',  'leadsPagination')->name('old-leads.pagination');
-    Route::get('old-leads-export',  'oldLeadsExport')->name('old-leads.export');
+    Route::post('old-leads-export',  'oldLeadsExport')->name('old-leads.export');
 });
 
 Route::resource('sales-data', SaleDataController::class);
@@ -145,6 +146,7 @@ Route::controller(SocialDataController::class)->group(function(){
     Route::get('social-data-pagination',  'socialDataPagination')->name('social-data.pagination');
 });
 
+Route::resource('email-sending-criteria', EmailSendingCriteriaController::class);
 Route::resource('roles', RoleController::class);
 
 Route::resource('users', UserController::class);
@@ -153,23 +155,25 @@ Route::controller(UserController::class)->group(function(){
 });
 
 Route::controller(SaleGraphController::class)->group(function(){
-    Route::get('sale-graph',  'index')->name('sale-graph.index');
-    Route::get('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
-    Route::get('after-sale-graph',  'indexAfterSale')->name('after-sale-graph.index');
-    Route::get('after-sale-graph-comparison',  'comparisonIndexAfterSale')->name('after-sale-graph-comparison.index');
-    Route::get('test-drive-graph',  'testDriveIndex')->name('test-drive-graph.index');
-    Route::get('online-service-booking-graph',  'serviceBookingIndex')->name('online-service-booking-graph.index');
-    Route::get('service-offers-graph',  'serviceOffersIndex')->name('service-offers-graph.index');
-    Route::get('contact-us-graph',  'contactUsIndex')->name('contact-us-graph.index');
-    Route::get('used-cars-graph',  'usedCarsIndex')->name('used-cars-graph.index');
-    Route::get('hr-graph',  'hrIndex')->name('hr-graph.index');
-    Route::get('smo-graph',  'smoIndex')->name('smo-graph.index');
-    Route::get('events-graph',  'eventsIndex')->name('events-graph.index');
-    Route::get('actualsales-graph',  'actualsalesGraphIndex')->name('actualsales-graph.index');
+    Route::any('sale-graph',  'index')->name('sale-graph.index');
+    Route::any('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
+    Route::any('after-sale-graph',  'indexAfterSale')->name('after-sale-graph.index');
+    Route::any('after-sale-graph-comparison',  'comparisonIndexAfterSale')->name('after-sale-graph-comparison.index');
+    Route::any('test-drive-graph',  'testDriveIndex')->name('test-drive-graph.index');
+    Route::any('online-service-booking-graph',  'serviceBookingIndex')->name('online-service-booking-graph.index');
+    Route::any('service-offers-graph',  'serviceOffersIndex')->name('service-offers-graph.index');
+    Route::any('contact-us-graph',  'contactUsIndex')->name('contact-us-graph.index');
+    Route::any('used-cars-graph',  'usedCarsIndex')->name('used-cars-graph.index');
+    Route::any('hr-graph',  'hrIndex')->name('hr-graph.index');
+    Route::any('smo-graph',  'smoIndex')->name('smo-graph.index');
+    Route::any('events-graph',  'eventsIndex')->name('events-graph.index');
+    Route::any('actualsales-graph',  'actualsalesGraphIndex')->name('actualsales-graph.index');
+    Route::any('crm-leads-graph',  'crmLeadsGraphIndex')->name('crm-leads-graph.index');
 });
 
 Route::controller(GraphController::class)->group(function(){
     Route::get('sale-graph-pdf',  'indexPdf')->name('sale-graph-pdf.index');
+    Route::get('after-sale-graph-pdf',  'indexAfterSalePdf')->name('after-sale-graph-pdf.index');
 });
 
 
@@ -177,5 +181,5 @@ Route::resource('crm-leads', CrmLeadController::class);
 Route::controller(CrmLeadController::class)->group(function(){
     Route::get('crm-leads-pagination',  'crmLeadPagination')->name('crm-leads.pagination');
     Route::post('crm-leads-import',  'crmleadsImport')->name('crm-leads.import');
-    Route::get('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
+    Route::post('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
 });

@@ -186,7 +186,8 @@
 
 
                             @can('after-sale-leads-export')
-                            <form action="{{route('after-sale.export')}}" method="GET"  id="exportForm">
+                            <form action="{{route('after-sale.export')}}" method="POST"  id="exportForm">
+                                @csrf
                                 <div id="export_form_div" style="display: none">
 
                                 </div>

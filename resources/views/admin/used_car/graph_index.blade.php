@@ -14,6 +14,10 @@
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
                         <div class="col-lg-12 d-flex justify-content-end">
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">

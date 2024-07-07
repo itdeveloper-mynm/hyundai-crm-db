@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Lead Add')
+@section('title', 'Add New Criteria')
 
 @section('content')
 
@@ -20,7 +20,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Lead Add') }}</h2>
+                                        <h2>{{ __('Add New Criteria') }}</h2>
                                     </div>
                                 </div>
 
@@ -29,63 +29,40 @@
                                     <div class="row">
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" name="first_name" id="first_name" class="form-control mb-2"
-                                                required />
+                                            <label class="required form-label">{{ __('Header') }}</label>
+                                            <input type="text" name="header" id="header"
+                                                class="form-control mb-2" required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" name="last_name" id="last_name" class="form-control mb-2"
-                                                required />
-                                        </div>
-
-                                        <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" name="mobile" id="mobile" class="form-control mb-2"
-                                                required />
+                                            <label class="required form-label">{{ __('Body') }}</label>
+                                            <input type="text" name="body" id="body"
+                                                class="form-control mb-2" required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" name="email" id="email" class="form-control mb-2"
-                                                required />
+                                            <label class="required form-label">{{ __('Emails') }}</label>
+                                            <select class="form-select mb-2" name="emails[]" id="emails"
+                                            data-control="select2" data-placeholder="{{ __('select option') }}"
+                                            data-allow-clear="true" multiple>
+                                            <option value="">--select--</option>
+                                            @foreach ($user_emails as $key => $email)
+                                                <option value="{{ $email }}">{{$key}} ({{ $email }})</option>
+                                            @endforeach
+                                        </select>
                                         </div>
 
-                                    </div>
 
-                                    <div class="row mt-5">
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'multiple' =>false, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.branch' ,[ 'required' =>true, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.purchase_plan' ,[ 'required' =>false, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.monthly_salary' ,[ 'required' =>false, 'data' => null ])
-                                        </div>
-
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.bank' ,[ 'required' =>false,'disabled' => false, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.preferred_appointment_time' ,[ 'required' =>true, 'data' => null ])
+                                        <div class="col-lg-6 col-sm-4 col-md-4">
+                                            <label class="required form-label">{{ __('Type') }}</label>
+                                            <select class="form-select mb-2" name="type" id="type"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true" required>
+                                                <option value="">--select--</option>
+                                                <option value="Daily">Daily</option>
+                                                <option value="Weekly">Weekly</option>
+                                                <option value="Monthly">Monthly</option>
+                                            </select>
                                         </div>
                                     </div>
-
-                                    <div class="row mt-5">
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.source' ,[ 'required' =>true, 'data' => null ])
-                                        </div>
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => null ])
-                                        </div>
-                                    </div>
-
                                 </div>
 
                                 <div class="d-flex justify-content-center">
@@ -112,8 +89,6 @@
 @section('js')
 
 
-<script src="{{ asset('ajx_files/ajx.js') }}"></script>
-
 <script>
 $(document).ready(function() {
 
@@ -137,6 +112,8 @@ $(document).ready(function() {
 
         submitHandler: function(form) {
 
+            const $form = $('#myForm');
+
             $('.indicator-label').css({
                 'display': 'none'
             });
@@ -150,7 +127,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('lead.store') }}",
+                url: "{{ route('email-sending-criteria.store') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -170,14 +147,14 @@ $(document).ready(function() {
                             data.result,
                         )
 
-                        window.location.href = "{{route('lead.index')}}";
+                        window.location.href = "{{route('email-sending-criteria.index')}}";
 
                     }
                     if (data.result == 'error') {
                         Swal.fire(
                             "{{ __('not_add') }}",
-                            "{{ __('not_add') }}",
-                            data.result
+                            data.message,
+                            data.result,
                         )
                     }
                     $("#btnSubmit").prop("disabled", false);
@@ -187,6 +164,23 @@ $(document).ready(function() {
     })
 
     $(".sub_button").prop("disabled", false);
+
+
+    handleSelectAll();
 })
+
+const handleSelectAll = () => {
+    // Define variables
+    const $form = $('#myForm');
+    const $selectAll = $form.find('#kt_roles_select_all');
+    const $allCheckboxes = $form.find('[type="checkbox"]:not(:disabled)');
+
+    // Handle check state
+    $selectAll.on('change', function(e) {
+        // Apply check state to all enabled checkboxes
+        $allCheckboxes.prop('checked', $(this).prop('checked'));
+    });
+};
+
 </script>
 @endsection

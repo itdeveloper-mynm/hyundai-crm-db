@@ -41,6 +41,7 @@ class SaleGraphController extends Controller
         $this->middleware('permission:events-graph-export', ['only' => ['eventsGraphExport']]);
         $this->middleware('permission:actualsales-graph-list', ['only' => ['eventsIndex']]);
         $this->middleware('permission:actualsales-graph-export', ['only' => ['eventsGraphExport']]);
+        $this->middleware('permission:crm-leads-graph-list', ['only' => ['crmLeadsGraphIndex']]);
     }
 
     public function index(Request $request)
@@ -667,5 +668,34 @@ class SaleGraphController extends Controller
        return view('admin.actual_sales.graph_index' , $data);
     }
 
+    public function crmLeadsGraphIndex(Request $request)
+    {
+        //dd($request->all());
+        $startDate = request('start_date') ?? startDate();
+        $endDate = request('end_date') ?? endDate();
+        $dates = Application::getPerformanceLabel($startDate,$endDate);
+        //dd($dates);
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+        $months_diff = $dates['months_diff'];
+        $data['months'] = $dates['months'];
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+
+
+        $first_types = ['crm_leads'];
+
+        $filters = $request->all();
+        // dd($filters);
+
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+        $data['total_performance_count'] = array_sum($data['first_count']);
+        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
+        $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
+        $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
+        //dd($data);
+       return view('admin.crn_lead.graph_index' , $data ,getCommonData());
+    }
 
 }

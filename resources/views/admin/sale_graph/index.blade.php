@@ -27,6 +27,10 @@
                                     {{ __('Pdf') }}
                                 </button>
                             </form> --}}
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -44,9 +48,9 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('sale-graph.index') }}"
+                                <form method="POST" action="{{ route('sale-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    {{-- @csrf --}}
+                                    @csrf
                                     <div class="px-7 py-5">
 
                                         <div class="mb-3">

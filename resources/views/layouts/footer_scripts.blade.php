@@ -60,4 +60,44 @@
             });
     });
 
+    $(document).ready(function() {
+        $('select[data-control="select2"]').each(function() {
+            var $select = $(this);
+            $select.select2({
+                placeholder: $select.data('placeholder'),
+                allowClear: $select.data('allow-clear')
+            });
+
+            $select.on('select2:select select2:unselect', function(e) {
+                var selectedOptions = $(this).val();
+                if (selectedOptions.length > 2) {
+                    $(this).next('.select2-container').first().find('.select2-selection__rendered').text(selectedOptions.length + ' selected');
+                }
+            });
+        });
+
+        $('#kt_menu_62fe86549b38d').on('click', function(event) {
+            event.stopPropagation(); // Prevent event from bubbling up to document
+        });
+
+        // Close the menu when clicking outside of it
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#kt_menu_62fe86549b38d').length) {
+                // Check if the click was not within the menu
+                $('#kt_menu_62fe86549b38d').removeClass('menu-sub-show'); // Replace with your menu class
+            }
+        });
+
+        // // Prevent closing the menu when clicking inside the form elements
+        // $('#kt_menu_62fe86549b38d form').on('click', function(event) {
+        //     event.stopPropagation(); // Prevent event from bubbling up to document
+        // });
+    });
+
+
+    $('#printButton').click(function() {
+        // Open the print dialog
+        window.print();
+    });
+
         </script>

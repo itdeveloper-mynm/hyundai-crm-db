@@ -28,6 +28,7 @@
 
                                     <div class="row">
 
+                                        <input type="hidden" name="crm_lead_status" value="1">
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
                                             <input type="text" name="first_name" id="first_name" class="form-control mb-2"
