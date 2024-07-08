@@ -58,18 +58,16 @@ class ExternalLeadController extends Controller
         }
 
         $mobile =formatInputNumber($mobile);
-        $customer = Customer::whereMobile($mobile)->first();
 
-
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $request->input('firstName');
-            $customer->last_name = $request->input('lastName');
-            $customer->mobile = $mobile;
-            $customer->email = $request->input('email');
-            $customer->bank_id = $bank->id;
-            $customer->save();
-        }
+        $customer = Customer::firstOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $request->input('firstName'),
+                'last_name' => $request->input('lastName'),
+                'email' => $request->input('email') ?? null,
+                'bank_id' => $bank->id ?? null,
+            ]
+        );
 
         $city = City::where('name', $city_name)->first();
         $branch = Branch::where('name', $branch_name)->first();
@@ -110,6 +108,11 @@ class ExternalLeadController extends Controller
 
         \Log::info('customer api hit end');
 
+        return response()->json([
+            'success' => true,'message' => 'Added Successfully',
+            'data'=> [],
+        ], 200);
+
     }
 
     public function saveformjson(Request $request) {
@@ -118,67 +121,68 @@ class ExternalLeadController extends Controller
         \Log::info('saveformjson api hit');
 
 
-        $city = City::where('name', $request->input('customerCity'))->first();
-        if(is_null($city)){
-            $city = City::create(['name' => $request->input('customerCity')]);
+        $bank = null;
+        $city = null;
+        $branch = null;
+        $vehicle = null;
+        $sourcee = null;
+        $campaign = null;
+
+        // Collect data that can be null safely
+        $optionalData = [
+            'bank' => $request->input('customerBank') ?? null,
+            'dealer_city' => $row['dealerCity'] ?? null,
+            'dealer_branch' => $request->input('branch') ?? null,
+            'vehicle' => $request->input('vehicle') ?? null,
+            'channel' => $request->input('sourcee') ?? null,
+            'campaign' => $request->input('pagesub') ?? null,
+        ];
+
+        // Fetch or create related models in one go
+        foreach ($optionalData as $key => $value) {
+            if ($value) {
+                switch ($key) {
+                    case 'bank':
+                        $bank = Bank::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_city':
+                        $city = City::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_branch':
+                        if ($city) {
+                            $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
+                        }
+                        break;
+                    case 'vehicle':
+                        $vehicle = Vehicle::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'channel':
+                        $sourcee = Source::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'campaign':
+                        $campaign = Campaign::firstOrCreate(['name' => $value]);
+                        break;
+                }
+            }
         }
 
-        $bank = Bank::where('name', $request->input('customerBank'))->first();
-
-        if(is_null($bank)){
-            $bank = Bank::create(['name' => $request->input('customerBank')]);
-        }
-
-        $city_name= $request->input('dealerCity');
-        $branch_name= $request->input('branch');
-        $vehicle_name= $request->input('vehicle');
-        $sourcee_name= $request->input('sourcee');
-        $campaign_name= $request->input('pagesub');
         $mobile = $request->input('mobile');
-
         $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::whereMobile($mobile)->first();
-
-
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $request->input('firstName');
-            $customer->last_name = $request->input('lastName');
-            $customer->mobile = $mobile;
-            $customer->email = $request->input('email');
-            $customer->city_id = $city->id;
-            $customer->bank_id = $bank->id;
-            $customer->save();
-        }
-
-        $city = City::where('name', $city_name)->first();
-        $branch = Branch::where('name', $branch_name)->first();
-        $vehicle = Vehicle::where('name', $vehicle_name)->first();
-        $sourcee = Source::where('name', $sourcee_name)->first();
-        $campaign = Campaign::where('name', $campaign_name)->first();
-        if(is_null($city)){
-            $city = City::create(['name' => $city_name]);
-        }
-        if(is_null($branch)){
-            $branch = Branch::create([
-                'name' => $branch_name,
-                'city_id' => $city->id,
-            ]);
-        }
-        if(is_null($vehicle)){
-            $vehicle = Vehicle::create(['name' => $vehicle_name]);
-        }
-        if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $sourcee_name]);
-        }
-        if(is_null($campaign)){
-            $campaign = Campaign::create(['name' => $campaign_name]);
-        }
+        $customer = Customer::firstOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $request->input('firstName'),
+                'last_name' => $request->input('lastName'),
+                'email' => $request->input('email') ?? null,
+                'city_id' => $city->id ?? null,
+                'bank_id' => $bank->id ?? null,
+            ]
+        );
 
         $type= checkApplicationType($request->input('page')) ?? 'leads';
 
-        $applyfor = $request->input('applyFor');
+        $apply_for = $request->input('applyFor');
         $booking_reason = $request->input('bookingreason');
         $booking_category = $request->input('bookingcategory');
         $department = $request->input('department');
@@ -246,6 +250,11 @@ class ExternalLeadController extends Controller
 
 
         \Log::info('saveformjson api hit end');
+
+        return response()->json([
+            'success' => true,'message' => 'Added Successfully',
+            'data'=> [],
+        ], 200);
 
     }
 }

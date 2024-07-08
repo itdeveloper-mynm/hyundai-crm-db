@@ -14,10 +14,12 @@ import puppeteer from 'puppeteer';
 
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
-        const baseurl = "http://127.0.0.1:8000";
+        //const baseurl = "http://127.0.0.1:8000";
+        const baseurl = process.env.LARAVEL_BASE_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
         console.log(baseurl);
+
         console.log('Navigating to page...');
-        const response = await page.goto(`${baseurl}/sale-graph-pdf`, {
+        const response = await page.goto(`${baseurl}/sale-graph-pdf?chk=daily`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
             timeout: 0 // Set timeout to 0 to disable it
         });

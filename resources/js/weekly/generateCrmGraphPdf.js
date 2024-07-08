@@ -19,7 +19,7 @@ import puppeteer from 'puppeteer';
 
         console.log(baseurl);
         console.log('Navigating to page...');
-        const response = await page.goto(`${baseurl}/after-sale-graph-pdf?chk=daily`, {
+        const response = await page.goto(`${baseurl}/crm-leads-graph-pdf?chk=weekly`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
             timeout: 0 // Set timeout to 0 to disable it
         });
@@ -56,7 +56,7 @@ import puppeteer from 'puppeteer';
         console.log('Generating PDF...');
         const pdfOptions = {
             //path: 'storage/app/salegraph/chart(2).pdf',
-            path: `storage/app/public/pdf_graph/daily/${formattedDate}-after-sale-graph.pdf`,
+            path: `storage/app/public/pdf_graph/weekly/${formattedDate}-crm-leads-graph.pdf`,
             format: 'A4',
             landscape: false,
             timeout: 0, // Set timeout to 0 to disable it

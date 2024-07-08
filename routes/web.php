@@ -174,6 +174,7 @@ Route::controller(SaleGraphController::class)->group(function(){
 Route::controller(GraphController::class)->group(function(){
     Route::get('sale-graph-pdf',  'indexPdf')->name('sale-graph-pdf.index');
     Route::get('after-sale-graph-pdf',  'indexAfterSalePdf')->name('after-sale-graph-pdf.index');
+    Route::get('crm-leads-graph-pdf',  'crmleadsPdf')->name('crm-leads-graph-pdf.index');
 });
 
 

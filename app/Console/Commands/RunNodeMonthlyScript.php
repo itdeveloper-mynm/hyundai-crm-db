@@ -6,40 +6,28 @@ use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class RunNodeScript extends Command
+class RunNodeMonthlyScript extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'nodescript:cron';
+    protected $signature = 'nodescript-monthly:cron';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Run the Node.js script';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Command description';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle()
     {
-        $process = new Process(['node', base_path('resources/js/daily/generateSaleGraphPdf.js')]);
+        $process = new Process(['node', base_path('resources/js/monthly/generateSaleGraphPdf.js')]);
         $process->run();
 
         // Executes after the command finishes
@@ -50,7 +38,7 @@ class RunNodeScript extends Command
         echo $process->getOutput();
 
         // Create and run second process
-        $process2 = new Process(['node', base_path('resources/js/daily/generateAfterSaleGraphPdf.js')]);
+        $process2 = new Process(['node', base_path('resources/js/monthly/generateAfterSaleGraphPdf.js')]);
         $process2->run();
 
         // Check if process 2 was successful
@@ -61,7 +49,7 @@ class RunNodeScript extends Command
         echo $process2->getOutput();
 
         // Create and run third process
-        $process3 = new Process(['node', base_path('resources/js/daily/generateCrmGraphPdf.js')]);
+        $process3 = new Process(['node', base_path('resources/js/monthly/generateCrmGraphPdf.js')]);
         $process3->run();
 
         // Check if process 2 was successful
@@ -73,5 +61,4 @@ class RunNodeScript extends Command
 
         return 0;
     }
-
 }

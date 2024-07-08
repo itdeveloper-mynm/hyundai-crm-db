@@ -14,7 +14,6 @@ class SendMailWithAttachment extends Mailable
     use Queueable, SerializesModels;
 
     public $data;
-    public $attachment;
     public $subject;
 
     /**
@@ -22,10 +21,9 @@ class SendMailWithAttachment extends Mailable
      *
      * @return void
      */
-    public function __construct($data, $attachment, $subject)
+    public function __construct($data, $subject)
     {
         $this->data = $data;
-        $this->attachment = $attachment;
         $this->subject = $subject;
     }
 
@@ -34,11 +32,25 @@ class SendMailWithAttachment extends Mailable
      *
      * @return $this
      */
+    // public function build()
+    // {
+    //     return $this->markdown('emails.graph_template')
+    //                 ->subject($this->subject)
+    //                 ->with('data', $this->data)
+    //                 ->attach($this->attachment);
+    // }
+
     public function build()
     {
-        return $this->markdown('emails.graph_template')
-                    ->subject($this->subject)
-                    ->with('data', $this->data)
-                    ->attach($this->attachment);
+
+        $email = $this->markdown('emails.graph_template')
+                      ->subject($this->subject)
+                      ->with('data', $this->data);
+
+        foreach ($this->data['files'] as $attachment) {
+            $email->attach($attachment);
+        }
+
+        return $email;
     }
 }

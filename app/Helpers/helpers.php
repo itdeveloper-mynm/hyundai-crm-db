@@ -195,6 +195,31 @@ function endDate() {
     //return formateDate(now()->endOfMonth());
 }
 
+function setDateRange($chk)
+{
+    if ($chk == 'daily') {
+        $startDate = formateDate(now());
+        $endDate = formateDate(now());
+    } elseif ($chk == 'weekly') {
+        // $startDate = formateDate(Carbon::now()->startOfWeek());
+        // $endDate = formateDate(Carbon::now()->endOfWeek());
+        $startDate = formateDate(Carbon::now()->startOfWeek()->subWeek());
+        $endDate = formateDate(Carbon::now()->endOfWeek()->subWeek());
+
+    } elseif ($chk == 'monthly') {
+        $startDate = formateDate(Carbon::now()->startOfMonth());
+        $endDate = formateDate(Carbon::now()->endOfMonth());
+    } else {
+        $startDate = formateDate(now());
+        $endDate = formateDate(now());
+    }
+
+    return response()->json([
+        'startDate' => $startDate,
+        'endDate' => $endDate
+    ]);
+}
+
 function addCustomer(Request $request) {
 
     $mobile = $request->input('mobile');

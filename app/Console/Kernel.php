@@ -10,7 +10,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\RunNodeScript::class,
         Commands\DailySendEmail::class,
+        Commands\RunNodeWeeklyScript::class,
         Commands\WeeklySendEmail::class,
+        Commands\RunNodeMonthlyScript::class,
         Commands\MonthlySendEmail::class,
     ];
 
@@ -21,9 +23,24 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('nodescript:cron')->everyminute();
-        // $schedule->command('nodescript:cron')->daily();
-        // $schedule->command('email:daily')->daily();
-        // $schedule->command('email:weekly')->weekly();
+        $schedule->command('email:daily')->everyminute();
+
+        // $schedule->command('nodescript-weekly:cron')->everyminute();
+        // $schedule->command('email:weekly')->everyminute();
+
+        // $schedule->command('nodescript-monthly:cron')->monthlyOn(1, '14:45');
+        // $schedule->command('email:monthly')->monthlyOn(1, '15:00');
+
+
+        ///below code for live
+
+        // $schedule->command('nodescript:cron')->dailyAt('7:45');
+        // $schedule->command('email:daily')->dailyAt('8:00');
+
+        // $schedule->command('nodescript-weekly:cron')->weeklyOn(1, '7:45');
+        // $schedule->command('email:weekly')->weeklyOn(1, '8:00');
+
+        // $schedule->command('nodescript-monthly:cron')->monthlyOn(1, '14:45');
         // $schedule->command('email:monthly')->monthlyOn(1, '15:00');
     }
 

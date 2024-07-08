@@ -9,6 +9,10 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailWithAttachment;
+use App\Models\EmailSendingCriteria;
 
 class RoleController extends Controller
 {
@@ -23,6 +27,34 @@ class RoleController extends Controller
 
     public function index()
     {
+
+        // $files = Storage::files('public/pdf_graph/daily');
+        // $filePaths = []; // Initialize an array to hold local file paths
+
+        // // Process each file to get local paths
+        // foreach ($files as $file) {
+        //     $filePath = storage_path('app/' . $file); // Convert to local path
+        //     $filePaths[] = $filePath; // Add local path to the array
+        // }
+
+        // $row = EmailSendingCriteria::where('type', 'Daily')->first();
+        // $subject = $row->subject ?? "Graph Email";
+        // $recipients = $row->emails ? explode(',', $row->emails) : [];
+        // $data = [
+        //     'subject' => $subject,
+        //     'message' => $row->body,
+        // ];
+
+        // // $attachmentPaths = $filePaths;
+
+        // $data['files'] = $filePaths;
+
+        // foreach ($recipients as $recipient) {
+        //     Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+        // }
+
+
+
         $data['roles'] = Role::whereNotIn('id',[1])->get();
         return view('admin.roles.index' ,$data);
     }

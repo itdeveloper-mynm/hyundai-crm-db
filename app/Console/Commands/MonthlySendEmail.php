@@ -3,6 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailWithAttachment;
+use App\Models\EmailSendingCriteria;
+use Illuminate\Support\Facades\Storage;
 
 class MonthlySendEmail extends Command
 {
@@ -27,19 +31,33 @@ class MonthlySendEmail extends Command
      */
     public function handle()
     {
+        $files = Storage::files('public/pdf_graph/monthly');
+        $filePaths = []; // Initialize an array to hold local file paths
+
+        // Process each file to get local paths
+        foreach ($files as $file) {
+            $filePath = storage_path('app/' . $file); // Convert to local path
+            $filePaths[] = $filePath; // Add local path to the array
+        }
+
         $row = EmailSendingCriteria::where('type', 'Monthly')->first();
-        $subject = $row->subject ?? "Graph Email";
+        $subject = $row->header ?? "Monthly Graphs";
         $recipients = $row->emails ? explode(',', $row->emails) : [];
         $data = [
             'subject' => $subject,
             'message' => $row->body,
         ];
-        $attachmentPath = storage_path('2024-07-02.pdf');
+
+        $data['files'] = $filePaths;
 
         foreach ($recipients as $recipient) {
-            Mail::to($recipient)->send(new SendMailWithAttachment($data, $attachmentPath, $subject));
+            Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
         }
 
+        // Delete files after sending email
+        foreach ($files as $filePath) {
+            Storage::delete($filePath);
+        }
         $this->info('Monthly email sent successfully!');
     }
 }
