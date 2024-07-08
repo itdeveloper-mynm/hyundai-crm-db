@@ -68,12 +68,14 @@
                 allowClear: $select.data('allow-clear')
             });
 
-            $select.on('select2:select select2:unselect', function(e) {
-                var selectedOptions = $(this).val();
-                if (selectedOptions.length > 2) {
-                    $(this).next('.select2-container').first().find('.select2-selection__rendered').text(selectedOptions.length + ' selected');
-                }
-            });
+            if ($select.attr('multiple')) {
+                $select.on('select2:select select2:unselect', function(e) {
+                    var selectedOptions = $(this).val();
+                    if (selectedOptions.length > 2) {
+                        $(this).next('.select2-container').first().find('.select2-selection__rendered').text(selectedOptions.length + ' selected');
+                    }
+                });
+            }
         });
 
         $('#kt_menu_62fe86549b38d').on('click', function(event) {
