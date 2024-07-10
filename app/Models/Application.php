@@ -59,6 +59,7 @@ class Application extends Model
     // Define a scope for searching with conditions
     public function scopeSearch($query, $conditions)
     {
+        // dd($conditions, isset($conditions['from']) ,isset($conditions['to']));
         return $query->where(function ($query) use ($conditions) {
             // Add your where conditions here based on $conditions array
             if (isset($conditions['search']['value'])) {
@@ -437,7 +438,8 @@ class Application extends Model
             $currentMonth = $startDate->copy()->startOfMonth();
             while ($currentMonth->lte($endDate)) {
                 //$monthsArray[] = $currentMonth->format('F Y'); // Format as "Month Year"
-                $monthsArray[] = $currentMonth->format('M Y');
+                // $monthsArray[] = $currentMonth->format('M Y');
+                $monthsArray[] = $currentMonth->format('M y');
                 $currentMonth->addMonth(); // Move to the next month
             }
 

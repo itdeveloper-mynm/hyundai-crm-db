@@ -78,12 +78,14 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from" value="{{ currentDate() }}" id="from" />
+                                                        placeholder="Select a date" name="from"
+                                                        value="{{ currentDate() }}" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}" id="to" />
+                                                        placeholder="Select a date" name="to"
+                                                        value="{{ currentDate() }}" id="to" />
                                                 </div>
                                             </div>
                                         </div>
@@ -108,33 +110,35 @@
                             </div>
 
                             @can('crm-leads-export')
-                            <form action="{{route('crm-leads.export')}}" method="POST"  id="exportForm">
-                                @csrf
-                                <div id="export_form_div" style="display: none">
+                                <form action="{{ route('crm-leads.export') }}" method="POST" id="exportForm">
+                                    @csrf
+                                    <div id="export_form_div" style="display: none">
 
-                                </div>
-                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                    {{ __('Excel') }}
-                                </button>
-                            </form>
+                                    </div>
+                                    <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i>
+                                        </span>
+                                        {{ __('Excel') }}
+                                    </button>
+                                </form>
                             @endcan
 
                             @can('crm-leads-import')
-                            <a href="{{ asset('excel_files/crm-leads-sample.xlsx') }}" class="btn btn-warning  me-3" download>
-                                <i class="fa fa-download"></i>
-                                {{ __('Sample') }}</a>
+                                <a href="{{ asset('excel_files/crm-leads-sample.xlsx') }}" class="btn btn-warning  me-3"
+                                    download>
+                                    <i class="fa fa-download"></i>
+                                    {{ __('Sample') }}</a>
 
-                            <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                data-bs-target="#importModal">
-                                <i class="fa fa-upload"></i>
-                                {{ __('Import') }}</a>
+                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
+                                    data-bs-target="#importModal">
+                                    <i class="fa fa-upload"></i>
+                                    {{ __('Import') }}</a>
                             @endcan
 
                             @can('crm-leads-create')
                                 <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                {{ __('Add') }}</a>
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                    {{ __('Add') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -155,13 +159,98 @@
                                 <th>{{ __('Vehicle') }}</th>
                                 <th>{{ __('Source') }}</th>
                                 <th>{{ __('Type') }}</th>
+                                <th>{{ __('Category') }}</th>
+                                <th>{{ __('Sub Category') }}</th>
                                 <th>{{ __('Created At') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
 
                         <tbody></tbody>
+                        <div class="modal fade" id="action_modal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Update</h3>
+                                        <!--begin::Close-->
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                        rx="1" transform="rotate(-45 6 17.3137)"
+                                                        fill="currentColor"></rect>
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </div>
+                                        <!--end::Close-->
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form d-flex flex-column flex-lg-row" method="post" id="action_form"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active"
+                                                        id="kt_ecommerce_add_product_general" role="tab-panel">
+                                                        <div class="d-flex flex-column gap-7 gap-lg-10">
 
+                                                            <div class="card card-flush py-4">
+
+                                                                <div class="tab-content">
+                                                                    <input type="hidden" name="rowid" id="rowid">
+                                                                    <div class="row">
+                                                                        <div class="mb-5 fv-row col-lg-12">
+                                                                            <label
+                                                                                class="required form-label">{{ __('Category') }}</label>
+                                                                            <select class="form-select mb-2"
+                                                                                name="category" id="category"
+                                                                                onchange="updateSubCategory()"
+                                                                                required="required" data-control="select2"
+                                                                                data-placeholder="{{ __('select option') }}"
+                                                                                data-allow-clear="true">
+                                                                                <option value="">--select--</option>
+                                                                                <option value="Qualified">Qualified
+                                                                                </option>
+                                                                                <option value="Not Qualified">Not Qualified
+                                                                                </option>
+                                                                                <option value="General Inquiry">General
+                                                                                    Inquiry</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="mb-5 fv-row col-lg-12">
+                                                                            <label
+                                                                                class="required form-label">{{ __('Sub Category') }}</label>
+                                                                            <select class="form-select mb-2"
+                                                                                name="sub_category" id="sub_category"
+                                                                                required="required" data-control="select2"
+                                                                                data-placeholder="{{ __('select option') }}"
+                                                                                data-allow-clear="true">
+                                                                                <option value=""></option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-primary "
+                                                                        id="actionbtnSubmit">
+                                                                        <span class="indicator-label ">
+                                                                            {{ __('Update') }}</span>
+                                                                    </button>
+                                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </table>
                 </div>
             </div>
@@ -229,11 +318,11 @@
             </div>
         </div>
     </div>
-    </div>
 
-    </div>
-    </div>
-    </div>
+
+
+
+
 
 @endsection
 
@@ -273,7 +362,8 @@
                     render: function(data, type, row) {
 
                         var result = '<a href="{{ url('lead') }}/' + row.id +
-                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' + data + '</a>';
+                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' +
+                            data + '</a>';
                         return result;
 
                     }
@@ -327,6 +417,22 @@
                     }
                 },
                 {
+                    data: 'category',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'sub_category',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
                     data: 'created_at',
                     render: function(data, type, row) {
 
@@ -340,18 +446,33 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+                        var res3 = '-';
+
                         @can('crm-leads-edit')
-                        res = '<a href="{{ url('crm-leads') }}/' + data +
-                            '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                            res = `<a href="{{ url('crm-leads') }}/${data}/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary" data-toggle="tooltip" title="{{ __('table.edit') }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>`;
                         @endcan
                         @can('crm-leads-delete')
-                        res2 =
-                            '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
-                            data + ')" ><i class="bi-trash"></i></a>';
+                                        res2 = `<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(${data})">
+                            <i class="bi-trash"></i>
+                            </a>`;
                         @endcan
 
-                        return res + res2;
+                        @can('crm-leads-edit')
+                        res3 = `<a href="#" onclick="updateData(${row.id}, '${row.category}', '${row.sub_category}')">
+                        <span class="svg-icon svg-icon-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
+                                <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </span>
+                        </a>`;
+                        @endcan
+
+                        return res + res2 + res3;
                     }
+
                 }
             ],
             order: [
@@ -534,6 +655,97 @@
                 }
             });
         });
+
+        function updateData(id, category, sub_category) {
+            // alert(id);
+            console.log(category);
+            if (sub_category != '') {
+                $('#category').val(category);
+                $('#category').change();
+                $('#sub_category').html('<option value=' + sub_category + '>' + sub_category + '</option>');
+            }
+            // return false;
+            $('#rowid').val(id);
+            $('#action_modal').modal('show');
+        }
+
+        $('#action_form').submit(function(e) {
+            e.preventDefault();
+            var form = $('#action_form')[0];
+            var data = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('sub-category.update') }}",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 800000,
+                success: function(data) {
+                    if (data.result == 'success') {
+                        Swal.fire(
+                            "{{ __('Add') }}",
+                            data.message,
+                            data.result,
+                        )
+
+                    }
+                    if (data.result == 'error') {
+                        Swal.fire(
+                            "{{ __('Not Add') }}",
+                            data.message,
+                            'error'
+                        )
+                        return false;
+                    }
+                    $("#action_modal").modal('hide');
+                    table.draw();
+
+                    $("#actionbtnSubmit").prop("disabled", false);
+                }
+            });
+        });
+
+
+        function updateSubCategory() {
+            const category = $('#category').val();
+            const subCategory = $('#sub_category');
+            let options = '';
+
+            const categories = {
+                'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
+                'General Inquiry': [
+                    'Timing & Locations',
+                    'Inquiry - Another Company',
+                    'Product Specification',
+                    'Price',
+                    'Disconnect',
+                    'Road Assistant',
+                    'Showroom Numbers',
+                    'After-sales',
+                    'Sales Complaint',
+                    'AfterSales Complaint',
+                    'Transfer',
+                    'Callback'
+                ],
+                'Not Qualified': [
+                    'Salary does not allow financing',
+                    'High Commitment',
+                    'High-Prices',
+                    'Traffic Violations'
+                ]
+            };
+
+            if (category in categories) {
+                const optionsArray = categories[category];
+                optionsArray.forEach(option => {
+                    options += `<option value="${option}">${option}</option>`;
+                });
+            }
+
+            subCategory.html(options);
+        }
     </script>
 
 

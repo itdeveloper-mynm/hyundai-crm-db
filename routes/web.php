@@ -183,4 +183,5 @@ Route::controller(CrmLeadController::class)->group(function(){
     Route::get('crm-leads-pagination',  'crmLeadPagination')->name('crm-leads.pagination');
     Route::post('crm-leads-import',  'crmleadsImport')->name('crm-leads.import');
     Route::post('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
+    Route::post('sub-category-update',  'subCategoryUpdate')->name('sub-category.update');
 });

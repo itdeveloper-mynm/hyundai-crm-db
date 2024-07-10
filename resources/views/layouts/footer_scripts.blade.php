@@ -90,6 +90,18 @@
             }
         });
 
+        // Close the menu when the "Apply" button is clicked
+        $('#kt_menu_62fe86549b38d').on('click', '#apply', function(event) {
+            // No need to call event.stopPropagation() here
+            $('#kt_menu_62fe86549b38d').removeClass('show menu-dropdown');
+        });
+
+        // Close the menu when the "Apply" button is clicked
+        $('#kt_menu_62fe86549b38d').on('click', '#reset', function(event) {
+            // No need to call event.stopPropagation() here
+            $('#kt_menu_62fe86549b38d').removeClass('show menu-dropdown');
+        });
+
         // // Prevent closing the menu when clicking inside the form elements
         // $('#kt_menu_62fe86549b38d form').on('click', function(event) {
         //     event.stopPropagation(); // Prevent event from bubbling up to document

@@ -44,19 +44,53 @@ class ExternalLeadController extends Controller
 
         //dd($request->all());
         \Log::info('customer api hit');
-        $bank_name= $request->input('customersBank');
-        $city_name= $request->input('dealerCity');
-        $branch_name= $request->input('branch');
-        $vehicle_name= $request->input('vehicle');
-        $sourcee_name= $request->input('sourcee');
-        $campaign_name= $request->input('campaignName');
+
+        $bank = null;
+        $city = null;
+        $branch = null;
+        $vehicle = null;
+        $sourcee = null;
+        $campaign = null;
+
+        // Collect data that can be null safely
+        $optionalData = [
+            'bank' => $request->input('customersBank') ?? null,
+            'dealer_city' => $request->input('dealerCity') ?? null,
+            'dealer_branch' => $request->input('branch') ?? null,
+            'vehicle' => $request->input('vehicle') ?? null,
+            'channel' => $request->input('sourcee') ?? null,
+            'campaign' => $request->input('campaignName') ?? null,
+        ];
+
+            // Fetch or create related models in one go
+            foreach ($optionalData as $key => $value) {
+                if ($value) {
+                    switch ($key) {
+                        case 'bank':
+                            $bank = Bank::firstOrCreate(['name' => $value]);
+                            break;
+                        case 'dealer_city':
+                            $city = City::firstOrCreate(['name' => $value]);
+                            break;
+                        case 'dealer_branch':
+                            if ($city) {
+                                $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
+                            }
+                            break;
+                        case 'vehicle':
+                            $vehicle = Vehicle::firstOrCreate(['name' => $value]);
+                            break;
+                        case 'channel':
+                            $sourcee = Source::firstOrCreate(['name' => $value]);
+                            break;
+                        case 'campaign':
+                            $campaign = Campaign::firstOrCreate(['name' => $value]);
+                            break;
+                    }
+                }
+            }
+
         $mobile = $request->input('mobile');
-
-        $bank = Bank::where('name', $bank_name)->first();
-        if(is_null($bank)){
-            $bank = Bank::create(['name' => $bank_name]);
-        }
-
         $mobile =formatInputNumber($mobile);
 
         $customer = Customer::firstOrCreate(
@@ -69,29 +103,6 @@ class ExternalLeadController extends Controller
             ]
         );
 
-        $city = City::where('name', $city_name)->first();
-        $branch = Branch::where('name', $branch_name)->first();
-        $vehicle = Vehicle::where('name', $vehicle_name)->first();
-        $sourcee = Source::where('name', $sourcee_name)->first();
-        $campaign = Campaign::where('name', $campaign_name)->first();
-        if(is_null($city)){
-            $city = City::create(['name' => $city_name]);
-        }
-        if(is_null($branch)){
-            $branch = Branch::create([
-                'name' => $branch_name,
-                'city_id' => $city->id,
-            ]);
-        }
-        if(is_null($vehicle)){
-            $vehicle = Vehicle::create(['name' => $vehicle_name]);
-        }
-        if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $sourcee_name]);
-        }
-        if(is_null($campaign)){
-            $campaign = Campaign::create(['name' => $campaign_name]);
-        }
 
         $lead = new Application();
         $lead->city_id = $city->id;
@@ -131,7 +142,7 @@ class ExternalLeadController extends Controller
         // Collect data that can be null safely
         $optionalData = [
             'bank' => $request->input('customerBank') ?? null,
-            'dealer_city' => $row['dealerCity'] ?? null,
+            'dealer_city' => $request->input('dealerCity') ?? null,
             'dealer_branch' => $request->input('branch') ?? null,
             'vehicle' => $request->input('vehicle') ?? null,
             'channel' => $request->input('sourcee') ?? null,

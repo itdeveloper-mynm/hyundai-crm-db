@@ -142,6 +142,8 @@ class CrmLeadController extends Controller
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
                 "type" => reverseCheckApplicationType($row->type) ?? "",
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;
@@ -155,6 +157,16 @@ class CrmLeadController extends Controller
         );
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
+
+   }
+
+   public function subCategoryUpdate(Request $request) {
+        // dd($request->all());
+        $application = Application::findorFail($request->rowid);
+        $application->category = $request->category;
+        $application->sub_category = $request->sub_category;
+        $application->save();
+        return Response(['result'=>'success','message'=>__('Updated Successfully')]);
 
    }
 
@@ -175,6 +187,14 @@ class CrmLeadController extends Controller
 
     public function crmLeadsExport(Request $request)
     {
+        // $data = $request->all();
+
+        // foreach ($data as $key => $value) {
+        //     if (is_array($value) && count($value) === 1 && $value[0] === null) {
+        //         $request->request->remove($key);
+        //     }
+        // }
+
         //dd($request->all());
         ini_set('max_execution_time', 300);
         //    direct download file
