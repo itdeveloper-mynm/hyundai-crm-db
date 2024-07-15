@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer';
-import { config } from 'dotenv';
 
 (async () => {
     try {
@@ -17,9 +16,10 @@ import { config } from 'dotenv';
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
         //const baseurl = "http://127.0.0.1:8000";
-        config(); // Load environment variables
-        const baseurl = process.env.APP_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
+        const baseurl = "https://naghi.sohoby.com";
+        // const baseurl = process.env.LARAVEL_BASE_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
         console.log(baseurl);
+
         console.log('Navigating to page...');
         const response = await page.goto(`${baseurl}/sale-graph-pdf?chk=daily`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
