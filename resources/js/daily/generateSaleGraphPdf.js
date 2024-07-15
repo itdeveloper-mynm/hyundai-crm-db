@@ -5,27 +5,27 @@ import { config } from 'dotenv';
     try {
 
         config(); // Load environment variables
-
-        const launchOptions = {
-            headless: true,
-            timeout: 120000,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
-        };
-
         console.log(process.env.APP_ENV);
         // Conditionally set executablePath for Production environment
         if (process.env.APP_ENV === 'Production') {
-            launchOptions.executablePath = '/usr/bin/chromium-browser'; // Path to the Chromium executable
-        }
-        const browser = await puppeteer.launch(launchOptions);
+            var browser = await puppeteer.launch({
+                headless: true,
+                // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+                timeout: 120000,
+                executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+            });
+        }else{
+            var browser = await puppeteer.launch({
+                headless: true,
+                // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+                timeout: 120000,
+                //executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+            });
 
-        // const browser = await puppeteer.launch({
-        //     headless: true,
-        //     // Increase protocolTimeout to 120 seconds (120000 milliseconds)
-        //     timeout: 120000,
-    	// 	executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
-        //     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
-        // });
+        }
+
 
         const page = await browser.newPage();
 
