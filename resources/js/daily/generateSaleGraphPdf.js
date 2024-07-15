@@ -8,6 +8,10 @@ import { config } from 'dotenv';
         console.log(process.env.APP_ENV);
         // Conditionally set executablePath for Production environment
         if (process.env.APP_ENV === 'Production') {
+
+            var baseurl = 'https://naghi.sohoby.com'; // Replace with your Laravel base URL
+            console.log(baseurl);
+
             var browser = await puppeteer.launch({
                 headless: true,
                 // Increase protocolTimeout to 120 seconds (120000 milliseconds)
@@ -16,6 +20,11 @@ import { config } from 'dotenv';
                 args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
             });
         }else{
+
+            var baseurl = "http://127.0.0.1:8000"; // Replace with your Laravel base URL
+            console.log(baseurl);
+
+
             var browser = await puppeteer.launch({
                 headless: true,
                 // Increase protocolTimeout to 120 seconds (120000 milliseconds)
@@ -32,9 +41,7 @@ import { config } from 'dotenv';
 
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
-        //const baseurl = "http://127.0.0.1:8000";
-        const baseurl = process.env.APP_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
-        console.log(baseurl);
+
         console.log('Navigating to page...');
         const response = await page.goto(`${baseurl}/sale-graph-pdf?chk=daily`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
