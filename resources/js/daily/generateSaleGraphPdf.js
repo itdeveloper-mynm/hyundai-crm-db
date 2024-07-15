@@ -24,7 +24,6 @@ import { config } from 'dotenv';
             var baseurl = "http://127.0.0.1:8000"; // Replace with your Laravel base URL
             console.log(baseurl);
 
-
             var browser = await puppeteer.launch({
                 headless: true,
                 // Increase protocolTimeout to 120 seconds (120000 milliseconds)
