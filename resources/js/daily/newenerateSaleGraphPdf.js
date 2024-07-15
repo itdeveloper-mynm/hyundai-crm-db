@@ -7,7 +7,7 @@ import { config } from 'dotenv';
         config(); // Load environment variables
         console.log(process.env.APP_ENV);
         // Conditionally set executablePath for Production environment
-        if (process.env.APP_ENV === 'Production') {
+        if (process.env.APP_ENV === 'production') {
 
             var baseurl = 'https://naghi.sohoby.com'; // Replace with your Laravel base URL
             console.log(baseurl);
