@@ -1,13 +1,45 @@
 import puppeteer from 'puppeteer';
+import { config } from 'dotenv';
 
 (async () => {
     try {
-        const browser = await puppeteer.launch({
-            headless: true,
-            // Increase protocolTimeout to 120 seconds (120000 milliseconds)
-            timeout: 120000,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
-        });
+
+        config(); // Load environment variables
+        console.log(process.env.APP_ENV);
+        // Conditionally set executablePath for Production environment
+        if (process.env.APP_ENV === 'production') {
+
+            var baseurl = 'https://naghi.sohoby.com'; // Replace with your Laravel base URL
+            console.log(baseurl);
+
+            var browser = await puppeteer.launch({
+                headless: true,
+                // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+                timeout: 120000,
+                executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+            });
+        }else{
+
+            var baseurl = "http://127.0.0.1:8000"; // Replace with your Laravel base URL
+            console.log(baseurl);
+
+            var browser = await puppeteer.launch({
+                headless: true,
+                // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+                timeout: 120000,
+                //executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+            });
+
+        }
+
+        // const browser = await puppeteer.launch({
+        //     headless: true,
+        //     // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+        //     timeout: 120000,
+        //     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+        // });
 
         const page = await browser.newPage();
 
@@ -15,9 +47,9 @@ import puppeteer from 'puppeteer';
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
         //const baseurl = "http://127.0.0.1:8000";
-        const baseurl = process.env.LARAVEL_BASE_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
+        // const baseurl = process.env.LARAVEL_BASE_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
+        // console.log(baseurl);
 
-        console.log(baseurl);
         console.log('Navigating to page...');
         const response = await page.goto(`${baseurl}/crm-leads-graph-pdf?chk=weekly`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
