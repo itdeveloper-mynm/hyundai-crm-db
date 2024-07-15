@@ -1,13 +1,31 @@
 import puppeteer from 'puppeteer';
+import { config } from 'dotenv';
 
 (async () => {
     try {
-        const browser = await puppeteer.launch({
+
+        config(); // Load environment variables
+
+        const launchOptions = {
             headless: true,
-            // Increase protocolTimeout to 120 seconds (120000 milliseconds)
             timeout: 120000,
             args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
-        });
+        };
+
+        console.log(process.env.APP_ENV);
+        // Conditionally set executablePath for Production environment
+        if (process.env.APP_ENV === 'Production') {
+            launchOptions.executablePath = '/usr/bin/chromium-browser'; // Path to the Chromium executable
+        }
+        const browser = await puppeteer.launch(launchOptions);
+
+        // const browser = await puppeteer.launch({
+        //     headless: true,
+        //     // Increase protocolTimeout to 120 seconds (120000 milliseconds)
+        //     timeout: 120000,
+    	// 	executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+        //     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
+        // });
 
         const page = await browser.newPage();
 
@@ -15,9 +33,8 @@ import puppeteer from 'puppeteer';
         // Set the viewport width to a large number to ensure full content width
         // await page.setViewport({ width: 1920, height: 1080 });
         //const baseurl = "http://127.0.0.1:8000";
-        const baseurl = process.env.LARAVEL_BASE_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
+        const baseurl = process.env.APP_URL || 'http://127.0.0.1:8000'; // Replace with your Laravel base URL
         console.log(baseurl);
-
         console.log('Navigating to page...');
         const response = await page.goto(`${baseurl}/sale-graph-pdf?chk=daily`, {
             waitUntil: 'networkidle0', // Wait until there are no more network connections
