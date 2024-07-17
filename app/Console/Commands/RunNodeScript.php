@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Log;
 
 class RunNodeScript extends Command
 {
@@ -70,6 +71,9 @@ class RunNodeScript extends Command
         }
 
         echo $process3->getOutput();
+
+
+        Log::info('Daily graph generated successfully!');
 
         return 0;
     }

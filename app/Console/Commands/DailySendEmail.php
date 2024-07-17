@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailWithAttachment;
 use App\Models\EmailSendingCriteria;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class DailySendEmail extends Command
 {
@@ -62,6 +63,6 @@ class DailySendEmail extends Command
             Storage::delete($filePath);
         }
 
-        $this->info('Daily email sent successfully!');
+        Log::info('Daily email sent successfully!');
     }
 }
