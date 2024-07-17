@@ -17,36 +17,27 @@
 								<!--begin::Heading-->
 								<div class="text-center mb-11">
 									<!--begin::Title-->
-									<h1 class="text-dark fw-bolder mb-3">Sign In</h1>
-									<!--end::Title-->
+                                    <a href="#" class="mb-0 mb-lg-12">
+                                        <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"" class="h-60px h-lg-75px" />
+                                    </a>
+                                    <!--end::Title-->
 								</div>
 								<!--begin::Heading-->
-								{{-- <!--begin::Login options-->
-								<div class="row g-3 mb-9">
-									<!--begin::Col-->
-									<div class="col-md-6">
-										<!--begin::Google link=-->
-										<a href="#" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-										<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/google-icon.svg" class="h-15px me-3" />Sign in with Google</a>
-										<!--end::Google link=-->
-									</div>
-									<!--end::Col-->
-									<!--begin::Col-->
-									<div class="col-md-6">
-										<!--begin::Google link=-->
-										<a href="#" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-										<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/apple-black.svg" class="theme-light-show h-15px me-3" />
-										<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/svg/brand-logos/apple-black-dark.svg" class="theme-dark-show h-15px me-3" />Sign in with Apple</a>
-										<!--end::Google link=-->
-									</div>
-									<!--end::Col-->
-								</div>
-								<!--end::Login options-->
+									<!--begin::Login options-->
+                                    <div class="row g-3 mb-9">
+                                        <!--begin::Col-->
+                                        <div class="col-md-12 text-center ">
+
+                                            <h1 class="text-dark fw-bolder mb-3">Sign In</h1>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Login options-->
 								<!--begin::Separator-->
-								<div class="separator separator-content my-14">
+								{{-- <div class="separator separator-content my-14">
 									<span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
-								</div>
-								<!--end::Separator--> --}}
+								</div> --}}
+								<!--end::Separator-->
 								<!--begin::Input group=-->
 								<div class="fv-row mb-8">
 									<!--begin::Email-->
@@ -74,7 +65,7 @@
 								<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
 									<div></div>
 									<!--begin::Link-->
-									<a href="#" class="link-primary">Forgot Password ?</a>
+									{{-- <a href="#" class="link-primary">Forgot Password ?</a> --}}
 									<!--end::Link-->
 								</div>
 								<!--end::Wrapper-->
@@ -100,7 +91,7 @@
 				</div>
 				<!--end::Body-->
 				<!--begin::Aside-->
-				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(assets/media/misc/auth-bg.png)">
+				{{-- <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(assets/media/misc/auth-bg.png)">
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center py-2 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
@@ -114,7 +105,7 @@
 						<!--end::Text-->
 					</div>
 					<!--end::Content-->
-				</div>
+				</div> --}}
 				<!--end::Aside-->
 			</div>
 			<!--end::Authentication - Sign-in-->
