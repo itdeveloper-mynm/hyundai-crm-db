@@ -130,8 +130,10 @@ class UsedCarController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "first_name" => ucwords($row->customer->first_name),
-                "last_name" => ucwords($row->customer->last_name),
+                "full_name" => ucwords($row->customer->full_name),
+                "mobile" => $row->customer->mobile ?? '-',
+                // "first_name" => ucwords($row->customer->first_name),
+                // "last_name" => ucwords($row->customer->last_name),
                 "city_id" => $row->city->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",

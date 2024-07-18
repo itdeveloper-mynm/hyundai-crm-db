@@ -20,6 +20,11 @@ class Customer extends Model
         'national_id',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
         // Define a scope for searching with conditions
         public function scopeSearch($query, $conditions)
         {

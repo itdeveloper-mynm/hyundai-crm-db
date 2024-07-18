@@ -220,8 +220,8 @@
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>{{ __('First Name') }}</th>
-                                <th>{{ __('Last Name') }}</th>
+                                <th>{{ __('Full Name') }}</th>
+                                <th>{{ __('Mobile') }}</th>
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Branch') }}</th>
                                 <th>{{ __('Vehicle') }}</th>
@@ -341,7 +341,7 @@
                     className: 'center'
                 },
                 {
-                    data: 'first_name',
+                    data: 'full_name',
                     render: function(data, type, row) {
 
                         var result = '<a href="{{ url('lead') }}/' + row.id +
@@ -351,7 +351,7 @@
                     }
                 },
                 {
-                    data: 'last_name',
+                    data: 'mobile',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -465,7 +465,7 @@
             ],
             "oLanguage": {
                 "sSearch": "{{ __('search') }}",
-                "sEmptyTable": "{{ __('not data found') }}"
+                "sEmptyTable": "{{ __('No Data Found. Maybe change the Filter') }}"
             },
         });
         table.on('draw.dt', function() {

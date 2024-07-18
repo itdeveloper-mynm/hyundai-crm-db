@@ -42,25 +42,28 @@ class DailySendEmail extends Command
         }
 
         $row = EmailSendingCriteria::where('type', 'Daily')->first();
-        $subject = $row->header ?? "Daily Graphs";
-        $recipients = $row->emails ? explode(',', $row->emails) : [];
-        $data = [
-            'subject' => $subject,
-            'message' => $row->body,
-        ];
+        if($row){
+            $subject = $row->header ?? "Daily Graphs";
+            $recipients = $row->emails ? explode(',', $row->emails) : [];
+            $data = [
+                'subject' => $subject,
+                'message' => $row->body,
+            ];
 
-        // $formattedDate = currdate();
-        // $attachmentPath = storage_path('app/public/pdf_graph/daily/'. $formattedDate .'-sale-graph.pdf');
+            // $formattedDate = currdate();
+            // $attachmentPath = storage_path('app/public/pdf_graph/daily/'. $formattedDate .'-sale-graph.pdf');
 
-        $data['files'] = $filePaths;
+            $data['files'] = $filePaths;
 
-        foreach ($recipients as $recipient) {
-            Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
-        }
+            foreach ($recipients as $recipient) {
+                Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+            }
 
-        // Delete files after sending email
-        foreach ($files as $filePath) {
-            Storage::delete($filePath);
+            // Delete files after sending email
+            foreach ($files as $filePath) {
+                Storage::delete($filePath);
+            }
+
         }
 
         Log::info('Daily email sent successfully!');

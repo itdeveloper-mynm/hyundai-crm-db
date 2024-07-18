@@ -68,7 +68,7 @@ class Application extends Model
                     $query->whereHas('customer', function ($query) use ($search) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
                             ->orWhere('mobile', 'like', '%' . $search . '%')
-                            ->orWhere('email', $search);
+                            ->orWhere('email', 'like', '%' . $search . '%');
                     });
                 });
             }

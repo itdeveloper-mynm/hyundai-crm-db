@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailWithAttachment;
 use App\Models\EmailSendingCriteria;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class MonthlySendEmail extends Command
 {
@@ -41,23 +42,26 @@ class MonthlySendEmail extends Command
         }
 
         $row = EmailSendingCriteria::where('type', 'Monthly')->first();
-        $subject = $row->header ?? "Monthly Graphs";
-        $recipients = $row->emails ? explode(',', $row->emails) : [];
-        $data = [
-            'subject' => $subject,
-            'message' => $row->body,
-        ];
+        if($row){
+            $subject = $row->header ?? "Monthly Graphs";
+            $recipients = $row->emails ? explode(',', $row->emails) : [];
+            $data = [
+                'subject' => $subject,
+                'message' => $row->body,
+            ];
 
-        $data['files'] = $filePaths;
+            $data['files'] = $filePaths;
 
-        foreach ($recipients as $recipient) {
-            Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+            foreach ($recipients as $recipient) {
+                Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+            }
+
+            // Delete files after sending email
+            foreach ($files as $filePath) {
+                Storage::delete($filePath);
+            }
         }
 
-        // Delete files after sending email
-        foreach ($files as $filePath) {
-            Storage::delete($filePath);
-        }
-        $this->info('Monthly email sent successfully!');
+        Log::info('Monthly email sent successfully!');
     }
 }
