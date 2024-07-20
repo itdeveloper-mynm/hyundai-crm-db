@@ -430,7 +430,12 @@
             enabled: true
         },
         xaxis: {
-            categories: xData,
+            categories: xData.map((x, index) => `${x} (${yData[index]})`),
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
         }
         };
 

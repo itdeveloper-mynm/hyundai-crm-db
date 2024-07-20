@@ -1188,7 +1188,12 @@
                 enabled: true
             },
             xaxis: {
-                categories: xData,
+                categories: xData.map((x, index) => `${x} (${yData[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
             }
         };
 
@@ -1484,9 +1489,14 @@ var options_comp = {
         enabled: true
     },
     xaxis: {
-        categories: xData,
-    }
-};
+            categories: xData_comp.map((x, index) => `${x} (${yData_comp[index]})`),
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
+        }
+    };
 
 // Render the chart
 var chart_comp = new ApexCharts(document.querySelector("#graph_3_comp"), options_comp);

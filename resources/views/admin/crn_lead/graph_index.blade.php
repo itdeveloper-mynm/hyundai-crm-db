@@ -157,6 +157,42 @@
                 <!--end::Col-->
             </div>
 
+            <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Category Wise Graph</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_6" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -402,8 +438,13 @@
             enabled: true
         },
         xaxis: {
-            categories: xData,
+        categories: xData.map((x, index) => `${x} (${yData[index]})`),
+        labels: {
+            formatter: function(val) {
+                return val;
+            }
         }
+    }
         };
 
         // Render the chart
@@ -497,6 +538,64 @@
     //     // Open the print dialog
     //     window.print();
     // });
+
+
+        var xData6 = @json($category_graph['category_names']) ;
+        var yData6 = @json($category_graph['category_count']) ;
+
+        // Generate random fill colors
+        var fillColors = Array.from({ length: xData6.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData6 = xData6.map((x, index) => ({
+        x: x,
+        y: yData6[index],
+        fill: fillColors[index]
+        }));
+
+
+        // // Function to generate a random color
+        // function getRandomColor() {
+        // var letters = '0123456789ABCDEF';
+        // var color = '#';
+        // for (var i = 0; i < 6; i++) {
+        //     color += letters[Math.floor(Math.random() * 16)];
+        // }
+        // return color;
+        // }
+
+        // Chart options
+        var options6 = {
+        series: [{
+            data: seriesData6
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+            horizontal: true,
+            distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+        categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
+        labels: {
+            formatter: function(val) {
+                return val;
+            }
+        }
+    }
+        };
+
+        // Render the chart
+        var chart6 = new ApexCharts(document.querySelector("#graph_6"), options6);
+        chart6.render();
+
     </script>
 
 @endsection

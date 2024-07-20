@@ -694,6 +694,8 @@ class SaleGraphController extends Controller
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
+        $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
+        // dd($data['category_graph']);
         //dd($data);
        return view('admin.crn_lead.graph_index' , $data ,getCommonData());
     }

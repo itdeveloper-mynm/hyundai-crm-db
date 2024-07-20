@@ -124,6 +124,7 @@ class CrmLeadController extends Controller
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
                 //->where('type','crm_leads')
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -143,7 +144,7 @@ class CrmLeadController extends Controller
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "type" => reverseCheckApplicationType($row->type) ?? "",
+                "type" => reverseCheckApplicationType($row->type) == 'Crm Leads' ? 'Inbound': "",
                 "category" => $row['category'] ?? "-",
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
@@ -165,8 +166,8 @@ class CrmLeadController extends Controller
    public function subCategoryUpdate(Request $request) {
         // dd($request->all());
         $application = Application::findorFail($request->rowid);
-        $application->category = $request->category;
-        $application->sub_category = $request->sub_category;
+        $application->category = $request->action_category;
+        $application->sub_category = $request->action_sub_category;
         $application->save();
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
 

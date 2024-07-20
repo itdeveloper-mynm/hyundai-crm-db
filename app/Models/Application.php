@@ -416,6 +416,26 @@ class Application extends Model
     }
 
 
+    public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
+
+        $alldata = self::select(DB::raw("IFNULL(applications.category, 'Not Assigned') as category_name"), DB::raw('COUNT(*) as count'))
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->groupBy('category_name')
+            ->orderBy('category_name', 'asc') // You can change the order based on your preference
+            ->get();
+
+        $data['category_names'] = $alldata->pluck('category_name')->toArray();
+        $data['category_count'] = $alldata->pluck('count')->toArray();
+
+        return $data;
+    }
+
+
+
+
+
     public static function getPerformanceLabel($startDate,$endDate) {
 
 

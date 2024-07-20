@@ -79,13 +79,13 @@
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="from"
-                                                        value="{{ currentDate() }}" id="from" />
+                                                        value="" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
                                                         placeholder="Select a date" name="to"
-                                                        value="{{ currentDate() }}" id="to" />
+                                                        value="" id="to" />
                                                 </div>
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                                 <th>{{ __('Branch') }}</th>
                                 <th>{{ __('Vehicle') }}</th>
                                 <th>{{ __('Source') }}</th>
-                                {{-- <th>{{ __('Type') }}</th> --}}
+                                <th>{{ __('Type') }}</th>
                                 <th>{{ __('Category') }}</th>
                                 <th>{{ __('Sub Category') }}</th>
                                 <th>{{ __('Created At') }}</th>
@@ -208,7 +208,7 @@
                                                                             <label
                                                                                 class="required form-label">{{ __('Category') }}</label>
                                                                             <select class="form-select mb-2"
-                                                                                name="category" id="category"
+                                                                                name="action_category" id="action_category"
                                                                                 onchange="updateSubCategory()"
                                                                                 required="required" data-control="select2"
                                                                                 data-placeholder="{{ __('select option') }}"
@@ -227,7 +227,7 @@
                                                                             <label
                                                                                 class="required form-label">{{ __('Sub Category') }}</label>
                                                                             <select class="form-select mb-2"
-                                                                                name="sub_category" id="sub_category"
+                                                                                name="action_sub_category" id="action_sub_category"
                                                                                 required="required" data-control="select2"
                                                                                 data-placeholder="{{ __('select option') }}"
                                                                                 data-allow-clear="true">
@@ -347,6 +347,11 @@
                     data.branch_id = $('#branch_id').val();
                     data.vehicle_id = $('#vehicle_id').val();
                     data.source_id = $('#source_id').val();
+                    data.purchase_plan = $('#purchase_plan').val();
+                    data.monthly_salary = $('#monthly_salary').val();
+                    data.preferred_appointment_time = $('#preferred_appointment_time').val();
+                    data.kyc = $('#kyc').val();
+                    data.category = $('#category').val();
                     data.from = $('#from').val();
                     data.to = $('#to').val();
                 }
@@ -408,14 +413,14 @@
                         return result;
                     }
                 },
-                // {
-                //     data: 'type',
-                //     render: function(data, type, row) {
+                {
+                    data: 'type',
+                    render: function(data, type, row) {
 
-                //         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                //         return result;
-                //     }
-                // },
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
                 {
                     data: 'category',
                     render: function(data, type, row) {
@@ -746,6 +751,22 @@
 
             subCategory.html(options);
         }
+
+
+        $(document).ready(function() {
+        // Get the URL parameter 'mobile'
+        var urlParams = new URLSearchParams(window.location.search);
+        var mobileParam = urlParams.get('mobile');
+
+        // Check if the 'mobile' parameter exists
+        if (mobileParam) {
+            // Set the value of the search input to the mobile parameter
+            $('#search').val(mobileParam);
+
+            // Trigger the keyup event to perform the search
+            $('#search').keyup();
+        }
+    });
     </script>
 
 
