@@ -123,7 +123,7 @@
                                 </form>
                             @endcan
 
-                            @can('crm-leads-import')
+                            {{-- @can('crm-leads-import')
                                 <a href="{{ asset('excel_files/crm-leads-sample.xlsx') }}" class="btn btn-warning  me-3"
                                     download>
                                     <i class="fa fa-download"></i>
@@ -133,7 +133,7 @@
                                     data-bs-target="#importModal">
                                     <i class="fa fa-upload"></i>
                                     {{ __('Import') }}</a>
-                            @endcan
+                            @endcan --}}
 
                             {{-- @can('crm-leads-create')
                                 <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
