@@ -142,15 +142,15 @@ class CrmLeadController extends Controller
         //dd($conditions,$conditions['search']['value']);
 
           // Check if the request has a mobile input
-    if (empty($searchValue)) {
-        // Return empty data if mobile input is not present
-        return response()->json([
-            "draw" => (int)$draw,
-            "recordsTotal" => 0,
-            "recordsFiltered" => 0,
-            "data" => [],
-        ]);
-    }
+        // if (empty($searchValue)) {
+        //     // Return empty data if mobile input is not present
+        //     return response()->json([
+        //         "draw" => (int)$draw,
+        //         "recordsTotal" => 0,
+        //         "recordsFiltered" => 0,
+        //         "data" => [],
+        //     ]);
+        // }
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::search($conditions)->count();
