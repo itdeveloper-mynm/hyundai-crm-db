@@ -135,11 +135,11 @@
                                     {{ __('Import') }}</a>
                             @endcan
 
-                            @can('crm-leads-create')
+                            {{-- @can('crm-leads-create')
                                 <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
                                     {{ __('Add') }}</a>
-                            @endcan
+                            @endcan --}}
                         </div>
                     </div>
                 </div>
