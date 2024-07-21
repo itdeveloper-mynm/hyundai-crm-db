@@ -184,4 +184,7 @@ Route::controller(CrmLeadController::class)->group(function(){
     Route::post('crm-leads-import',  'crmleadsImport')->name('crm-leads.import');
     Route::post('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
     Route::post('sub-category-update',  'subCategoryUpdate')->name('sub-category.update');
+    Route::get('qualified-crm-leads',  'qualifiedCrmLeads')->name('qualified-crm-leads.index');
+    Route::get('non-qualified-crm-leads',  'nonQualifiedCrmLeads')->name('non-qualified-crm-leads.index');
+    Route::get('general-inquiry-crm-leads',  'generalCrmLeads')->name('general-inquiry-crm-leads.index');
 });

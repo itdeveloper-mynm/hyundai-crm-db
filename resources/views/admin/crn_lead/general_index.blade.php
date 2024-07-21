@@ -19,7 +19,7 @@
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1
                                         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                        {{ __('Crm Leads List') }}</h1>
+                                        {{ __('General inquiry Crm Leads List') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
                                             <a href="{{ route('crm-leads.index') }}"
@@ -351,7 +351,7 @@
                     data.monthly_salary = $('#monthly_salary').val();
                     data.preferred_appointment_time = $('#preferred_appointment_time').val();
                     data.kyc = $('#kyc').val();
-                    data.category = $('#category').val();
+                    data.category = 'General Inquiry';
                     data.from = $('#from').val();
                     data.to = $('#to').val();
                 }

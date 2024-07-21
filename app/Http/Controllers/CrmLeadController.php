@@ -36,6 +36,27 @@ class CrmLeadController extends Controller
         return view('admin.crn_lead.index' ,$data);
     }
 
+    public function qualifiedCrmLeads()
+    {
+        $data = getCommonData();
+
+        return view('admin.crn_lead.qualified_index' ,$data);
+    }
+
+    public function nonQualifiedCrmLeads()
+    {
+        $data = getCommonData();
+
+        return view('admin.crn_lead.non_qualified_index' ,$data);
+    }
+
+    public function generalCrmLeads()
+    {
+        $data = getCommonData();
+
+        return view('admin.crn_lead.general_index' ,$data);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -117,6 +138,17 @@ class CrmLeadController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
         $conditions = request()->all();
         //dd($conditions,$conditions['search']['value']);
+
+          // Check if the request has a mobile input
+    if (empty($searchValue)) {
+        // Return empty data if mobile input is not present
+        return response()->json([
+            "draw" => (int)$draw,
+            "recordsTotal" => 0,
+            "recordsFiltered" => 0,
+            "data" => [],
+        ]);
+    }
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
         $countAll = Application::search($conditions)->count();

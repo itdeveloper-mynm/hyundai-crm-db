@@ -124,6 +124,11 @@ class Application extends Model
                         $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
                 });
             }
+            if (isset($conditions['category'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.category', arraycheck($conditions['category']));
+                });
+            }
 
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {

@@ -162,7 +162,9 @@
                                                 data-allow-clear="true">
                                                 <option value=""></option>
                                                 @foreach ($sources as $source)
+                                                    @if(in_array($source->name, ['Email', 'Whatsapp', 'Inbound']))
                                                     <option value="{{$source->id}}">{{$source->name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>

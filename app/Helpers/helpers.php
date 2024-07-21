@@ -74,7 +74,6 @@ function AllLeadsMenuPermissionArr()
 {
     return [
         'campaign-leads-list',
-        'crm-leads-list',
         'after-sale-leads-list',
         'used-car-leads-list',
         'smo-leads-list',
@@ -82,9 +81,17 @@ function AllLeadsMenuPermissionArr()
         'old-leads-list',
         'sales-data-list',
         'social-data-list',
-        //'crm-leads-list'
     ];
 }
+
+function AllCrmLeadsMenuPermissionArr()
+{
+    return [
+        'crm-leads-list',
+    ];
+}
+
+
 
 function GraphMenuPermissionArr()
 {
@@ -103,7 +110,6 @@ function GraphMenuPermissionArr()
         'smo-graph-list',
         'events-graph-list',
         'actualsales-graph-list',
-        //'crm-leads-list'
     ];
 }
 
@@ -122,11 +128,21 @@ function formDataPermissionArr()
     ];
 }
 
+function CRMLeadsDataAllMenuArr()
+{
+    $array = [
+        route('crm-leads.index'),route('crm-leads.create'),request()->is('crm-leads/*/edit'),request()->is('crm-leads*'),
+        route('qualified-crm-leads.index'),request()->is('qualified-crm-leads*'),
+        route('non-qualified-crm-leads.index'),request()->is('non-qualified-crm-leads*'),
+        route('general-inquiry-crm-leads.index'),request()->is('general-inquiry-crm-leads*'),
+    ];
+    return $array;
+}
+
 function AllLeadsMenuArr()
 {
     $array =[
         route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),
-        route('crm-leads.index'),route('crm-leads.create'),request()->is('crm-leads/*/edit'),
         route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),
         route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),
         route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit'),
