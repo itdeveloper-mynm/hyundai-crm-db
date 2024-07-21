@@ -240,11 +240,13 @@
                                                                 </div>
 
                                                                 <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary "
-                                                                        id="actionbtnSubmit">
-                                                                        <span class="indicator-label ">
-                                                                            {{ __('Update') }}</span>
-                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary btn_submit sub_button"
+                                                                    id="actionbtnSubmit" style="background-color: #000044">
+                                                                    <span class="indicator-label">{{ __('Update') }}</span>
+                                                                    <span class="indicator-progress">Please wait...
+                                                                        <span
+                                                                            class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                                </button>
                                                                 </div>
                                         </form>
                                     </div>
@@ -676,8 +678,18 @@
 
         $('#action_form').submit(function(e) {
             e.preventDefault();
+
+            $('.indicator-label').css({
+                'display': 'none'
+            });
+            $('.indicator-progress').css({
+                'display': 'inline-block'
+            });
+            $("#actionbtnSubmit").attr('disabled', true);
+
             var form = $('#action_form')[0];
             var data = new FormData(form);
+
 
             $.ajax({
                 type: "POST",
@@ -687,6 +699,11 @@
                 contentType: false,
                 cache: false,
                 timeout: 800000,
+                beforeSubmit: function() {
+
+                $("body").addClass("loading");
+
+                },
                 success: function(data) {
                     if (data.result == 'success') {
                         Swal.fire(
