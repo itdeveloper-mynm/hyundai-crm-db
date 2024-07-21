@@ -630,6 +630,11 @@ class Application extends Model
         $application->purchase_plan = $request->input('purchase_plan');
         $application->monthly_salary = $request->input('monthly_salary');
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
+        $application->category = $request->input('category');
+        $application->sub_category = $request->input('sub_category');
+        $application->yearr = $request->input('yearr');
+        $application->kyc = $request->input('kyc');
+        $application->comments = $request->input('comments');
         $application->customer_id= $customer->id;
         $application->crm_lead_status= $request->crm_lead_status ?? 0;
         $application->type= $type;
