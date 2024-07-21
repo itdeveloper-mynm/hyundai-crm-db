@@ -724,6 +724,16 @@
                     $("#action_modal").modal('hide');
                     table.draw();
 
+                    // Revert .indicator-label to display
+                    $('.indicator-label').css({
+                        'display': 'inline-block' // or 'block', depending on your original display property
+                    });
+
+                    // Revert .indicator-progress to hide
+                    $('.indicator-progress').css({
+                        'display': 'none'
+                    });
+
                     $("#actionbtnSubmit").prop("disabled", false);
                 }
             });

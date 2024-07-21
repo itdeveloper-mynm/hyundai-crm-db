@@ -247,7 +247,8 @@ class CrmLeadController extends Controller
     $record['DataType'] = reverseCheckApplicationType($record['DataType']);
     // dd($record);
     // Send the email
-    $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];
+    // $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];
+    $recipients = ['ateeb@sohoby.sa'];
     // $recipients = ['hyundai.crm@hyundai.mynaghi.com'];
 
      Mail::to($recipients)->send(new RecordDetailsMail($record));
