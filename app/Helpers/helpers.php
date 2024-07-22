@@ -17,6 +17,11 @@ function currdate()
     //return date('Y-m-d');
 }
 
+function dateBeforeTenDays()
+{
+    return Carbon::today()->subDays(10)->format('Y-m-d');
+}
+
 function dateTimeformat($date)
 {
     return Carbon::parse($date)->format('d-m-Y h:i:s');
