@@ -132,8 +132,8 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="card-header pt-5">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-dark">Campaign
-                                                        Performance</span>
+                                                    <span class="card-label fw-bold text-dark">Campaign Performance
+                                                        ({{ collect($countsByCampaign)->sum('count') ?? 0 }})</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -257,7 +257,7 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="card-header pt-5">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-dark">City</span>
+                                                    <span class="card-label fw-bold text-dark">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -393,7 +393,7 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="card-header pt-7">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-gray-800">Banks</span>
+                                                    <span class="card-label fw-bold text-gray-800">Banks ({{$banks_graph->sum('count') ?? 0}})</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
@@ -439,347 +439,378 @@ License: For each use you must have a valid license purchased only from above li
                     <!--end::Content wrapper-->
                     <!--begin::Footer-->
                     {{-- <div id="kt_app_footer" class="app-footer"> --}}
-                        <!--begin::Footer container-->
-                        {{-- @include('layouts.footer') --}}
-                        @include('layouts.footer_scripts')
-                        {{-- custom js --}}
-                        <script>
-                            //var ctx = document.getElementById('kt_chartjs_2');
-                            var ctx = document.getElementById('1st_graph');
+                    <!--begin::Footer container-->
+                    {{-- @include('layouts.footer') --}}
+                    @include('layouts.footer_scripts')
+                    {{-- custom js --}}
+                    <script>
+                        //var ctx = document.getElementById('kt_chartjs_2');
+                        var ctx = document.getElementById('1st_graph');
 
-                            // Define colors
-                            var primaryColor = KTUtil.getCssVariableValue('--kt-primary');
-                            var dangerColor = KTUtil.getCssVariableValue('--kt-danger');
-                            var successColor = KTUtil.getCssVariableValue('--kt-success');
-                            var warningColor = KTUtil.getCssVariableValue('--kt-warning');
-                            var defaultColor = KTUtil.getCssVariableValue('--kt-default');
+                        // Define colors
+                        var primaryColor = KTUtil.getCssVariableValue('--kt-primary');
+                        var dangerColor = KTUtil.getCssVariableValue('--kt-danger');
+                        var successColor = KTUtil.getCssVariableValue('--kt-success');
+                        var warningColor = KTUtil.getCssVariableValue('--kt-warning');
+                        var defaultColor = KTUtil.getCssVariableValue('--kt-default');
 
-                            // Define fonts
-                            var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+                        // Define fonts
+                        var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
 
-                            // Chart labels
-                            // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-                            // Chart labels
-                            const labels = @json($months);
+                        // Chart labels
+                        // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+                        // Chart labels
+                        const labels = @json($months);
 
-                            // Chart data
-                            const data = {
-                                labels: labels,
-                                datasets: [{
-                                        label: 'Request a Quote (' + @json($second_graph_data[0]) + ')',
-                                        data: @json($first_count),
-                                        fill: false,
-                                        borderColor: primaryColor,
-                                        tension: 0.6
-                                    },
-                                    {
-                                        label: 'Special Offers (' + @json($second_graph_data[1]) + ')',
-                                        data: @json($second_count),
-                                        fill: false,
-                                        borderColor: dangerColor,
-                                        tension: 0.6
-                                    },
-                                    {
-                                        label: 'Smo Leads (' + @json($second_graph_data[2]) + ')',
-                                        data: @json($third_count),
-                                        fill: false,
-                                        borderColor: successColor,
-                                        tension: 0.6
-                                    },
-                                    {
-                                        label: 'Contact Us (Sales & Marketing) (' + @json($second_graph_data[3]) + ')',
-                                        data: @json($fourth_count),
-                                        fill: false,
-                                        borderColor: warningColor,
-                                        tension: 0.6
-                                    }
-                                ]
-                            };
-
-                            // Chart config
-                            const config = {
-                                type: 'line',
-                                data: data,
-                                options: {
-                                    plugins: {
-                                        title: {
-                                            display: false,
-                                        },
-                                        tooltip: {
-                                            mode: 'index',
-                                            intersect: false,
-                                            callbacks: {
-                                                label: function(tooltipItem) {
-                                                    // Build the label string by iterating over each dataset
-                                                    let label = tooltipItem.dataset.label || '';
-                                                    if (label) {
-                                                        label += ': ';
-                                                    }
-                                                    label += tooltipItem.raw;
-                                                    return label;
-                                                }
-                                            }
-                                        }
-                                    },
-                                    responsive: true,
-                                    interaction: {
-                                        mode: 'index',
-                                        intersect: false,
-                                    },
-                                    defaults: {
-                                        global: {
-                                            defaultFont: fontFamily
-                                        }
-                                    }
+                        // Chart data
+                        const data = {
+                            labels: labels,
+                            datasets: [{
+                                    label: 'Request a Quote (' + @json($second_graph_data[0]) + ')',
+                                    data: @json($first_count),
+                                    fill: false,
+                                    borderColor: primaryColor,
+                                    tension: 0.6
+                                },
+                                {
+                                    label: 'Special Offers (' + @json($second_graph_data[1]) + ')',
+                                    data: @json($second_count),
+                                    fill: false,
+                                    borderColor: dangerColor,
+                                    tension: 0.6
+                                },
+                                {
+                                    label: 'Smo Leads (' + @json($second_graph_data[2]) + ')',
+                                    data: @json($third_count),
+                                    fill: false,
+                                    borderColor: successColor,
+                                    tension: 0.6
+                                },
+                                {
+                                    label: 'Contact Us (Sales & Marketing) (' + @json($second_graph_data[3]) + ')',
+                                    data: @json($fourth_count),
+                                    fill: false,
+                                    borderColor: warningColor,
+                                    tension: 0.6
                                 }
-                            };
+                            ]
+                        };
 
-                            // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
-                            var myChart = new Chart(ctx, config);
-
-
-                            ////second chart
-
-                            var options = {
-                                series: [{
-                                    name: 'Count',
-                                    data: @json($second_graph_data)
-                                }],
-                                chart: {
-                                    height: 350,
-                                    type: 'bar',
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        borderRadius: 10,
-                                        dataLabels: {
-                                            position: 'top', // top, center, bottom
-                                        },
-                                    }
-                                },
-                                dataLabels: {
-                                    enabled: true,
-                                    formatter: function(val) {
-                                        return val;
-                                    },
-                                    offsetY: -20,
-                                    style: {
-                                        fontSize: '12px',
-                                        colors: ["#304758", '#546E7A']
-                                    }
-                                },
-
-                                xaxis: {
-                                    categories: ["Request a Quote", "Special Offers", "Smo Leads", "Contact Us (Sales & Marketing)"],
-                                    position: 'top',
-                                    axisBorder: {
-                                        show: false
-                                    },
-                                    axisTicks: {
-                                        show: false
-                                    },
-                                    crosshairs: {
-                                        fill: {
-                                            type: 'gradient',
-                                            gradient: {
-                                                colorFrom: '#D8E3F0',
-                                                colorTo: '#BED1E6',
-                                                stops: [0, 100],
-                                                opacityFrom: 0.4,
-                                                opacityTo: 0.5,
-                                            }
-                                        }
+                        // Chart config
+                        const config = {
+                            type: 'line',
+                            data: data,
+                            options: {
+                                plugins: {
+                                    title: {
+                                        display: false,
                                     },
                                     tooltip: {
-                                        enabled: true,
-                                    }
-                                },
-                                yaxis: {
-                                    axisBorder: {
-                                        show: false
-                                    },
-                                    axisTicks: {
-                                        show: false,
-                                    },
-                                    labels: {
-                                        show: false,
-                                        formatter: function(val) {
-                                            return val;
+                                        mode: 'index',
+                                        intersect: false,
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                // Build the label string by iterating over each dataset
+                                                let label = tooltipItem.dataset.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                label += tooltipItem.raw;
+                                                return label;
+                                            }
                                         }
                                     }
-
                                 },
-                                title: {
-                                    text: 'Departments Overall Leads',
-                                    floating: true,
-                                    offsetY: 330,
-                                    align: 'center',
-                                    style: {
-                                        color: '#444'
+                                responsive: true,
+                                interaction: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                defaults: {
+                                    global: {
+                                        defaultFont: fontFamily
                                     }
                                 }
-                            };
-
-                            var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-                            chart.render();
-
-
-                            // Example data
-                            //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
-                            //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-                            var xData = @json($vehcile_graph['vehicle_names']);
-                            var yData = @json($vehcile_graph['vehicle_count']);
-
-                            // Generate random fill colors
-                            var fillColors = Array.from({
-                                length: xData.length
-                            }, () => getRandomColor());
-
-                            // Create series data
-                            var seriesData = xData.map((x, index) => ({
-                                x: x,
-                                y: yData[index],
-                                fill: fillColors[index]
-                            }));
-
-                            // Function to generate a random color
-                            function getRandomColor() {
-                                var letters = '0123456789ABCDEF';
-                                var color = '#';
-                                for (var i = 0; i < 6; i++) {
-                                    color += letters[Math.floor(Math.random() * 16)];
-                                }
-                                return color;
                             }
+                        };
 
-                            // Chart options
-                            var options = {
-                                series: [{
-                                    data: seriesData
-                                }],
-                                chart: {
-                                    type: 'bar',
-                                    height: 350
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: true,
-                                        distributed: true
-                                    }
-                                },
-                                dataLabels: {
-                                    enabled: true
-                                },
-                                xaxis: {
-                                    categories: xData,
+                        // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
+                        var myChart = new Chart(ctx, config);
+
+
+                        ////second chart
+
+                        var options = {
+                            series: [{
+                                name: 'Count',
+                                data: @json($second_graph_data)
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'bar',
+                            },
+                            plotOptions: {
+                                bar: {
+                                    borderRadius: 10,
+                                    dataLabels: {
+                                        position: 'top', // top, center, bottom
+                                    },
                                 }
-                            };
+                            },
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function(val) {
+                                    return val;
+                                },
+                                offsetY: -20,
+                                style: {
+                                    fontSize: '12px',
+                                    colors: ["#304758", '#546E7A']
+                                }
+                            },
 
-                            // Render the chart
-                            var chart = new ApexCharts(document.querySelector("#graph_3"), options);
-                            chart.render();
-
-
-                            var ctx1 = document.getElementById('graph_4');
-
-                            const data1 = {
-                                labels: @json($salary_graph['monthly_salary']),
-                                datasets: [{
-                                    label: 'Dataset',
-                                    data: @json($salary_graph['monthly_salary_count']),
-                                    backgroundColor: [
-                                        'rgb(255, 99, 132)',
-                                        'rgb(54, 162, 235)',
-                                        'rgb(255, 205, 86)',
-                                        'rgb(255, 99, 132)',
-                                        'rgb(54, 162, 235)',
-                                    ],
-                                }]
-                            };
-
-
-                            const config1 = {
-                                type: 'doughnut',
-                                data: data1,
-                                options: {
-                                    responsive: true,
-                                    plugins: {
-                                        legend: {
-                                            position: 'top',
-                                        },
-                                        title: {
-                                            display: false,
-                                            text: 'Pie Chart'
+                            xaxis: {
+                                categories: ["Request a Quote", "Special Offers", "Smo Leads", "Contact Us (Sales & Marketing)"],
+                                position: 'top',
+                                axisBorder: {
+                                    show: false
+                                },
+                                axisTicks: {
+                                    show: false
+                                },
+                                crosshairs: {
+                                    fill: {
+                                        type: 'gradient',
+                                        gradient: {
+                                            colorFrom: '#D8E3F0',
+                                            colorTo: '#BED1E6',
+                                            stops: [0, 100],
+                                            opacityFrom: 0.4,
+                                            opacityTo: 0.5,
                                         }
                                     }
                                 },
-                            };
-
-                            var myChart = new Chart(ctx1, config1);
-
-
-
-                            var ctx2 = document.getElementById('graph_5');
-
-                            const data2 = {
-                                labels: @json($purchase_plan_graph['purchase_plan']),
-                                datasets: [{
-                                    label: 'Dataset',
-                                    data: @json($purchase_plan_graph['purchase_plan_count']),
-                                    backgroundColor: [
-                                        'rgb(255, 99, 132)',
-                                        'rgb(54, 162, 235)',
-                                        'rgb(255, 205, 86)',
-                                        'rgb(255, 99, 132)',
-                                        'rgb(54, 162, 235)',
-                                    ],
-                                }]
-                            };
-
-
-                            const config2 = {
-                                type: 'pie',
-                                data: data2,
-                                options: {
-                                    responsive: true,
-                                    plugins: {
-                                        legend: {
-                                            position: 'top',
-                                        },
-                                        title: {
-                                            display: false,
-                                            text: 'Pie Chart'
-                                        }
-                                    }
-                                },
-                            };
-
-                            var myChart = new Chart(ctx2, config2);
-
-
-
-
-                            $(document).ready(function() {
-                                // Ensure the div exists before trying to get its content
-                                var div = $('#kt_app_content_container');
-                                if (div.length > 0) {
-                                    // Use html2canvas to render the div to a canvas
-                                    html2canvas(div[0]).then(function(canvas) {
-                                        // Convert the canvas to a Base64 string with the correct prefix
-                                        var base64Content = canvas.toDataURL("image/png");
-
-                                        // Log the Base64 content to the console
-                                        console.log("Base64 Content:", base64Content);
-                                    }).catch(function(error) {
-                                        console.error("Error rendering canvas:", error);
-                                    });
-                                } else {
-                                    console.warn("Div with id 'kt_app_content_container' not found");
+                                tooltip: {
+                                    enabled: true,
                                 }
-                            });
-                        </script>
-                        {{--  custom js end --}}
-                        <!--end::Footer container-->
+                            },
+                            yaxis: {
+                                axisBorder: {
+                                    show: false
+                                },
+                                axisTicks: {
+                                    show: false,
+                                },
+                                labels: {
+                                    show: false,
+                                    formatter: function(val) {
+                                        return val;
+                                    }
+                                }
+
+                            },
+                            title: {
+                                text: 'Departments Overall Leads',
+                                floating: true,
+                                offsetY: 330,
+                                align: 'center',
+                                style: {
+                                    color: '#444'
+                                }
+                            }
+                        };
+
+                        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
+                        chart.render();
+
+
+                        // Example data
+                        //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
+                        //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
+                        var xData = @json($vehcile_graph['vehicle_names']);
+                        var yData = @json($vehcile_graph['vehicle_count']);
+
+                        // Generate random fill colors
+                        var fillColors = Array.from({
+                            length: xData.length
+                        }, () => getRandomColor());
+
+                        // Create series data
+                        var seriesData = xData.map((x, index) => ({
+                            x: x,
+                            y: yData[index],
+                            fill: fillColors[index]
+                        }));
+
+                        // Function to generate a random color
+                        function getRandomColor() {
+                            var letters = '0123456789ABCDEF';
+                            var color = '#';
+                            for (var i = 0; i < 6; i++) {
+                                color += letters[Math.floor(Math.random() * 16)];
+                            }
+                            return color;
+                        }
+
+                        // Chart options
+                        var options = {
+                            series: [{
+                                data: seriesData
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 350
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: true,
+                                    distributed: true
+                                }
+                            },
+                            dataLabels: {
+                                enabled: true
+                            },
+                            xaxis: {
+                                categories: xData.map((x, index) => `${x} (${yData[index]})`),
+                                labels: {
+                                    formatter: function(val) {
+                                        return val;
+                                    }
+                                }
+                            }
+                            };
+
+                        // Render the chart
+                        var chart = new ApexCharts(document.querySelector("#graph_3"), options);
+                        chart.render();
+
+
+                        var ctx1 = document.getElementById('graph_4');
+
+                        const data1 = {
+                            labels: @json($salary_graph['monthly_salary']),
+                            datasets: [{
+                                label: 'Dataset',
+                                data: @json($salary_graph['monthly_salary_count']),
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                ],
+                            }]
+                        };
+
+
+                        const config1 = {
+                            type: 'doughnut',
+                            data: data1,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                        labels: {
+                                            generateLabels: function(chart) {
+                                                const data = chart.data;
+                                                return data.labels.map((label, index) => {
+                                                    const value = data.datasets[0].data[index];
+                                                    return {
+                                                        text: `${label} (${value})`,
+                                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                                        index: index
+                                                    };
+                                                });
+                                            }
+                                        }
+                                    },
+                                    title: {
+                                        display: false,
+                                        text: 'Pie Chart'
+                                    }
+                                }
+                            },
+                        };
+
+                        var myChart = new Chart(ctx1, config1);
+
+
+
+                        var ctx2 = document.getElementById('graph_5');
+
+                        const data2 = {
+                            labels: @json($purchase_plan_graph['purchase_plan']),
+                            datasets: [{
+                                label: 'Dataset',
+                                data: @json($purchase_plan_graph['purchase_plan_count']),
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                ],
+                            }]
+                        };
+
+
+                        const config2 = {
+                            type: 'pie',
+                            data: data2,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                        labels: {
+                                            generateLabels: function(chart) {
+                                                const data = chart.data;
+                                                return data.labels.map((label, index) => {
+                                                    const value = data.datasets[0].data[index];
+                                                    return {
+                                                        text: `${label} (${value})`,
+                                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                                        index: index
+                                                    };
+                                                });
+                                            }
+                                        }
+                                    },
+                                    title: {
+                                        display: false,
+                                        text: 'Pie Chart'
+                                    }
+                                }
+                            },
+                        };
+
+                        var myChart = new Chart(ctx2, config2);
+
+
+
+
+                        $(document).ready(function() {
+                            // Ensure the div exists before trying to get its content
+                            var div = $('#kt_app_content_container');
+                            if (div.length > 0) {
+                                // Use html2canvas to render the div to a canvas
+                                html2canvas(div[0]).then(function(canvas) {
+                                    // Convert the canvas to a Base64 string with the correct prefix
+                                    var base64Content = canvas.toDataURL("image/png");
+
+                                    // Log the Base64 content to the console
+                                    console.log("Base64 Content:", base64Content);
+                                }).catch(function(error) {
+                                    console.error("Error rendering canvas:", error);
+                                });
+                            } else {
+                                console.warn("Div with id 'kt_app_content_container' not found");
+                            }
+                        });
+                    </script>
+                    {{--  custom js end --}}
+                    <!--end::Footer container-->
                     {{-- </div> --}}
                     <!--end::Footer-->
                 </div>

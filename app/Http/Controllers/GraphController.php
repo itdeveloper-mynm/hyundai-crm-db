@@ -75,6 +75,7 @@ class GraphController extends Controller
         $response=setDateRange($datecheck);
         $startDate =$response->original['startDate'];
         $endDate =$response->original['endDate'];
+        // $startDate = request('start_date') ?? '2024-06-01';
         //$startDate = request('start_date') ?? startDate();
         //$endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
@@ -122,6 +123,7 @@ class GraphController extends Controller
         $response=setDateRange($datecheck);
         $startDate =$response->original['startDate'];
         $endDate =$response->original['endDate'];
+        // $startDate = request('start_date') ?? '2024-06-01';
 
         // $startDate = request('start_date') ?? startDate();
         // $endDate = request('end_date') ?? endDate();

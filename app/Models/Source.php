@@ -33,6 +33,14 @@ class Source extends Model
                 });
             }
 
+            if (isset($conditions['from']) &&  isset($conditions['to'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $startDate = $conditions['from'].' 00:00:00';
+                    $endDate = $conditions['to'].' 23:59:59';
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                });
+            }
+
         });
 
     }
