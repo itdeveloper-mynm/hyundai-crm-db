@@ -189,7 +189,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -298,21 +298,21 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($second_graph_data[0]) +')',
                     data: @json($first_count) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Offers',
+                    label: 'Service Offers ('+ @json($second_graph_data[1]) +')',
                     data: @json($second_count) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (After Sales)',
+                    label: 'Contact Us (After Sales) ('+ @json($second_graph_data[2]) +')',
                     data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,

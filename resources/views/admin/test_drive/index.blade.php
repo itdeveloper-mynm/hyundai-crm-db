@@ -249,7 +249,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Banks</span>
+                                <span class="card-label fw-bold text-gray-800">Banks ({{$city_graph->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -320,7 +320,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Test Drive',
+                    label: 'Test Drive ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
@@ -524,14 +524,27 @@
         options: {
                 responsive: true,
                 plugins: {
-                legend: {
-                    position: 'top',
-                },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
                 title: {
                     display: false,
                     text: 'Pie Chart'
                 }
-                }
+            }
             },
         };
 

@@ -78,7 +78,7 @@
                                                             data-control="select"
                                                             data-placeholder="{{ __('select option') }}"
                                                             data-allow-clear="true">
-                                                            <option value=""></option>
+                                                            <option value="">--select--</option>
                                                             @foreach ($dropdown['vehicles'] as $vehicle)
                                                                 <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
                                                                 </option>
@@ -213,7 +213,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">City</span>
+                                <span class="card-label fw-bold text-dark">City({{collect($citygraph)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -322,7 +322,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,

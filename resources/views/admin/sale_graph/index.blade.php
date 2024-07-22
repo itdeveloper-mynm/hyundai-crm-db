@@ -234,7 +234,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -353,7 +353,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">City</span>
+                                <span class="card-label fw-bold text-dark">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -801,14 +801,27 @@
         options: {
                 responsive: true,
                 plugins: {
-                legend: {
-                    position: 'top',
-                },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
                 title: {
                     display: false,
                     text: 'Pie Chart'
                 }
-                }
+            }
             },
         };
 
@@ -840,18 +853,31 @@
     type: 'pie',
     data: data2,
     options: {
-            responsive: true,
-            plugins: {
+        responsive: true,
+        plugins: {
             legend: {
                 position: 'top',
+                labels: {
+                    generateLabels: function (chart) {
+                        const data = chart.data;
+                        return data.labels.map((label, index) => {
+                            const value = data.datasets[0].data[index];
+                            return {
+                                text: `${label} (${value})`,
+                                fillStyle: data.datasets[0].backgroundColor[index],
+                                index: index
+                            };
+                        });
+                    }
+                }
             },
             title: {
                 display: false,
                 text: 'Pie Chart'
             }
-            }
-        },
-    };
+        }
+    },
+};
 
     var myChart = new Chart(ctx2, config2);
 

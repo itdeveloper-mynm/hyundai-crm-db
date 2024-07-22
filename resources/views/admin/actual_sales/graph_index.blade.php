@@ -321,7 +321,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Actual Sales Data</h3>
+                                <h3 class="fw-bold mb-1">Actual Sales Data ({{array_sum($actual_sales_data)}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -354,7 +354,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Digital Compaign Leads</h3>
+                                <h3 class="fw-bold mb-1">Digital Compaign Leads ({{human_readable_number(array_sum($digital_compaign_Leads))}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -387,7 +387,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Compared Results</h3>
+                                <h3 class="fw-bold mb-1">Compared Results ({{array_sum($getLeadsConversions)}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -450,14 +450,14 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Actual Sales Data',
+                    label: 'Actual Sales Data('+ @json(array_sum($first_count)) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Digital Compaign Leads',
+                    label: 'Digital Compaign Leads('+ @json(array_sum($second_count['counts'])) +')',
                     data: @json($second_count['counts']),
                     fill: false,
                     borderColor: successColor,

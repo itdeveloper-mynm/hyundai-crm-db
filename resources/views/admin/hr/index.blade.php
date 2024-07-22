@@ -185,7 +185,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Hr',
+                    label: 'Hr ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,

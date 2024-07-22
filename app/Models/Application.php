@@ -198,6 +198,20 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['category'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.category', arraycheck($conditions['category']));
+                });
+            }
+
+            if (isset($conditions['from']) &&  isset($conditions['to'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $startDate = $conditions['from'].' 00:00:00';
+                    $endDate = $conditions['to'].' 23:59:59';
+                    $query->whereBetween('applications.created_at', [$startDate, $endDate]);
+                });
+            }
+
 
             // Add more conditions as needed...
         });

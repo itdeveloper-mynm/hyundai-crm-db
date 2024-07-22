@@ -185,7 +185,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Used Cars',
+                    label: 'Used Cars ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
@@ -244,14 +244,27 @@
         options: {
                 responsive: true,
                 plugins: {
-                legend: {
-                    position: 'top',
-                },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
                 title: {
                     display: false,
                     text: 'Pie Chart'
                 }
-                }
+            }
             },
         };
 

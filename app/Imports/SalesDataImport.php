@@ -68,8 +68,8 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
                 's' => $row['s'],
                 'chass' => $row['chass'],
                 'vehicle_id' => $vehicle->id,
-                //'department' => request('department') ?? 'sales',
-                'department' =>  'sales',
+                'department' => request('department') ?? 'sales',
+                // 'department' =>  'sales',
                 // Add other columns as needed
             ]);
     }
