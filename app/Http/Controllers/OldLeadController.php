@@ -126,6 +126,7 @@ class OldLeadController extends Controller
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
                 ->where('type','old_leads')
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class Application extends Model
 {
-    use HasFactory;
+    use HasFactory , SoftDeletes;
 
     protected $fillable = [
         'customer_id',
@@ -52,6 +55,9 @@ class Application extends Model
         'sub_category',
         'kyc',
         'crm_lead_status',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
 
 
@@ -630,6 +636,41 @@ class Application extends Model
     public function campaign(){
         return $this->belongsTo(Campaign::class);
     }
+
+    public function createdby()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedby()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deletedby()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+
+    protected static function booted()
+    {
+        static::creating(function ($application) {
+            $application->created_by = Auth::check() ? Auth::id() : null;
+        });
+
+        static::updating(function ($application) {
+            $application->updated_by = Auth::check() ? Auth::id() : null;
+        });
+
+        static::deleting(function ($application) {
+            if (Auth::check()) {
+                $application->deleted_by = Auth::id();
+                $application->save();
+            }
+        });
+    }
+
 
     static function storeData($request,$type) {
 
