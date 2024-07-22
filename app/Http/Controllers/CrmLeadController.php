@@ -248,10 +248,10 @@ class CrmLeadController extends Controller
     // dd($record);
     // Send the email
     // $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];
-    $recipients = ['ateeb@sohoby.sa'];
+    // $recipients = ['ateeb@sohoby.sa'];
     // $recipients = ['hyundai.crm@hyundai.mynaghi.com'];
 
-     Mail::to($recipients)->send(new RecordDetailsMail($record));
+    //  Mail::to($recipients)->send(new RecordDetailsMail($record));
     // Mail::to('hyundai.crm@hyundai.mynaghi.com')->send(new RecordDetailsMail($record));
 
 
