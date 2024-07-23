@@ -78,13 +78,13 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from"
+                                                        placeholder="Select a date" name="from" value="{{ dateBeforeTenDays() }}"
                                                         value="" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to"
+                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}"
                                                         value="" id="to" />
                                                 </div>
                                             </div>
@@ -112,6 +112,7 @@
                             @can('crm-leads-export')
                                 <form action="{{ route('crm-leads.export') }}" method="POST" id="exportForm">
                                     @csrf
+                                    <input type="hidden" name="category" value="Qualified">
                                     <div id="export_form_div" style="display: none">
 
                                     </div>

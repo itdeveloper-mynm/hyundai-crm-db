@@ -140,7 +140,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from" value="{{ currentDate() }}" id="from" />
+                                                        placeholder="Select a date" name="from" value="{{ dateBeforeTenDays() }}" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
@@ -406,7 +406,7 @@
                         var res2 = '-';
                         @can('campaign-leads-edit')
                         res = '<a href="{{ url('lead') }}/' + data +
-                            '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                            '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
                         @endcan
                         @can('campaign-leads-delete')
                         res2 =

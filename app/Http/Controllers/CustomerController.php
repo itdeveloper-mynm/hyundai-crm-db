@@ -91,6 +91,11 @@ class CustomerController extends Controller
     public function destroy(string $id)
     {
         $row = Customer::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this customer already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -117,6 +122,7 @@ class CustomerController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Customer::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

@@ -76,6 +76,11 @@ class CampaignController extends Controller
     public function destroy(string $id)
     {
         $row = Campaign::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this campaign already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -102,6 +107,7 @@ class CampaignController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Campaign::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

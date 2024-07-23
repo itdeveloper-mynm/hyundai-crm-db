@@ -61,7 +61,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-500px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -78,13 +78,13 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from"
+                                                        placeholder="Select a date" name="from" value="{{ dateBeforeTenDays() }}"
                                                         value="" id="from" />
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to"
+                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}"
                                                         value="" id="to" />
                                                 </div>
                                             </div>
@@ -148,21 +148,25 @@
             </div>
             <div class="card">
                 <div class="card-body" style="padding: 1rem;">
+
                     <table id="user_table" class="table table-striped table-bordered" width="100%">
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>{{ __('Full Name') }}</th>
-                                <th>{{ __('Mobile') }}</th>
-                                <th>{{ __('City') }}</th>
-                                <th>{{ __('Branch') }}</th>
-                                <th>{{ __('Vehicle') }}</th>
-                                <th>{{ __('Source') }}</th>
-                                <th>{{ __('Type') }}</th>
-                                <th>{{ __('Category') }}</th>
-                                <th>{{ __('Sub Category') }}</th>
-                                <th>{{ __('Created At') }}</th>
-                                <th>{{ __('Action') }}</th>
+                                <th class="min-w-200px">{{ __('Full Name') }}</th>
+                                <th class="min-w-70px">{{ __('Mobile') }}</th>
+                                <th class="min-w-100px">{{ __('City') }}</th>
+                                <th class="min-w-100px">{{ __('Branch') }}</th>
+                                <th class="min-w-100px">{{ __('Vehicle') }}</th>
+                                <th class="min-w-100px">{{ __('Source') }}</th>
+                                <th class="min-w-100px">{{ __('Type') }}</th>
+                                <th class="min-w-100px">{{ __('Category') }}</th>
+                                <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                                <th class="min-w-100px">{{ __('Created At') }}</th>
+                                <th class="min-w-100px">{{ __('Created By') }}</th>
+                                <th class="min-w-100px">{{ __('Updated At') }}</th>
+                                <th class="min-w-100px">{{ __('Updated By') }}</th>
+                                <th class="min-w-100px">{{ __('Action') }}</th>
                             </tr>
                         </thead>
 
@@ -441,6 +445,30 @@
                 },
                 {
                     data: 'created_at',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'created_by',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'updated_at',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'updated_by',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';

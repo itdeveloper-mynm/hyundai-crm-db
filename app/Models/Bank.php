@@ -15,4 +15,10 @@ class Bank extends Model
         'name',
         'status',
     ];
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
 }

@@ -39,6 +39,7 @@ class Application extends Model
         'plate_alphabets',
         'klmm',
         'intention',
+        'purchase_plan',
         'monthly_salary',
         'request_date',
         'preferred_time',
@@ -571,7 +572,8 @@ class Application extends Model
 
         $maincounts = self::select(
                 DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"),
-                DB::raw('COUNT(*) as count'),
+               DB::raw('COUNT(*) as count'),
+                // DB::raw('COUNT(DISTINCT customer_id) as count')
                 //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
             )
             ->whereBetween('created_at', [$startDate, $endDate])
@@ -713,6 +715,10 @@ class Application extends Model
 
         $application = self::findorFail($id);
 
+        if ($request->has('mobile')) {
+            $customer = updCustomer($request,$application->customer_id);
+        }
+
         //$customer = Customer::findorFail($application->customer_id);
 
         $application->city_id = $request->input('city_id');
@@ -723,6 +729,11 @@ class Application extends Model
         $application->purchase_plan = $request->input('purchase_plan');
         $application->monthly_salary = $request->input('monthly_salary');
         $application->preferred_appointment_time = $request->input('preferred_appointment_time');
+        $application->category = $request->input('category');
+        $application->sub_category = $request->input('sub_category');
+        $application->yearr = $request->input('yearr');
+        $application->kyc = $request->input('kyc');
+        $application->comments = $request->input('comments');
         //$application->customer_id= $customer->id;
 
         if ($request->has('select_date')) {

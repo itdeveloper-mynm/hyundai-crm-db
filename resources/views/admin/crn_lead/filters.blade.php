@@ -77,7 +77,7 @@
     </div>
     <div class="col-lg-6">
         <label class=" form-label">{{ __('Preferred Time') }}</label>
-        <select class="form-select mb-2" name="preferred_appointment_time[]"
+        <select class="form-select mb-2" name="preferred_appointment_time[]" id ="preferred_appointment_time"
             data-control="select2" data-placeholder="{{ __('select option') }}"
             data-allow-clear="true" multiple>
             <option value=""></option>

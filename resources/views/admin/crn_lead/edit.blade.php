@@ -32,23 +32,23 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" readonly value="{{$lead->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" readonly value="{{$lead->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->mobile}}"  class="form-control mb-2"
+                                            <input type="text" readonly value="{{$lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->email}}"  class="form-control mb-2"
+                                            <input type="text" readonly value="{{$lead->customer->email}}"  class="form-control mb-2"
                                                 required />
                                         </div>
 

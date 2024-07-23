@@ -16,6 +16,11 @@ class Vehicle extends Model
         'status',
     ];
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
     public function scopeSearch($query, $conditions)
     {
 

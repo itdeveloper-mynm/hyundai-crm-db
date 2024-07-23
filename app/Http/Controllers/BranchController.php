@@ -83,6 +83,11 @@ class BranchController extends Controller
     public function destroy(string $id)
     {
         $row = Branch::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this branch already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -109,6 +114,7 @@ class BranchController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Branch::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

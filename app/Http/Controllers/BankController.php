@@ -76,6 +76,11 @@ class BankController extends Controller
     public function destroy(string $id)
     {
         $row = Bank::findorFail($id);
+
+        if($row->customers()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this bank already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -102,6 +107,7 @@ class BankController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Bank::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

@@ -15,4 +15,10 @@ class City extends Model
         'name',
         'status',
     ];
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 }

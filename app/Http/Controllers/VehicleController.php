@@ -76,6 +76,11 @@ class VehicleController extends Controller
     public function destroy(string $id)
     {
         $row = Vehicle::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this vehicle already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -103,6 +108,7 @@ class VehicleController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Vehicle::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 

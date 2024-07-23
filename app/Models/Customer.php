@@ -20,6 +20,12 @@ class Customer extends Model
         'national_id',
     ];
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
@@ -34,7 +40,7 @@ class Customer extends Model
                     $search = $conditions['search']['value'];
                     $query->where(function ($query) use ($search) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
-                                ->orWhere('mobile', $search)
+                                ->orWhere('mobile', 'like', '%' . $search . '%')
                                 ->orWhere('email', $search);
                     });
                     $query->orwhereHas('bank', function ($query) use ($search) {

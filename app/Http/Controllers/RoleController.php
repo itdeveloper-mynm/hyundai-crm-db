@@ -101,6 +101,11 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         $role = Role::find($id);
+
+        if($role->users()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this role already exists')]);
+        }
+
         if ($role) {
             $role->delete();
         }

@@ -107,7 +107,7 @@ class CrmLeadController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
+        // dd($request->all());
         Application::updateData($request,$id);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
@@ -169,7 +169,7 @@ class CrmLeadController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "full_name" => ucwords($row->customer->full_name),
+                "full_name" => $row->customer->full_name ? ucwords($row->customer->full_name) : "",
                 "mobile" => $row->customer->mobile ?? '-',
                 // "first_name" => ucwords($row->customer->first_name),
                 // "last_name" => ucwords($row->customer->last_name),
@@ -182,6 +182,9 @@ class CrmLeadController extends Controller
                 "category" => $row['category'] ?? "-",
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => dateTimeformat($row['created_at']),
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

@@ -20,5 +20,11 @@ class Branch extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+
 
 }

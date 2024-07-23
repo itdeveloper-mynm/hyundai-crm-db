@@ -76,6 +76,11 @@ class SourceController extends Controller
     public function destroy(string $id)
     {
         $row = Source::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this source already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -102,6 +107,7 @@ class SourceController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Source::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
