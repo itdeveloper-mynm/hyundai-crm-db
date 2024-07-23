@@ -169,7 +169,7 @@ class CrmLeadController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "full_name" => $row->customer->full_name ? ucwords($row->customer->full_name) : "",
+                "full_name" => $row->customer ? ucwords($row->customer->full_name) : "",
                 "mobile" => $row->customer->mobile ?? '-',
                 // "first_name" => ucwords($row->customer->first_name),
                 // "last_name" => ucwords($row->customer->last_name),
