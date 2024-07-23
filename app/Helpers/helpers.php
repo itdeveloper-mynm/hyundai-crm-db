@@ -9,6 +9,7 @@ use App\Models\Vehicle;
 use App\Models\Source;
 use App\Models\Campaign;
 use App\Models\Bank;
+use App\Models\User;
 
 
 function currdate()
@@ -396,6 +397,7 @@ function getCommonData($cityId = null)
         'sources' => Source::whereStatus(1)->get(),
         'campaigns' => Campaign::whereStatus(1)->get(),
         'banks' => Bank::whereStatus(1)->get(),
+        'users' => User::get(),
     ];
 
     if ($cityId !== null) {

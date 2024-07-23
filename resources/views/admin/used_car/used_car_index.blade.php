@@ -195,12 +195,18 @@
                     <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                         <tr>
                             <th class="text-center">#</th>
-                            <th>{{ __('Full Name') }}</th>
-                            <th>{{ __('Mobile') }}</th>
-                            <th>{{ __('City') }}</th>
-                            <th>{{ __('Vehicle') }}</th>
-                            <th>{{ __('Campaign') }}</th>
-                            <th>{{ __('Action') }}</th>
+                            <th class="min-w-100px">{{ __('Full Name') }}</th>
+                            <th class="min-w-100px">{{ __('Mobile') }}</th>
+                            <th class="min-w-100px">{{ __('City') }}</th>
+                            <th class="min-w-100px">{{ __('Vehicle') }}</th>
+                            <th class="min-w-100px">{{ __('Campaign') }}</th>
+                            <th class="min-w-100px">{{ __('Category') }}</th>
+                            <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                            <th class="min-w-100px">{{ __('Created At') }}</th>
+                            <th class="min-w-100px">{{ __('Created By') }}</th>
+                            <th class="min-w-100px">{{ __('Updated At') }}</th>
+                            <th class="min-w-100px">{{ __('Updated By') }}</th>
+                            <th class="min-w-100px">{{ __('Action') }}</th>
                         </tr>
                     </thead>
 
@@ -342,6 +348,54 @@ var table = $('#user_table').DataTable({
         },
         {
             data: 'campaign_id',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+        data: 'category',
+        render: function(data, type, row) {
+
+            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+            return result;
+        }
+        },
+        {
+            data: 'sub_category',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'created_at',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'created_by',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'updated_at',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'updated_by',
             render: function(data, type, row) {
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';

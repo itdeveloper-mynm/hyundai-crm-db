@@ -42,7 +42,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-500px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -52,84 +52,22 @@
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
                                     <div class="px-7 py-5">
-
                                         <div class="mb-3">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="city_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                    @include('admin.common_files_filters.city')
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                    @include('admin.common_files_filters.branch')
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="source_id" id="source_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['sources'] as $source)
-                                                                <option value="{{ $source->id }}" @selected(request('source_id') == $source->id)>{{ $source->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                    @include('admin.common_files_filters.vehicle')
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['campaigns'] as $campaign)
-                                                                <option value="{{ $campaign->id }}" @selected(request('campaign_id') == $campaign->id)>{{ $campaign->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                <div class="col-lg-6">
+                                                    @include('admin.common_files_filters.source')
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    @include('admin.common_files_filters.campaign')
                                                 </div>
                                             </div>
                                             <div class="row mt-1">

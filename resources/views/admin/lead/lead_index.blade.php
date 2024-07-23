@@ -61,92 +61,60 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
+
+                                    {{-- <div class="px-7 py-5"  style="height: 350px; overflow-y: auto !important;"> --}}
                                     <div class="px-7 py-5">
-                                        @can('campaign-leads-filters')
-                                            <div class="mb-1">
-                                                {{-- @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ]) --}}
-                                                <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                <div>
-                                                    <select class="form-select mb-2" name="city_id" id="city_id"
-                                                        data-control="select" data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                <div>
-                                                    <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
-                                                        data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                <div>
-                                                    <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                        data-control="select" data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value=""></option>
-                                                        @foreach ($vehicles as $vehicle)
-                                                            <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                                <div>
-                                                    <select class="form-select mb-2" name="source_id" id="source_id"
-                                                        data-control="select" data-placeholder="{{ __('select option') }}"
-                                                        data-allow-clear="true">
-                                                        <option value=""></option>
-                                                        @foreach ($sources as $source)
-                                                            <option value="{{$source->id}}">{{$source->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                                <div>
-                                                <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($campaigns as $campaign)
-                                                        <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-                                            </div>
-                                        @endcan
                                         <div class="mb-3">
-
                                             <div class="row">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="from" value="{{ dateBeforeTenDays() }}" id="from" />
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.city')
                                                 </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="to" value="{{ currentDate() }}" id="to" />
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.branch')
                                                 </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.vehicle')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.source')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.campaign')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.purchase_plan')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.monthly_salary')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.preferred_appointment_time')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.kyc')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.category')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.created_by')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.updated_by')
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                    @include('admin.common_files_filters.created_date')
+                                            </div>
+                                            <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
                                             </div>
                                         </div>
 
@@ -158,8 +126,9 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="javascript:void(0)" class="btn btn-sm btn-primary"
-                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('sale-graph.index') }}"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 
@@ -170,30 +139,32 @@
                             </div>
 
                             <!-- <button type="button" class="btn btn-success me-3 export_excel">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                {{ __('Excel') }}
-                            </button>
-
-                            <button type="button" class="btn btn-warning me-3 export_print">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                                {{ __('Print') }}
-
-                            </button> -->
-
-                            @can('campaign-leads-export')
-                            <form action="{{route('leads.export')}}" method="POST"  id="exportForm">
-                                @csrf
-                                <div id="export_form_div" style="display: none">
-
-                                </div>
-                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                     {{ __('Excel') }}
                                 </button>
-                            </form>
+
+                                <button type="button" class="btn btn-warning me-3 export_print">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
+                                    {{ __('Print') }}
+
+                                </button> -->
+
+                            @can('campaign-leads-export')
+                                <form action="{{ route('leads.export') }}" method="POST" id="exportForm">
+                                    @csrf
+                                    <div id="export_form_div" style="display: none">
+
+                                    </div>
+                                    <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i>
+                                        </span>
+                                        {{ __('Excel') }}
+                                    </button>
+                                </form>
                             @endcan
                             @can('campaign-leads-import')
-                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3" download>
+                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3"
+                                    download>
                                     <i class="fa fa-download"></i>
                                     {{ __('Sample') }}</a>
 
@@ -220,14 +191,20 @@
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>{{ __('Full Name') }}</th>
-                                <th>{{ __('Mobile') }}</th>
-                                <th>{{ __('City') }}</th>
-                                <th>{{ __('Branch') }}</th>
-                                <th>{{ __('Vehicle') }}</th>
-                                <th>{{ __('Source') }}</th>
-                                <th>{{ __('Campaign') }}</th>
-                                <th>{{ __('Action') }}</th>
+                                <th class="min-w-100px">{{ __('Full Name') }}</th>
+                                <th class="min-w-100px">{{ __('Mobile') }}</th>
+                                <th class="min-w-100px">{{ __('City') }}</th>
+                                <th class="min-w-100px">{{ __('Branch') }}</th>
+                                <th class="min-w-100px">{{ __('Vehicle') }}</th>
+                                <th class="min-w-100px">{{ __('Source') }}</th>
+                                <th class="min-w-100px">{{ __('Campaign') }}</th>
+                                <th class="min-w-100px">{{ __('Category') }}</th>
+                                <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                                <th class="min-w-100px">{{ __('Created At') }}</th>
+                                <th class="min-w-100px">{{ __('Created By') }}</th>
+                                <th class="min-w-100px">{{ __('Updated At') }}</th>
+                                <th class="min-w-100px">{{ __('Updated By') }}</th>
+                                <th class="min-w-100px">{{ __('Action') }}</th>
                             </tr>
                         </thead>
 
@@ -330,8 +307,17 @@
                     data.vehicle_id = $('#vehicle_id').val();
                     data.source_id = $('#source_id').val();
                     data.campaign_id = $('#campaign_id').val();
+                    data.purchase_plan = $('#purchase_plan').val();
+                    data.monthly_salary = $('#monthly_salary').val();
+                    data.preferred_appointment_time = $('#preferred_appointment_time').val();
+                    data.kyc = $('#kyc').val();
+                    data.category = $('#category').val();
+                    data.created_by = $('#created_by').val();
+                    data.updated_by = $('#updated_by').val();
                     data.from = $('#from').val();
                     data.to = $('#to').val();
+                    data.upd_from = $('#upd_from').val();
+                    data.upd_to = $('#upd_to').val();
                 }
             },
             columns: [{
@@ -345,7 +331,8 @@
                     render: function(data, type, row) {
 
                         var result = '<a href="{{ url('lead') }}/' + row.id +
-                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' + data + '</a>';
+                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' +
+                            data + '</a>';
                         return result;
 
                     }
@@ -398,20 +385,67 @@
                         return result;
                     }
                 },
+                {
+                    data: 'category',
+                    render: function(data, type, row) {
 
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'sub_category',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'created_at',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'created_by',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'updated_at',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'updated_by',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
                         @can('campaign-leads-edit')
-                        res = '<a href="{{ url('lead') }}/' + data +
-                            '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                            res = '<a href="{{ url('lead') }}/' + data +
+                                '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
                         @endcan
                         @can('campaign-leads-delete')
-                        res2 =
-                            '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
-                            data + ')" ><i class="bi-trash"></i></a>';
+                            res2 =
+                                '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
+                                data + ')" ><i class="bi-trash"></i></a>';
                         @endcan
 
                         return res + res2;
@@ -491,11 +525,25 @@
             from.value = '';
             to.value = '';
 
+            // Reset date fields
+            var upd_from = document.querySelector('#upd_from');
+            var upd_to = document.querySelector('#upd_to');
+            upd_from.value = '';
+            upd_to.value = '';
+
+            // Reset select fields
             $("#city_id").val([]).change();
             $("#branch_id").val([]).change();
             $("#vehicle_id").val([]).change();
             $("#source_id").val([]).change();
             $("#campaign_id").val([]).change();
+            $("#purchase_plan").val([]).change();
+            $("#kyc").val([]).change();
+            $("#category").val([]).change();
+            $("#created_by").val([]).change();
+            $("#updated_by").val([]).change();
+            $('#monthly_salary').val([]).change();
+            $('#preferred_appointment_time').val([]).change();
 
             table.draw();
 
@@ -612,14 +660,12 @@
             // Append the cloned elements to the export form
             selectElements.forEach(element => {
                 const clonedElement = element.cloneNode(true);
-                clonedElement.value = element.value; // Set the cloned element's value to the original's value
+                clonedElement.value = element
+                .value; // Set the cloned element's value to the original's value
                 clonedElement.name = element.name; // Ensure the name is set for form submission
                 exportFormDiv.appendChild(clonedElement);
             });
-    });
-
-
-
+        });
     </script>
 
 

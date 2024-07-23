@@ -90,10 +90,10 @@ class SaleGraphController extends Controller
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
         $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonData();
         //dd($data);
 
-       return view('admin.sale_graph.index' , $data);
+       return view('admin.sale_graph.index' , $data , getCommonData());
     }
 
     public function comparisonIndex(Request $request)

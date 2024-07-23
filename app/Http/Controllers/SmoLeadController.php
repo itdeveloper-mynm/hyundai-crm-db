@@ -117,6 +117,7 @@ class SmoLeadController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
+                ->latest()
                 ->where('type','smo_leads')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
@@ -135,7 +136,12 @@ class SmoLeadController extends Controller
                 "city_id" => $row->city->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
-                "created_at" =>$row['created_at'],
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => dateTimeformat($row['created_at']),
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

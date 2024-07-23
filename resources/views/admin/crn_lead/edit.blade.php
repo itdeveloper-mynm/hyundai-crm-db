@@ -43,7 +43,7 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <input type="text" readonly value="{{$lead->customer->mobile}}"  class="form-control mb-2"
+                                            <input type="text" name="mobile" id="mobile" readonly value="{{$lead->customer->mobile}}"  class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
@@ -170,6 +170,10 @@
                                                         @endforeach
                                                 </select>
                                             </div>
+
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => $lead ])
+                                        </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred Time to contact') }}</label>
                                             <select class="form-select mb-2" name="preferred_appointment_time" required="required"
@@ -182,22 +186,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('KYC') }}</label>
-                                            <select class="form-select mb-2" name="kyc" id="kyc" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    <option value="Social Media" @selected($lead->kyc=='Social Media')>Social Media</option>
-                                                    <option value="Friends & Relative">  @selected($lead->kyc=='Friends & Relative')Friends & Relative</option>
-                                                    <option value="Outdoor Advertisement" @selected($lead->kyc=='Outdoor Advertisement')>Outdoor Advertisement</option>
-                                                    <option value="Influencer" @selected($lead->kyc=='Influencer')>Influencer</option>
-                                                    <option value="Others" @selected($lead->kyc=='Others')>Others</option>
-                                            </select>
-                                        </div>
 
-                                    </div>
-                                    <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Category') }}</label>
                                             <select class="form-select mb-2" name="category" id="category" onchange="updateSubCategory()" required="required"
@@ -216,6 +205,19 @@
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                     <option value=""></option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            <label class="required form-label">{{ __('KYC') }}</label>
+                                            <select class="form-select mb-2" name="kyc" id="kyc" required="required"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                    <option value=""></option>
+                                                    <option value="Social Media" @selected($lead->kyc=='Social Media')>Social Media</option>
+                                                    <option value="Friends & Relative">  @selected($lead->kyc=='Friends & Relative')Friends & Relative</option>
+                                                    <option value="Outdoor Advertisement" @selected($lead->kyc=='Outdoor Advertisement')>Outdoor Advertisement</option>
+                                                    <option value="Influencer" @selected($lead->kyc=='Influencer')>Influencer</option>
+                                                    <option value="Others" @selected($lead->kyc=='Others')>Others</option>
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-12">

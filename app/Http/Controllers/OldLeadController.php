@@ -146,7 +146,12 @@ class OldLeadController extends Controller
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" => formateDateTime($row['created_at']),
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => dateTimeformat($row['created_at']),
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

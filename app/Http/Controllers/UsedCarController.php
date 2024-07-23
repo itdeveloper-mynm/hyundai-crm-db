@@ -137,7 +137,12 @@ class UsedCarController extends Controller
                 "city_id" => $row->city->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" =>$row['created_at'],
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => dateTimeformat($row['created_at']),
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

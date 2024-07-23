@@ -137,11 +137,31 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['created_by'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
+                });
+            }
+
+            if (isset($conditions['updated_by'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
+                });
+            }
+
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {
                     $startDate = $conditions['from'].' 00:00:00';
                     $endDate = $conditions['to'].' 23:59:59';
                     $query->whereBetween('applications.created_at', [$startDate, $endDate]);
+                });
+            }
+
+            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $startDate = $conditions['upd_from'].' 00:00:00';
+                    $endDate = $conditions['upd_to'].' 23:59:59';
+                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
                 });
             }
 
@@ -211,11 +231,31 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['created_by'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
+                });
+            }
+
+            if (isset($conditions['updated_by'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
+                });
+            }
+
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {
                     $startDate = $conditions['from'].' 00:00:00';
                     $endDate = $conditions['to'].' 23:59:59';
                     $query->whereBetween('applications.created_at', [$startDate, $endDate]);
+                });
+            }
+
+            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $startDate = $conditions['upd_from'].' 00:00:00';
+                    $endDate = $conditions['upd_to'].' 23:59:59';
+                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
                 });
             }
 
