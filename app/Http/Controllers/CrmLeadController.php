@@ -178,7 +178,7 @@ class CrmLeadController extends Controller
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "type" => reverseCheckApplicationType($row->type) == 'Crm Leads' ? 'Inbound': "",
+                "type" => reverseCheckApplicationType($row->type) == 'Crm Leads' ? 'Inbound': reverseCheckApplicationType($row->type),
                 "category" => $row['category'] ?? "-",
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),

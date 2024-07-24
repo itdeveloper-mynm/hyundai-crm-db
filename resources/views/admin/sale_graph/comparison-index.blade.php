@@ -16,14 +16,14 @@
                         <div class="card-toolbar ">
                             <div class="row  mt-5">
                                 <div class="col-lg-12 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
-                                        data-kt-menu-placement="bottom-end">.</button>
+                                    {{-- <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                                        data-kt-menu-placement="bottom-end">.</button> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--end::Toolbar container-->
-                    <div class="row gx-5 gx-xl-10">
+                    <div class="row gx-5 gx-xl-10 mt-16">
                         <!--begin::Col-->
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Chart widget 8-->
@@ -276,7 +276,7 @@
                     </div>
                     <div class="row gx-5 gx-xl-10">
                         <!--begin::Col-->
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
                                 <!--begin::Header-->
@@ -300,7 +300,8 @@
                             <!--end::Chart widget 31-->
                         </div>
                         <!--end::Col-->
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
+                            <hr>
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
                                 <!--begin::Header-->
@@ -324,6 +325,7 @@
                         </div>
 
                         <div class="col-xl-12">
+                            <hr>
                             <hr>
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
@@ -993,7 +995,7 @@
                     </div>
                     <div class="row gx-5 gx-xl-10">
                         <!--begin::Col-->
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
                                 <!--begin::Header-->
@@ -1017,7 +1019,8 @@
                             <!--end::Chart widget 31-->
                         </div>
                         <!--end::Col-->
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
+                            <hr>
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
                                 <!--begin::Header-->
@@ -1041,6 +1044,7 @@
                         </div>
 
                         <div class="col-xl-12">
+                            <hr>
                             <hr>
                             <!--begin::Chart widget 31-->
                             <div class="card card-flush h-xl-100">
