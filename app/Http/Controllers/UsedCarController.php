@@ -119,6 +119,7 @@ class UsedCarController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
+                ->latest()
                 ->where('type','used_cars')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
