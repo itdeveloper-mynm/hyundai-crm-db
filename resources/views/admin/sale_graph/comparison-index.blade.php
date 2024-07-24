@@ -331,7 +331,8 @@
                                 <div class="card-header pt-7">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-gray-800">Banks</span>
+                                        <span class="card-label fw-bold text-gray-800">Banks
+                                            ({{ collect($banks_graph)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -398,9 +399,9 @@
                                             <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                         </div>
                                         <div class="separator border-gray-200"></div>
-                                        <form method="GET" action="{{ route('sale-graph-comparison.index') }}"
+                                        <form method="POST" action="{{ route('sale-graph-comparison.index') }}"
                                             class="form d-flex flex-column flex-lg-row" id="myForm">
-                                            {{-- @csrf --}}
+                                            @csrf
                                             <div class="px-7 py-5">
                                                 <div class="row">
                                                     <div class="mb-3 col-6">
@@ -1047,7 +1048,8 @@
                                 <div class="card-header pt-7">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-gray-800">Banks</span>
+                                        <span class="card-label fw-bold text-gray-800">Banks
+                                            ({{ collect($banks_graph_comp)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -1499,7 +1501,7 @@
         };
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
-        var myChart = new Chart(ctx_comp, config_comp);
+        var myChart1 = new Chart(ctx_comp, config_comp);
 
 
 
