@@ -41,6 +41,23 @@ function is_selected($value, $inputName)
     return in_array($value, request()->input($inputName, [])) ? 'selected' : '';
 }
 
+
+function mergeAndUniqueValues($data) {
+    // Step 1: Use array_map to apply explode to each element
+    $explodedArrays = array_map(function($item) {
+        return explode(',', $item);
+    }, $data);
+
+    // Step 2: Use array_merge to flatten the array of arrays into a single array
+    $mergedArray = array_merge(...$explodedArrays);
+
+    // Step 3: Use array_unique to remove duplicate values
+    $uniqueArray = array_unique($mergedArray);
+
+    return $uniqueArray;
+}
+
+
 function activeRoute($route): string
 {
 
@@ -391,6 +408,31 @@ function formatInputNumber($mobile) {
 
 function getCommonData($cityId = null)
 {
+    $now = Carbon::now();
+
+    $commonData = [
+        'cities' => City::whereStatus(1)->get(),
+        'vehicles' => Vehicle::whereStatus(1)->get(),
+        // 'sources' => Source::whereStatus(1)->get(),
+        'sources' => Source::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->get(),
+        'campaigns' => Campaign::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->get(),
+        'banks' => Bank::whereStatus(1)->get(),
+        'users' => User::get(),
+    ];
+
+    if ($cityId !== null) {
+        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
+    } else {
+        $commonData['branches'] = Branch::whereStatus(1)->get();
+    }
+
+    return $commonData;
+}
+
+function getCommonFilterData($cityId = null)
+{
+    $now = Carbon::now();
+
     $commonData = [
         'cities' => City::whereStatus(1)->get(),
         'vehicles' => Vehicle::whereStatus(1)->get(),

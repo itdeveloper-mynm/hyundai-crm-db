@@ -82,7 +82,8 @@
                                 <div class="card-header pt-5">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                                        <span class="card-label fw-bold text-dark">Campaign Performance
+                                            ({{ collect($countsByCampaign)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -199,7 +200,8 @@
                                 <div class="card-header pt-5">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-dark">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
+                                        <span class="card-label fw-bold text-dark">City
+                                            ({{ collect($citygraph)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -390,7 +392,7 @@
                                             </svg>
                                         </span>Filter</button>
 
-                                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-800px" data-kt-menu="true"
+                                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-1000px" data-kt-menu="true"
                                         id="kt_menu_62fe86549b38d">
                                         <div class="px-7 py-5">
                                             <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -402,210 +404,296 @@
                                             <div class="px-7 py-5">
                                                 <div class="row">
                                                     <div class="mb-3 col-6">
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label
-                                                                    class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="city_id"
-                                                                        id="city_id" data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                        @foreach ($dropdown['cities'] as $city)
-                                                                            <option value="{{ $city->id }}"
-                                                                                @selected(request('city_id') == $city->id)>
-                                                                                {{ $city->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                        @can('sale-graph-comparison-filters')
+                                                            <div class="row">
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.city')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.branch')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.vehicle')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.source')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.campaign')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.purchase_plan')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.monthly_salary')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.preferred_appointment_time')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.kyc')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.category')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.created_by')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.updated_by')
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
-                                                                <label
-                                                                    class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="branch_id"
-                                                                        id="branch_id" data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label
-                                                                    class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="vehicle_id"
-                                                                        id="vehicle_id" data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                            <option value="{{ $vehicle->id }}"
-                                                                                @selected(request('vehicle_id') == $vehicle->id)>
-                                                                                {{ $vehicle->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <label
-                                                                    class="form-label fw-semibold">{{ __('Source') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="source_id"
-                                                                        id="source_id" data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['sources'] as $source)
-                                                                            <option value="{{ $source->id }}"
-                                                                                @selected(request('source_id') == $source->id)>
-                                                                                {{ $source->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <label
-                                                                    class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="campaign_id"
-                                                                        id="campaign_id" data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['campaigns'] as $campaign)
-                                                                            <option value="{{ $campaign->id }}"
-                                                                                @selected(request('campaign_id') == $campaign->id)>
-                                                                                {{ $campaign->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @endcan
                                                         <div class="row mt-1">
-                                                            <div class="col-lg-6">
-                                                                <input type="date"
-                                                                    class="form-control form-control-solid ps-12"
-                                                                    placeholder="Select a date" name="start_date"
-                                                                    value="{{ formateDate($startDate) }}"
-                                                                    id="start_date" />
-                                                            </div>
-
-                                                            <div class="col-lg-6">
-                                                                <input type="date"
-                                                                    class="form-control form-control-solid ps-12"
-                                                                    placeholder="Select a date" name="end_date"
-                                                                    value="{{ formateDate($endDate) }}" id="end_date" />
-                                                            </div>
+                                                            @include('admin.common_files_filters.created_date')
                                                         </div>
+                                                        {{-- <div class="row mt-2">
+                                                                @include('admin.common_files_filters.updated_date')
+                                                        </div> --}}
                                                     </div>
                                                     <div class="mb-3 col-6">
                                                         <div class="row">
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-4">
                                                                 <label
                                                                     class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="city_id_comp"
-                                                                        id="city_id_comp" data-control="select"
+                                                                    <select class="form-select mb-2" name="city_id_comp[]"
+                                                                        id="city_id_comp" data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                        @foreach ($dropdown['cities'] as $city)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
-                                                                                @selected(request('city_id') == $city->id)>
-                                                                                {{ $city->name }}
-                                                                            </option>
+                                                                                {{ is_selected($city->id, 'city_id_comp') }}>
+                                                                                {{ $city->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-4">
                                                                 <label
                                                                     class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="branch_id_comp"
-                                                                        id="branch_id_comp" data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="branch_id_comp[]" id="branch_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($branches as $branch)
+                                                                            <option value="{{ $branch->id }}"
+                                                                                {{ is_selected($branch->id, 'branch_id_comp') }}>
+                                                                                {{ $branch->name }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-4">
                                                                 <label
                                                                     class="form-label fw-semibold">{{ __('Vehicle') }}</label>
                                                                 <div>
                                                                     <select class="form-select mb-2"
-                                                                        name="vehicle_id_comp" id="vehicle_id_comp"
-                                                                        data-control="select"
+                                                                        name="vehicle_id_comp[]" id="vehicle_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['vehicles'] as $vehicle)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($vehicles as $vehicle)
                                                                             <option value="{{ $vehicle->id }}"
-                                                                                @selected(request('vehicle_id') == $vehicle->id)>
-                                                                                {{ $vehicle->name }}
-                                                                            </option>
+                                                                                {{ is_selected($vehicle->id, 'vehicle_id_comp') }}>
+                                                                                {{ $vehicle->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
+
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-4">
                                                                 <label
                                                                     class="form-label fw-semibold">{{ __('Source') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="source_id_comp"
-                                                                        id="source_id_comp" data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="source_id_comp[]" id="source_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['sources'] as $source)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($sources as $source)
                                                                             <option value="{{ $source->id }}"
-                                                                                @selected(request('source_id') == $source->id)>
-                                                                                {{ $source->name }}
-                                                                            </option>
+                                                                                {{ is_selected($source->id, 'source_id_comp') }}>
+                                                                                {{ $source->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
+                                                            <div class="col-lg-4">
                                                                 <label
                                                                     class="form-label fw-semibold">{{ __('Campaign') }}</label>
                                                                 <div>
                                                                     <select class="form-select mb-2"
-                                                                        name="campaign_id_comp" id="campaign_id_comp"
-                                                                        data-control="select"
+                                                                        name="campaign_id_comp[]" id="campaign_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['campaigns'] as $campaign)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($campaigns as $campaign)
                                                                             <option value="{{ $campaign->id }}"
-                                                                                @selected(request('campaign_id') == $campaign->id)>
-                                                                                {{ $campaign->name }}
-                                                                            </option>
+                                                                                {{ is_selected($campaign->id, 'campaign_id_comp') }}>
+                                                                                {{ $campaign->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row mt-1">
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Purchase Plan') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="purchase_plan_comp[]" id="purchase_plan_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="1 month"
+                                                                        {{ is_selected('1 month', 'purchase_plan') }}>1
+                                                                        month</option>
+                                                                    <option value="2-3 month"
+                                                                        {{ is_selected('2-3 month', 'purchase_plan') }}>2-3
+                                                                        month</option>
+                                                                    <option value="After 3 month"
+                                                                        {{ is_selected('After 3 month', 'purchase_plan_comp') }}>
+                                                                        After 3 month</option>
+                                                                </select>
+
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Monthly Salary') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="monthly_salary_comp[]" id="monthly_salary_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Between 5,000 and 10,000"
+                                                                        {{ is_selected('Between 5,000 and 10,000', 'monthly_salary') }}>
+                                                                        Between
+                                                                        5,000 and 10,000</option>
+                                                                    <option value="Above 10,000"
+                                                                        {{ is_selected('Above 10,000', 'monthly_salary_comp') }}>
+                                                                        Above 10,000</option>
+                                                                    <option value="Below 5,000"
+                                                                        {{ is_selected('Below 5,000', 'monthly_salary_comp') }}>
+                                                                        Below 5,000</option>
+                                                                    <option value="Cash Deal"
+                                                                        {{ is_selected('Cash Deal', 'monthly_salary_comp') }}>
+                                                                        Cash Deal</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Preferred Time') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="preferred_appointment_time_comp[]"
+                                                                    id ="preferred_appointment_time_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Morning 08:00AM~12:00PM"
+                                                                        {{ is_selected('Morning 08:00AM~12:00PM', 'preferred_appointment_time_comp') }}>
+                                                                        Morning (08:00AM~12:00PM)</option>
+                                                                    <option value="Afternoon 12:00PM~04:00PM"
+                                                                        {{ is_selected('Afternoon 12:00PM~04:00PM', 'preferred_appointment_time_comp') }}>
+                                                                        Afternoon (12:00PM~04:00PM)</option>
+                                                                    <option value="Any Time"
+                                                                        {{ is_selected('Any Time', 'preferred_appointment_time_comp') }}>
+                                                                        Any Time</option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class=" form-label">{{ __('KYC') }}</label>
+                                                                <select class="form-select mb-2" name="kyc_comp[]"
+                                                                    id="kyc_comp" data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Social Media"
+                                                                        {{ is_selected('Social Media', 'kyc_comp') }}>
+                                                                        Social Media</option>
+                                                                    <option value="Friends & Relative"
+                                                                        {{ is_selected('Friends & Relative', 'kyc_comp') }}>
+                                                                        Friends & Relative</option>
+                                                                    <option value="Outdoor Advertisement"
+                                                                        {{ is_selected('Outdoor Advertisement', 'kyc_comp') }}>
+                                                                        Outdoor Advertisement</option>
+                                                                    <option value="Influencer"
+                                                                        {{ is_selected('Influencer', 'kyc_comp') }}>
+                                                                        Influencer</option>
+                                                                    <option value="Others"
+                                                                        {{ is_selected('Others', 'kyc_comp') }}>Others
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class=" form-label">{{ __('Category') }}</label>
+                                                                <select class="form-select mb-2" name="category_comp[]"
+                                                                    id="category_comp" data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Qualified"
+                                                                        {{ is_selected('Qualified', 'category_comp') }}>
+                                                                        Qualified</option>
+                                                                    <option value="Not Qualified"
+                                                                        {{ is_selected('Not Qualified', 'category_comp') }}>
+                                                                        Not Qualified</option>
+                                                                    <option value="General Inquiry"
+                                                                        {{ is_selected('General Inquiry', 'category_comp') }}>
+                                                                        General Inquiry</option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Created By') }}</label>
+                                                                <div>
+                                                                    <select class="form-select mb-2"
+                                                                        name="created_by_comp[]" id="created_by_comp"
+                                                                        data-control="select2"
+                                                                        data-placeholder="{{ __('select option') }}"
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($users as $user)
+                                                                            <option value="{{ $user->id }}"
+                                                                                {{ is_selected($user->id, 'created_by_comp') }}>
+                                                                                {{ $user->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class="form-label fw-semibold">{{ __('Updated By') }}</label>
+                                                                <div>
+                                                                    <select class="form-select mb-2" name="updated_by_comp[]" id="updated_by_comp" data-control="select2"
+                                                                        data-placeholder="{{ __('select option') }}" data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($users as $user)
+                                                                            <option value="{{ $user->id }}"  {{ is_selected($user->id, 'updated_by_comp') }}>{{ $user->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
                                                             <div class="col-lg-6">
+                                                                <label class="form-label fw-semibold">{{ __('Start Date') }}</label>
                                                                 <input type="date"
                                                                     class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="start_date_comp"
@@ -614,6 +702,7 @@
                                                             </div>
 
                                                             <div class="col-lg-6">
+                                                                <label class="form-label fw-semibold">{{ __('End Date') }}</label>
                                                                 <input type="date"
                                                                     class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="end_date_comp"
@@ -708,7 +797,8 @@
                                 <div class="card-header pt-5">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign_comp)->sum('count') ?? 0}})</span>
+                                        <span class="card-label fw-bold text-dark">Campaign Performance
+                                            ({{ collect($countsByCampaign_comp)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -826,7 +916,8 @@
                                 <div class="card-header pt-5">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-dark">City ({{collect($citygraph_comp)->sum('count') ?? 0}})</span>
+                                        <span class="card-label fw-bold text-dark">City
+                                            ({{ collect($citygraph_comp)->sum('count') ?? 0 }})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>

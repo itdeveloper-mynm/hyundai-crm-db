@@ -31,7 +31,7 @@ class SmoLeadController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
         return view('admin.smo_lead.smo_lead_index', $data);
     }
 

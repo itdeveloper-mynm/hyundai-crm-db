@@ -46,7 +46,7 @@ class SalesData extends Model
 
                 if (isset($conditions['vehicle_id'])) {
                     $query->where(function ($query) use ($conditions) {
-                        $query->where('vehicle_id', $conditions['vehicle_id']);
+                        $query->whereIn('vehicle_id', arraycheck($conditions['vehicle_id']));
                     });
                 }
 

@@ -61,7 +61,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -70,83 +70,52 @@
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
                                     <div class="px-7 py-5">
-                                        @can('old-leads-filters')
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                            <div>
-                                                <select class="form-select mb-2" name="city_id" id="city_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="branch_id" id="branch_id" data-control="select"
-                                                    data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($vehicles as $vehicle)
-                                                        <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                            <div>
-                                                <select class="form-select mb-2" name="source_id" id="source_id"
-                                                    data-control="select" data-placeholder="{{ __('select option') }}"
-                                                    data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    @foreach ($sources as $source)
-                                                        <option value="{{$source->id}}">{{$source->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                            <div>
-                                            <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($campaigns as $campaign)
-                                                    <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                                @endforeach
-                                            </select>
-                                            </div>
-                                        </div>
-                                        @endcan
                                         <div class="mb-3">
-
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" value="{{ dateBeforeTenDays() }}" name="from" id="from" />
+                                            @can('old-leads-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div>
                                                 </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" value="{{ currentDate() }}" name="to" id="to" />
-                                                </div>
+                                            @endcan
+                                            <div class="row mt-1">
+                                                    @include('admin.common_files_filters.created_date')
+                                            </div>
+                                            <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
                                             </div>
                                         </div>
 
@@ -158,8 +127,9 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="javascript:void(0)" class="btn btn-sm btn-primary"
-                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('sale-graph.index') }}"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 
@@ -339,14 +309,22 @@
                 "url": "{{ route('old-leads.pagination') }}",
                 "type": "GET",
                 'data': function(data) {
-
                     data.city_id = $('#city_id').val();
                     data.branch_id = $('#branch_id').val();
                     data.vehicle_id = $('#vehicle_id').val();
                     data.source_id = $('#source_id').val();
                     data.campaign_id = $('#campaign_id').val();
+                    data.purchase_plan = $('#purchase_plan').val();
+                    data.monthly_salary = $('#monthly_salary').val();
+                    data.preferred_appointment_time = $('#preferred_appointment_time').val();
+                    data.kyc = $('#kyc').val();
+                    data.category = $('#category').val();
+                    data.created_by = $('#created_by').val();
+                    data.updated_by = $('#updated_by').val();
                     data.from = $('#from').val();
                     data.to = $('#to').val();
+                    data.upd_from = $('#upd_from').val();
+                    data.upd_to = $('#upd_to').val();
                 }
             },
             columns: [{
@@ -549,16 +527,29 @@
             e.preventDefault();
             var from = document.querySelector('#from');
             var to = document.querySelector('#to');
+            from.value = '';
+            to.value = '';
 
+            // Reset date fields
+            var upd_from = document.querySelector('#upd_from');
+            var upd_to = document.querySelector('#upd_to');
+            upd_from.value = '';
+            upd_to.value = '';
 
+            // Reset select fields
             $("#city_id").val([]).change();
             $("#branch_id").val([]).change();
             $("#vehicle_id").val([]).change();
             $("#source_id").val([]).change();
             $("#campaign_id").val([]).change();
+            $("#purchase_plan").val([]).change();
+            $("#kyc").val([]).change();
+            $("#category").val([]).change();
+            $("#created_by").val([]).change();
+            $("#updated_by").val([]).change();
+            $('#monthly_salary').val([]).change();
+            $('#preferred_appointment_time').val([]).change();
 
-            from.value = '';
-            to.value = '';
             table.draw();
 
         });

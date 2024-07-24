@@ -29,7 +29,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -39,68 +39,53 @@
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
-
                                         <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="city_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                            @can('after-sale-graph-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endcan
                                             <div class="row mt-1">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date"
-                                                        value="{{ formateDate($startDate) }}"
-                                                        id="start_date" />
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date"
-                                                        value="{{ formateDate($endDate)}}" id="end_date" />
-                                                </div>
+                                                    @include('admin.common_files_filters.created_date_graph')
                                             </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -111,7 +96,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
+                                                    <a href="{{ route('after-sale-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>

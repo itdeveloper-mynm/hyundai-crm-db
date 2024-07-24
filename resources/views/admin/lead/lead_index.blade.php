@@ -72,44 +72,46 @@
                                     {{-- <div class="px-7 py-5"  style="height: 350px; overflow-y: auto !important;"> --}}
                                     <div class="px-7 py-5">
                                         <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.city')
+                                            @can('campaign-leads-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.branch')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.vehicle')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.source')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.campaign')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.purchase_plan')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.monthly_salary')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.preferred_appointment_time')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.kyc')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.category')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.created_by')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.updated_by')
-                                                </div>
-                                            </div>
+                                            @endcan
                                             <div class="row mt-1">
                                                     @include('admin.common_files_filters.created_date')
                                             </div>

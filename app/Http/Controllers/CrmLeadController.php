@@ -33,28 +33,28 @@ class CrmLeadController extends Controller
 
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.crn_lead.index' ,$data);
     }
 
     public function qualifiedCrmLeads()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.crn_lead.qualified_index' ,$data);
     }
 
     public function nonQualifiedCrmLeads()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.crn_lead.non_qualified_index' ,$data);
     }
 
     public function generalCrmLeads()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.crn_lead.general_index' ,$data);
     }

@@ -43,7 +43,9 @@ class HomeController extends Controller
         $service_offers_types = ['service_offers'];
         $used_cars_types = ['used_cars'];
 
-        $filters = [];
+        // $filters = [];
+
+        $filters = $request->all();
 
         $opt_filters = [
             'department' => 'aftersales',
@@ -69,7 +71,7 @@ class HomeController extends Controller
 
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types , $filters);
 
-       return view('dashboard' , $data);
+       return view('dashboard' , $data , getCommonFilterData());
     }
 
 }

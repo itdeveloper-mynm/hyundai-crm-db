@@ -243,10 +243,10 @@ class Application extends Model
                 });
             }
 
-            if (isset($conditions['from']) &&  isset($conditions['to'])) {
+            if (isset($conditions['start_date']) &&  isset($conditions['end_date'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $startDate = $conditions['from'].' 00:00:00';
-                    $endDate = $conditions['to'].' 23:59:59';
+                    $startDate = $conditions['start_date'].' 00:00:00';
+                    $endDate = $conditions['end_date'].' 23:59:59';
                     $query->whereBetween('applications.created_at', [$startDate, $endDate]);
                 });
             }

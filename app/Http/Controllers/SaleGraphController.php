@@ -61,13 +61,15 @@ class SaleGraphController extends Controller
         $third_types = ['smo_leads'];
         $fourth_types = ['contact_us'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id'),
-            'source_id' => request('source_id'),
-            'campaign_id' => request('campaign_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id'),
+        //     'source_id' => request('source_id'),
+        //     'campaign_id' => request('campaign_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [
             'department' => 'sales_maketing',
@@ -90,10 +92,10 @@ class SaleGraphController extends Controller
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
         $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
-        // $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
-       return view('admin.sale_graph.index' , $data , getCommonData());
+       return view('admin.sale_graph.index' , $data , getCommonFilterData());
     }
 
     public function comparisonIndex(Request $request)
@@ -118,7 +120,14 @@ class SaleGraphController extends Controller
             'branch_id' => request('branch_id'),
             'vehicle_id' => request('vehicle_id'),
             'source_id' => request('source_id'),
-            'campaign_id' => request('campaign_id')
+            'campaign_id' => request('campaign_id'),
+            'purchase_plan' => request('purchase_plan'),
+            'monthly_salary' => request('monthly_salary'),
+            'preferred_appointment_time' => request('preferred_appointment_time'),
+            'kyc' => request('kyc'),
+            'category' => request('category'),
+            'created_by' => request('created_by'),
+            'updated_by' => request('updated_by'),
         ];
 
         $opt_filters = [
@@ -142,7 +151,7 @@ class SaleGraphController extends Controller
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
         $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
-        $data['dropdown'] = getCommonData();
+        $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
         // for right side
@@ -166,7 +175,14 @@ class SaleGraphController extends Controller
             'branch_id' => request('branch_id_comp'),
             'vehicle_id' => request('vehicle_id_comp'),
             'source_id' => request('source_id_comp'),
-            'campaign_id' => request('campaign_id_comp')
+            'campaign_id' => request('campaign_id_comp'),
+            'purchase_plan' => request('purchase_plan_comp'),
+            'monthly_salary' => request('monthly_salary_comp'),
+            'preferred_appointment_time' => request('preferred_appointment_time_comp'),
+            'kyc' => request('kyc_comp'),
+            'category' => request('category_comp'),
+            'created_by' => request('created_by_comp'),
+            'updated_by' => request('updated_by_comp'),
         ];
 
         $opt_filters_comp = [
@@ -193,7 +209,7 @@ class SaleGraphController extends Controller
         $data['banks_graph_comp'] = Application::countByBank($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
 
         //dd($data);
-       return view('admin.sale_graph.comparison-index' , $data);
+       return view('admin.sale_graph.comparison-index' , $data ,getCommonFilterData());
     }
 
     public function indexAfterSale(Request $request)
@@ -212,11 +228,13 @@ class SaleGraphController extends Controller
         $second_types = ['service_offers'];
         $third_types = ['contact_us'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [
             'department' => 'after_sales',
@@ -232,10 +250,10 @@ class SaleGraphController extends Controller
 
         $all_types = ['online_service_booking', 'service_offers', 'contact_us'];
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
-       return view('admin.after_sale_graph.index' , $data);
+       return view('admin.after_sale_graph.index' , $data, getCommonFilterData());
     }
 
     public function comparisonIndexAfterSale(Request $request)
@@ -258,7 +276,16 @@ class SaleGraphController extends Controller
         $filters = [
             'city_id' => request('city_id'),
             'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
+            'vehicle_id' => request('vehicle_id'),
+            'source_id' => request('source_id'),
+            'campaign_id' => request('campaign_id'),
+            'purchase_plan' => request('purchase_plan'),
+            'monthly_salary' => request('monthly_salary'),
+            'preferred_appointment_time' => request('preferred_appointment_time'),
+            'kyc' => request('kyc'),
+            'category' => request('category'),
+            'created_by' => request('created_by'),
+            'updated_by' => request('updated_by'),
         ];
 
         $opt_filters = [
@@ -294,7 +321,16 @@ class SaleGraphController extends Controller
         $filters_comp = [
             'city_id' => request('city_id_comp'),
             'branch_id' => request('branch_id_comp'),
-            'vehicle_id' => request('vehicle_id_comp')
+            'vehicle_id' => request('vehicle_id_comp'),
+            'source_id' => request('source_id_comp'),
+            'campaign_id' => request('campaign_id_comp'),
+            'purchase_plan' => request('purchase_plan_comp'),
+            'monthly_salary' => request('monthly_salary_comp'),
+            'preferred_appointment_time' => request('preferred_appointment_time_comp'),
+            'kyc' => request('kyc_comp'),
+            'category' => request('category_comp'),
+            'created_by' => request('created_by_comp'),
+            'updated_by' => request('updated_by_comp'),
         ];
 
         $opt_filters_comp = [
@@ -312,9 +348,9 @@ class SaleGraphController extends Controller
         $all_types_comp = ['online_service_booking', 'service_offers', 'contact_us'];
         $data['countsByCampaign_comp'] = Application::getCampaignWiseData($startDate_comp, $endDate_comp, $all_types_comp, $filters_comp);
 
-        $data['dropdown'] = getCommonData();
+        $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.after_sale_graph.comparison-index' , $data);
+       return view('admin.after_sale_graph.comparison-index' , $data, getCommonFilterData());
     }
 
 
@@ -332,11 +368,13 @@ class SaleGraphController extends Controller
 
         $first_types = ['request_a_test_drive'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -349,9 +387,9 @@ class SaleGraphController extends Controller
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
         $data['city_graph'] = Application::countByCity($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.test_drive.index' , $data);
+       return view('admin.test_drive.index' , $data, getCommonFilterData());
     }
 
     public function serviceBookingIndex(Request $request)
@@ -368,11 +406,13 @@ class SaleGraphController extends Controller
 
         $first_types = ['online_service_booking'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -383,9 +423,9 @@ class SaleGraphController extends Controller
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.service_booking.index' , $data);
+       return view('admin.service_booking.index' , $data, getCommonFilterData());
     }
 
 
@@ -404,11 +444,13 @@ class SaleGraphController extends Controller
 
         $first_types = ['service_offers'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -419,9 +461,9 @@ class SaleGraphController extends Controller
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.service_offers.index' , $data);
+       return view('admin.service_offers.index' , $data, getCommonFilterData());
     }
 
     public function contactUsIndex(Request $request)
@@ -438,11 +480,13 @@ class SaleGraphController extends Controller
 
         $first_types = ['contact_us'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [
             'department' => 'after_sales',
@@ -455,9 +499,9 @@ class SaleGraphController extends Controller
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.contact_us.index' , $data);
+       return view('admin.contact_us.index' , $data, getCommonFilterData());
     }
 
     public function usedCarsIndex(Request $request)
@@ -474,8 +518,10 @@ class SaleGraphController extends Controller
 
         $first_types = ['used_cars'];
 
-        $filters = [
-        ];
+        // $filters = [
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -485,9 +531,9 @@ class SaleGraphController extends Controller
         $data['total_performance_count'] = array_sum($data['first_count']);
 
         $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.used_car.graph_index' , $data);
+       return view('admin.used_car.graph_index' , $data, getCommonFilterData());
     }
 
     public function hrIndex(Request $request)
@@ -504,10 +550,13 @@ class SaleGraphController extends Controller
 
         $first_types = ['career'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id')
+        // ];
+
+        $filters = $request->all();
+
 
         $opt_filters = [];
 
@@ -517,9 +566,9 @@ class SaleGraphController extends Controller
         $data['total_performance_count'] = array_sum($data['first_count']);
 
         $data['preferred_time_graph'] = Application::countByPreferredAppointmentTime($startDate, $endDate,$first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.hr.index' , $data);
+       return view('admin.hr.index' , $data, getCommonFilterData());
     }
 
 
@@ -537,12 +586,14 @@ class SaleGraphController extends Controller
 
         $first_types = ['smo_leads'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id'),
-            'source_id' => request('source_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id'),
+        //     'source_id' => request('source_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -553,9 +604,9 @@ class SaleGraphController extends Controller
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.smo_lead.graph_index' , $data);
+       return view('admin.smo_lead.graph_index' , $data, getCommonFilterData());
     }
 
     public function eventsIndex(Request $request)
@@ -572,13 +623,15 @@ class SaleGraphController extends Controller
 
         $first_types = ['events'];
 
-        $filters = [
-            'city_id' => request('city_id'),
-            'branch_id' => request('branch_id'),
-            'vehicle_id' => request('vehicle_id'),
-            'source_id' => request('source_id'),
-            'campaign_id' => request('campaign_id')
-        ];
+        // $filters = [
+        //     'city_id' => request('city_id'),
+        //     'branch_id' => request('branch_id'),
+        //     'vehicle_id' => request('vehicle_id'),
+        //     'source_id' => request('source_id'),
+        //     'campaign_id' => request('campaign_id')
+        // ];
+
+        $filters = $request->all();
 
         $opt_filters = [];
 
@@ -589,9 +642,9 @@ class SaleGraphController extends Controller
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $first_types, $filters);
-        $data['dropdown'] = getCommonData();
+        // $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.events.graph_index' , $data);
+       return view('admin.events.graph_index' , $data, getCommonFilterData());
     }
 
     public function actualsalesGraphIndex(Request $request)
@@ -606,10 +659,12 @@ class SaleGraphController extends Controller
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
 
-        $filters = [
-            'department' => request('department'),
-            'vehicle_id' => request('vehicle_id'),
-        ];
+        // $filters = [
+        //     'department' => request('department'),
+        //     'vehicle_id' => request('vehicle_id'),
+        // ];
+
+        $filters = $request->all();
 
         $data['first_count'] = SalesData::getMonthWiseData($startDate,$endDate,$months_diff,$filters);
         $data['actual_sales_data'] = SalesData::getActualSalesData($startDate,$endDate,$filters);
@@ -648,10 +703,15 @@ class SaleGraphController extends Controller
 
         $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']['counts']);
         if(count($data['second_count']['customerIds']) > 0){
-            $customer_ids = explode(',',$data['second_count']['customerIds'][0]);
+            $customer_ids = mergeAndUniqueValues($data['second_count']['customerIds']);
+            // dd(array_unique($uniqueArray));
+            // $customer_ids = explode(',',$data['second_count']['customerIds'][0]);
+            // $customer_ids = array_unique($customer_ids);
         }else{
             $customer_ids = [];
         }
+
+        // dd(count($customer_ids));
 
         $data['getLeadsConversions'] = SalesData::getLeadsConversions($startDate,$endDate,$filters,$customer_ids);
         //dd($getLeadsConversions);
@@ -663,9 +723,9 @@ class SaleGraphController extends Controller
         }else{
             $data['percent_friendly'] = 0;
         }
-        $data['dropdown'] = getCommonData();
+        $data['dropdown'] = getCommonFilterData();
 
-       return view('admin.actual_sales.graph_index' , $data);
+       return view('admin.actual_sales.graph_index' , $data , getCommonFilterData());
     }
 
     public function crmLeadsGraphIndex(Request $request)
@@ -697,7 +757,7 @@ class SaleGraphController extends Controller
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         // dd($data['category_graph']);
         //dd($data);
-       return view('admin.crn_lead.graph_index' , $data ,getCommonData());
+       return view('admin.crn_lead.graph_index' , $data ,getCommonFilterData());
     }
 
 }

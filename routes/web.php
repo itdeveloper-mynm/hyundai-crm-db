@@ -44,7 +44,7 @@ Auth::routes();
 
 
 Route::controller(HomeController::class)->group(function(){
-    Route::get('dashboard',  'index')->name('dashboard');
+    Route::any('dashboard',  'index')->name('dashboard');
     Route::get('leads', 'leads_index')->name('leads.index');
 });
 

@@ -3,8 +3,12 @@
     <label class="form-label fw-semibold">{{ __('Start Date') }}</label>
     <input type="date" class="form-control form-control-solid ps-12"
         placeholder="Select a date" name="from"
-        {{-- value="{{ dateBeforeTenDays() }}" --}}
-        value="{{ formateDate(request('from', dateBeforeTenDays())) }}"
+        {{-- value="{{ formateDate(request('from', dateBeforeTenDays())) }}" --}}
+        @if(request()->has('mobile') && request()->has('date'))
+            value="{{ request('from') }}"
+        @else
+            value="{{ request('from', dateBeforeTenDays()) }}"
+        @endif
         id="from" />
 </div>
 
@@ -12,5 +16,11 @@
     <label class="form-label fw-semibold">{{ __('End Date') }}</label>
     <input type="date" class="form-control form-control-solid ps-12"
         placeholder="Select a date" name="to"
-        value="{{ formateDate(request('to', currentDate())) }}" id="to" />
+        {{-- value="{{ formateDate(request('to', currentDate())) }}" --}}
+        @if(request()->has('mobile') && request()->has('date'))
+            value="{{ request('to') }}"
+    @else
+            value="{{ request('to', currentDate()) }}"
+    @endif
+     id="to" />
 </div>

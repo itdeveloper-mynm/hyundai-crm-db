@@ -150,6 +150,7 @@
                             <th>{{ __('Mobile') }}</th>
                             <th>{{ __('Email') }}</th>
                             <th>{{ __('Bank') }}</th>
+                            <th>{{ __('Count') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -230,6 +231,19 @@ var table = $('#user_table').DataTable({
                 return result;
             }
         },
+
+        {
+            data: 'leads_count',
+            render: function(data, type, row) {
+                //  var routeUrl = '{{ route("crm-leads.index") }}?mobile=' + row.mobile;
+                 var routeUrl = '{{ route("crm-leads.index") }}?mobile=' + row.mobile + '&date=0';
+
+                // Construct the anchor tag with the URL and data
+                var result = '<a href="' + routeUrl + '" target="blank" class="text-dark fw-bold"><span class="badge badge-success">' + data + '</span></a>';
+                return result;
+            }
+        },
+
         {
             data: 'id',
             render: function(data, type, row) {
@@ -285,6 +299,16 @@ var table = $('#user_table').DataTable({
         },
         {
             targets: 2,
+            sortable: false,
+            orderable: false
+        },
+        {
+            targets: 3,
+            sortable: false,
+            orderable: false
+        },
+        {
+            targets: 6,
             sortable: false,
             orderable: false
         },

@@ -60,7 +60,7 @@
                                 </svg>
                             </span>Filter</button>
 
-                        <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                        <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                             id="kt_menu_62fe86549b38d">
                             <div class="px-7 py-5">
                                 <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -70,60 +70,32 @@
 
                                 <div class="px-7 py-5">
                                     @can('smo-leads-filters')
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                        <div>
-                                            <select class="form-select mb-2" name="city_id" id="city_id"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value="">--select--</option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.city')
                                         </div>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                        <div>
-                                            <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.vehicle')
                                         </div>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                        <div>
-                                            <select class="form-select mb-2" name="source_id" id="source_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($sources as $source)
-                                                    <option value="{{$source->id}}">{{$source->name}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.source')
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.category')
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.created_by')
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @include('admin.common_files_filters.updated_by')
                                         </div>
                                     </div>
                                     @endcan
-                                    <div class="mb-3">
-
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ dateBeforeTenDays() }}" name="from" id="from" />
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ currentDate() }}" name="to" id="to" />
-                                            </div>
-                                        </div>
+                                    <div class="row mt-1">
+                                            @include('admin.common_files_filters.created_date')
+                                    </div>
+                                    <div class="row mt-2">
+                                            @include('admin.common_files_filters.updated_date')
                                     </div>
 
                                     <div class="d-flex justify-content-end">
@@ -303,8 +275,13 @@ var table = $('#user_table').DataTable({
             data.city_id = $('#city_id').val();
             data.vehicle_id = $('#vehicle_id').val();
             data.source_id = $('#source_id').val();
+            data.category = $('#category').val();
+            data.created_by = $('#created_by').val();
+            data.updated_by = $('#updated_by').val();
             data.from = $('#from').val();
             data.to = $('#to').val();
+            data.upd_from = $('#upd_from').val();
+            data.upd_to = $('#upd_to').val();
         }
     },
     columns: [{
@@ -494,9 +471,20 @@ $('#reset').click(function(e) {
     var to = document.querySelector('#to');
     from.value = '';
     to.value = '';
+
+    // Reset date fields
+    var upd_from = document.querySelector('#upd_from');
+    var upd_to = document.querySelector('#upd_to');
+    upd_from.value = '';
+    upd_to.value = '';
+
+
     $("#city_id").val([]).change();
     $("#vehicle_id").val([]).change();
     $("#source_id").val([]).change();
+    $("#category").val([]).change();
+    $("#created_by").val([]).change();
+    $("#updated_by").val([]).change();
 
     table.draw();
 

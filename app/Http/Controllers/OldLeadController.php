@@ -34,7 +34,7 @@ class OldLeadController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.old_lead.index' , $data);
     }

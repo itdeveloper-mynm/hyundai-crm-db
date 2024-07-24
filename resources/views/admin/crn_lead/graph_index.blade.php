@@ -39,23 +39,53 @@
                                 <form method="POST" action="{{route('crm-leads-graph.index')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
                                     <div class="px-7 py-5">
-                                        @can('crm-leads-filters')
-                                            @include('admin.crn_lead.filters')
-                                        @endcan
-                                        {{-- @include('admin.crn_lead.filters') --}}
                                         <div class="mb-3">
-
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date" value="{{ formateDate($startDate) }}" id="start_date" />
+                                            @can('crm-leads-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div>
                                                 </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date" value="{{ formateDate($endDate) }}" id="end_date" />
-                                                </div>
+                                            @endcan
+                                            <div class="row mt-1">
+                                                    @include('admin.common_files_filters.created_date_graph')
                                             </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -66,8 +96,9 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{route('crm-leads-graph.index')}}" class="btn btn-sm btn-primary"
-                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('crm-leads-graph.index') }}"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 

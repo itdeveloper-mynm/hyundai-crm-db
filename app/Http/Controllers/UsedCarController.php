@@ -33,7 +33,7 @@ class UsedCarController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
         return view('admin.used_car.used_car_index', $data);
     }
 

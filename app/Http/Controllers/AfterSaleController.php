@@ -33,7 +33,7 @@ class AfterSaleController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
         return view('admin.after_sale.after_sale_index', $data);
     }
 

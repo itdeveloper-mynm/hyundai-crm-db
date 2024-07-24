@@ -35,9 +35,9 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('actualsales-graph.index') }}"
+                                <form method="POST" action="{{ route('actualsales-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    {{-- @csrf --}}
+                                    @csrf
                                     <div class="px-7 py-5">
                                         <div class="row">
                                             <div class="mb-3 col-6">
@@ -48,21 +48,9 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                        <div>
-                                                            <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                                data-control="select"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value=""></option>
-                                                                @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                    <option value="{{ $vehicle->id }}"
-                                                                        @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                        @include('admin.common_files_filters.vehicle')
                                                     </div>
+
                                                     <div class="col-lg-6">
                                                         <label class="form-label fw-semibold">{{ __('Department') }}</label>
                                                         <div>
@@ -70,7 +58,7 @@
                                                                 data-control="select"
                                                                 data-placeholder="{{ __('select option') }}"
                                                                 data-allow-clear="true">
-                                                                <option value=""></option>
+                                                                <option value="">--select--</option>
                                                                 <option value="sales">Sales</option>
                                                                 <option value="after_sales">After Sales</option>
                                                             </select>
@@ -104,14 +92,14 @@
                                                     <div class="col-lg-6">
                                                         <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
                                                         <div>
-                                                            <select class="form-select mb-2" name="vehicle_id_comp" id="vehicle_id_comp"
-                                                                data-control="select"
+                                                            <select class="form-select mb-2" name="vehicle_id_comp[]" id="vehicle_id_comp"
+                                                                data-control="select2"
                                                                 data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
+                                                                data-allow-clear="true" multiple>
                                                                 <option value=""></option>
                                                                 @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                    <option value="{{ $vehicle->id }}"
-                                                                        @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
+                                                                    <option value="{{ $vehicle->id }}" {{is_selected($vehicle->id, 'vehicle_id_comp')}}
+                                                                        >{{ $vehicle->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -124,7 +112,7 @@
                                                                 data-control="select"
                                                                 data-placeholder="{{ __('select option') }}"
                                                                 data-allow-clear="true">
-                                                                <option value=""></option>
+                                                                <option value="">--select--</option>
                                                                 <option value="sales">Sales</option>
                                                                 <option value="after_sales">After Sales</option>
                                                             </select>
@@ -156,7 +144,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph-comparison.index') }}"
+                                                    <a href="{{ route('actualsales-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>

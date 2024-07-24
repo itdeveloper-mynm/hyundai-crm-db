@@ -138,6 +138,7 @@ class CustomerController extends Controller
                 "mobile" => $row->mobile,
                 "email" => $row->email,
                 "bank_id" => $row->bank->name ?? "",
+                "leads_count" => $row->applications()->count() ?? 0,
                 "created_at" =>$row['created_at'],
             );
             $num++;
