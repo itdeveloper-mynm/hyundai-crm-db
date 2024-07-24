@@ -415,16 +415,19 @@ function getCommonData($cityId = null)
         'vehicles' => Vehicle::whereStatus(1)->get(),
         // 'sources' => Source::whereStatus(1)->get(),
         'sources' => Source::whereStatus(1)->get(),
-        // 'campaigns' => Campaign::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->get(),
-        'campaigns' => Campaign::whereStatus(1)->get(),
+        // 'campaigns' => Campaign::whereStatus(1)->get(),
         'banks' => Bank::whereStatus(1)->get(),
         'users' => User::get(),
     ];
 
     if ($cityId !== null) {
         $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
+        $commonData['campaigns'] =  Campaign::whereStatus(1)->get();
+
     } else {
         $commonData['branches'] = Branch::whereStatus(1)->get();
+        $commonData['campaigns'] =Campaign::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->get();
+
     }
 
     return $commonData;
