@@ -147,6 +147,7 @@
                             <th class="text-center">#</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Status') }}</th>
+                            <th>{{ __('Created At') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -217,7 +218,14 @@ var table = $('#user_table').DataTable({
 
             }
         },
+        {
+            data: 'created_at',
+            render: function(data, type, row) {
 
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
 
         {
             data: 'id',

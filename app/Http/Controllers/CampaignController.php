@@ -120,7 +120,7 @@ class CampaignController extends Controller
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
-                "created_at" =>$row['created_at'],
+                "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;
         }
