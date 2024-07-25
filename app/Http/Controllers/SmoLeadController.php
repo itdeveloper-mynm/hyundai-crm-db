@@ -140,7 +140,7 @@ class SmoLeadController extends Controller
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
                 "created_by" => $row->createdby->name ?? 'System',
-                "updated_at" => dateTimeformat($row['created_at']),
+                "updated_at" => $row->updated_by ? dateTimeformat($row['created_at']) : '-',
                 "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
