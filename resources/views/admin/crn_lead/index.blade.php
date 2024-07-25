@@ -406,7 +406,7 @@
                     data: 'full_name',
                     render: function(data, type, row) {
 
-                        var result = '<a href="{{ url('lead') }}/' + row.id +
+                        var result = '<a href="{{ url('crm-leads') }}/' + row.id +
                             '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' +
                             data + '</a>';
                         return result;
