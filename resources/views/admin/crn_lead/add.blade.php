@@ -145,7 +145,7 @@
 
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select class="form-select mb-2" name="bank_id" required="required"
+                                            <select class="form-select mb-2" name="bank_id"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
