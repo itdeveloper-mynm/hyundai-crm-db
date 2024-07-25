@@ -158,19 +158,12 @@ class Application extends Model
                 });
             }
 
-            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
-                // $query->where(function ($query) use ($conditions) {
-                //     $startDate = $conditions['upd_from'].' 00:00:00';
-                //     $endDate = $conditions['upd_to'].' 23:59:59';
-                //     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
-                // });
-
+            if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
                 $startDate = $conditions['upd_from'] . ' 00:00:00';
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
-
                 $query->where(function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('applications.updated_at', [$startDate, $endDate])
-                          ->where('applications.updated_by','!=',null);
+                    $query->whereNotNull('applications.updated_by')
+                          ->whereBetween('applications.updated_at', [$startDate, $endDate]);
                 });
             }
 
