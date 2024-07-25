@@ -159,10 +159,18 @@ class Application extends Model
             }
 
             if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
-                $query->where(function ($query) use ($conditions) {
-                    $startDate = $conditions['upd_from'].' 00:00:00';
-                    $endDate = $conditions['upd_to'].' 23:59:59';
-                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                // $query->where(function ($query) use ($conditions) {
+                //     $startDate = $conditions['upd_from'].' 00:00:00';
+                //     $endDate = $conditions['upd_to'].' 23:59:59';
+                //     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                // });
+
+                $startDate = $conditions['upd_from'] . ' 00:00:00';
+                $endDate = $conditions['upd_to'] . ' 23:59:59';
+
+                $query->where(function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('applications.updated_at', [$startDate, $endDate])
+                          ->where('applications.updated_by','!=',null);
                 });
             }
 
@@ -252,24 +260,22 @@ class Application extends Model
                 });
             }
 
-            if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
+            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
+
                 $startDate = $conditions['upd_from'] . ' 00:00:00';
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
 
                 $query->where(function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('applications.updated_at', [$startDate, $endDate])
-                          ->whereNotNull('applications.updated_by');
+                          ->where('applications.updated_by','!=',null);
                 });
-            }
 
-            // if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
-            //     $query->where(function ($query) use ($conditions) {
-            //         $startDate = $conditions['upd_from'].' 00:00:00';
-            //         $endDate = $conditions['upd_to'].' 23:59:59';
-            //         $query->whereBetween('applications.updated_at', [$startDate, $endDate])
-            //         ->whereNotNull('applications.updated_by');
-            //     });
-            // }
+                // $query->where(function ($query) use ($conditions) {
+                //     $startDate = $conditions['upd_from'].' 00:00:00';
+                //     $endDate = $conditions['upd_to'].' 23:59:59';
+                //     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                // });
+            }
 
 
             // Add more conditions as needed...
