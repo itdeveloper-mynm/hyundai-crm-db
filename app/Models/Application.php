@@ -41,6 +41,7 @@ class Application extends Model
         'intention',
         'purchase_plan',
         'monthly_salary',
+        'preferred_appointment_time',
         'request_date',
         'preferred_time',
         'comments',
@@ -382,7 +383,11 @@ class Application extends Model
 
         //$all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
 
-        $allrecords = self::selectRaw('city_id, branch_id, COUNT(*) as count')
+        $allrecords = self::selectRaw(
+            'city_id, branch_id,
+            COUNT(*) as count'
+            // COUNT(DISTINCT customer_id) as count'
+            )
             ->with(['city:id,name', 'branch:id,name'])
             ->whereNotNull(['city_id', 'branch_id'])
             ->whereIn('type', $all_types)
@@ -484,13 +489,17 @@ class Application extends Model
 
     public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
 
-        $alldata = self::select(DB::raw("IFNULL(applications.category, 'Not Assigned') as category_name"), DB::raw('COUNT(*) as count'))
-            ->whereBetween('applications.created_at', [$startDate, $endDate])
-            ->whereIn('applications.type', $all_types)
-            ->graphsearch($filters)
-            ->groupBy('category_name')
-            ->orderBy('category_name', 'asc') // You can change the order based on your preference
-            ->get();
+        $alldata = self::select(
+            DB::raw("IFNULL(applications.category, 'Not Assigned') as category_name"),
+            // DB::raw('COUNT(DISTINCT applications.customer_id) as count')
+            DB::raw('COUNT(*) as count')
+        )
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
+        ->whereIn('applications.type', $all_types)
+        ->graphsearch($filters)
+        ->groupBy(DB::raw("IFNULL(applications.category, 'Not Assigned')")) // Use the same expression as in select
+        ->orderBy('category_name', 'asc') // Ordering by alias
+        ->get();
 
         $data['category_names'] = $alldata->pluck('category_name')->toArray();
         $data['category_count'] = $alldata->pluck('count')->toArray();

@@ -188,6 +188,7 @@ class ExternalLeadController extends Controller
                 'email' => $request->input('email') ?? null,
                 'city_id' => $city->id ?? null,
                 'bank_id' => $bank->id ?? null,
+                'national_id' => $request->input('nationalId') ?? null,
             ]
         );
 
@@ -199,7 +200,7 @@ class ExternalLeadController extends Controller
         $department = $request->input('department');
         $title = $request->input('salutation');
         $second_surname = $request->input('middleName');
-        $nationalid = $request->input('nationalId');
+        // $nationalid = $request->input('nationalId');
         $zip_code = $request->input('zipCode');
         $vin = $request->input('vin');
         $yearr = $request->input('manufacturingYear');
@@ -227,24 +228,24 @@ class ExternalLeadController extends Controller
         $lead->vehicle_id = $vehicle->id;
         $lead->source_id = $sourcee->id;
         $lead->campaign_id = $campaign->id;
-        $lead->monthly_salary = $monthly_salary;
+        $lead->monthly_salary = $monthly_salary ?? null;
         $lead->customer_id= $customer->id;
         $lead->apply_for = $apply_for;
-        $lead->booking_reason = $booking_reason;
-        $lead->booking_category = $booking_category;
-        $lead->department = $department;
-        $lead->title = $title;
+        $lead->booking_reason = $booking_reason ?? null;
+        $lead->booking_category = $booking_category ?? null;
+        $lead->department = $department ?? null;
+        $lead->title = $title ?? null;
         $lead->second_surname = $second_surname;
-        $lead->nationalid = $nationalid;
-        $lead->zip_code = $zip_code;
-        $lead->vin = $vin;
-        $lead->yearr = $yearr;
-        $lead->plateno = $plateno;
-        $lead->plate_alphabets = $plate_alphabets;
-        $lead->klmm = $klmm;
-        $lead->intention = $intention;
-        $lead->request_date = $request_date;
-        $lead->preferred_time = $preferred_time;
+        // $lead->nationalid = $nationalid;
+        $lead->zip_code = $zip_code ?? null;
+        $lead->vin = $vin ?? null;
+        $lead->yearr = $yearr ?? null;
+        $lead->plateno = $plateno ?? null;
+        $lead->plate_alphabets = $plate_alphabets ?? null;
+        $lead->klmm = $klmm ?? null;
+        $lead->intention = $intention ?? null;
+        $lead->request_date = $request_date ?? null;
+        $lead->preferred_time = $preferred_time ?? null;
         $lead->comments = $comments;
         $lead->sharingcv = $sharingcv;
         $lead->privacy_check = $privacy_check;
