@@ -383,7 +383,7 @@
                     data.monthly_salary = $('#monthly_salary').val();
                     data.preferred_appointment_time = $('#preferred_appointment_time').val();
                     data.kyc = $('#kyc').val();
-                    data.category = $('#category').val();
+                    data.category = 'Qualified';
                     data.created_by = $('#created_by').val();
                     data.updated_by = $('#updated_by').val();
                     data.from = $('#from').val();
@@ -603,7 +603,7 @@
             $("#campaign_id").val([]).change();
             $("#purchase_plan").val([]).change();
             $("#kyc").val([]).change();
-            $("#category").val([]).change();
+            // $("#category").val([]).change();
             $("#created_by").val([]).change();
             $("#updated_by").val([]).change();
             $('#monthly_salary').val([]).change();
