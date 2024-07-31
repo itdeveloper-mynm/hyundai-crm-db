@@ -12,6 +12,7 @@ use App\Models\Application;
 use App\Models\Customer;
 use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ExternalLeadController extends Controller
 {
@@ -104,6 +105,20 @@ class ExternalLeadController extends Controller
         );
 
 
+        // Get the current date and extract the year and month
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = self::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return $existingApplication;
+        }
+
         $lead = new Application();
         $lead->city_id = $city->id;
         $lead->branch_id = $branch->id;
@@ -123,6 +138,70 @@ class ExternalLeadController extends Controller
             'success' => true,'message' => 'Added Successfully',
             'data'=> [],
         ], 200);
+
+    }
+
+    public function saveformstore(Request $request) {
+
+
+        $mobile = $request->input('phone_num');
+        $mobile =formatInputNumber($mobile);
+
+        $customer = Customer::firstOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('sur_name'),
+                'email' => $request->input('send_email') ?? null,
+                'city_id' =>  null,
+                'bank_id' =>  null,
+                'national_id' => null,
+            ]
+        );
+
+        // Get the current date and extract the year and month
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        // Check for an existing application for the current customer
+        $existingApplication = self::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return $existingApplication;
+        }
+
+        $sourcee = Source::firstOrCreate([ 'name' => $request->input('sourcee') ]);
+        $vehicle = Vehicle::firstOrCreate(['name' => $request->input('interested')]);
+        // Create a new application
+        $application = new self;
+        $application->source_id = $sourcee->id ?? "";
+        $application->vehicle_id = $vehicle ?? "";
+        $application->title = $request->input('title');
+        $application->second_surname = $request->input('second_surname');
+        $application->zip_code = $request->input('zip_code');
+        $application->year = $request->input('selYear'); // Assuming 'selYear' refers to year
+        $application->month = $request->input('selMonth'); // Assuming 'selMonth' refers to month
+        $application->request_date = $request->input('selDate'); // Assuming 'selDate' refers to date
+        $application->newsletter = $request->input('newsletter');
+        $application->comments = $request->input('comments');
+        $application->customer_id = $customer->id;
+        $application->type = 'online_service_booking';
+
+        // Handle the 'created_at' field if 'select_date' is present
+        if ($request->has('select_date')) {
+            $date = Carbon::parse($request->input('select_date'));
+            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+            $application->created_at = $dateWithCurrentTime;
+        }
+
+        $application->save();
+
+        return $application;
+
 
     }
 
@@ -259,7 +338,11 @@ class ExternalLeadController extends Controller
 
         $lead->save();
 
+        $code = $lead->id."-".$lead->branch->name ?? "";
+        $msg=$code;
+        $msgar=$code;
 
+        return $msg;
 
         \Log::info('saveformjson api hit end');
 

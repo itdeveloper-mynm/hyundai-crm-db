@@ -737,6 +737,20 @@ class Application extends Model
 
         $customer = addCustomer($request);
 
+        // Get the current date and extract the year and month
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = self::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return $existingApplication;
+        }
+
         $application = new self;
         $application->city_id = $request->input('city_id');
         $application->branch_id = $request->input('branch_id');
@@ -787,11 +801,11 @@ class Application extends Model
         $application->campaign_id = $request->input('campaign_id');
         $application->purchase_plan = $request->input('purchase_plan');
         $application->monthly_salary = $request->input('monthly_salary');
-        $application->preferred_appointment_time = $request->input('preferred_appointment_time');
-        $application->category = $request->input('category');
-        $application->sub_category = $request->input('sub_category');
-        $application->yearr = $request->input('yearr');
-        $application->kyc = $request->input('kyc');
+        $application->preferred_appointment_time = $request->input('preferred_appointment_time') ?? $application->preferred_appointment_time;
+        $application->category = $request->input('category') ?? $application->category;
+        $application->sub_category = $request->input('sub_category') ?? $application->sub_category;
+        $application->yearr = $request->input('yearr') ?? $application->yearr;
+        $application->kyc = $request->input('kyc') ?? $application->kyc;
         $application->comments = $request->input('comments');
         //$application->customer_id= $customer->id;
 
