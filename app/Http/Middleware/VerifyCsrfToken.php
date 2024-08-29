@@ -14,6 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'addleads',
         'saveform/store',
-        'saveformjson/store',
+        'saveformjson',
     ];
 }

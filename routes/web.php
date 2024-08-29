@@ -124,10 +124,10 @@ Route::controller(CustomerController::class)->group(function(){
 });
 
 Route::controller(ExternalLeadController::class)->group(function(){
-    Route::post('addleads',  'store')->name('addleads.store');
-    Route::get('addleads/create',  'create');
-    Route::any('saveform/store',  'saveformstore');
-    Route::any('saveformjson/store',  'saveformjson');
+    // Route::post('addleads',  'store')->name('addleads.store');
+    // Route::get('addleads/create',  'create');
+    // Route::any('saveform/store',  'saveformstore');
+    Route::any('saveformjson',  'saveformjson');
 });
 
 Route::resource('old-leads', OldLeadController::class);

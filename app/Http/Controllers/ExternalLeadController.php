@@ -309,13 +309,12 @@ class ExternalLeadController extends Controller
         $lead->campaign_id = $campaign->id;
         $lead->monthly_salary = $monthly_salary ?? null;
         $lead->customer_id= $customer->id;
-        $lead->apply_for = $apply_for;
+        $lead->apply_for = $apply_for ?? null;
         $lead->booking_reason = $booking_reason ?? null;
         $lead->booking_category = $booking_category ?? null;
         $lead->department = $department ?? null;
         $lead->title = $title ?? null;
-        $lead->second_surname = $second_surname;
-        // $lead->nationalid = $nationalid;
+        $lead->second_surname = $second_surname ?? null;
         $lead->zip_code = $zip_code ?? null;
         $lead->vin = $vin ?? null;
         $lead->yearr = $yearr ?? null;
@@ -325,31 +324,54 @@ class ExternalLeadController extends Controller
         $lead->intention = $intention ?? null;
         $lead->request_date = $request_date ?? null;
         $lead->preferred_time = $preferred_time ?? null;
-        $lead->comments = $comments;
-        $lead->sharingcv = $sharingcv;
-        $lead->privacy_check = $privacy_check;
-        $lead->marketingagreement = $marketingagreement;
-        $lead->language = $language;
-        $lead->company = $company;
-        $lead->customers_type = $customers_type;
-        $lead->number_of_vehicles = $number_of_vehicles;
-        $lead->fleet_range = $fleet_range;
-        // Additional fields can be added as needed
+        $lead->comments = $comments ?? null;
+        $lead->sharingcv = $sharingcv ?? null;
+        $lead->privacy_check = $privacy_check ?? null;
+        $lead->marketingagreement = $marketingagreement ?? null;
+        $lead->language = $language ?? null;
+        $lead->company = $company ?? null;
+        $lead->customers_type = $customers_type ?? null;
+        $lead->number_of_vehicles = $number_of_vehicles ?? null;
+        $lead->fleet_range = $fleet_range ?? null;
 
         $lead->save();
 
-        $code = $lead->id."-".$lead->branch->name ?? "";
-        $msg=$code;
-        $msgar=$code;
+        if ($insertId) {
 
-        return $msg;
+            $code = $lead->id."-".$lead->branch->name ?? "";
+            $msg=$code;
+            $msgar=$code;
+            // Prepare email body
+                $body = "
+                <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                    <td valign='top' width='50%'>
+                        Dear  {$request->input('firstName')}<br><br>
+                        Thanks for your submission. Our customer care team will confirm it to you soon. Meanwhile, you can call us any time for further information on 920028008 and by email customer.care@Hyundai.mynaghi.com
+                    </td>
+                    <td valign='top' width='50%'>
+                        <div style='direction:rtl'>
+                        العميل عزيزي  {$request->input('firstName')}<br><br>
+                        شكراً للحجز. سيتم تأكيد الحجز وإبلاغكم عن طريق مركز خدمة العملاء <br>
+                        920028008 <br>
+                        customer.care@Hyundai.mynaghi.com<br>
+                        </div>
+                    </td>
+                </tr>
+                </table>";
+
+        }else {
+            $msg = "failed";
+        }
+
+        return response()->json(['message' => $msg]);
 
         \Log::info('saveformjson api hit end');
 
-        return response()->json([
-            'success' => true,'message' => 'Added Successfully',
-            'data'=> [],
-        ], 200);
+        // return response()->json([
+        //     'success' => true,'message' => 'Added Successfully',
+        //     'data'=> [],
+        // ], 200);
 
     }
 }
