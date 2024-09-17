@@ -52,7 +52,6 @@ class ExternalLeadController extends Controller
         $vehicle = null;
         $sourcee = null;
         $campaign = null;
-
         // Collect data that can be null safely
         $optionalData = [
             'bank' => $request->input('customersBank') ?? null,
@@ -110,13 +109,17 @@ class ExternalLeadController extends Controller
         $currentYear = $currentDate->year;
         $currentMonth = $currentDate->month;
 
-        $existingApplication = self::where('customer_id', $customer->id)
+        $existingApplication = Application::where('customer_id', $customer->id)
             ->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->first();
 
         if ($existingApplication) {
-            return $existingApplication;
+            return response()->json([
+                'success' => true,'message' => 'Already Added Successfully',
+                'data'=> [],
+            ], 200);
+            // return $existingApplication;
         }
 
         $lead = new Application();
@@ -141,72 +144,77 @@ class ExternalLeadController extends Controller
 
     }
 
-    public function saveformstore(Request $request) {
+    // public function saveformstore(Request $request) {
 
 
-        $mobile = $request->input('phone_num');
-        $mobile =formatInputNumber($mobile);
+    //     $mobile = $request->input('phone_num');
+    //     $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::firstOrCreate(
-            ['mobile' => $mobile],
-            [
-                'first_name' => $request->input('first_name'),
-                'last_name' => $request->input('sur_name'),
-                'email' => $request->input('send_email') ?? null,
-                'city_id' =>  null,
-                'bank_id' =>  null,
-                'national_id' => null,
-            ]
-        );
+    //     $customer = Customer::firstOrCreate(
+    //         ['mobile' => $mobile],
+    //         [
+    //             'first_name' => $request->input('first_name'),
+    //             'last_name' => $request->input('sur_name'),
+    //             'email' => $request->input('send_email') ?? null,
+    //             'city_id' =>  null,
+    //             'bank_id' =>  null,
+    //             'national_id' => null,
+    //         ]
+    //     );
 
-        // Get the current date and extract the year and month
-        $currentDate = Carbon::now();
-        $currentYear = $currentDate->year;
-        $currentMonth = $currentDate->month;
+    //     // Get the current date and extract the year and month
+    //     $currentDate = Carbon::now();
+    //     $currentYear = $currentDate->year;
+    //     $currentMonth = $currentDate->month;
 
-        // Check for an existing application for the current customer
-        $existingApplication = self::where('customer_id', $customer->id)
-            ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->first();
+    //     // Check for an existing application for the current customer
+    //     $existingApplication = self::where('customer_id', $customer->id)
+    //         ->whereYear('created_at', $currentYear)
+    //         ->whereMonth('created_at', $currentMonth)
+    //         ->first();
 
-        if ($existingApplication) {
-            return $existingApplication;
-        }
+    //     if ($existingApplication) {
+    //         return $existingApplication;
+    //     }
 
-        $sourcee = Source::firstOrCreate([ 'name' => $request->input('sourcee') ]);
-        $vehicle = Vehicle::firstOrCreate(['name' => $request->input('interested')]);
-        // Create a new application
-        $application = new self;
-        $application->source_id = $sourcee->id ?? "";
-        $application->vehicle_id = $vehicle ?? "";
-        $application->title = $request->input('title');
-        $application->second_surname = $request->input('second_surname');
-        $application->zip_code = $request->input('zip_code');
-        $application->year = $request->input('selYear'); // Assuming 'selYear' refers to year
-        $application->month = $request->input('selMonth'); // Assuming 'selMonth' refers to month
-        $application->request_date = $request->input('selDate'); // Assuming 'selDate' refers to date
-        $application->newsletter = $request->input('newsletter');
-        $application->comments = $request->input('comments');
-        $application->customer_id = $customer->id;
-        $application->type = 'online_service_booking';
+    //     $sourcee = Source::firstOrCreate([ 'name' => $request->input('sourcee') ]);
+    //     $vehicle = Vehicle::firstOrCreate(['name' => $request->input('interested')]);
+    //     // Create a new application
+    //     $application = new self;
+    //     $application->source_id = $sourcee->id ?? "";
+    //     $application->vehicle_id = $vehicle ?? "";
+    //     $application->title = $request->input('title');
+    //     $application->second_surname = $request->input('second_surname');
+    //     $application->zip_code = $request->input('zip_code');
+    //     $application->year = $request->input('selYear'); // Assuming 'selYear' refers to year
+    //     $application->month = $request->input('selMonth'); // Assuming 'selMonth' refers to month
+    //     $application->request_date = $request->input('selDate'); // Assuming 'selDate' refers to date
+    //     $application->newsletter = $request->input('newsletter');
+    //     $application->comments = $request->input('comments');
+    //     $application->customer_id = $customer->id;
+    //     $application->type = 'online_service_booking';
 
-        // Handle the 'created_at' field if 'select_date' is present
-        if ($request->has('select_date')) {
-            $date = Carbon::parse($request->input('select_date'));
-            $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
-            $application->created_at = $dateWithCurrentTime;
-        }
+    //     // Handle the 'created_at' field if 'select_date' is present
+    //     if ($request->has('select_date')) {
+    //         $date = Carbon::parse($request->input('select_date'));
+    //         $dateWithCurrentTime = $date->format('Y-m-d') . ' ' . Carbon::now()->format('H:i:s');
+    //         $application->created_at = $dateWithCurrentTime;
+    //     }
 
-        $application->save();
+    //     $application->save();
 
-        return $application;
+    //     return $application;
 
 
-    }
+    // }
 
     public function saveformjson(Request $request) {
 
+        $validatedData = $request->validate([
+            'firstName' => 'required|string|max:255',
+            'mobile' => 'required|string|max:15',
+            'page' => 'nullable|string|max:255',
+        ]);
 
         \Log::info('saveformjson api hit');
 
@@ -273,6 +281,25 @@ class ExternalLeadController extends Controller
 
         $type= checkApplicationType($request->input('page')) ?? 'leads';
 
+        // Get the current date and extract the year and month
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return response()->json([
+                'success' => true,'message' => 'Already Added Successfully',
+                'data'=> [],
+            ], 200);
+            // return $existingApplication;
+        }
+
+
         $apply_for = $request->input('applyFor');
         $booking_reason = $request->input('bookingreason');
         $booking_category = $request->input('bookingcategory');
@@ -336,7 +363,7 @@ class ExternalLeadController extends Controller
 
         $lead->save();
 
-        if ($insertId) {
+        if ($lead) {
 
             $code = $lead->id."-".$lead->branch->name ?? "";
             $msg=$code;

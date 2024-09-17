@@ -206,7 +206,13 @@ class CrmLeadController extends Controller
         $application = Application::findorFail($id);
         $application->category = $request->action_category;
         $application->sub_category = $request->action_sub_category;
+
+        if($request->action_category == 'Qualified'){
+            $application->qualified_date = now();
+        }
+
         $application->save();
+
 
         // Fetch the record from the database with joins
         $record = DB::table('applications')
@@ -254,8 +260,15 @@ class CrmLeadController extends Controller
     // $recipients = ['ateeb@sohoby.sa'];
     // $recipients = ['hyundai.crm@hyundai.mynaghi.com'];
 
-    //  Mail::to($recipients)->send(new RecordDetailsMail($record));
-    // Mail::to('hyundai.crm@hyundai.mynaghi.com')->send(new RecordDetailsMail($record));
+        // try {
+        //     // Mail::to($recipients)->send(new RecordDetailsMail($record));
+        //     // Mail::to('hyundai.crm@hyundai.mynaghi.com')->send(new RecordDetailsMail($record));
+        //     // Email sent successfully
+        //     return response()->json(['status' => 'success', 'message' => 'Email sent successfully.']);
+        // } catch (\Exception $e) {
+        //     // Failed to send email
+        //     return response()->json(['status' => 'error', 'message' => 'Failed to send email.', 'error' => $e->getMessage()]);
+        // }
 
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);

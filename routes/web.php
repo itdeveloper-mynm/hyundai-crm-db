@@ -128,6 +128,7 @@ Route::controller(ExternalLeadController::class)->group(function(){
     // Route::get('addleads/create',  'create');
     // Route::any('saveform/store',  'saveformstore');
     Route::any('saveformjson',  'saveformjson');
+    Route::any('campaign_leads',  'store');
 });
 
 Route::resource('old-leads', OldLeadController::class);

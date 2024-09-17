@@ -59,7 +59,8 @@ class Application extends Model
         'crm_lead_status',
         'created_by',
         'updated_by',
-        'deleted_by'
+        'deleted_by',
+        'qualified_date',
     ];
 
 

@@ -15,5 +15,6 @@ class VerifyCsrfToken extends Middleware
         'addleads',
         'saveform/store',
         'saveformjson',
+        'campaign_leads',
     ];
 }
