@@ -376,7 +376,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Graphs</span>
+                            <span class="menu-title">Reports</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <!--end:Menu link-->
@@ -391,7 +391,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Sale Graph</span>
+                                        <span class="menu-title">Sales</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -409,7 +409,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">CRM Leads Graph</span>
+                                        <span class="menu-title">CRM Leads</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -426,7 +426,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Sale Graph Comparison</span>
+                                        <span class="menu-title">Sales Comparison</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -443,7 +443,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">After Sale Graph</span>
+                                        <span class="menu-title">After Sales</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -460,7 +460,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">After Sale Comparison</span>
+                                        <span class="menu-title">After Sales Comparison</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -562,7 +562,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Hr Graph</span>
+                                        <span class="menu-title">Hr</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -579,7 +579,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Smo Leads Graph</span>
+                                        <span class="menu-title">Smo Leads</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -596,7 +596,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Events Graph</span>
+                                        <span class="menu-title">Events</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -613,7 +613,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Actual Sale Data Graph</span>
+                                        <span class="menu-title">Actual Sale Data</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>

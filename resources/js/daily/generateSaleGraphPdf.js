@@ -28,7 +28,8 @@ import { config } from 'dotenv';
                 headless: true,
                 // Increase protocolTimeout to 120 seconds (120000 milliseconds)
                 timeout: 120000,
-                //executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // Adjust this path as per your system
+                // executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
                 args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
             });
 
@@ -52,7 +53,16 @@ import { config } from 'dotenv';
         }
 
         console.log('Page navigation complete.');
+        await page.addStyleTag({
+            content: `
+                /* Prevent page breaks inside the bank sections */
+                .bank-section {
+                    page-break-inside: avoid;
+                }
+            `
+        });
 
+        console.log('Custom CSS injected.');
 
         // Ensure that CSS is fully loaded
         setTimeout(function(){

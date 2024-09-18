@@ -71,6 +71,11 @@ class HomeController extends Controller
 
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types , $filters);
 
+        $crm_types = ['crm_leads'];
+        $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
+
+        $data['sources_graph'] = Application::countBySourceGroup($startDate, $endDate,$all_types,$filters);
+
        return view('dashboard' , $data , getCommonFilterData());
     }
 

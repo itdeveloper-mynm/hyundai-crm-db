@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'CRM Leads Graph')
+@section('title', 'CRM Leads Report')
 
 @section('content')
 
@@ -13,7 +13,16 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                        <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    CRM Leads Report</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 d-flex justify-content-end">
                             <button id="printButton" type="button" class="btn btn-success me-3">
                                 <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                 {{ __('Pdf') }}
@@ -113,6 +122,7 @@
             </div>
             <!--end::Toolbar container-->
 
+
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
@@ -122,9 +132,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Performance</span>
-                                <span class="text-gray-400 mt-1 fw-semibold fs-6">Total Leads
-                                    ({{ $total_performance_count }})</span>
+                                <span class="card-label fw-bold text-dark">Overview of CrmLeads</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -136,8 +144,7 @@
                                 <!--end::Tab pane-->
                                 <!--begin::Tab pane-->
                                 <div class="tab-pane fade active show" id="" role="tabpanel">
-
-                                    <canvas id="1st_graph" class="mh-400px"></canvas>
+                                    <div id="graph_6" style="height: 350px;"></div>
                                     <!--begin::Chart-->
                                     <!--end::Chart-->
                                 </div>
@@ -151,6 +158,7 @@
                 </div>
                 <!--end::Col-->
             </div>
+
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -187,43 +195,6 @@
                 </div>
                 <!--end::Col-->
             </div>
-
-            <div class="row gx-5 gx-xl-10">
-                <!--begin::Col-->
-                <div class="col-xxl-12 mb-5 mb-xl-10">
-                    <!--begin::Chart widget 8-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-5">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Category Wise Graph</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body pt-6">
-                            <!--begin::Tab content-->
-                            <div class="tab-content">
-                                <!--end::Tab pane-->
-                                <!--begin::Tab pane-->
-                                <div class="tab-pane fade active show" id="" role="tabpanel">
-                                    <div id="graph_6" style="height: 350px;"></div>
-                                    <!--begin::Chart-->
-                                    <!--end::Chart-->
-                                </div>
-                                <!--end::Tab pane-->
-                            </div>
-                            <!--end::Tab content-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 8-->
-                </div>
-                <!--end::Col-->
-            </div>
-
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -374,9 +345,6 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        //var ctx = document.getElementById('kt_chartjs_2');
-        var ctx = document.getElementById('1st_graph');
-
         // Define colors
         var primaryColor = KTUtil.getCssVariableValue('--kt-primary');
         var dangerColor = KTUtil.getCssVariableValue('--kt-danger');
@@ -387,44 +355,6 @@
         // Define fonts
         var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
 
-        // Chart labels
-        // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        const labels = @json($months) ;
-
-        // Chart data
-        const data = {
-            labels: labels,
-            datasets: [{
-                    label: 'CRM Leads ('+ @json($total_performance_count) +')',
-                    data: @json($first_count) ,
-                    fill: false,
-                    borderColor: primaryColor,
-                    tension: 0.6
-                },
-            ]
-        };
-
-        // Chart config
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                plugins: {
-                    title: {
-                        display: false,
-                    }
-                },
-                responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
-                }
-            }
-        };
-
-        // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
-        var myChart = new Chart(ctx, config);
 
 
         var xData = @json($vehcile_graph['vehicle_names']) ;

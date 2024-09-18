@@ -70,7 +70,7 @@ License: For each use you must have a valid license purchased only from above li
                             <div id="kt_app_content_container" class="app-container container-fluid">
                                 <!--begin::Row-->
 
-                                <div class="row gx-5 gx-xl-10">
+                                <div class="row gx-5 gx-xl-10 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Chart widget 8-->
@@ -111,7 +111,7 @@ License: For each use you must have a valid license purchased only from above li
                                 </div>
 
 
-                                <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                                <div class="row g-5 g-xl-10 mb-5 mb-xl-10 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Card widget 20-->
@@ -123,7 +123,7 @@ License: For each use you must have a valid license purchased only from above li
                                     </div>
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10" id="campaign">
+                                <div class="row gx-5 gx-xl-10 bank-section" id="campaign">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Chart widget 8-->
@@ -210,7 +210,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--end::Col-->
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10">
+                                <div class="row gx-5 gx-xl-10 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Chart widget 8-->
@@ -248,7 +248,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--end::Col-->
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10">
+                                <div class="row gx-5 gx-xl-10 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Chart widget 8-->
@@ -334,7 +334,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--end::Col-->
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10">
+                                <div class="row gx-5 gx-xl-10 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xl-6">
                                         <!--begin::Chart widget 31-->
@@ -385,7 +385,7 @@ License: For each use you must have a valid license purchased only from above li
                                     </div>
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10 mt-10">
+                                <div class="row gx-5 gx-xl-10 mt-10 bank-section">
                                     <div class="col-xl-12">
                                         <!--begin::Chart widget 31-->
                                         <div class="card card-flush h-xl-100">

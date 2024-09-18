@@ -518,6 +518,29 @@ class Application extends Model
         return $data;
     }
 
+    public static function countBySourceGroup($startDate, $endDate, $all_types, $filters)
+    {
+        $alldata = self::select(
+            DB::raw("name as source_name"),
+            DB::raw('COUNT(*) as count')
+        )
+        ->leftJoin('sources', 'applications.source_id', '=', 'sources.id') // Joining with the sources table
+        ->whereIn('applications.source_id', [161, 163, 164, 171])
+        // ->whereIn('sources.name', $sourceNames) // Filtering based on source name
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
+        ->whereIn('applications.type', $all_types)
+        ->graphsearch($filters)
+        ->groupBy(DB::raw("IFNULL(applications.source_id, 'Not Assigned')"), 'sources.name') // Grouping by source_id and source_name
+        ->orderBy('source_name', 'asc')
+        ->get();
+
+        $data['sources_names'] = $alldata->pluck('source_name')->toArray();
+        $data['sources_count'] = $alldata->pluck('count')->toArray();
+
+        return $data;
+    }
+
+
 
 
 

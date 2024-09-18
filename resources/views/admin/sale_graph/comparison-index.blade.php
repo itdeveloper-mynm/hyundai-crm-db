@@ -2,6 +2,23 @@
 
 @section('title', 'Dashboard')
 
+@section('css')
+<style>
+.with-border {
+  position: relative;
+}
+
+.with-border::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #000; /* Set your desired color for the line */
+}
+</style>
+@endsection
 @section('content')
 
     <!--begin::Content-->
@@ -9,7 +26,7 @@
         <!--begin::Content container-->
         <div class="row">
             <div class="col-6">
-                <div id="kt_app_content_container" class="app-container container-fluid">
+                <div id="kt_app_content_container" class="app-container container-fluid" style="padding-right: 0px !important">
                     <!--begin::Row-->
                     <!--begin::Toolbar container-->
                     <div class="card-header mb-3" style="padding: 0px;">
@@ -25,6 +42,14 @@
                     <!--end::Toolbar container-->
                     <div class="row gx-5 gx-xl-10 mt-16">
                         <!--begin::Col-->
+                        <div class="col-xxl-12 mb-5 mb-xl-10">
+                                <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                                    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                            Comparison Report Left Side</h1>
+                                    </div>
+                                </div>
+                        </div>
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Chart widget 8-->
                             <div class="card card-flush h-xl-100">
@@ -372,7 +397,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div id="kt_app_content_container" class="app-container container-fluid">
+                <div id="kt_app_content_container" class="app-container container-fluid"  style="padding-left: 0px !important">
                     <!--begin::Row-->
                     <!--begin::Toolbar container-->
                     <div class="card-header mb-3" style="padding: 0px;">
@@ -406,7 +431,15 @@
                                             @csrf
                                             <div class="px-7 py-5">
                                                 <div class="row">
-                                                    <div class="mb-3 col-6">
+                                                    <div class="mb-3 col-6 with-border">
+                                                        <div class="col-xxl-12 mb-2 mb-xl-10">
+                                                            <div id="kt_app_toolbar_container" class=" d-flex flex-stack">
+                                                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                                                        Left Side Comparison Fiters</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         @can('sale-graph-comparison-filters')
                                                             <div class="row">
                                                                 <div class="col-lg-4">
@@ -455,6 +488,15 @@
                                                         </div> --}}
                                                     </div>
                                                     <div class="mb-3 col-6">
+
+                                                        <div class="col-xxl-12 mb-2 mb-xl-10">
+                                                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+                                                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                                                        Right Side Comparison Fiters</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-lg-4">
                                                                 <label
@@ -743,6 +785,14 @@
 
                     <div class="row gx-5 gx-xl-10">
                         <!--begin::Col-->
+                        <div class="col-xxl-12 mb-5 mb-xl-10">
+                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Comparison Report Right Side</h1>
+                                </div>
+                            </div>
+                    </div>
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Chart widget 8-->
                             <div class="card card-flush h-xl-100">

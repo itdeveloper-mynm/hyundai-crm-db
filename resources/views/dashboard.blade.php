@@ -160,6 +160,79 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Overview of CrmLeads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_3" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
+            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Overview of Sources</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_4" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
             {{-- <div class="row g-5 g-xl-10">
                 <!--begin::Col-->
                 <div class="col-sm-6 col-xl-3 mb-xl-10">
@@ -575,6 +648,110 @@
 
         var chart = new ApexCharts(document.querySelector("#graph_2"), options);
         chart.render();
+
+
+        var xData6 = @json($category_graph['category_names']) ;
+        var yData6 = @json($category_graph['category_count']) ;
+
+        // Generate random fill colors
+        var fillColors = Array.from({ length: xData6.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData6 = xData6.map((x, index) => ({
+        x: x,
+        y: yData6[index],
+        fill: fillColors[index]
+        }));
+
+
+             // Function to generate a random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        // Chart options
+        var options6 = {
+        series: [{
+            data: seriesData6
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+            horizontal: true,
+            distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+        categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
+        labels: {
+            formatter: function(val) {
+                return val;
+            }
+        }
+    }
+        };
+
+        // Render the chart
+        var chart6 = new ApexCharts(document.querySelector("#graph_3"), options6);
+        chart6.render();
+
+
+        var xData4 = @json($sources_graph['sources_names']) ;
+        var yData4 = @json($sources_graph['sources_count']) ;
+
+        // Generate random fill colors
+        var fillColors = Array.from({ length: xData4.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData4 = xData4.map((x, index) => ({
+        x: x,
+        y: yData4[index],
+        fill: fillColors[index]
+        }));
+
+        // Chart options
+        var options4 = {
+        series: [{
+            data: seriesData4
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+            horizontal: true,
+            distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+        categories: xData4.map((x, index) => `${x} (${yData4[index]})`),
+        labels: {
+            formatter: function(val) {
+                return val;
+            }
+        }
+    }
+        };
+
+        // Render the chart
+        var chart4 = new ApexCharts(document.querySelector("#graph_4"), options4);
+        chart4.render();
+
+
     </script>
 
 @endsection

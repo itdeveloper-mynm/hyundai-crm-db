@@ -748,8 +748,7 @@ class SaleGraphController extends Controller
         $filters = $request->all();
         // dd($filters);
 
-        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
-        $data['total_performance_count'] = array_sum($data['first_count']);
+
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);

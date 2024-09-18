@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Smo Leads Report')
 
 @section('content')
 
@@ -13,7 +13,16 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Smo Leads Report</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
                             <button id="printButton" type="button" class="btn btn-success me-3">
                                 <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                 {{ __('Pdf') }}
