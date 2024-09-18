@@ -117,7 +117,7 @@ class ExternalLeadController extends Controller
         if ($existingApplication) {
             return response()->json([
                 'success' => true,'message' => 'Already Added Successfully',
-                'data'=> [],
+                'data'=> [ $existingApplication ],
             ], 200);
             // return $existingApplication;
         }
@@ -139,7 +139,7 @@ class ExternalLeadController extends Controller
 
         return response()->json([
             'success' => true,'message' => 'Added Successfully',
-            'data'=> [],
+            'data'=> [ $lead ],
         ], 200);
 
     }
@@ -294,7 +294,7 @@ class ExternalLeadController extends Controller
         if ($existingApplication) {
             return response()->json([
                 'success' => true,'message' => 'Already Added Successfully',
-                'data'=> [],
+                'data'=> [ $existingApplication ],
             ], 200);
             // return $existingApplication;
         }
@@ -391,7 +391,12 @@ class ExternalLeadController extends Controller
             $msg = "failed";
         }
 
-        return response()->json(['message' => $msg]);
+        return response()->json([
+            'success' => true,'message' => 'Added Successfully',
+            'data'=> [ $lead ],
+        ], 200);
+
+        // return response()->json(['message' => $msg]);
 
         \Log::info('saveformjson api hit end');
 
