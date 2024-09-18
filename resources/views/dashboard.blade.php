@@ -160,7 +160,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row g-5 g-xl-10">
+            {{-- <div class="row g-5 g-xl-10">
                 <!--begin::Col-->
                 <div class="col-sm-6 col-xl-3 mb-xl-10">
                     <!--begin::Card widget 2-->
@@ -311,7 +311,7 @@
                     <!--end::Card widget 2-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
 
             <div class="row gx-5 gx-xl-10">
