@@ -126,6 +126,7 @@ class GoogleBusinessController extends Controller
                                     ->when(request('branch_id'), function ($q) {
                                         $q->where('branch_id', request('branch_id'));
                                     })
+                                    ->latest()
                                     ->orderBy($columnName, $columnSortOrder)
                                     ->paginate($limit, ["*"], 'page', $page);
 

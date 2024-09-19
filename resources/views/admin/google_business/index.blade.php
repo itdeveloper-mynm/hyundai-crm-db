@@ -160,15 +160,15 @@
                                 <th class="text-center">#</th>
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Branch') }}</th>
-                                <th>{{ __('greviews') }}</th>
-                                <th>{{ __('greplied') }}</th>
-                                <th>{{ __('gsearchlisting') }}</th>
-                                <th>{{ __('gmapslisting') }}</th>
-                                <th>{{ __('gwebsite') }}</th>
-                                <th>{{ __('gdirection') }}</th>
-                                <th>{{ __('gcalls') }}</th>
-                                <th>{{ __('gtype') }}</th>
-                                <th>{{ __('gdate') }}</th>
+                                <th>{{ __('Reviews') }}</th>
+                                <th>{{ __('Replied') }}</th>
+                                <th>{{ __('Search listing') }}</th>
+                                <th>{{ __('Maps Listing') }}</th>
+                                <th>{{ __('Website') }}</th>
+                                <th>{{ __('Direction') }}</th>
+                                <th>{{ __('Calls') }}</th>
+                                <th>{{ __('Type') }}</th>
+                                <th>{{ __('Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>

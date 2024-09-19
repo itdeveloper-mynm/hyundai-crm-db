@@ -17,7 +17,7 @@
 						<!--end::sidebar mobile toggle-->
 						<!--begin::Mobile logo-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-							<a href="../../demo1/dist/index.html" class="d-lg-none">
+							<a href="#" class="d-lg-none">
 								<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/logos/default-small.svg" class="h-30px" />
 							</a>
 						</div>
@@ -51,7 +51,7 @@
 																<!--begin:Menu item-->
 																<div class="menu-item p-0 m-0">
 																	<!--begin:Menu link-->
-																	<a href="../../demo1/dist/index.html" class="menu-link active">
+																	<a href="#" class="menu-link active">
 																		<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
 																			<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 																			<span class="svg-icon svg-icon-primary svg-icon-1">
@@ -1042,9 +1042,9 @@
 										<div class="separator my-2"></div>
 										<!--end::Menu separator-->
 										<!--begin::Menu item-->
-										<div class="menu-item px-5">
-											<a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a>
-										</div>
+										{{-- <div class="menu-item px-5">
+											<a href="#" class="menu-link px-5">My Profile</a>
+										</div> --}}
 										<!--end::Menu item-->
 										<!--begin::Menu separator-->
 										<div class="separator my-2"></div>

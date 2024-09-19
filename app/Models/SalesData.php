@@ -39,7 +39,7 @@ class SalesData extends Model
                         ->orWhere('year', 'like', '%' . $search . '%')
                         ->orWhere('s', 'like', '%' . $search . '%')
                         ->orWhere('chass', 'like', '%' . $search . '%')
-                        ->orWhere('model', 'like', '%' . $search . '%')
+                        // ->orWhere('model', 'like', '%' . $search . '%')
                         ->orWhere('department', 'like', '%' . $search . '%');
                     });
                 }
