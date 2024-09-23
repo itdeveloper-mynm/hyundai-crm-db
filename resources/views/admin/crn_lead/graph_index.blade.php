@@ -14,15 +14,16 @@
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
                         <div class="col-lg-4">
-                        <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
 
-                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                    CRM Leads Report</h1>
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1
+                                        class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        CRM Leads Report</h1>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8 d-flex justify-content-end">
+                        <div class="col-lg-8 d-flex justify-content-end">
                             <button id="printButton" type="button" class="btn btn-success me-3">
                                 <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                 {{ __('Pdf') }}
@@ -45,7 +46,8 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="POST" action="{{route('crm-leads-graph.index')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
+                                <form method="POST" action="{{ route('crm-leads-graph.index') }}"
+                                    class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
                                     <div class="px-7 py-5">
                                         <div class="mb-3">
@@ -90,7 +92,7 @@
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">
-                                                    @include('admin.common_files_filters.created_date_graph')
+                                                @include('admin.common_files_filters.created_date_graph')
                                             </div>
                                             {{-- <div class="row mt-2">
                                                     @include('admin.common_files_filters.updated_date')
@@ -117,6 +119,9 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mt-2">
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -205,7 +210,8 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
+                                <span class="card-label fw-bold text-dark">City
+                                    ({{ collect($citygraph)->sum('count') ?? 0 }})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -357,55 +363,57 @@
 
 
 
-        var xData = @json($vehcile_graph['vehicle_names']) ;
-        var yData = @json($vehcile_graph['vehicle_count']) ;
+        var xData = @json($vehcile_graph['vehicle_names']);
+        var yData = @json($vehcile_graph['vehicle_count']);
 
         // Generate random fill colors
-        var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
+        var fillColors = Array.from({
+            length: xData.length
+        }, () => getRandomColor());
 
         // Create series data
         var seriesData = xData.map((x, index) => ({
-        x: x,
-        y: yData[index],
-        fill: fillColors[index]
+            x: x,
+            y: yData[index],
+            fill: fillColors[index]
         }));
 
         // Function to generate a random color
         function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
 
         // Chart options
         var options = {
-        series: [{
-            data: seriesData
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-            horizontal: true,
-            distributed: true
+            series: [{
+                data: seriesData
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: xData.map((x, index) => `${x} (${yData[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
             }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-        categories: xData.map((x, index) => `${x} (${yData[index]})`),
-        labels: {
-            formatter: function(val) {
-                return val;
-            }
-        }
-    }
         };
 
         // Render the chart
@@ -417,127 +425,125 @@
         var ctx1 = document.getElementById('graph_4');
 
         const data1 = {
-        labels: @json($salary_graph['monthly_salary']) ,
-        datasets: [
-            {
-            label: 'Dataset',
-            data: @json($salary_graph['monthly_salary_count']) ,
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)',
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
+            labels: @json($salary_graph['monthly_salary']),
+            datasets: [{
+                label: 'Dataset',
+                data: @json($salary_graph['monthly_salary_count']),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
                 ],
-            }
-        ]
+            }]
         };
 
 
         const config1 = {
-        type: 'doughnut',
-        data: data1,
-        options: {
+            type: 'doughnut',
+            data: data1,
+            options: {
                 responsive: true,
                 plugins: {
-            legend: {
-                position: 'top',
-                labels: {
-                    generateLabels: function (chart) {
-                        const data = chart.data;
-                        return data.labels.map((label, index) => {
-                            const value = data.datasets[0].data[index];
-                            return {
-                                text: `${label} (${value})`,
-                                fillStyle: data.datasets[0].backgroundColor[index],
-                                index: index
-                            };
-                        });
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
+                    title: {
+                        display: false,
+                        text: 'Pie Chart'
                     }
                 }
-            },
-            title: {
-                display: false,
-                text: 'Pie Chart'
-            }
-        }
             },
         };
 
-    var myChart = new Chart(ctx1, config1);
+        var myChart = new Chart(ctx1, config1);
 
 
 
-    var ctx2 = document.getElementById('graph_5');
+        var ctx2 = document.getElementById('graph_5');
 
-    const data2 = {
-    labels: @json($purchase_plan_graph['purchase_plan']) ,
-    datasets: [
-        {
-        label: 'Dataset',
-        data: @json($purchase_plan_graph['purchase_plan_count']) ,
-        backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            ],
-        }
-    ]
-    };
+        const data2 = {
+            labels: @json($purchase_plan_graph['purchase_plan']),
+            datasets: [{
+                label: 'Dataset',
+                data: @json($purchase_plan_graph['purchase_plan_count']),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+            }]
+        };
 
 
-    const config2 = {
-    type: 'pie',
-    data: data2,
-    options: {
-            responsive: true,
-            plugins: {
-            legend: {
-                position: 'top',
-                labels: {
-                    generateLabels: function (chart) {
-                        const data = chart.data;
-                        return data.labels.map((label, index) => {
-                            const value = data.datasets[0].data[index];
-                            return {
-                                text: `${label} (${value})`,
-                                fillStyle: data.datasets[0].backgroundColor[index],
-                                index: index
-                            };
-                        });
+        const config2 = {
+            type: 'pie',
+            data: data2,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
+                    title: {
+                        display: false,
+                        text: 'Pie Chart'
                     }
                 }
             },
-            title: {
-                display: false,
-                text: 'Pie Chart'
-            }
-        }
-        },
-    };
+        };
 
-    var myChart = new Chart(ctx2, config2);
+        var myChart = new Chart(ctx2, config2);
 
 
-    // $('#printButton').click(function() {
-    //     // Open the print dialog
-    //     window.print();
-    // });
+        // $('#printButton').click(function() {
+        //     // Open the print dialog
+        //     window.print();
+        // });
 
 
-        var xData6 = @json($category_graph['category_names']) ;
-        var yData6 = @json($category_graph['category_count']) ;
+        var xData6 = @json($category_graph['category_names']);
+        var yData6 = @json($category_graph['category_count']);
 
         // Generate random fill colors
-        var fillColors = Array.from({ length: xData6.length }, () => getRandomColor());
+        var fillColors = Array.from({
+            length: xData6.length
+        }, () => getRandomColor());
 
         // Create series data
         var seriesData6 = xData6.map((x, index) => ({
-        x: x,
-        y: yData6[index],
-        fill: fillColors[index]
+            x: x,
+            y: yData6[index],
+            fill: fillColors[index]
         }));
 
 
@@ -553,36 +559,35 @@
 
         // Chart options
         var options6 = {
-        series: [{
-            data: seriesData6
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-            horizontal: true,
-            distributed: true
+            series: [{
+                data: seriesData6
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
             }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-        categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
-        labels: {
-            formatter: function(val) {
-                return val;
-            }
-        }
-    }
         };
 
         // Render the chart
         var chart6 = new ApexCharts(document.querySelector("#graph_6"), options6);
         chart6.render();
-
     </script>
 
 @endsection

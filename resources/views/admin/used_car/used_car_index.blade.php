@@ -29,8 +29,13 @@
                         </div>
                     </div>
                     <div class="col-lg-8 d-flex justify-content-end">
-
-
+                        @can('used-car-leads-delete')
+                            <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
+                                </span>
+                                {{ __('Delete All') }}
+                            </button>
+                        @endcan
                         <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-end">
                             <span class="svg-icon svg-icon-2">
@@ -42,83 +47,83 @@
                                 </svg>
                             </span>Filter</button>
 
-                        <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
-                            id="kt_menu_62fe86549b38d">
-                            <div class="px-7 py-5">
-                                <div class="fs-5 text-dark fw-bold">Filter Options</div>
-                            </div>
-                            <div class="separator border-gray-200"></div>
-                            <form class="form d-flex flex-column flex-lg-row" id="myForm">
-
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
+                                id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
-                                    <div class="mb-3">
-                                        @can('used-car-leads-filters')
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.city')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.branch')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.vehicle')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.source')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.campaign')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.purchase_plan')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.monthly_salary')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.preferred_appointment_time')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.kyc')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.category')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.created_by')
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @include('admin.common_files_filters.updated_by')
-                                                </div>
-                                            </div>
-                                        @endcan
-                                        <div class="row mt-1">
-                                                @include('admin.common_files_filters.created_date')
-                                        </div>
-                                        <div class="row mt-2">
-                                                @include('admin.common_files_filters.updated_date')
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-end">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <button type="submit" class="btn btn-sm btn-primary"
-                                                    data-kt-menu-dismiss="true" value="apply"
-                                                    id="apply">Apply</button>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <a href="#"
-                                                    class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
-                                                    value="reset" id="reset">Reset</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
+                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="separator border-gray-200"></div>
+                                <form class="form d-flex flex-column flex-lg-row" id="myForm">
+
+                                    <div class="px-7 py-5">
+                                        <div class="mb-3">
+                                            @can('used-car-leads-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div>
+                                                </div>
+                                            @endcan
+                                            <div class="row mt-1">
+                                                    @include('admin.common_files_filters.created_date')
+                                            </div>
+                                            <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="apply"
+                                                        id="apply">Apply</button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
                         <!--
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
@@ -192,6 +197,7 @@
                     <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                         <tr>
                             <th class="text-center">#</th>
+                            <th><input type="checkbox" id="selectAll" /></th>
                             <th class="min-w-100px">{{ __('Full Name') }}</th>
                             <th class="min-w-100px">{{ __('Mobile') }}</th>
                             <th class="min-w-100px">{{ __('City') }}</th>
@@ -321,6 +327,14 @@ var table = $('#user_table').DataTable({
             className: 'center'
         },
         {
+            data: 'id',
+            render: function(data, type, row) {
+
+                var result = '<input type="checkbox" class="checkbox-item" value="'+ data +'" />';
+                return result;
+            }
+        },
+        {
             data: 'full_name',
             render: function(data, type, row) {
 
@@ -431,7 +445,7 @@ var table = $('#user_table').DataTable({
         }
     ],
     order: [
-        [3, "desc"]
+        [1, "desc"]
     ],
     dom: 'lBfrtip',
     buttons: [{
@@ -466,6 +480,11 @@ var table = $('#user_table').DataTable({
         },
         {
             targets: 2,
+            sortable: false,
+            orderable: false
+        },
+        {
+            targets: 3,
             sortable: false,
             orderable: false
         },

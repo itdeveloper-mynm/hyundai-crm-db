@@ -85,6 +85,7 @@ Route::controller(LeadController::class)->group(function(){
     Route::get('all-leads',  'allleads_index')->name('allleads.index');
     Route::get('all-leads-pagination',  'allleadsPagination')->name('all-leads.pagination');
     Route::post('all-leads-export',  'allleadsExport')->name('all-leads.export');
+    Route::post('delete-bulk-records',  'deletebulkRecords')->name('delete-bulk-records');
 });
 
 Route::resource('test-drive-request', TestDriveRequestContoller::class);

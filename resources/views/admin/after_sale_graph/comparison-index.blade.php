@@ -24,6 +24,17 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div class="row">
+
+            <div class="col-xxl-12 mb-5 mb-xl-10">
+                <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>To change the comparison, please click on the ‘filter’ button</strong>
+                          </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-6">
                 <div id="kt_app_content_container" class="app-container container-fluid" style="padding-right: 0px !important">
                     <!--begin::Row-->

@@ -115,9 +115,7 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-lg-6">
                             @include('admin.common_files.top-message-graph-page')
-                        </div>
                     </div>
                 </div>
             </div>

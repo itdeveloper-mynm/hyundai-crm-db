@@ -29,6 +29,13 @@
                             </div>
                         </div>
                         <div class="col-lg-8 d-flex justify-content-end">
+                            @can('all-leads-delete')
+                                <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
+                                    </span>
+                                    {{ __('Delete All') }}
+                                </button>
+                            @endcan
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -170,6 +177,7 @@
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
+                                <th><input type="checkbox" id="selectAll" /></th>
                                 <th class="min-w-100px">{{ __('Full Name') }}</th>
                                 <th class="min-w-100px">{{ __('Mobile') }}</th>
                                 <th class="min-w-100px">{{ __('City') }}</th>
@@ -245,6 +253,14 @@
                     name: 'no',
                     width: '5%',
                     className: 'center'
+                },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+
+                        var result = '<input type="checkbox" class="checkbox-item" value="'+ data +'" />';
+                        return result;
+                    }
                 },
                 {
                     data: 'full_name',
@@ -381,7 +397,7 @@
                 }
             ],
             order: [
-                [3, "desc"]
+                [1, "desc"]
             ],
             dom: 'lBfrtip',
             buttons: [{
@@ -416,6 +432,11 @@
                 },
                 {
                     targets: 2,
+                    sortable: false,
+                    orderable: false
+                },
+                {
+                    targets: 3,
                     sortable: false,
                     orderable: false
                 },
@@ -594,6 +615,71 @@
                 exportFormDiv.appendChild(clonedElement);
             });
         });
+
+
+        // $(document).ready(function() {
+        //     // Event delegation for dynamically added checkboxes
+        //     $(document).on('change', '.checkbox-item', function() {
+        //         logCheckedValues();
+        //         toggleDeleteButton(); // Check whether to show or hide the delete button
+        //     });
+
+        //     // Check/Uncheck all checkboxes in the table
+        //     $('#selectAll').on('change', function() {
+        //         $('.checkbox-item').prop('checked', this.checked);
+        //         logCheckedValues();
+        //         toggleDeleteButton(); // Check whether to show or hide the delete button
+        //     });
+
+        //     // Function to log the values of selected checkboxes
+        //     function logCheckedValues() {
+        //         let checkedValues = [];
+        //         $('.checkbox-item:checked').each(function() {
+        //         checkedValues.push($(this).val());
+        //         });
+        //         console.log("Checked values: ", checkedValues);
+        //         return checkedValues;
+        //     }
+
+        //     // Function to toggle the visibility of the "Delete All" button
+        //     function toggleDeleteButton() {
+        //         let checkedLength = $('.checkbox-item:checked').length;
+        //         if (checkedLength > 0) {
+        //         $('#deleteAll').show();
+        //         } else {
+        //         $('#deleteAll').hide();
+        //         }
+        //     }
+
+        //      // Handle delete all button click with SweetAlert confirmation
+        //     $('#deleteAll').on('click', function() {
+        //         Swal.fire({
+        //         title: 'Are you sure?',
+        //         text: "You are about to delete selected items!",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Yes, delete them!'
+        //         }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             // Hide the delete button after deletion
+        //             $('#deleteAll').hide();
+        //             console.log(logCheckedValues());
+        //             // Display success alert
+        //             Swal.fire(
+        //             'Deleted!',
+        //             'Selected Records have been deleted.',
+        //             'success'
+        //             );
+        //         }
+        //         });
+        //     });
+
+
+        // });
+
+
     </script>
 
 

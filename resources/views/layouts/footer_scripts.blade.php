@@ -114,4 +114,99 @@
         window.print();
     });
 
-        </script>
+    // code to select/unselect checkboxes
+    $(document).ready(function() {
+            // Event delegation for dynamically added checkboxes
+            $(document).on('change', '.checkbox-item', function() {
+                logCheckedValues();
+                toggleDeleteButton(); // Check whether to show or hide the delete button
+            });
+
+            // Check/Uncheck all checkboxes in the table
+            $('#selectAll').on('change', function() {
+                $('.checkbox-item').prop('checked', this.checked);
+                logCheckedValues();
+                toggleDeleteButton(); // Check whether to show or hide the delete button
+            });
+
+            // Function to log the values of selected checkboxes
+            function logCheckedValues() {
+                let checkedValues = [];
+                $('.checkbox-item:checked').each(function() {
+                checkedValues.push($(this).val());
+                });
+                console.log("Checked values: ", checkedValues);
+                return checkedValues;
+            }
+
+            // Function to toggle the visibility of the "Delete All" button
+            function toggleDeleteButton() {
+                let checkedLength = $('.checkbox-item:checked').length;
+                if (checkedLength > 0) {
+                $('#deleteAll').show();
+                } else {
+                $('#deleteAll').hide();
+                }
+            }
+
+             // Handle delete all button click with SweetAlert confirmation
+            $('#deleteAll').on('click', function() {
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to delete selected items!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete them!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hide the delete button after deletion
+                    $('#deleteAll').hide();
+                    console.log(logCheckedValues());
+                    // Display success alert
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('delete-bulk-records') }}",
+                        data: {
+                            _token: "{{ csrf_token() }}", // Correct the CSRF token key
+                            ids: logCheckedValues() // Ensure this function returns an array of IDs
+                        },
+                        cache: false,
+                        timeout: 800000,
+                        success: function(data) {
+                            if (data.result === 'success') {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Selected Records have been deleted.',
+                                    'success'
+                                );
+                            }
+                            // Uncheck 'Select All' after the request
+                            $('#selectAll').prop('checked', false);
+
+                            // Optionally redraw the DataTable
+                            if (typeof table !== 'undefined') {
+                                table.draw(); // Redraw the table if it's a DataTable
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.fire(
+                                'Error!',
+                                'There was an error processing your request.',
+                                'error'
+                            );
+                        }
+                    });
+
+
+                }
+                });
+            });
+
+
+        });
+    //end code to select/unselect checkboxes
+
+</script>

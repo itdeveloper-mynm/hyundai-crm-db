@@ -29,7 +29,13 @@
                         </div>
                     </div>
                     <div class="col-lg-8 d-flex justify-content-end">
-
+                        @can('smo-leads-delete')
+                            <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
+                                </span>
+                                {{ __('Delete All') }}
+                            </button>
+                        @endcan
 
                         <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-end">
@@ -171,6 +177,7 @@
                     <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                         <tr>
                             <th class="text-center">#</th>
+                            <th><input type="checkbox" id="selectAll" /></th>
                             <th class="min-w-100px">{{ __('Full Name') }}</th>
                             <th class="min-w-100px">{{ __('Mobile') }}</th>
                             <th class="min-w-100px">{{ __('City') }}</th>
@@ -296,6 +303,14 @@ var table = $('#user_table').DataTable({
             className: 'center'
         },
         {
+            data: 'id',
+            render: function(data, type, row) {
+
+                var result = '<input type="checkbox" class="checkbox-item" value="'+ data +'" />';
+                return result;
+            }
+        },
+        {
             data: 'full_name',
             render: function(data, type, row) {
 
@@ -405,7 +420,7 @@ var table = $('#user_table').DataTable({
         }
     ],
     order: [
-        [3, "desc"]
+        [1, "desc"]
     ],
     dom: 'lBfrtip',
     buttons: [{
@@ -440,6 +455,11 @@ var table = $('#user_table').DataTable({
         },
         {
             targets: 2,
+            sortable: false,
+            orderable: false
+        },
+        {
+            targets: 3,
             sortable: false,
             orderable: false
         },
