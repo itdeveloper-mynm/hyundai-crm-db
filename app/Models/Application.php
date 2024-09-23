@@ -151,6 +151,12 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['type'])) {
+                $query->where(function ($query) use ($conditions) {
+                        $query->whereIn('applications.type', arraycheck($conditions['type']));
+                });
+            }
+
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {
                     $startDate = $conditions['from'].' 00:00:00';
@@ -160,6 +166,7 @@ class Application extends Model
             }
 
             if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
+                dd(1);
                 $startDate = $conditions['upd_from'] . ' 00:00:00';
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
                 $query->where(function ($query) use ($startDate, $endDate) {

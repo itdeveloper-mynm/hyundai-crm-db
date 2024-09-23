@@ -239,7 +239,7 @@ var table = $('#user_table').DataTable({
             data: 'name',
             render: function(data, type, row) {
 
-                var result = '<a href="{{ url('used-car') }}/' + row.id +
+                var result = '<a href="{{ url('users') }}/' + row.id +
                             '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' + data + '</a>';
                 return result;
 

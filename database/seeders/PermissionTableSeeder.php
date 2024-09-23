@@ -16,6 +16,14 @@ class PermissionTableSeeder extends Seeder
         //php artisan db:seed --class=PermissionTableSeeder
 
         $permissions = [
+            'all-leads-list',
+            'all-leads-delete',
+            'all-leads-filters',
+            'all-leads-export',
+            'test-drive-request-list',
+            'test-drive-request-delete',
+            'test-drive-request-filters',
+            'test-drive-request-export',
             'campaign-leads-list',
             'campaign-leads-create',
             'campaign-leads-edit',

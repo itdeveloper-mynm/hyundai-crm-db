@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
-
-@section('title', 'Crm Leads')
+@section('title', 'Request a Test Drive')
 
 @section('content')
 
@@ -12,18 +11,18 @@
 
 
                 <div class="card-toolbar ">
-                    <div class="row  mt-5">
+                    <div class="row mt-5">
                         <div class="col-lg-4">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
 
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1
                                         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                        {{ __('Crm Leads List') }}</h1>
+                                        {{ __('Request a Test Drive Listing') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('crm-leads.index') }}"
-                                                class="text-muted text-hover-primary">{{ __('Crm Leads') }}</a>
+                                            <a href="{{ route('after-sale.index') }}"
+                                                class="text-muted text-hover-primary">{{ __('Request a Test Drive') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -52,7 +51,7 @@
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
                                     <div class="px-7 py-5">
                                         <div class="mb-3">
-                                            @can('crm-leads-filters')
+                                            @can('test-drive-request-filters')
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.city')
@@ -120,45 +119,25 @@
                                 </form>
                             </div>
 
-                            @can('crm-leads-export')
-                                <form action="{{ route('crm-leads.export') }}" method="POST" id="exportForm">
-                                    @csrf
-                                    <div id="export_form_div" style="display: none">
+                            @can('test-drive-request-export')
+                            <form action="{{route('test-drive-request.export')}}" method="POST"  id="exportForm">
+                                @csrf
+                                <div id="export_form_div" style="display: none">
 
-                                    </div>
-                                    <button type="submit" class="btn btn-success me-3" id="exportbutton">
-                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </span>
-                                        {{ __('Excel') }}
-                                    </button>
-                                </form>
-                            @endcan
-
-                            @can('crm-leads-import')
-                                <a href="{{ asset('excel_files/crm-leads-sample.xlsx') }}" class="btn btn-warning  me-3"
-                                    download>
-                                    <i class="fa fa-download"></i>
-                                    {{ __('Sample') }}</a>
-
-                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                    data-bs-target="#importModal">
-                                    <i class="fa fa-upload"></i>
-                                    {{ __('Import') }}</a>
-                            @endcan
-
-                            @can('crm-leads-create')
-                                <a href="{{ route('crm-leads.create') }}" class="btn btn-primary">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                    {{ __('Add') }}</a>
+                                </div>
+                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                    {{ __('Excel') }}
+                                </button>
+                            </form>
                             @endcan
                         </div>
                     </div>
-                        <div class="row  mt-5">
-
-                            <div class="col-lg-6">
-                                @include('admin.common_files.top-message-lisitng-page')
-                            </div>
-                            <div class="col-lg-6 d-flex justify-content-end">
+                    <div class="row  mt-5">
+                        <div class="col-lg-6">
+                            @include('admin.common_files.top-message-lisitng-page')
+                        </div>
+                        <div class="col-lg-6 d-flex justify-content-end">
                             <div class="card-title">
                                 <div class="d-flex align-items-center position-relative my-1">
                                     <span class="svg-icon svg-icon-1 position-absolute ms-6">
@@ -183,18 +162,17 @@
             </div>
             <div class="card">
                 <div class="card-body" style="padding: 1rem;">
-
                     <table id="user_table" class="table table-striped table-bordered" width="100%">
                         <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="min-w-200px">{{ __('Full Name') }}</th>
-                                <th class="min-w-70px">{{ __('Mobile') }}</th>
+                                <th class="min-w-100px">{{ __('Full Name') }}</th>
+                                <th class="min-w-100px">{{ __('Mobile') }}</th>
                                 <th class="min-w-100px">{{ __('City') }}</th>
                                 <th class="min-w-100px">{{ __('Branch') }}</th>
                                 <th class="min-w-100px">{{ __('Vehicle') }}</th>
                                 <th class="min-w-100px">{{ __('Source') }}</th>
-                                <th class="min-w-100px">{{ __('Type') }}</th>
+                                <th class="min-w-100px">{{ __('Campaign') }}</th>
                                 <th class="min-w-100px">{{ __('Category') }}</th>
                                 <th class="min-w-100px">{{ __('Sub Category') }}</th>
                                 <th class="min-w-100px">{{ __('Created At') }}</th>
@@ -206,171 +184,24 @@
                         </thead>
 
                         <tbody></tbody>
-                        <div class="modal fade" id="action_modal" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Update</h3>
-                                        <!--begin::Close-->
-                                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                            <span class="svg-icon svg-icon-1">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                        rx="1" transform="rotate(-45 6 17.3137)"
-                                                        fill="currentColor"></rect>
-                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                        transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
-                                                </svg>
-                                            </span>
-                                            <!--end::Svg Icon-->
-                                        </div>
-                                        <!--end::Close-->
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="form d-flex flex-column flex-lg-row" method="post" id="action_form"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-                                                <div class="tab-content">
-                                                    <div class="tab-pane fade show active"
-                                                        id="kt_ecommerce_add_product_general" role="tab-panel">
-                                                        <div class="d-flex flex-column gap-7 gap-lg-10">
 
-                                                            <div class="card card-flush py-4">
-
-                                                                <div class="tab-content">
-                                                                    <input type="hidden" name="rowid" id="rowid">
-                                                                    <div class="row">
-                                                                        <div class="mb-5 fv-row col-lg-12">
-                                                                            <label
-                                                                                class="required form-label">{{ __('Category') }}</label>
-                                                                            <select class="form-select mb-2"
-                                                                                name="action_category" id="action_category"
-                                                                                onchange="updateSubCategory()"
-                                                                                required="required" data-control="select2"
-                                                                                data-placeholder="{{ __('select option') }}"
-                                                                                data-allow-clear="true">
-                                                                                <option value="">--select--</option>
-                                                                                <option value="Qualified">Qualified
-                                                                                </option>
-                                                                                <option value="Not Qualified">Not Qualified
-                                                                                </option>
-                                                                                <option value="General Inquiry">General
-                                                                                    Inquiry</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div class="mb-5 fv-row col-lg-12">
-                                                                            <label
-                                                                                class="required form-label">{{ __('Sub Category') }}</label>
-                                                                            <select class="form-select mb-2"
-                                                                                name="action_sub_category" id="action_sub_category"
-                                                                                required="required" data-control="select2"
-                                                                                data-placeholder="{{ __('select option') }}"
-                                                                                data-allow-clear="true">
-                                                                                <option value=""></option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary btn_submit sub_button"
-                                                                    id="actionbtnSubmit" style="background-color: #000044">
-                                                                    <span class="indicator-label">{{ __('Update') }}</span>
-                                                                    <span class="indicator-progress">Please wait...
-                                                                        <span
-                                                                            class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                                                </button>
-                                                                </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Import CRM Leads</h3>
-                    <!--begin::Close-->
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                        <span class="svg-icon svg-icon-1">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                    transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
-                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                    transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <div class="modal-body">
-                    <form class="form d-flex flex-column flex-lg-row" method="post" id="csv_form"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="kt_ecommerce_add_product_general"
-                                    role="tab-panel">
-                                    <div class="d-flex flex-column gap-7 gap-lg-10">
-
-                                        <div class="card card-flush py-4">
-
-                                            <div class="tab-content">
-
-                                                <div class="card-body pt-0  tab-pane fade show active agency_tab"
-                                                    id="" role="tabpanel" aria-labelledby="">
-                                                    <div class="row ">
-                                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                                            <label
-                                                                class="required form-label">{{ __('Select File') }}</label>
-
-                                                            <input type="file" name="csvfile" id="products_uploaded"
-                                                                class="form-control" value="Upload" required>
-                                                        </div>
-                                                    </div>
-                                                    <!-- row  -->
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary " id="btnSubmit">
-                                                    <span class="indicator-label "> {{ __('Upload') }}</span>
-                                                </button>
-                                            </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 
-
-
-
-
+    </div>
+    </div>
+    </div>
 
 @endsection
 
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-
 
     <script>
         var table = $('#user_table').DataTable({
@@ -381,7 +212,7 @@
             filter: true,
 
             ajax: {
-                "url": "{{ route('crm-leads.pagination') }}",
+                "url": "{{ route('test-drive-request.pagination') }}",
                 "type": "GET",
                 'data': function(data) {
                     data.city_id = $('#city_id').val();
@@ -412,11 +243,10 @@
                     data: 'full_name',
                     render: function(data, type, row) {
 
-                        var result = '<a href="{{ url('crm-leads') }}/' + row.id +
+                        var result = '<a href="{{ url('after-sale') }}/' + row.id +
                             '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' +
                             data + '</a>';
                         return result;
-
                     }
                 },
                 {
@@ -460,7 +290,7 @@
                     }
                 },
                 {
-                    data: 'type',
+                    data: 'campaign_id',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -515,43 +345,27 @@
                         return result;
                     }
                 },
-
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
-                        var res3 = '-';
-
-                        @can('crm-leads-edit')
-                            res = `<a href="{{ url('crm-leads') }}/${data}/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary" data-toggle="tooltip" title="{{ __('table.edit') }}">
-                            <i class="fa fa-pencil"></i>
-                        </a>`;
+                        @can('after-sale-leads-edit')
+                        // res = '<a href="{{ url('after-sale') }}/' + data +
+                            // '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
                         @endcan
-                        @can('crm-leads-delete')
-                                        res2 = `<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(${data})">
-                            <i class="bi-trash"></i>
-                            </a>`;
+                        @can('test-drive-request-delete')
+                        res2 =
+                            '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
+                            data + ')" ><i class="bi-trash"></i></a>';
                         @endcan
 
-                        @can('crm-leads-edit')
-                        res3 = `<a href="#" onclick="updateData(${row.id}, '${row.category}', '${row.sub_category}')">
-                        <span class="svg-icon svg-icon-3">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
-                                <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
-                            </svg>
-                        </span>
-                        </a>`;
-                        @endcan
-
-                        return res + res2 + res3;
+                        return res + res2;
                     }
-
                 }
             ],
             order: [
-                [8, "desc"]
+                [3, "desc"]
             ],
             dom: 'lBfrtip',
             buttons: [{
@@ -615,6 +429,7 @@
             e.preventDefault();
             table.draw();
         });
+
         $('#reset').click(function(e) {
             e.preventDefault();
             var from = document.querySelector('#from');
@@ -648,6 +463,7 @@
 
 
 
+
         $('#search').keyup(function() {
             table.search($(this).val()).draw();
         })
@@ -675,7 +491,7 @@
                 if (result.isConfirmed) {
 
                     $.ajax({
-                        url: '{{ url('crm-leads') }}/' + id,
+                        url: '{{ url('after-sale') }}/' + id,
                         method: "DELETE",
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -706,6 +522,7 @@
             })
         }
 
+
         $('#csv_form').submit(function(e) {
             e.preventDefault();
             var form = $('#csv_form')[0];
@@ -713,7 +530,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('crm-leads.import') }}",
+                url: "{{ route('after-sale.import') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -742,139 +559,8 @@
                     $("#btnSubmit").prop("disabled", false);
                 }
             });
+
         });
-
-        function updateData(id, category, sub_category) {
-            // alert(id);
-            console.log(category);
-            if (sub_category != '') {
-                $('#action_category').val(category);
-                $('#action_category').change();
-                $('#action_sub_category').html('<option value=' + sub_category + '>' + sub_category + '</option>');
-            }
-            // return false;
-            $('#rowid').val(id);
-            $('#action_modal').modal('show');
-        }
-
-        $('#action_form').submit(function(e) {
-            e.preventDefault();
-
-            $('.indicator-label').css({
-                'display': 'none'
-            });
-            $('.indicator-progress').css({
-                'display': 'inline-block'
-            });
-            $("#actionbtnSubmit").attr('disabled', true);
-
-            var form = $('#action_form')[0];
-            var data = new FormData(form);
-
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('sub-category.update') }}",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 800000,
-                beforeSubmit: function() {
-
-                $("body").addClass("loading");
-
-                },
-                success: function(data) {
-                    if (data.result == 'success') {
-                        Swal.fire(
-                            "{{ __('Add') }}",
-                            data.message,
-                            data.result,
-                        )
-
-                    }
-                    if (data.result == 'error') {
-                        Swal.fire(
-                            "{{ __('Not Add') }}",
-                            data.message,
-                            'error'
-                        )
-                        return false;
-                    }
-                    $("#action_modal").modal('hide');
-                    table.draw();
-
-                    // Revert .indicator-label to display
-                    $('.indicator-label').css({
-                        'display': 'inline-block' // or 'block', depending on your original display property
-                    });
-
-                    // Revert .indicator-progress to hide
-                    $('.indicator-progress').css({
-                        'display': 'none'
-                    });
-
-                    $("#actionbtnSubmit").prop("disabled", false);
-                }
-            });
-        });
-
-
-        function updateSubCategory() {
-            const category = $('#action_category').val();
-            const subCategory = $('#action_sub_category');
-            let options = '';
-
-            const categories = {
-                'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
-                'General Inquiry': [
-                    'Timing & Locations',
-                    'Inquiry - Another Company',
-                    'Product Specification',
-                    'Price',
-                    'Disconnect',
-                    'Road Assistant',
-                    'Showroom Numbers',
-                    'After-sales',
-                    'Sales Complaint',
-                    'AfterSales Complaint',
-                    'Transfer',
-                    'Callback'
-                ],
-                'Not Qualified': [
-                    'Salary does not allow financing',
-                    'High Commitment',
-                    'High-Prices',
-                    'Traffic Violations'
-                ]
-            };
-
-            if (category in categories) {
-                const optionsArray = categories[category];
-                optionsArray.forEach(option => {
-                    options += `<option value="${option}">${option}</option>`;
-                });
-            }
-
-            subCategory.html(options);
-        }
-
-
-        $(document).ready(function() {
-        // Get the URL parameter 'mobile'
-        var urlParams = new URLSearchParams(window.location.search);
-        var mobileParam = urlParams.get('mobile');
-
-        // Check if the 'mobile' parameter exists
-        if (mobileParam) {
-            // Set the value of the search input to the mobile parameter
-            $('#search').val(mobileParam);
-
-            // Trigger the keyup event to perform the search
-            $('#search').keyup();
-        }
-    });
     </script>
 
 

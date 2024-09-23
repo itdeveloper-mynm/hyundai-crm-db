@@ -12,6 +12,11 @@ use App\Models\Bank;
 use App\Models\User;
 
 
+function getMonthNameAndYear($date)
+{
+    return Carbon::parse($date)->format('F Y');
+}
+
 function currdate()
 {
     return Carbon::today()->format('Y-m-d');
@@ -20,7 +25,8 @@ function currdate()
 
 function dateBeforeTenDays()
 {
-    return Carbon::today()->subDays(10)->format('Y-m-d');
+    // return Carbon::today()->subDays(10)->format('Y-m-d');
+    return Carbon::now()->startOfMonth()->format('Y-m-d');
 }
 
 function dateTimeformat($date)
@@ -96,6 +102,8 @@ function activeMenuRoute($submenus): string
 function AllLeadsMenuPermissionArr()
 {
     return [
+        'all-leads-list',
+        'test-drive-request-list',
         'campaign-leads-list',
         'after-sale-leads-list',
         'used-car-leads-list',
@@ -145,7 +153,7 @@ function formDataPermissionArr()
         'source-list',
         'campaign-list',
         'bank-list',
-        'sales-data-list',
+        // 'sales-data-list',
         'social-data-list',
         //'crm-leads-list'
     ];
@@ -165,13 +173,15 @@ function CRMLeadsDataAllMenuArr()
 function AllLeadsMenuArr()
 {
     $array =[
+        route('allleads.index'),
+        route('test-drive-request.index'),
         route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),
         route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),
         route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),
         route('smo-lead.index'),route('smo-lead.create'),request()->is('smo-lead/*/edit'),
         route('google-business.index'),request()->is('google-business/*/edit'),
         route('old-leads.index'),route('old-leads.create'),request()->is('old-leads/*/edit'),
-        route('sales-data.index'),request()->is('sales-data/*/edit'),
+        // route('sales-data.index'),request()->is('sales-data/*/edit'),
         route('social-data.index'),route('social-data.create'),request()->is('social-data/*/edit'),
     ];
     return $array;
@@ -380,6 +390,27 @@ function reverseCheckApplicationType($value) {
     }
 }
 
+function getApplicationTypeTitles() {
+    return [
+        'leads' => 'Leads',
+        'request_a_quote' => 'Request a Quote',
+        'request_a_test_quote' => 'Request a Test Quote',
+        'online_service_booking' => 'Online Service Booking',
+        'special_offers' => 'Special Offers',
+        'service_offers' => 'Service Offers',
+        'fleet_sales' => 'Fleet Sales',
+        'request_a_test_drive' => 'Request a Test Drive',
+        'used_cars' => 'Used Cars',
+        'old_leads' => 'Old Leads',
+        'events' => 'Events',
+        'contact_us' => 'Contact Us',
+        'sales_marketing' => 'Sales Marketing',
+        'after_sales' => 'After Sales',
+        'smo_leads' => 'Smo Leads',
+        'career' => 'Career',
+        'crm_leads' => 'Crm Leads',
+    ];
+}
 
 
 function formatInputNumber($mobile) {

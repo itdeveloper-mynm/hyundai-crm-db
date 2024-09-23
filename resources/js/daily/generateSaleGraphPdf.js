@@ -53,14 +53,14 @@ import { config } from 'dotenv';
         }
 
         console.log('Page navigation complete.');
-        await page.addStyleTag({
-            content: `
-                /* Prevent page breaks inside the bank sections */
-                .bank-section {
-                    page-break-inside: avoid;
-                }
-            `
-        });
+        // await page.addStyleTag({
+        //     content: `
+        //         /* Prevent page breaks inside the bank sections */
+        //         .bank-section {
+        //             page-break-inside: avoid;
+        //         }
+        //     `
+        // });
 
         console.log('Custom CSS injected.');
 

@@ -19,7 +19,12 @@ License: For each use you must have a valid license purchased only from above li
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous">
+    <style>
+        .bank-section {
+            page-break-inside: avoid;
 
+        }
+    </style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -162,7 +167,7 @@ License: For each use you must have a valid license purchased only from above li
                                                                             class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
                                                                     </button>
                                                                 </h2>
-                                                                <div id="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
+                                                                {{-- <div id="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
                                                                     class="accordion-collapse collapse {{ $first_show }}"
                                                                     aria-labelledby="kt_accordion_1_header_1"
                                                                     data-bs-parent="#kt_accordion_{{ $campaign_wise['campaign_id'] }}">
@@ -196,7 +201,7 @@ License: For each use you must have a valid license purchased only from above li
                                                                             @endforeach
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                         <!--end::Accordion-->
@@ -286,7 +291,7 @@ License: For each use you must have a valid license purchased only from above li
                                                                             class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
                                                                     </button>
                                                                 </h2>
-                                                                <div id="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
+                                                                {{-- <div id="kt_accordion_1_body_1_{{ $campaign_wise['city_id'] }}"
                                                                     class="accordion-collapse collapse {{ $first_show }}"
                                                                     aria-labelledby="kt_accordion_1_header_1"
                                                                     data-bs-parent="#kt_accordion_{{ $campaign_wise['city_id'] }}">
@@ -320,7 +325,7 @@ License: For each use you must have a valid license purchased only from above li
                                                                             @endforeach
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                         <!--end::Accordion-->

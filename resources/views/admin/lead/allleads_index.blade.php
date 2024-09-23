@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Old Leads')
+@section('title', 'All Leads')
 
 @section('content')
 
@@ -9,7 +9,6 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container">
             <div class="card-header mb-3" style="padding: 0px;">
-
 
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
@@ -19,19 +18,17 @@
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1
                                         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                        {{ __('Old Leads List') }}</h1>
+                                        {{ __('All Leads') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('old-leads.index') }}"
-                                                class="text-muted text-hover-primary">{{ __('Old Lead') }}</a>
+                                            <a href="{{ route('lead.index') }}"
+                                                class="text-muted text-hover-primary">{{ __('Lead') }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-8 d-flex justify-content-end">
-
-
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -42,138 +39,116 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>Filter</button>
-
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
-                                id="kt_menu_62fe86549b38d">
-                                <div class="px-7 py-5">
-                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
-                                </div>
-                                <div class="separator border-gray-200"></div>
-                                <form class="form d-flex flex-column flex-lg-row" id="myForm">
-
+                                <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
+                                    id="kt_menu_62fe86549b38d">
                                     <div class="px-7 py-5">
-                                        <div class="mb-3">
-                                            @can('old-leads-filters')
-                                                <div class="row">
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.city')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.branch')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.vehicle')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.source')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.campaign')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.purchase_plan')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.monthly_salary')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.preferred_appointment_time')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.kyc')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.category')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.created_by')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.updated_by')
-                                                    </div>
-                                                </div>
-                                            @endcan
-                                            <div class="row mt-1">
-                                                    @include('admin.common_files_filters.created_date')
-                                            </div>
-                                            <div class="row mt-2">
-                                                    @include('admin.common_files_filters.updated_date')
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-end">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <button type="submit" class="btn btn-sm btn-primary"
-                                                        data-kt-menu-dismiss="true" value="apply"
-                                                        id="apply">Apply</button>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
-                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
-                                                        value="reset" id="reset">Reset</a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
+                                        <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="separator border-gray-200"></div>
+                                    <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
-                            <!-- <button type="button" class="btn btn-success me-3 export_excel">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                {{ __('Excel') }}
-                            </button>
+                                        <div class="px-7 py-5">
+                                            <div class="mb-3">
+                                                @can('all-leads-filters')
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.city')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.branch')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.vehicle')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.source')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.campaign')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.purchase_plan')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.monthly_salary')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.preferred_appointment_time')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.kyc')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.category')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.created_by')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.updated_by')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.app_types')
+                                                        </div>
+                                                    </div>
+                                                @endcan
+                                                <div class="row mt-1">
+                                                    @include('admin.common_files_filters.created_date')
+                                                </div>
+                                                <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                                </div>
+                                            </div>
 
-                            <button type="button" class="btn btn-warning me-3 export_print">
-                                <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                                {{ __('Print') }}
+                                            <div class="d-flex justify-content-end">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <button type="submit" class="btn btn-sm btn-primary"
+                                                            data-kt-menu-dismiss="true" value="apply"
+                                                            id="apply">Apply</button>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <a href="{{ route('sale-graph.index') }}" class="btn btn-sm btn-primary"
+                                                            data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
+                                                    </div>
+                                                </div>
 
-                            </button> -->
+                                            </div>
 
-                            @can('old-leads-export')
-                            <form action="{{route('old-leads.export')}}" method="POST"  id="exportForm">
-                                @csrf
-                                <div id="export_form_div" style="display: none">
+                                        </div>
+                                    </form>
                                 </div>
-                                <button type="submit" class="btn btn-success me-3" id="exportbutton">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                    {{ __('Excel') }}
-                                </button>
-                            </form>
-                            @endcan
-                            @can('old-leads-import')
-                                <a href="{{ asset('excel_files/old-leads-sample.xlsx') }}" class="btn btn-warning  me-3" download>
-                                    <i class="fa fa-download"></i>
-                                    {{ __('Sample') }}</a>
+                                @can('all-leads-export')
+                                    <form action="{{ route('all-leads.export') }}" method="POST" id="exportForm">
+                                        @csrf
+                                        <div id="export_form_div" style="display: none">
 
-                                <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
-                                    data-bs-target="#importModal">
-                                    <i class="fa fa-upload"></i>
-                                    {{ __('Import') }}</a>
-                            @endcan
+                                        </div>
+                                        <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                            <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i>
+                                            </span>
+                                            {{ __('Excel') }}
+                                        </button>
+                                    </form>
+                                @endcan
 
-                            @can('old-leads-create')
-                                <a href="{{ route('old-leads.create') }}" class="btn btn-primary">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
-                                    {{ __('Add') }}</a>
-                            @endcan
                         </div>
                     </div>
-                        <div class="row  mt-5">
+                    <div class="row  mt-5">
 
-                            <div class="col-lg-6">
-                                @include('admin.common_files.top-message-lisitng-page')
-                            </div>
-                            <div class="col-lg-6 d-flex justify-content-end">
+                        <div class="col-lg-6">
+                            @include('admin.common_files.top-message-lisitng-page')
+                        </div>
+
+                        <div class="col-lg-6 d-flex justify-content-end">
                             <div class="card-title">
                                 <div class="d-flex align-items-center position-relative my-1">
                                     <span class="svg-icon svg-icon-1 position-absolute ms-6">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
-                                                rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                                rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                fill="currentColor" />
                                             <path
                                                 d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
                                                 fill="currentColor" />
@@ -202,6 +177,7 @@
                                 <th class="min-w-100px">{{ __('Vehicle') }}</th>
                                 <th class="min-w-100px">{{ __('Source') }}</th>
                                 <th class="min-w-100px">{{ __('Campaign') }}</th>
+                                <th class="min-w-100px">{{ __('Type') }}</th>
                                 <th class="min-w-100px">{{ __('Category') }}</th>
                                 <th class="min-w-100px">{{ __('Sub Category') }}</th>
                                 <th class="min-w-100px">{{ __('Created At') }}</th>
@@ -220,77 +196,6 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Import Old Leads</h3>
-                    <!--begin::Close-->
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                        <span class="svg-icon svg-icon-1">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                    transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
-                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                    transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <div class="modal-body">
-                    <form class="form d-flex flex-column flex-lg-row" method="post" id="csv_form"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="kt_ecommerce_add_product_general"
-                                    role="tab-panel">
-                                    <div class="d-flex flex-column gap-7 gap-lg-10">
-
-                                        <div class="card card-flush py-4">
-
-                                            <div class="tab-content">
-
-                                                <div class="card-body pt-0  tab-pane fade show active agency_tab"
-                                                    id="" role="tabpanel" aria-labelledby="">
-                                                    <div class="row ">
-                                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                                            <label
-                                                                class="required form-label">{{ __('Select File') }}</label>
-
-                                                            <input type="file" name="csvfile" id="products_uploaded"
-                                                                class="form-control" value="Upload" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                                            <label
-                                                                class="required form-label">{{ __('Select Date') }}</label>
-
-                                                            <input type="date" class="form-control form-control-solid ps-12"
-                                                                placeholder="Select a date" name="select_date"
-                                                                id="select_date" required/>
-                                                        </div>
-                                                    </div>
-                                                    <!-- row  -->
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary " id="btnSubmit">
-                                                    <span class="indicator-label "> {{ __('Upload') }}</span>
-                                                </button>
-                                            </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     </div>
 
     </div>
@@ -301,7 +206,8 @@
 
 @section('js')
 
-<script src="{{ asset('ajx_files/ajx.js') }}"></script>
+    <script src="{{ asset('ajx_files/ajx.js') }}"></script>
+
 
     <script>
         var table = $('#user_table').DataTable({
@@ -312,7 +218,7 @@
             filter: true,
 
             ajax: {
-                "url": "{{ route('old-leads.pagination') }}",
+                "url": "{{ route('all-leads.pagination') }}",
                 "type": "GET",
                 'data': function(data) {
                     data.city_id = $('#city_id').val();
@@ -331,6 +237,7 @@
                     data.to = $('#to').val();
                     data.upd_from = $('#upd_from').val();
                     data.upd_to = $('#upd_to').val();
+                    data.type = $('#type').val();
                 }
             },
             columns: [{
@@ -343,8 +250,11 @@
                     data: 'full_name',
                     render: function(data, type, row) {
 
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        var result = '<a href="{{ url('lead') }}/' + row.id +
+                            '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' +
+                            data + '</a>';
                         return result;
+
                     }
                 },
                 {
@@ -389,6 +299,14 @@
                 },
                 {
                     data: 'campaign_id',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'type',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -443,20 +361,19 @@
                         return result;
                     }
                 },
-
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
-                        @can('old-leads-create')
-                        res = '<a href="{{ url('old-leads') }}/' + data +
-                            '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                        @can('campaign-leads-edit')
+                            res = '<a href="{{ url('lead') }}/' + data +
+                                '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
                         @endcan
-                        @can('old-leads-create')
-                        res2 =
-                            '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
-                            data + ')" ><i class="bi-trash"></i></a>';
+                        @can('all-leads-delete')
+                            res2 =
+                                '<a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light-danger" onclick="rowDelete(' +
+                                data + ')" ><i class="bi-trash"></i></a>';
                         @endcan
 
                         return res + res2;
@@ -655,6 +572,26 @@
 
                     $("#btnSubmit").prop("disabled", false);
                 }
+            });
+        });
+
+        $('#exportbutton').on('mouseenter', function(e) {
+            e.preventDefault(); // Prevent the form from submitting
+
+            // Get all the select elements from the first form
+            const selectElements = document.querySelectorAll('#myForm select, #myForm input[type="date"]');
+
+            // Clear the export_form_div
+            const exportFormDiv = document.getElementById('export_form_div');
+            exportFormDiv.innerHTML = '';
+
+            // Append the cloned elements to the export form
+            selectElements.forEach(element => {
+                const clonedElement = element.cloneNode(true);
+                clonedElement.value = element
+                    .value; // Set the cloned element's value to the original's value
+                clonedElement.name = element.name; // Ensure the name is set for form submission
+                exportFormDiv.appendChild(clonedElement);
             });
         });
     </script>

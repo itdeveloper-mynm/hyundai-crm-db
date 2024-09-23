@@ -12,8 +12,17 @@
             <!--begin::Toolbar container-->
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
-                    <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                    <div class="row mt-5">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Dashboard</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -105,6 +114,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            @include('admin.common_files.top-message-graph-page')
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--end::Toolbar container-->
@@ -170,7 +184,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Overview of Crm Leads</span>
+                                <span class="card-label fw-bold text-dark">Input from CRM Team</span>
                             </h3>
                             <!--end::Title-->
                         </div>

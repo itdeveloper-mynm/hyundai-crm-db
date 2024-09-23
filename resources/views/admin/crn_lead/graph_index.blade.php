@@ -132,7 +132,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Overview of Crm Leads</span>
+                                <span class="card-label fw-bold text-dark">Input from CRM Team</span>
                             </h3>
                             <!--end::Title-->
                         </div>

@@ -28,6 +28,7 @@ import { config } from 'dotenv';
                 // Increase protocolTimeout to 120 seconds (120000 milliseconds)
                 timeout: 120000,
                 //executablePath: '/usr/bin/chromium-browser', // Path to the Chromium executable
+                executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // Adjust this path as per your system
                 args: ['--no-sandbox', '--disable-setuid-sandbox'] // Additional args for Linux deployment
             });
 

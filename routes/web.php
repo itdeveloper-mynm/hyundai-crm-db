@@ -24,6 +24,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailSendingCriteriaController;
 use App\Http\Controllers\GraphController;
+use App\Http\Controllers\TestDriveRequestContoller;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +82,17 @@ Route::controller(LeadController::class)->group(function(){
     Route::get('leads-pagination',  'leadsPagination')->name('leads.pagination');
     Route::post('leads-import',  'leadsImport')->name('leads.import');
     Route::post('leads-export',  'leadsExport')->name('leads.export');
+    Route::get('all-leads',  'allleads_index')->name('allleads.index');
+    Route::get('all-leads-pagination',  'allleadsPagination')->name('all-leads.pagination');
+    Route::post('all-leads-export',  'allleadsExport')->name('all-leads.export');
 });
+
+Route::resource('test-drive-request', TestDriveRequestContoller::class);
+Route::controller(TestDriveRequestContoller::class)->group(function(){
+    Route::get('test-drive-request-pagination',  'testDrivePagination')->name('test-drive-request.pagination');
+    Route::post('test-drive-request-export',  'testdriveExport')->name('test-drive-request.export');
+});
+
 
 Route::resource('after-sale', AfterSaleController::class);
 Route::controller(AfterSaleController::class)->group(function(){

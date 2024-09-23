@@ -29,27 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card-title">
-                                <div class="d-flex align-items-center position-relative my-1">
-                                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
-                                                rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
-                                            <path
-                                                d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-                                                fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                    <input type="text" data-kt-customer-table-filter="search" name="search"
-                                        id="search" class="form-control w-250px ps-15" placeholder="Search" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex justify-content-end">
-
-
+                        <div class="col-lg-8 d-flex justify-content-end">
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -60,7 +40,6 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>Filter</button>
-
                             <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
@@ -69,7 +48,6 @@
                                 <div class="separator border-gray-200"></div>
                                 <form class="form d-flex flex-column flex-lg-row" id="myForm">
 
-                                    {{-- <div class="px-7 py-5"  style="height: 350px; overflow-y: auto !important;"> --}}
                                     <div class="px-7 py-5">
                                         <div class="mb-3">
                                             @can('campaign-leads-filters')
@@ -113,10 +91,10 @@
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">
-                                                    @include('admin.common_files_filters.created_date')
+                                                @include('admin.common_files_filters.created_date')
                                             </div>
                                             <div class="row mt-2">
-                                                    @include('admin.common_files_filters.updated_date')
+                                                @include('admin.common_files_filters.updated_date')
                                             </div>
                                         </div>
 
@@ -128,9 +106,8 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
-                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
-                                                        value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('sale-graph.index') }}" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 
@@ -139,18 +116,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <!-- <button type="button" class="btn btn-success me-3 export_excel">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
-                                    {{ __('Excel') }}
-                                </button>
-
-                                <button type="button" class="btn btn-warning me-3 export_print">
-                                    <span class="svg-icon svg-icon-2"> <i class="bi bi-printer"></i> </span>
-                                    {{ __('Print') }}
-
-                                </button> -->
-
                             @can('campaign-leads-export')
                                 <form action="{{ route('leads.export') }}" method="POST" id="exportForm">
                                     @csrf
@@ -165,8 +130,7 @@
                                 </form>
                             @endcan
                             @can('campaign-leads-import')
-                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3"
-                                    download>
+                                <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3" download>
                                     <i class="fa fa-download"></i>
                                     {{ __('Sample') }}</a>
 
@@ -182,6 +146,150 @@
                                     {{ __('Add') }}</a>
                             @endcan
                         </div>
+                    </div>
+                    <div class="row  mt-5">
+
+                        <div class="col-lg-6">
+                            @include('admin.common_files.top-message-lisitng-page')
+                        </div>
+                        <div class="col-lg-6 d-flex justify-content-end">
+                            <div class="card-title">
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                    <input type="text" data-kt-customer-table-filter="search" name="search"
+                                        id="search" class="form-control w-250px ps-15" placeholder="Search" />
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="col-lg-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                                data-kt-menu-placement="bottom-end">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>Filter</button>
+                                <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
+                                    id="kt_menu_62fe86549b38d">
+                                    <div class="px-7 py-5">
+                                        <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                                    </div>
+                                    <div class="separator border-gray-200"></div>
+                                    <form class="form d-flex flex-column flex-lg-row" id="myForm">
+
+                                        <div class="px-7 py-5">
+                                            <div class="mb-3">
+                                                @can('campaign-leads-filters')
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.city')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.branch')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.vehicle')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.source')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.campaign')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.purchase_plan')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.monthly_salary')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.preferred_appointment_time')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.kyc')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.category')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.created_by')
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            @include('admin.common_files_filters.updated_by')
+                                                        </div>
+                                                    </div>
+                                                @endcan
+                                                <div class="row mt-1">
+                                                        @include('admin.common_files_filters.created_date')
+                                                </div>
+                                                <div class="row mt-2">
+                                                        @include('admin.common_files_filters.updated_date')
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-end">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <button type="submit" class="btn btn-sm btn-primary"
+                                                            data-kt-menu-dismiss="true" value="apply"
+                                                            id="apply">Apply</button>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <a href="{{ route('sale-graph.index') }}"
+                                                            class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                            value="reset" id="reset">Reset</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                @can('campaign-leads-export')
+                                    <form action="{{ route('leads.export') }}" method="POST" id="exportForm">
+                                        @csrf
+                                        <div id="export_form_div" style="display: none">
+
+                                        </div>
+                                        <button type="submit" class="btn btn-success me-3" id="exportbutton">
+                                            <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i>
+                                            </span>
+                                            {{ __('Excel') }}
+                                        </button>
+                                    </form>
+                                @endcan
+                                @can('campaign-leads-import')
+                                    <a href="{{ asset('excel_files/leads-sample.xlsx') }}" class="btn btn-warning  me-3"
+                                        download>
+                                        <i class="fa fa-download"></i>
+                                        {{ __('Sample') }}</a>
+
+                                    <a href="#" class="btn btn-dark  me-3" data-bs-toggle="modal"
+                                        data-bs-target="#importModal">
+                                        <i class="fa fa-upload"></i>
+                                        {{ __('Import') }}</a>
+                                @endcan
+
+                                @can('campaign-leads-create')
+                                    <a href="{{ route('lead.create') }}" class="btn btn-primary">
+                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-patch-check fs-3"></i></span>
+                                        {{ __('Add') }}</a>
+                                @endcan
+                        </div> --}}
                     </div>
                 </div>
 
@@ -663,7 +771,7 @@
             selectElements.forEach(element => {
                 const clonedElement = element.cloneNode(true);
                 clonedElement.value = element
-                .value; // Set the cloned element's value to the original's value
+                    .value; // Set the cloned element's value to the original's value
                 clonedElement.name = element.name; // Ensure the name is set for form submission
                 exportFormDiv.appendChild(clonedElement);
             });
