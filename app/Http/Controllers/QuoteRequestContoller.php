@@ -39,7 +39,7 @@ class QuoteRequestContoller extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::search($conditions)->where('type','request_a_test_drive')->count();
+        $countAll = Application::search($conditions)->where('type','request_a_quote')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
