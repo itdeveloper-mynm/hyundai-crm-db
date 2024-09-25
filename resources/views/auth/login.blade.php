@@ -15,10 +15,10 @@
 							<form  class="form w-100" method="POST" action="{{ route('login') }}">
                         		@csrf
 								<!--begin::Heading-->
-								<div class="text-center mb-11">
+								<div class="text-center mb-11 bg-dark">
 									<!--begin::Title-->
                                     <a href="#" class="mb-0 mb-lg-12">
-                                        <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"" class="h-60px h-lg-75px" />
+                                        <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"" class="h-60px h-lg-55px" />
                                     </a>
                                     <!--end::Title-->
 								</div>
