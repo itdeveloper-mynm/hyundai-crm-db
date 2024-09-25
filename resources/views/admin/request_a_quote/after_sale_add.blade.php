@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Contact Edit')
+@section('title', 'After Sale Add')
 
 @section('content')
 
@@ -8,9 +8,8 @@
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container ">
 
-    <form class="form d-flex flex-column flex-lg-row" method="post" id="myForm">
+        <form class="form d-flex flex-column flex-lg-row" method="post" id="myForm">
             @csrf
-            @method('PUT')
 
             <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
                 <div class="tab-content">
@@ -21,7 +20,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Contact Edit') }}</h2>
+                                        <h2>{{ __('After Sale Add') }}</h2>
                                     </div>
                                 </div>
 
@@ -31,42 +30,46 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" name="first_name" id="first_name" value="{{$customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" name="first_name" id="first_name" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" name="last_name" id="last_name" value="{{$customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" name="last_name" id="last_name" class="form-control mb-2"
                                                 required />
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Mobile') }}</label>
-                                            <small>Please follow the format: (966123456789)</small>
-                                            <input type="number" name="mobile" id="mobile" value="{{ ltrim($customer->mobile, '+') }}" class="form-control mb-2"
-                                                required pattern="[0-9]{9,14}" title="Mobile number must be between 9 and 12 digits"
-                                                placeholder="e.g., 966123456789"  oninput="validity.valid||(value='');"/>
+                                            <input type="text" name="mobile" id="mobile" class="form-control mb-2"
+                                                required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="email" name="email" id="email" value="{{$customer->email}}" class="form-control mb-2"
+                                            <input type="text" name="email" id="email" class="form-control mb-2"
                                                 required />
                                         </div>
 
                                     </div>
 
                                     <div class="row mt-5">
-
                                         <div class="mb-5 fv-row col-lg-6">
-                                            <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select class="form-select mb-2" name="bank_id"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($banks as $bank)
-                                                    <option value="{{$bank->id}}" @selected($bank->id == $customer->bank_id)>{{$bank->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
+                                        </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.branch' ,[ 'required' =>true, 'data' => null ])
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])
+                                        </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.source' ,[ 'required' =>true, 'data' => null ])
+                                        </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => null ])
                                         </div>
                                     </div>
 
@@ -94,6 +97,9 @@
 @endsection
 
 @section('js')
+
+<script src="{{ asset('ajx_files/ajx.js') }}"></script>
+
 <script>
 $(document).ready(function() {
 
@@ -103,62 +109,14 @@ $(document).ready(function() {
             'status': {
                 required: true,
             },
-            'email': {
-                required: true,
-                remote: {
-                    url: "{{ route('check.name.exist') }}",
-                    type: "get",
-                    data: {
-                        email: function(data) {
-                            return $('#email').val();
-                        },
-                        check: function(data) {
-                            return "{{$customer->id}}";
-                        },
-                        tableName: function(data) {
-                            return 'customers';
-                        },
-                        fieldName: function(data) {
-                            return 'email';
-                        },
-
-                    }
-                }
-            },
-            'mobile': {
-                required: true,
-                remote: {
-                    url: "{{ route('check.name.exist') }}",
-                    type: "get",
-                    data: {
-                        mobile: function(data) {
-                            return $('#mobile').val();
-                        },
-                        check: function(data) {
-                            return "{{$customer->id}}";
-                        },
-                        tableName: function(data) {
-                            return 'customers';
-                        },
-                        fieldName: function(data) {
-                            return 'mobile';
-                        },
-
-                    }
-                }
-            },
 
         },
         messages: {
             'status': {
                 'required': "{{ __('status field is required') }}"
             },
-            email: {
-                remote: "Email Already Exists",
-
-            },
-            mobile: {
-                remote: "Mobile Already Exists",
+            name: {
+                remote: "Name Already Exists",
 
             },
         },
@@ -178,7 +136,7 @@ $(document).ready(function() {
             var data = new FormData(form);
             $.ajax({
                 type: "POST",
-                url: "{{ route('contact.update', [$customer->id]) }}",
+                url: "{{ route('after-sale.store') }}",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -193,12 +151,12 @@ $(document).ready(function() {
 
                     if (data.result == 'success') {
                         Swal.fire(
-                            "{{ __('Updated') }}",
+                            "{{ __('Add') }}",
                             data.message,
                             data.result,
                         )
 
-                        window.location.href = "{{route('contact.index')}}";
+                        window.location.href = "{{route('after-sale.index')}}";
 
                     }
                     if (data.result == 'error') {

@@ -7,7 +7,7 @@
         <a href="{{ url('/dashboard') }}">
             <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"
                 class="h-25px app-sidebar-logo-default" />
-            <img alt="Logo" src="{{ asset('login_asset') }}/assets/media/logos/default-small.svg"
+            <img alt="Logo" src="{{ asset('admin_asset') }}/assets/media/logos/hyundai-logo.png"
                 class="h-20px app-sidebar-logo-minimize" />
         </a>
         <!--end::Logo image-->
@@ -180,24 +180,43 @@
                             <!--end:Menu sub-->
                         @endcan
                         @can('test-drive-request-list')
-                        <!--begin:Menu sub-->
-                        <div class="menu-sub menu-sub-accordion">
-                            <!--begin:Menu item-->
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{ activeRoute(route('test-drive-request.index')) }}"
-                                    href="{{ route('test-drive-request.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Request a Test Drive</span>
-                                </a>
-                                <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ activeRoute(route('test-drive-request.index')) }}"
+                                        href="{{ route('test-drive-request.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Request a Test Drive</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
                             </div>
-                            <!--end:Menu item-->
-                        </div>
-                        <!--end:Menu sub-->
-                    @endcan
+                            <!--end:Menu sub-->
+                        @endcan
+                        @can('quote-request-list')
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ activeRoute(route('quote-request.index')) }}"
+                                        href="{{ route('quote-request.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Request a Quote</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+                        @endcan
                         @can('used-car-leads-list')
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">

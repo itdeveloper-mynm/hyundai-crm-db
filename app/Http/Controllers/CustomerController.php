@@ -53,7 +53,9 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data['customer']= Customer::findorFail($id);
+        $data['banks']= Bank::whereStatus(1)->get();
+        return view('admin.customer.customer_show' , $data);
     }
 
     /**

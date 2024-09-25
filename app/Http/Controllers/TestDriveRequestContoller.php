@@ -58,6 +58,7 @@ class TestDriveRequestContoller extends Controller
                 "mobile" => $row->customer->mobile ?? '-',
                 // "first_name" => ucwords($row->customer->first_name),
                 // "last_name" => ucwords($row->customer->last_name),
+                "customer_id" => $row->customer_id,
                 "city_id" => $row->city->name ?? "",
                 "branch_id" => $row->branch->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",

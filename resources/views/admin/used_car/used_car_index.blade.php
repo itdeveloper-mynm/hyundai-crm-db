@@ -430,9 +430,12 @@ var table = $('#user_table').DataTable({
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
+                var res3 = '-';
                 @can('used-car-leads-edit')
-                res = '<a href="{{  url("used-car")  }}/' + data +
+                    res = '<a href="{{  url("used-car")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
+                    res3 = '<a href="{{ url('contact') }}/' + row.customer_id +
+                                '" target="_blank" class="btn btn-sm btn-icon btn-light-primary ms-1"  data-toggle="tooltip" title="View Contact"><i class="fa fa-address-book"></i></a> ';
                 @endcan
                 @can('used-car-leads-delete')
                 res2 =
@@ -440,7 +443,7 @@ var table = $('#user_table').DataTable({
                     data + ')" ><i class="bi-trash"></i></a>';
                 @endcan
 
-                return res + res2;
+                return res + res2 + res3;
             }
         }
     ],

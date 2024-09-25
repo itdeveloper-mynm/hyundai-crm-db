@@ -133,6 +133,7 @@ class SmoLeadController extends Controller
                 "mobile" => $row->customer->mobile ?? '-',
                 // "first_name" => ucwords($row->customer->first_name),
                 // "last_name" => ucwords($row->customer->last_name),
+                "customer_id" => $row->customer_id,
                 "city_id" => $row->city->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",

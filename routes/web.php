@@ -25,6 +25,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailSendingCriteriaController;
 use App\Http\Controllers\GraphController;
 use App\Http\Controllers\TestDriveRequestContoller;
+use App\Http\Controllers\QuoteRequestContoller;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +93,12 @@ Route::resource('test-drive-request', TestDriveRequestContoller::class);
 Route::controller(TestDriveRequestContoller::class)->group(function(){
     Route::get('test-drive-request-pagination',  'testDrivePagination')->name('test-drive-request.pagination');
     Route::post('test-drive-request-export',  'testdriveExport')->name('test-drive-request.export');
+});
+
+Route::resource('quote-request', QuoteRequestContoller::class);
+Route::controller(QuoteRequestContoller::class)->group(function(){
+    Route::get('quote-request-pagination',  'testDrivePagination')->name('quote-request.pagination');
+    Route::post('quote-request-export',  'testdriveExport')->name('quote-request.export');
 });
 
 

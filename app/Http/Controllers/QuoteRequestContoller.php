@@ -3,109 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\City;
-use App\Models\Branch;
-use App\Models\Vehicle;
-use App\Models\Source;
-use App\Models\Campaign;
 use App\Models\Application;
-use App\Models\Customer;
-use App\Models\Bank;
-use Illuminate\Support\Facades\Validator;
-use App\Imports\LeadsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\DB;
 
-class OldLeadController extends Controller
+class QuoteRequestContoller extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:old-leads-list', ['only' => ['index','show']]);
-        $this->middleware('permission:old-leads-create', ['only' => ['create','store']]);
-        $this->middleware('permission:old-leads-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:old-leads-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:old-leads-export', ['only' => ['oldLeadsExport']]);
+        $this->middleware('permission:test-drive-request-list', ['only' => ['index']]);
+        $this->middleware('permission:test-drive-request-export', ['only' => ['allleadsExport']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $data = getCommonFilterData();
-
-        return view('admin.old_lead.index' , $data);
+        return view('admin.request_a_quote.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $data = getCommonData();
-
-        return view('admin.old_lead.add' , $data);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-
-        Application::storeData($request,'old_leads');
-
-        return Response(['result'=>'success','message'=>__('Added Successfully')]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-
-        $lead= Application::findorFail($id);
-        $data = getCommonData($lead->city_id);
-        $data['lead'] = $lead;
-
-
-        return view('admin.old_lead.edit', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-
-        Application::updateData($request,$id);
-
-        return Response(['result'=>'success','message'=>__('Updated Successfully')]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $row = Application::findorFail($id);
-        $row->delete();
-
-        return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
-    }
-
-
-    public function leadsPagination()
+    public function testDrivePagination()
     {
         // -- START DEFAULT DATATABLE QUERY PARAMETER
         $draw = request('draw');
@@ -117,16 +35,15 @@ class OldLeadController extends Controller
         $columnName = request('columns')[$columnIndex]['data']; // Column name
         $columnSortOrder = request('order')[0]['dir']; // asc or desc value
         $searchValue = request('search')['value']; // Search value from datatable
-        $conditions = request()->all();
         //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::search($conditions)->where('type','old_leads')->count();
+        $countAll = Application::search($conditions)->where('type','request_a_test_drive')->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
-                ->where('type','old_leads')
-                ->latest()
+                ->where('type','request_a_quote')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -151,7 +68,7 @@ class OldLeadController extends Controller
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
                 "created_by" => $row->createdby->name ?? 'System',
-                 "updated_at" => $row->updated_by ? dateTimeformat($row['updated_at']) : '-',
+                "updated_at" => $row->updated_by ? dateTimeformat($row['updated_at']) : '-',
                 "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
@@ -168,21 +85,24 @@ class OldLeadController extends Controller
 
    }
 
-
-   public function oldLeadsExport(Request $request)
+   public function testdriveExport(Request $request)
    {
        //dd($request->all());
        ini_set('max_execution_time', 300);
        //    direct download file
-       $fileName = 'old_leads_export_' . time() . '.csv';
+       $fileName = 'request_a_quote_export_' . time() . '.csv';
 
        $response = new StreamedResponse(function () {
            $dataName = getCommonDataName();
            $conditions = request()->all();
 
            $fileHandle = fopen('php://output', 'w');
+
+            // Add UTF-8 BOM for Excel compatibility
+            fwrite($fileHandle, "\xEF\xBB\xBF");
+
            fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
-                               'Purchase Plan','Monthly Salary','Preferred Appointment Time','Created At','Type']);
+                               'Created At']);
            $chunkSize = 50000;
 
            Application::search($conditions)
@@ -197,13 +117,10 @@ class OldLeadController extends Controller
                'applications.vehicle_id',
                'applications.source_id',
                'applications.campaign_id',
-               'applications.purchase_plan',
-               'applications.monthly_salary',
-               'applications.preferred_appointment_time',
                'applications.created_at'
            )
-           ->whereNotNull('cust.bank_id')
-           ->where('applications.type', 'leads')
+        //    ->whereNotNull('cust.bank_id')
+           ->where('applications.type', 'request_a_quote')
            ->orderBy('applications.id')
            ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
                foreach ($records as $record) {
@@ -216,11 +133,7 @@ class OldLeadController extends Controller
                        $dataName['sources'][$record->source_id] ?? "",
                        $dataName['campaigns'][$record->campaign_id] ?? "",
                        $record->bank_name,
-                       $record->purchase_plan,
-                       $record->monthly_salary,
-                       $record->preferred_appointment_time,
                        formateDate($record->created_at),
-                       'Old Leads',
                    ];
                    fputcsv($fileHandle, (array)$row);
                }
@@ -231,11 +144,13 @@ class OldLeadController extends Controller
            });
 
            fclose($fileHandle);
+
        });
 
-       $response->headers->set('Content-Type', 'text/csv');
+       $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
 
        return $response;
    }
+
 }

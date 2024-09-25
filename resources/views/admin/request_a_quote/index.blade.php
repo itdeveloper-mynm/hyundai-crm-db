@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Request a Test Drive')
+@section('title', 'Request a Quote Drive')
 
 @section('content')
 
@@ -18,7 +18,7 @@
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <h1
                                         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                        {{ __('Request a Test Drive Listing') }}</h1>
+                                        {{ __('Request a Quote Drive') }}</h1>
                                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                         <li class="breadcrumb-item text-muted">
                                             <a href="{{ route('after-sale.index') }}"
@@ -112,7 +112,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
+                                                    <a href="{{ route('quote-request.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>
@@ -125,7 +125,7 @@
                             </div>
 
                             @can('test-drive-request-export')
-                            <form action="{{route('test-drive-request.export')}}" method="POST"  id="exportForm">
+                            <form action="{{route('quote-request.export')}}" method="POST"  id="exportForm">
                                 @csrf
                                 <div id="export_form_div" style="display: none">
 
@@ -218,7 +218,7 @@
             filter: true,
 
             ajax: {
-                "url": "{{ route('test-drive-request.pagination') }}",
+                "url": "{{ route('quote-request.pagination') }}",
                 "type": "GET",
                 'data': function(data) {
                     data.city_id = $('#city_id').val();

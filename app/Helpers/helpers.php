@@ -104,6 +104,7 @@ function AllLeadsMenuPermissionArr()
     return [
         'all-leads-list',
         'test-drive-request-list',
+        'quote-request-list',
         'campaign-leads-list',
         'after-sale-leads-list',
         'used-car-leads-list',
@@ -175,6 +176,7 @@ function AllLeadsMenuArr()
     $array =[
         route('allleads.index'),
         route('test-drive-request.index'),
+        route('quote-request.index'),
         route('lead.index'),route('lead.create'),request()->is('lead/*/edit'),
         route('after-sale.index'),route('after-sale.create'),request()->is('after-sale/*/edit'),
         route('used-car.index'),route('used-car.create'),request()->is('used-car/*/edit'),

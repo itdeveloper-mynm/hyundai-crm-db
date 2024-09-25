@@ -463,9 +463,12 @@
                     render: function(data, type, row) {
                         var res = '-';
                         var res2 = '-';
+                        var res3 = '-';
                         @can('old-leads-create')
-                        res = '<a href="{{ url('old-leads') }}/' + data +
+                            res = '<a href="{{ url('old-leads') }}/' + data +
                             '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                            res3 = '<a href="{{ url('contact') }}/' + row.customer_id +
+                                '" target="_blank" class="btn btn-sm btn-icon btn-light-primary ms-1"  data-toggle="tooltip" title="View Contact"><i class="fa fa-address-book"></i></a> ';
                         @endcan
                         @can('old-leads-create')
                         res2 =
@@ -473,7 +476,7 @@
                             data + ')" ><i class="bi-trash"></i></a>';
                         @endcan
 
-                        return res + res2;
+                        return res + res2 + res3;
                     }
                 }
             ],
