@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="card-title">
-                                <div class="d-flex align-items-center position-relative my-1">
+                                {{-- <div class="d-flex align-items-center position-relative my-1">
                                     <span class="svg-icon svg-icon-1 position-absolute ms-6">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -44,7 +44,7 @@
                                     </span>
                                     <input type="text" data-kt-customer-table-filter="search" name="search"
                                         id="search" class="form-control w-250px ps-15" placeholder="Search" />
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-lg-4 d-flex justify-content-end">
