@@ -45,6 +45,7 @@ class ExternalLeadController extends Controller
 
         //dd($request->all());
         \Log::info('customer api hit');
+        \Log::info($request->all());
 
         $bank = null;
         $city = null;
@@ -217,6 +218,7 @@ class ExternalLeadController extends Controller
         ]);
 
         \Log::info('saveformjson api hit');
+        \Log::info($request->all());
 
 
         $bank = null;
