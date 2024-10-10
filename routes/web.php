@@ -146,8 +146,8 @@ Route::controller(ExternalLeadController::class)->group(function(){
     // Route::post('addleads',  'store')->name('addleads.store');
     // Route::get('addleads/create',  'create');
     // Route::any('saveform/store',  'saveformstore');
-    Route::any('saveformjson',  'saveformjson');
-    Route::any('campaign_leads',  'store');
+    Route::any('saveformjson',  'saveformjson')->withoutMiddleware('auth');
+    Route::any('campaign_leads',  'store')->withoutMiddleware('auth');
 });
 
 Route::resource('old-leads', OldLeadController::class);

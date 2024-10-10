@@ -331,11 +331,11 @@ class ExternalLeadController extends Controller
 
         $lead = new Application();
         $lead->type = $type;
-        $lead->city_id = $city->id;
-        $lead->branch_id = $branch->id;
-        $lead->vehicle_id = $vehicle->id;
-        $lead->source_id = $sourcee->id;
-        $lead->campaign_id = $campaign->id;
+        $lead->city_id = $city->id ?? null;
+        $lead->branch_id = $branch->id ?? null;
+        $lead->vehicle_id = $vehicle->id ?? null;
+        $lead->source_id = $sourcee->id ?? null;
+        $lead->campaign_id = $campaign->id ?? null;
         $lead->monthly_salary = $monthly_salary ?? null;
         $lead->customer_id= $customer->id;
         $lead->apply_for = $apply_for ?? null;
