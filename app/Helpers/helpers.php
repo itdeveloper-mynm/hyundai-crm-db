@@ -10,6 +10,8 @@ use App\Models\Source;
 use App\Models\Campaign;
 use App\Models\Bank;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 
 function getMonthNameAndYear($date)
@@ -20,6 +22,12 @@ function getMonthNameAndYear($date)
 function currdate()
 {
     return Carbon::today()->format('Y-m-d');
+    //return date('Y-m-d');
+}
+
+function currdateTime()
+{
+    return Carbon::today()->format('Y-m-d h:i:s');
     //return date('Y-m-d');
 }
 
@@ -534,3 +542,113 @@ function human_readable_number($number, $precision = 1) {
     return $n_format . $suffix;
 }
 
+
+function autoLineAPI($row){
+
+    $url = "https://leadmanagement-stage.otolink.app/api/leads";
+    $data =formattedAutoLineLead($row);
+    // dd($data);
+    $response = Http::withHeaders([
+        'Authorization' => 'bc44d7ba4bacdd1e2d5433f822f91efa',
+    ])->timeout(180)->post($url, $data);
+
+    if ($response->successful()) {
+        $responseData = $response->json();
+        Log::info($responseData);
+
+    }else{
+        $error = $response->body();
+        Log::info($error);
+    }
+
+}
+
+function formattedAutoLineLead($row)
+{
+    return [
+        "submissionDate" => currdateTime(),
+        "displayName" => "Lead",
+        "dealerCode" => "2",
+        "outlateCode" => "1600",
+        "branch" => $row->branch->name ?? "",
+        "department" => "Sales",
+        "externalReference" => [
+            "provider" => "OTOLINK",
+            "application" => "OTO Leads",
+            "id" => "OTO Leads",
+            "url" => ""
+        ],
+        "leadReferenceData" => [
+            "externalCampaignId" => "kcc",
+            "externalDealerId" => "OTOLEAD"
+        ],
+        "source" => "WEBSITE",
+        "contact" => [
+            "contactDetails" => [
+                "names" => [
+                    "familyName" => "",
+                    "familyName2" => "",
+                    "middleName" => "",
+                    "givenName" => "",
+                    "preferredName" => $row->customer->full_name ?? "",
+                    "initials" => "",
+                    "salutation" => $row->customer->full_name ?? "",
+                    "titleCommon" => "Mr."
+                ],
+                "addresses" => [
+                    "home" => [
+                        "physicalAddress" => [
+                            "streetType" => "",
+                            "streetName" => "",
+                            "houseNumber" => "",
+                            "buildingName" => "",
+                            "floorNumber" => "",
+                            "doorNumber" => "",
+                            "blockName" => "",
+                            "estate" => "",
+                            "postalCode" => "",
+                            "suburb" => "",
+                            "city" => "",
+                            "county" => "",
+                            "province" => "",
+                            "countryCode" => ""
+                        ]
+                    ]
+                ],
+                "communication" => [
+                    "home" => [
+                        "mobile" => $row->customer->mobile ?? "",
+                        "email" => $row->customer->email ?? "",
+                    ]
+                ]
+            ]
+        ],
+        "vehicle" => [
+            "make" =>  $row->vehicle->name ?? "",
+            "model" => "",
+            "modelYear" => $row->yearr ?? "",
+            "mileage" => ""
+        ],
+        "enquiry" => [
+            "type" => reverseCheckApplicationType($row->type),
+            "message" => "",
+            "offer" => "",
+            "refUrl" => ""
+        ],
+        "notes" => [
+            [
+                "dealer_city" => $row->city->name ?? "",
+                "dealer_branch" => $row->branch->name ?? "",
+                "purchase_plan" => $row->purchase_plan ?? "",
+                "monthly_salary" => $row->monthly_salary ?? "",
+                "customers_bank" => $row->customer->bank->name ?? "",
+                "source_name" => $row->source->name ?? "",
+                "campaign_name" => $row->campaign->name ?? "",
+                "preferred_appointment_time" => $row->preferred_appointment_time ?? "",
+                "category" => $row->category ?? "",
+                "sub_category" => $row->sub_category ?? "",
+                "kyc" => $row->kyc ?? "",
+            ]
+        ]
+    ];
+}

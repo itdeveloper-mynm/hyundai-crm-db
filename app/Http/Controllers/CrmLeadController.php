@@ -213,6 +213,9 @@ class CrmLeadController extends Controller
 
         $application->save();
 
+        if($request->action_category == 'Qualified'){
+            autoLineAPI($application);
+        }
 
         // Fetch the record from the database with joins
         $record = DB::table('applications')
