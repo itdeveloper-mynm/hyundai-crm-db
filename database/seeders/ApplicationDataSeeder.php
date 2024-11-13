@@ -39,7 +39,7 @@ class ApplicationDataSeeder extends Seeder
             $sourcee = null;
             $campaign = null;
             // $singleData = array($singleData);
-            $first_name_utf8 = mb_convert_encoding($singleData->fname, 'UTF-8', 'HTML-ENTITIES');
+            // $first_name_utf8 = mb_convert_encoding($singleData->fname, 'UTF-8', 'HTML-ENTITIES');
 
             $singleData = json_decode(json_encode($singleData), true);
 
