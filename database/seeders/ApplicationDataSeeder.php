@@ -36,6 +36,7 @@ class ApplicationDataSeeder extends Seeder
             $singleData = json_decode(json_encode($singleData), true);
             $existingApplication = Application::where('dummy_applicationid', $singleData['dummy_applicationid'])->first();
             if ($existingApplication) {
+                echo $existingApplication->dummy_applicationid . "\n";
 
             }else{
                 $bank = null;
