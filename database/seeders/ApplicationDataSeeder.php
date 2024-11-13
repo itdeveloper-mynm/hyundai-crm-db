@@ -32,79 +32,80 @@ class ApplicationDataSeeder extends Seeder
 
 
         foreach($alldata as $singleData){
-            $bank = null;
-            $city = null;
-            $branch = null;
-            $vehicle = null;
-            $sourcee = null;
-            $campaign = null;
-            // $singleData = array($singleData);
-            // $first_name_utf8 = mb_convert_encoding($singleData->fname, 'UTF-8', 'HTML-ENTITIES');
 
             $singleData = json_decode(json_encode($singleData), true);
-
-            $optionalData = [
-                'bank' => $singleData['bankk'] ?? null,
-                'dealer_city' => $singleData['dealerCity'] ?? null,
-                'dealer_branch' => $singleData['dealerbranch'] ?? null,
-                'vehicle' =>  $singleData['interested'] ?? null,
-                'channel' => $singleData['sourcee'] ?? null,
-                'campaign' => $singleData['pagesub'] ?? null,
-            ];
-
-            foreach ($optionalData as $key => $value) {
-                if ($value) {
-                    switch ($key) {
-                        case 'bank':
-                            $bank = Bank::firstOrCreate(['name' => $value]);
-                            break;
-                        case 'dealer_city':
-                            $city = City::firstOrCreate(['name' => $value]);
-                            break;
-                        case 'dealer_branch':
-                            if ($city) {
-                                $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
-                            }
-                            break;
-                        case 'vehicle':
-                            $vehicle = Vehicle::firstOrCreate(['name' => $value]);
-                            break;
-                        case 'channel':
-                            $sourcee = Source::firstOrCreate(['name' => $value]);
-                            break;
-                        case 'campaign':
-                            $campaign = Campaign::firstOrCreate(['name' => $value]);
-                            break;
-                    }
-                }
-            }
-
-            $mobile = $singleData['mobile'];
-            $mobile =formatInputNumber($mobile);
-
-
-            // $first_name = decodeUnicode($singleData['fname']);
-            $first_name = $singleData['fname'];
-
-            $customer = Customer::firstOrCreate(
-                ['mobile' => $mobile],
-                [
-                    'first_name' => $first_name,
-                    'last_name' => $singleData['lname'] ?? null,
-                    'email' => $singleData['email'] ?? null,
-                    'city_id' => $city->id ?? null,
-                    'bank_id' => $bank->id ?? null,
-                    'national_id' => $singleData['nationalId'] ?? null,
-                ]
-            );
-
-
-            $type= checkApplicationType($singleData['page']) ?? 'leads';
-
             $existingApplication = Application::where('dummy_applicationid', $singleData['dummy_applicationid'])->first();
             if ($existingApplication) {
 
             }else{
+                $bank = null;
+                $city = null;
+                $branch = null;
+                $vehicle = null;
+                $sourcee = null;
+                $campaign = null;
+                // $singleData = array($singleData);
+                // $first_name_utf8 = mb_convert_encoding($singleData->fname, 'UTF-8', 'HTML-ENTITIES');
+
+
+                $optionalData = [
+                    'bank' => $singleData['bankk'] ?? null,
+                    'dealer_city' => $singleData['dealerCity'] ?? null,
+                    'dealer_branch' => $singleData['dealerbranch'] ?? null,
+                    'vehicle' =>  $singleData['interested'] ?? null,
+                    'channel' => $singleData['sourcee'] ?? null,
+                    'campaign' => $singleData['pagesub'] ?? null,
+                ];
+
+                foreach ($optionalData as $key => $value) {
+                    if ($value) {
+                        switch ($key) {
+                            case 'bank':
+                                $bank = Bank::firstOrCreate(['name' => $value]);
+                                break;
+                            case 'dealer_city':
+                                $city = City::firstOrCreate(['name' => $value]);
+                                break;
+                            case 'dealer_branch':
+                                if ($city) {
+                                    $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
+                                }
+                                break;
+                            case 'vehicle':
+                                $vehicle = Vehicle::firstOrCreate(['name' => $value]);
+                                break;
+                            case 'channel':
+                                $sourcee = Source::firstOrCreate(['name' => $value]);
+                                break;
+                            case 'campaign':
+                                $campaign = Campaign::firstOrCreate(['name' => $value]);
+                                break;
+                        }
+                    }
+                }
+
+                $mobile = $singleData['mobile'];
+                $mobile =formatInputNumber($mobile);
+
+
+                // $first_name = decodeUnicode($singleData['fname']);
+                $first_name = $singleData['fname'];
+
+                $customer = Customer::firstOrCreate(
+                    ['mobile' => $mobile],
+                    [
+                        'first_name' => $first_name,
+                        'last_name' => $singleData['lname'] ?? null,
+                        'email' => $singleData['email'] ?? null,
+                        'city_id' => $city->id ?? null,
+                        'bank_id' => $bank->id ?? null,
+                        'national_id' => $singleData['nationalId'] ?? null,
+                    ]
+                );
+
+
+                $type= checkApplicationType($singleData['page']) ?? 'leads';
+
 
                 $lead = new Application();
                 $lead->customer_id= $customer->id;
