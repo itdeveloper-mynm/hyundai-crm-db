@@ -33,12 +33,7 @@ class ApplicationDataSeeder extends Seeder
 
         foreach($alldata as $singleData){
 
-            $singleData = json_decode(json_encode($singleData), true);
-            $existingApplication = Application::where('dummy_applicationid', $singleData['dummy_applicationid'])->first();
-            if ($existingApplication) {
-                echo $existingApplication->dummy_applicationid . "\n";
 
-            }else{
                 $bank = null;
                 $city = null;
                 $branch = null;
@@ -48,6 +43,7 @@ class ApplicationDataSeeder extends Seeder
                 // $singleData = array($singleData);
                 // $first_name_utf8 = mb_convert_encoding($singleData->fname, 'UTF-8', 'HTML-ENTITIES');
 
+                $singleData = json_decode(json_encode($singleData), true);
 
                 $optionalData = [
                     'bank' => $singleData['bankk'] ?? null,
@@ -107,6 +103,11 @@ class ApplicationDataSeeder extends Seeder
 
                 $type= checkApplicationType($singleData['page']) ?? 'leads';
 
+                $existingApplication = Application::where('dummy_applicationid', $singleData['dummy_applicationid'])->first();
+                if ($existingApplication) {
+                    echo $existingApplication->dummy_applicationid . "\n";
+
+                }else{
 
                 $lead = new Application();
                 $lead->customer_id= $customer->id;
