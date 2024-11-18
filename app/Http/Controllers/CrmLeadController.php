@@ -218,45 +218,45 @@ class CrmLeadController extends Controller
         }
 
         // Fetch the record from the database with joins
-        $record = DB::table('applications')
-        ->select(
-            'applications.id as id',
-            'campaigns.name as Campaign',
-            'applications.type as DataType',
-            'customers.gender as Gender',
-            'customers.first_name as FirstName',
-            'customers.last_name as LastName',
-            'customers.national_id as NationalID',
-            'customers.mobile as Mobile',
-            'customers.email as Email',
-            'cities.name as DealerCity',
-            'branches.name as DealerBranch',
-            'applications.request_date as RequestDate',
-            'applications.preferred_appointment_time as PreferredTime',
-            'vehicles.name as Vehicle',
-            'applications.yearr as Year',
-            'applications.intention as PurchasePlan',
-            'applications.monthly_salary as MonthlySalary',
-            'banks.name as Bank',
-            'applications.comments as Comments',
-            'sources.name as Source',
-            'applications.category as Category',
-            'applications.sub_category as SubCategory'
-        )
-        ->join('customers', 'applications.customer_id', '=', 'customers.id')
-        ->join('cities', 'applications.city_id', '=', 'cities.id')
-        ->join('branches', 'applications.branch_id', '=', 'branches.id')
-        ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
-        ->join('sources', 'applications.source_id', '=', 'sources.id')
-        ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
-        ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
-        ->where('applications.id', $id)
-        ->first();
+        // $record = DB::table('applications')
+        // ->select(
+        //     'applications.id as id',
+        //     'campaigns.name as Campaign',
+        //     'applications.type as DataType',
+        //     'customers.gender as Gender',
+        //     'customers.first_name as FirstName',
+        //     'customers.last_name as LastName',
+        //     'customers.national_id as NationalID',
+        //     'customers.mobile as Mobile',
+        //     'customers.email as Email',
+        //     'cities.name as DealerCity',
+        //     'branches.name as DealerBranch',
+        //     'applications.request_date as RequestDate',
+        //     'applications.preferred_appointment_time as PreferredTime',
+        //     'vehicles.name as Vehicle',
+        //     'applications.yearr as Year',
+        //     'applications.intention as PurchasePlan',
+        //     'applications.monthly_salary as MonthlySalary',
+        //     'banks.name as Bank',
+        //     'applications.comments as Comments',
+        //     'sources.name as Source',
+        //     'applications.category as Category',
+        //     'applications.sub_category as SubCategory'
+        // )
+        // ->join('customers', 'applications.customer_id', '=', 'customers.id')
+        // ->join('cities', 'applications.city_id', '=', 'cities.id')
+        // ->join('branches', 'applications.branch_id', '=', 'branches.id')
+        // ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+        // ->join('sources', 'applications.source_id', '=', 'sources.id')
+        // ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
+        // ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
+        // ->where('applications.id', $id)
+        // ->first();
 
 
     // Convert the record to an array
-    $record = (array) $record;
-    $record['DataType'] = reverseCheckApplicationType($record['DataType']);
+    // $record = (array) $record;
+    // $record['DataType'] = reverseCheckApplicationType($record['DataType']);
     // dd($record);
     // Send the email
     // $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];

@@ -546,22 +546,67 @@ function human_readable_number($number, $precision = 1) {
 function autoLineAPI($row){
 
     $url = "https://leadmanagement-stage.otolink.app/api/leads";
-    $data =formattedAutoLineLead($row);
-    // dd($data);
-    $response = Http::withHeaders([
-        'Authorization' => 'bc44d7ba4bacdd1e2d5433f822f91efa',
-    ])->timeout(180)->post($url, $data);
+    $data = formattedAutoLineLead($row); // Assuming this function prepares the $data
 
-    if ($response->successful()) {
-        $responseData = $response->json();
-        Log::info($responseData);
+    $headers = [
+        'Authorization: bc44d7ba4bacdd1e2d5433f822f91efa',
+        'Content-Type: application/json',
+    ];
 
-    }else{
-        $error = $response->body();
-        Log::info($error);
+    // Initialize cURL
+    $curl = curl_init();
+
+    // Set cURL options
+    curl_setopt_array($curl, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 300,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($data),
+        CURLOPT_HTTPHEADER => $headers,
+    ]);
+
+    // Execute the request
+    $response = curl_exec($curl);
+
+    // Handle errors or response
+    if (curl_errno($curl)) {
+        $error = curl_error($curl);
+        Log::info("cURL Error: " . $error);
+    } else {
+        $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($httpStatus >= 200 && $httpStatus < 300) {
+            $responseData = json_decode($response, true);
+            Log::info($responseData);
+        } else {
+            Log::info("Error Response: " . $response);
+        }
     }
 
+    // Close cURL
+    curl_close($curl);
+
 }
+
+// function autoLineAPI($row){
+
+//     $url = "https://leadmanagement-stage.otolink.app/api/leads";
+//     $data =formattedAutoLineLead($row);
+//     // dd($data);
+//     $response = Http::withHeaders([
+//         'Authorization' => 'bc44d7ba4bacdd1e2d5433f822f91efa',
+//     ])->timeout(300)->post($url, $data);
+
+//     if ($response->successful()) {
+//         $responseData = $response->json();
+//         Log::info($responseData);
+
+//     }else{
+//         $error = $response->body();
+//         Log::info($error);
+//     }
+
+// }
 
 function formattedAutoLineLead($row)
 {
