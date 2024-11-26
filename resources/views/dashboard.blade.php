@@ -491,7 +491,7 @@
 
 @section('js')
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
 
     <script>
         //var ctx = document.getElementById('kt_chartjs_2');

@@ -6,17 +6,14 @@ use App\Models\Application;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class SendSMSService
+class SendPDPlSmsService
 {
     private $syncd_ids = [];
 
     public function sendSMSAPI()
     {
         $contacts_data = $this->getUnsendSMSApplicationsArr();
-        // if (count($this->syncd_ids) > 0) {
-        //     // Application::whereIn('id', $this->syncd_ids)
-        //     //     ->update(['is_sms_send' => 1]);
-        // }
+
     }
 
     public function getUnsendSMSApplicationsArr()
@@ -26,8 +23,7 @@ class SendSMSService
         foreach ($db_data as $application) {
             $this->syncd_ids[] = $application->id;
 
-            // $mobileNumber = ltrim($application->customer->mobile, '0');
-            // $to_number = '966' . $mobileNumber;
+
             $to_number = $application->customer->mobile;
 
             $username = 'hyundainaghiruwxep4ahtfa';
@@ -35,11 +31,6 @@ class SendSMSService
 
             $id = '1025445076';
             $templateinfo = '263457';
-
-            if ($this->isArabic($application->customer->first_name)) {
-                $id = '1025445073';
-                $templateinfo = '263458';
-            }
 
             $postdata ='{
                 "apiver": "1.0",
@@ -100,7 +91,7 @@ class SendSMSService
                Log::info($response_decoded);
 
                if($response_decoded['status'] == 'Success'){
-                    Application::where('id', $application->id)->update(['is_sms_send' => 1]);
+                    Application::where('id', $application->id)->update(['read_accept' => 3]);
                }
 
         }
@@ -110,19 +101,11 @@ class SendSMSService
 
     public function getDbData()
     {
-        return Application::where('is_sms_send', 0)
-            ->where('created_at', '>', now()->subDay())
+        // 2 for old leads check and 3 value mean sms is send
+        return Application::where('read_accept',2)
+            ->orderby('id','asc')
             ->limit(50)
             ->get();
     }
 
-    public function isArabic($str)
-    {
-        return preg_match('/[\p{Arabic}]/u', $str);
-    }
-
-    public function isEnglish($str)
-    {
-        return preg_match('/[a-zA-Z]/', $str);
-    }
 }

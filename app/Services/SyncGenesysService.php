@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Models\Application;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class SyncGenesysService
 {
+    // SyncSaleLeadsGenesys
     const CONTACT_LIST_ID = "767b9401-0061-4cf5-b7d1-0a6a129cbd20";
     const AUTH_URL = "https://login.mypurecloud.ie/oauth/token";
     const CONTACT_SYNC_URL = "https://api.mypurecloud.ie/api/v2/outbound/contactlists/";
@@ -41,19 +43,37 @@ class SyncGenesysService
 
     public function authorize()
     {
-        $response = Http::asForm()->withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(self::CLIENT_ID . ':' . self::CLIENT_SECRET),
-        ])->post(self::AUTH_URL, [
-            'grant_type' => 'client_credentials',
-        ]);
+		$curl = curl_init();
 
-        $response_decoded = $response->json();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => self::AUTH_URL,
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS => "grant_type=client_credentials",
+		  CURLOPT_HTTPHEADER => array(
+		    "Content-Type: application/x-www-form-urlencoded",
+		    "Authorization: Basic ".base64_encode(self::CLIENT_ID.":".self::CLIENT_SECRET),
+		    "Content-Type: application/x-www-form-urlencoded"
+		  ),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$response_decoded = json_decode($response,true);
 
         if (isset($response_decoded['access_token'])) {
             Storage::put('app/syncGenesysService/token.json', $response_decoded['access_token']);
             $this->setToken($response_decoded['access_token']);
         } else {
-            Storage::append('app/syncGenesysService/issues.log', $response->body());
+            Log::info("syncGenesysService");
+            Log::info($response);
         }
     }
 
@@ -66,21 +86,47 @@ class SyncGenesysService
         }
 
         $contacts_data = $this->getUnsyncedApplicationsArr();
+        if(count($contacts_data) === 0) {
+            Log::info("Everything is synced.");
+            return;
+        }
 
-        $response = Http::withToken($token)
-            ->post(self::CONTACT_SYNC_URL . self::CONTACT_LIST_ID . '/contacts', $contacts_data);
+            $curl = curl_init();
 
-        $response_decoded = $response->json();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => self::CONTACT_SYNC_URL.self::CONTACT_LIST_ID."/contacts",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>json_encode($contacts_data),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer ".$token,
+                "Content-Type: application/json"
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            $response_decoded = json_decode($response,true);
+            Log::info("SyncGenesysService syncApplications");
+            Log::info($response_decoded);
 
         if (isset($response_decoded['status']) && $response_decoded['status'] == 401) {
             $this->authorize();
-            $this->syncApplications();  // Retry after authorization
+            // Log::info($response);
+            // $this->syncApplications();  // Retry after authorization
         } elseif (isset($response_decoded['status']) && $response_decoded['status'] == 400) {
-            Storage::append('app/syncGenesysService/issues.log', $response->body());
+            // Log::info($response);
         } else {
             Application::whereIn('id', $this->syncd_ids)
                 ->update(['sync_genesys' => 1]);
-            Storage::append('app/syncGenesysService/issues.log', $response->body());
+            // Log::info($response);
         }
     }
 
@@ -114,7 +160,8 @@ class SyncGenesysService
                     'Salesman comments' => '',
                     'Schedule callback' => '',
                     'Appointment date' => '',
-                    'TimeZone' => 'Asia/Riyadh',
+                    // 'TimeZone' => 'Asia/Riyadh',
+                    'TimeZone' => date("Y-m-d"),
                 ],
                 'callable' => true,
                 'phoneNumberStatus' => new \stdClass(),

@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Application;
+use Illuminate\Support\Facades\Log;
 
 class SyncServiceLeadsGenesys
 {
@@ -27,6 +28,11 @@ class SyncServiceLeadsGenesys
         return $this->token;
     }
 
+    public function setToken($token)
+	{
+		return $this->token = $token;
+	}
+
     public function readToken()
     {
         return Storage::exists('app/syncServiceLeadsGenesys/token.json')
@@ -36,47 +42,91 @@ class SyncServiceLeadsGenesys
 
     public function authorize()
     {
-        $response = Http::asForm()->withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(self::CLIENT_ID . ':' . self::CLIENT_SECRET),
-        ])->post(self::AUTH_URL, [
-            'grant_type' => 'client_credentials'
-        ]);
+		$curl = curl_init();
 
-        $responseData = $response->json();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => self::AUTH_URL,
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS => "grant_type=client_credentials",
+		  CURLOPT_HTTPHEADER => array(
+		    "Content-Type: application/x-www-form-urlencoded",
+		    "Authorization: Basic ".base64_encode(self::CLIENT_ID.":".self::CLIENT_SECRET),
+		    "Content-Type: application/x-www-form-urlencoded"
+		  ),
+		));
 
-        if (isset($responseData['access_token'])) {
-            Storage::put('app/syncServiceLeadsGenesys/token.json', $responseData['access_token']);
-            $this->token = $responseData['access_token'];
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$response_decoded = json_decode($response,true);
+
+        if (isset($response_decoded['access_token'])) {
+            Storage::put('app/syncServiceLeadsGenesys/token.json', $response_decoded['access_token']);
+            $this->setToken($response_decoded['access_token']);
         } else {
-            Storage::append('app/syncServiceLeadsGenesys/issues.log', json_encode($responseData));
+            Log::info("syncServiceLeadsGenesys authorize");
+            Log::info($response);
         }
+
     }
 
     public function syncApplications()
     {
-        if (empty($this->token)) {
-            $this->authorize();
-        }
+        $token = $this->getToken();
+		if(empty($token)) {
+			$this->authorize();
+		}
 
         $contactsData = $this->getUnsyncedApplicationsArr();
+        // dd($contactsData);
 
         if (count($contactsData) === 0) {
-            Storage::append('app/syncServiceLeadsGenesys/issues.log', 'Everything is synced.');
+            Log::info("Everything is synced.");
             return;
         }
 
-        $response = Http::withToken($this->token)->post(self::CONTACT_SYNC_URL . self::CONTACT_LIST_ID . '/contacts', $contactsData);
+        $curl = curl_init();
 
-        $responseData = $response->json();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => self::CONTACT_SYNC_URL.self::CONTACT_LIST_ID."/contacts",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS =>json_encode($contactsData),
+		  CURLOPT_HTTPHEADER => array(
+		    "Authorization: Bearer ".$token,
+		    "Content-Type: application/json"
+		  ),
+		));
 
-        if ($response->status() == 401) {
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$response_decoded = json_decode($response,true);
+        Log::info("SyncServiceLeadsGenesys syncApplications");
+        Log::info($response_decoded);
+
+
+        if (isset($response_decoded['status']) && $response_decoded['status'] == 401) {
             $this->authorize();
-        } elseif ($response->status() == 400) {
-            Storage::append('app/syncServiceLeadsGenesys/issues.log', json_encode($responseData));
+        } elseif (isset($response_decoded['status']) && $response_decoded['status'] == 400) {
         } else {
-            Application::whereIn('dummy_applicationid', $this->syncd_ids)->update(['sync_genesys' => 1]);
-            Storage::append('app/syncServiceLeadsGenesys/issues.log', json_encode($responseData));
+            Application::whereIn('id', $this->syncd_ids)->update(['sync_genesys' => 1]);
+            // Log::info($response);
         }
+
     }
 
     public function getUnsyncedApplicationsArr()
@@ -87,7 +137,7 @@ class SyncServiceLeadsGenesys
         if (count($dbData) > 0) {
             foreach ($dbData as $application) {
                 $contact = [];
-                $this->syncd_ids[] = $application->dummy_applicationid;
+                $this->syncd_ids[] = $application->id;
                 $contact['id'] = $application->dummy_applicationid;
                 $contact['contactListId'] = self::CONTACT_LIST_ID;
                 $contact['data'] = [
