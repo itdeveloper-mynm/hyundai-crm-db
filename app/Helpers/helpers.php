@@ -585,6 +585,7 @@ function autoLineAPI($row){
 
     // Close cURL
     curl_close($curl);
+    return 1;
 
 }
 

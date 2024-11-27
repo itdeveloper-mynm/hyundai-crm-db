@@ -568,19 +568,20 @@ class Application extends Model
             $months_diff = $startDate->diffInMonths($endDate);
         }
 
-        if ($months_diff >= 12) {
-            // Generate an array of years between start and end dates
-            $yearsArray = [];
-            $currentYear = $startDate->copy()->startOfYear();
-            while ($currentYear->lte($endDate)) {
-                $yearsArray[] = $currentYear->format('Y'); // Format as "Year"
-                $currentYear->addYear(); // Move to the next year
-            }
+        // if ($months_diff >= 12) {
+        //     // Generate an array of years between start and end dates
+        //     $yearsArray = [];
+        //     $currentYear = $startDate->copy()->startOfYear();
+        //     while ($currentYear->lte($endDate)) {
+        //         $yearsArray[] = $currentYear->format('Y'); // Format as "Year"
+        //         $currentYear->addYear(); // Move to the next year
+        //     }
 
-            $data['months'] = $yearsArray;
+        //     $data['months'] = $yearsArray;
 
-        }
-        else if($months_diff >= 3){
+        // }
+        // else
+        if($months_diff >= 3){
             // Generate an array of months between start and end dates
             $monthsArray = [];
             $currentMonth = $startDate->copy()->startOfMonth();
@@ -666,8 +667,8 @@ class Application extends Model
 
     public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
 
-        // $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
-        $dateFormat = ($months_diff > 12) ? '%Y' : (($months_diff > 3) ? '%M %Y' : '%Y-%m-%d');
+        $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
+        // $dateFormat = ($months_diff > 12) ? '%Y' : (($months_diff > 3) ? '%M %Y' : '%Y-%m-%d');
         // Adjust the end date to include the full day
         //$endDate = Carbon::parse($endDate)->endOfDay();
         // Generate the date range sequence
@@ -701,51 +702,51 @@ class Application extends Model
     }
 
       // Helper function to generate the date range
-      public static function generateDateRange($startDate, $endDate, $dateFormat) {
-        $start = new \DateTime($startDate);
-        $end = new \DateTime($endDate);
-        $end->modify('+1 day'); // to include end date in the range
-
-        // Determine the interval based on the date format
-        if ($dateFormat == '%Y') {
-            $interval = new \DateInterval('P1Y'); // Interval of 1 year
-        } elseif ($dateFormat == '%M %Y') {
-            $interval = new \DateInterval('P1M'); // Interval of 1 month
-        } else {
-            $interval = new \DateInterval('P1D'); // Interval of 1 day
-        }
-
-        $period = new \DatePeriod($start, $interval, $end);
-
-        $dates = [];
-        foreach ($period as $date) {
-            if ($dateFormat == '%Y') {
-                $dates[] = $date->format('Y'); // Add only the year
-            } elseif ($dateFormat == '%M %Y') {
-                $dates[] = $date->format('F Y'); // Add month and year
-            } else {
-                $dates[] = $date->format('Y-m-d'); // Add full date
-            }
-        }
-
-        return $dates;
-    }
-
     //   public static function generateDateRange($startDate, $endDate, $dateFormat) {
     //     $start = new \DateTime($startDate);
     //     $end = new \DateTime($endDate);
     //     $end->modify('+1 day'); // to include end date in the range
 
-    //     $interval = ($dateFormat == '%M %Y') ? new \DateInterval('P1M') : new \DateInterval('P1D');
+    //     // Determine the interval based on the date format
+    //     if ($dateFormat == '%Y') {
+    //         $interval = new \DateInterval('P1Y'); // Interval of 1 year
+    //     } elseif ($dateFormat == '%M %Y') {
+    //         $interval = new \DateInterval('P1M'); // Interval of 1 month
+    //     } else {
+    //         $interval = new \DateInterval('P1D'); // Interval of 1 day
+    //     }
+
     //     $period = new \DatePeriod($start, $interval, $end);
 
     //     $dates = [];
     //     foreach ($period as $date) {
-    //         $dates[] = $date->format($dateFormat == '%M %Y' ? 'F Y' : 'Y-m-d');
+    //         if ($dateFormat == '%Y') {
+    //             $dates[] = $date->format('Y'); // Add only the year
+    //         } elseif ($dateFormat == '%M %Y') {
+    //             $dates[] = $date->format('F Y'); // Add month and year
+    //         } else {
+    //             $dates[] = $date->format('Y-m-d'); // Add full date
+    //         }
     //     }
 
     //     return $dates;
     // }
+
+      public static function generateDateRange($startDate, $endDate, $dateFormat) {
+        $start = new \DateTime($startDate);
+        $end = new \DateTime($endDate);
+        $end->modify('+1 day'); // to include end date in the range
+
+        $interval = ($dateFormat == '%M %Y') ? new \DateInterval('P1M') : new \DateInterval('P1D');
+        $period = new \DatePeriod($start, $interval, $end);
+
+        $dates = [];
+        foreach ($period as $date) {
+            $dates[] = $date->format($dateFormat == '%M %Y' ? 'F Y' : 'Y-m-d');
+        }
+
+        return $dates;
+    }
 
 
 
