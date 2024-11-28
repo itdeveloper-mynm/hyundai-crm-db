@@ -547,7 +547,8 @@ function autoLineAPI($row){
 
     $url = "https://leadmanagement-stage.otolink.app/api/leads";
     $data = formattedAutoLineLead($row); // Assuming this function prepares the $data
-
+    Log::info("formattedAutoLineLead");
+    Log::info(json_encode($data));
     $headers = [
         'Authorization: bc44d7ba4bacdd1e2d5433f822f91efa',
         'Content-Type: application/json',
@@ -588,6 +589,61 @@ function autoLineAPI($row){
     return 1;
 
 }
+
+function sendSmsPdPl($number) {
+    $url = "https://el.cloud.unifonic.com/rest/SMS/messages";
+
+    $postData = [
+        'AppSid'        => 'kLJvqhhd93gPBnn5W0mCqdqEDhjbja', // Replace with your App SID
+        'SenderID'      => 'Hyundai-AD',
+        'Body'          => 'Hello there',
+        // 'Recipient'     => '+923125115216',
+        'Recipient'     => $number,
+        'responseType'  => 'JSON',
+        'CorrelationID' => '1',
+        'baseEncode'    => 'true',
+        'MessageType'   => '6',
+        'statusCallback'=> 'sent',
+        'async'         => 'false',
+    ];
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Accept: application/json',
+        'Content-Type: application/x-www-form-urlencoded',
+    ]);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'Error: ' . curl_error($ch);
+        curl_close($ch);
+        return;
+    }
+
+    curl_close($ch);
+
+    $responseDecoded = json_decode($response, true);
+
+    Log::info("sendSmsPdPl");
+    if ($responseDecoded) {
+        // echo "Response: " . print_r($responseDecoded, true);
+        Log::info($responseDecoded);
+    } else {
+        // echo "Raw Response: " . $response;
+        Log::info($responseDecoded);
+    }
+
+    return $responseDecoded;
+    // Output the response
+
+}
+
 
 // function autoLineAPI($row){
 
@@ -632,12 +688,12 @@ function formattedAutoLineLead($row)
         "contact" => [
             "contactDetails" => [
                 "names" => [
-                    "familyName" => "",
-                    "familyName2" => "",
-                    "middleName" => "",
-                    "givenName" => "",
+                    "familyName" => $row->customer->full_name ?? "",
+                    "familyName2" => $row->customer->full_name ?? "",
+                    "middleName" => $row->customer->full_name ?? "",
+                    "givenName" => $row->customer->full_name ?? "",
                     "preferredName" => $row->customer->full_name ?? "",
-                    "initials" => "",
+                    "initials" => $row->customer->full_name ?? "",
                     "salutation" => $row->customer->full_name ?? "",
                     "titleCommon" => "Mr."
                 ],

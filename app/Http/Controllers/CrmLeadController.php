@@ -33,6 +33,7 @@ class CrmLeadController extends Controller
 
     public function index()
     {
+        // dd(sendSmsPdPl('+923125115216'));
         $data = getCommonFilterData();
 
         return view('admin.crn_lead.index' ,$data);
