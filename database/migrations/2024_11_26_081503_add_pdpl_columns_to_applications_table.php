@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('applications', function (Blueprint $table) {
             $table->integer('read_accept')->default(0);
-            $table->integer('letter_accept')->nullable(0);
+            $table->integer('letter_accept')->default(0);
         });
     }
 
