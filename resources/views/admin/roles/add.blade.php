@@ -107,12 +107,12 @@ $(document).ready(function() {
             const $allCheckboxes = $form.find('[type="checkbox"]:not(:disabled)');
             let allChecked = true;
 
-            $allCheckboxes.each(function() {
-                if (!$(this).is(':checked')) {
-                    allChecked = false;
-                    return false; // Exit each loop
-                }
-            });
+            // $allCheckboxes.each(function() {
+            //     if (!$(this).is(':checked')) {
+            //         allChecked = false;
+            //         return false; // Exit each loop
+            //     }
+            // });
 
             if (!allChecked) {
                 Swal.fire({

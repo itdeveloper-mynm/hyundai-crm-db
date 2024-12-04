@@ -911,8 +911,10 @@
         },
         plotOptions: {
             bar: {
-            horizontal: true,
-            distributed: true
+                horizontal: true,
+                distributed: true,
+                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+
             }
         },
         dataLabels: {
@@ -925,6 +927,9 @@
                     return val;
                 }
             }
+        },
+            legend: {
+            show: false // Hides the legend below the graph
         }
         };
 
