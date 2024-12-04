@@ -2,6 +2,21 @@
 
 @section('title', 'After Sales Report')
 
+@section('css')
+
+    <style>
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+    </style>
+@endsection
+
 @section('content')
 
     <!--begin::Content-->
@@ -166,19 +181,170 @@
             </div>
 
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-10 mb-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
                     <div class="card card-bordered">
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
                         <div class="card-body">
-                            <div id="graph_2" style="height: 350px;"></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF6384">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                            <p class="label">Online Service Booking</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF9F40">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
+                                            <p class="label">Service Offers</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #9966FF">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
+                                            <p class="label">Contact Us (After Sales) </p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                    <tr class="campaign_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['source'] as $source_data)
+                                                                    @if (isset($source_data))
+                                                                    <tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Sources</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <div id="source_detials_div"></div>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+
+            {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -259,7 +425,7 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
         </div>
         <!--end::Content container-->
@@ -327,107 +493,38 @@
                 plugins: {
                     title: {
                         display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
                 }
             }
         };
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
-
-
-
-        ////second chart
-
-        var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
-
-            xaxis: {
-                categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
-
-            },
-            title: {
-                text: 'Departments Overall Leads',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-        chart.render();
-
 
 
     </script>

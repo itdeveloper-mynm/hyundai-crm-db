@@ -36,5 +36,33 @@
 			#user_table_filter{
 				display: none !important;
 			}
+
+            .sales-leads-card {
+            background-color: #FF6F91;
+            /* Pink color */
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sales-leads-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .sales-leads-card .label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .sales-leads-card .icon {
+            font-size: 1.5rem;
+        }
+
 		</style>
 	</head>

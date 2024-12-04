@@ -209,4 +209,69 @@
         });
     //end code to select/unselect checkboxes
 
+
+    $(document).ready(function () {
+            $(".campaign_wise_row:first-child").click();
+            $(".city_wise_row:first-child").click();
+            $(".campaign_wise_comp_row:first-child").click();
+            $(".city_wise_comp_row:first-child").click();
+        });
+
+
+
+        $(".campaign_wise_row").on("click", function () {
+            // Get the value of the data-id attribute
+            var dataId = $(this).data("id");
+            var detials = $('#campaign_wise_detials_' +dataId).val();
+            $('#source_detials_div').html(detials);
+            console.log("Data ID:", dataId);
+            // Remove the 'active-tr' class from all .campaign_wise_row elements
+            $(".campaign_wise_row").removeClass("active-tr");
+
+            // Add the 'active-tr' class to the clicked element
+            $(this).addClass("active-tr");
+        });
+
+
+        $(".city_wise_row").on("click", function () {
+            // Get the value of the data-id attribute
+            var dataId = $(this).data("id");
+            var detials = $('#city_wise_detials_' +dataId).val();
+            $('#branch_detials_div').html(detials);
+            console.log("Data ID:", dataId);
+            // Remove the 'active-tr' class from all .campaign_wise_row elements
+            $(".city_wise_row").removeClass("active-tr");
+
+            // Add the 'active-tr' class to the clicked element
+            $(this).addClass("active-tr");
+        });
+
+
+        $(".campaign_wise_comp_row").on("click", function () {
+            // Get the value of the data-id attribute
+            var dataId = $(this).data("id");
+            var detials = $('#campaign_wise_comp_detials_' +dataId).val();
+            $('#source_detials_comp_div').html(detials);
+            console.log("Data ID:", dataId);
+            // Remove the 'active-tr' class from all .campaign_wise_row elements
+            $(".campaign_wise_comp_row").removeClass("active-tr");
+
+            // Add the 'active-tr' class to the clicked element
+            $(this).addClass("active-tr");
+        });
+
+
+        $(".city_wise_comp_row").on("click", function () {
+            // Get the value of the data-id attribute
+            var dataId = $(this).data("id");
+            var detials = $('#city_wise_comp_detials_' +dataId).val();
+            $('#branch_detials_comp_div').html(detials);
+            console.log("Data ID:", dataId);
+            // Remove the 'active-tr' class from all .campaign_wise_row elements
+            $(".city_wise_comp_row").removeClass("active-tr");
+
+            // Add the 'active-tr' class to the clicked element
+            $(this).addClass("active-tr");
+        });
+
 </script>

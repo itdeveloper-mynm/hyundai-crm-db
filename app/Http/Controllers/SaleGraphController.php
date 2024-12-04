@@ -103,6 +103,7 @@ class SaleGraphController extends Controller
         $startDate = request('start_date') ?? startDate();
         $endDate = request('end_date') ?? endDate();
         $dates = Application::getPerformanceLabel($startDate,$endDate);
+        // dd( $dates);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];

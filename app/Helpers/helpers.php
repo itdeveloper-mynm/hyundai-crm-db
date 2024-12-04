@@ -547,6 +547,7 @@ function autoLineAPI($row){
 
     $url = "https://leadmanagement-stage.otolink.app/api/leads";
     $data = formattedAutoLineLead($row); // Assuming this function prepares the $data
+    // dd(json_encode($data));
     Log::info("formattedAutoLineLead");
     Log::info(json_encode($data));
     $headers = [
@@ -738,19 +739,50 @@ function formattedAutoLineLead($row)
             "refUrl" => ""
         ],
         "notes" => [
-            [
-                "dealer_city" => $row->city->name ?? "",
-                "dealer_branch" => $row->branch->name ?? "",
-                "purchase_plan" => $row->purchase_plan ?? "",
-                "monthly_salary" => $row->monthly_salary ?? "",
-                "customers_bank" => $row->customer->bank->name ?? "",
-                "source_name" => $row->source->name ?? "",
-                "campaign_name" => $row->campaign->name ?? "",
-                "preferred_appointment_time" => $row->preferred_appointment_time ?? "",
-                "category" => $row->category ?? "",
-                "sub_category" => $row->sub_category ?? "",
-                "kyc" => $row->kyc ?? "",
+                [
+                    "title" => "Dealer City",
+                    "details" => $row->city->name ?? "",
+                ],
+                [
+                    "title" => "Dealer Branch",
+                    "details" => $row->branch->name ?? "",
+                ],
+                [
+                    "title" => "Purchase Plan",
+                    "details" => $row->purchase_plan ?? "",
+                ],
+                [
+                    "title" => "Monthly Salary",
+                    "details" => $row->monthly_salary ?? "",
+                ],
+                [
+                    "title" => "Customers Bank",
+                    "details" => $row->customer->bank->name ?? "",
+                ],
+                [
+                    "title" => "Source Name",
+                    "details" => $row->source->name ?? "",
+                ],
+                [
+                    "title" => "Campaign Name",
+                    "details" => $row->campaign->name ?? "",
+                ],
+                [
+                    "title" => "Preferred Appointment Time",
+                    "details" => $row->preferred_appointment_time ?? "",
+                ],
+                [
+                    "title" => "Category",
+                    "details" => $row->category ?? "",
+                ],
+                [
+                    "title" => "Sub Category",
+                    "details" => $row->sub_category ?? "",
+                ],
+                [
+                    "title" => "Kyc",
+                    "details" => $row->kyc ?? "",
+                ]
             ]
-        ]
     ];
 }

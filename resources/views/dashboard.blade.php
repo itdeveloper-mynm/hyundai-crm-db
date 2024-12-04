@@ -2,6 +2,101 @@
 
 @section('title', 'Dashboard')
 
+@section('css')
+
+    <style>
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+        .social-card {
+            border-radius: 8px;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-card .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .social-card .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .social-card .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .social-card .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            opacity: 0.8;
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        .linkedin {
+            background-color: #0077b5;
+        }
+
+        .youtube {
+            background-color: #ff0000;
+        }
+
+        i {
+            line-height: 1;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .sales-leads-card {
+            background-color: #FF6F91;
+            /* Pink color */
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sales-leads-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .sales-leads-card .label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .sales-leads-card .icon {
+            font-size: 1.5rem;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <!--begin::Content-->
@@ -17,7 +112,8 @@
                             <div id="kt_app_toolbar_container" class="d-flex flex-stack">
 
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    <h1
+                                        class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
                                         Dashboard</h1>
                                 </div>
                             </div>
@@ -40,53 +136,54 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="POST" action="{{route('dashboard')}}" class="form d-flex flex-column flex-lg-row" id="myForm">
+                                <form method="POST" action="{{ route('dashboard') }}"
+                                    class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
 
                                     <div class="px-7 py-5">
                                         <div class="mb-3">
                                             {{-- @can('sale-graph-filters') --}}
-                                                <div class="row">
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.city')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.branch')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.vehicle')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.source')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.campaign')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.purchase_plan')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.monthly_salary')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.preferred_appointment_time')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.kyc')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.category')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.created_by')
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.updated_by')
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.city')
                                                 </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.branch')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.vehicle')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.source')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.campaign')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.purchase_plan')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.monthly_salary')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.preferred_appointment_time')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.kyc')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.category')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.created_by')
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @include('admin.common_files_filters.updated_by')
+                                                </div>
+                                            </div>
                                             {{-- @endcan --}}
                                             <div class="row mt-1">
-                                                    @include('admin.common_files_filters.created_date_graph')
+                                                @include('admin.common_files_filters.created_date_graph')
                                             </div>
                                             {{-- <div class="row mt-2">
                                                     @include('admin.common_files_filters.updated_date')
@@ -101,9 +198,8 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('dashboard') }}"
-                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
-                                                        value="reset" id="reset">Reset</a>
+                                                    <a href="{{ route('dashboard') }}" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
                                                 </div>
                                             </div>
 
@@ -115,7 +211,7 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                            @include('admin.common_files.top-message-graph-page')
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -161,7 +257,93 @@
             </div>
 
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-10 mb-5">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Card widget 20-->
+                    <div class="card card-bordered">
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF6384">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                            <p class="label">Sales</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF9F40">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
+                                            <p class="label">Test Drive</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #9966FF">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[4] ?? 0 }}</p>
+                                            <p class="label">Aftersales</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #36A2EB">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
+                                            <p class="label">Used Cars</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #4BC0C0">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[3] ?? 0 }}</p>
+                                            <p class="label">SMO Leads</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #323639">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[5] ?? 0 }}</p>
+                                            <p class="label">CRM Leads</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
@@ -171,9 +353,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            {{-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -207,9 +389,62 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
+            </div> --}}
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Input from CRM Team</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <canvas id="graph_5" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                 <!--begin::Col-->
+                 <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">PDPL Graph</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <canvas id="graph_6" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+
             </div>
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+
+            <div class="row g-5 g-xl-10 mb-5 mb-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -244,6 +479,77 @@
                 </div>
                 <!--end::Col-->
             </div>
+
+            <div class="row g-5 g-xl-10">
+                <!--begin::Col-->
+                <!--end::Col-->
+                <!-- Facebook -->
+                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                    <div class="social-card facebook">
+                        <div class="icon">
+                            <i class="bi bi-facebook" style="color:none"></i>
+                        </div>
+                        <div class="stat-row">
+                            <div>
+                                <p class="stat-value">{{ $socialData['Facebook'][0]['followers'] ?? 0 }}</p>
+                                <p class="stat-label">Followers</p>
+                            </div>
+                            <div>
+                                <p class="stat-value">{{ $socialData['Facebook'][0]['likes'] ?? 0 }}</p>
+                                <p class="stat-label">Likes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Twitter -->
+                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                    <div class="social-card twitter">
+                        <div class="icon">
+                            <i class="bi bi-twitter"></i>
+                        </div>
+                        <div class="stat-row">
+                            <div>
+                                <p class="stat-value">{{ $socialData['Twitter'][0]['followers'] ?? 0 }}</p>
+                                <p class="stat-label">Followers</p>
+                            </div>
+                            <div>
+                                <p class="stat-value">{{ $socialData['Twitter'][0]['tweets'] ?? 0 }}</p>
+                                <p class="stat-label">Tweets</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- LinkedIn -->
+                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                    <div class="social-card linkedin">
+                        <div class="icon">
+                            <i class="bi bi-linkedin"></i>
+                        </div>
+                        <div class="stat-row d-block">
+                            <div>
+                                <p class="stat-value">{{ $socialData['Linkedin'][0]['followers'] ?? 0 }}</p>
+                                <p class="stat-label">Followers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- YouTube -->
+                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                    <div class="social-card youtube">
+                        <div class="icon">
+                            <i class="bi bi-youtube"></i>
+                        </div>
+                        <div class="stat-row d-block">
+                            <div>
+                                <p class="stat-value">{{ $socialData['Youtube'][0]['followers'] ?? 0 }}</p>
+                                <p class="stat-label">Followers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
             {{-- <div class="row g-5 g-xl-10">
                 <!--begin::Col-->
@@ -398,8 +704,150 @@
                 <!--end::Col-->
             </div> --}}
 
-
             <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Campaign Performance
+                                    ({{ collect($countsByCampaign)->sum('count') ?? 0 }})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <div class="tab-content" id="campaignTabsContent">
+                                <!-- Backtoschool-2024 Content -->
+                                <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                    aria-labelledby="tab-backtoschool">
+                                    <table class="table table-striped gy-4 gs-7">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <h5><span style="float: left">Current Campaigns</span></h5>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $badgeClasses = [
+                                                    'primary',
+                                                    'success',
+                                                    'info',
+                                                    'warning',
+                                                    'danger',
+                                                    'dark',
+                                                ];
+                                            @endphp
+                                            @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                <tr class="campaign_wise_row cursor-pointer"
+                                                    data-id="{{ $key }}">
+                                                    <td colspan="2"><span style="float: left">
+                                                            {{ $campaign_wise['name'] ?? '' }}</span>
+                                                        <span style="float: right"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                    </td>
+                                                </tr>
+
+                                                <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['source'] as $source_data)
+@if (isset($source_data))
+<tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+@endif
+@endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Sources</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <div class="tab-content" id="campaignTabsContent">
+                                <!-- Backtoschool-2024 Content -->
+                                <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                    aria-labelledby="tab-backtoschool">
+                                    <div id="source_detials_div"></div>
+                                    {{-- <table class="table table-striped gy-5 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($countsByCampaign as $campaign_wise)
+                                                    <tr>
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-success">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+
+                                                @endforeach
+                                            </tbody>
+                                        </table> --}}
+                                </div>
+                            </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+
+            {{-- orignal --}}
+            {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -480,7 +928,7 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
         </div>
         <!--end::Content container-->
@@ -492,6 +940,7 @@
 @section('js')
 
     {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
         //var ctx = document.getElementById('kt_chartjs_2');
@@ -509,46 +958,53 @@
 
         // Chart labels
         // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        const labels = @json($months) ;
+        const labels = @json($months);
 
         // Chart data
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Sales ('+ @json($second_graph_data[0]) +')',
-                    data: @json($first_count) ,
+                    label: 'Sales (' + @json($second_graph_data[0]) + ')',
+                    data: @json($first_count),
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Test Drive ('+ @json($second_graph_data[1]) +')',
-                    data: @json($second_count) ,
+                    label: 'Test Drive (' + @json($second_graph_data[1]) + ')',
+                    data: @json($second_count),
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Booking ('+ @json($second_graph_data[2]) +')',
-                    data: @json($third_count) ,
+                    label: 'Used Cars (' + @json($second_graph_data[2]) + ')',
+                    data: @json($third_count),
+                    fill: false,
+                    borderColor: defaultColor,
+                    tension: 0.6
+                },
+                {
+                    label: 'SMO (' + @json($second_graph_data[3]) + ')',
+                    data: @json($fourth_count),
+                    fill: false,
+                    borderColor: primaryColor,
+                    tension: 0.6
+                },
+                {
+                    label: 'Aftersales (' + @json($second_graph_data[4]) + ')',
+                    data: @json($fifth_count),
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Offers ('+ @json($second_graph_data[3]) +')',
-                    data: @json($fourth_count) ,
+                    label: 'CrmLeads (' + @json($second_graph_data[5]) + ')',
+                    data: @json($sixth_count),
                     fill: false,
-                    borderColor: warningColor,
+                    borderColor: primaryColor,
                     tension: 0.6
                 },
-                {
-                    label: 'Used Cars ('+ @json($second_graph_data[4]) +')',
-                    data: @json($fifth_count) ,
-                    fill: false,
-                    borderColor: defaultColor,
-                    tension: 0.6
-                }
             ]
         };
 
@@ -560,16 +1016,36 @@
                 plugins: {
                     title: {
                         display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
                 }
             }
         };
+
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
@@ -578,105 +1054,107 @@
 
         ////second chart
 
-        var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
+        // var options = {
+        //     series: [{
+        //         name: 'Count',
+        //         data: @json($second_graph_data)
+        //     }],
+        //     chart: {
+        //         height: 350,
+        //         type: 'bar',
+        //     },
+        //     plotOptions: {
+        //         bar: {
+        //             borderRadius: 10,
+        //             dataLabels: {
+        //                 position: 'top', // top, center, bottom
+        //             },
+        //         }
+        //     },
+        //     dataLabels: {
+        //         enabled: true,
+        //         formatter: function(val) {
+        //             return val;
+        //         },
+        //         offsetY: -20,
+        //         style: {
+        //             fontSize: '12px',
+        //             colors: ["#304758", '#546E7A']
+        //         }
+        //     },
 
-            xaxis: {
-                categories: ["Sales", "Test Drive", "Service Booking", "Service Offers", "Used Cars"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
+        //     xaxis: {
+        //         categories: ["Sales", "Test Drive", "Service Booking", "Service Offers", "Used Cars"],
+        //         position: 'top',
+        //         axisBorder: {
+        //             show: false
+        //         },
+        //         axisTicks: {
+        //             show: false
+        //         },
+        //         crosshairs: {
+        //             fill: {
+        //                 type: 'gradient',
+        //                 gradient: {
+        //                     colorFrom: '#D8E3F0',
+        //                     colorTo: '#BED1E6',
+        //                     stops: [0, 100],
+        //                     opacityFrom: 0.4,
+        //                     opacityTo: 0.5,
+        //                 }
+        //             }
+        //         },
+        //         tooltip: {
+        //             enabled: true,
+        //         }
+        //     },
+        //     yaxis: {
+        //         axisBorder: {
+        //             show: false
+        //         },
+        //         axisTicks: {
+        //             show: false,
+        //         },
+        //         labels: {
+        //             show: false,
+        //             formatter: function(val) {
+        //                 return val;
+        //             }
+        //         }
 
-            },
-            title: {
-                text: 'Departments Overall Leads',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
-                }
-            }
-        };
+        //     },
+        //     title: {
+        //         text: 'Departments Overall Leads',
+        //         floating: true,
+        //         offsetY: 330,
+        //         align: 'center',
+        //         style: {
+        //             color: '#444'
+        //         }
+        //     }
+        // };
 
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-        chart.render();
+        // var chart = new ApexCharts(document.querySelector("#graph_2"), options);
+        // chart.render();
 
 
-        var xData6 = @json($category_graph['category_names']) ;
-        var yData6 = @json($category_graph['category_count']) ;
+        var xData6 = @json($category_graph['category_names']);
+        var yData6 = @json($category_graph['category_count']);
 
         // Generate random fill colors
-        var fillColors = Array.from({ length: xData6.length }, () => getRandomColor());
+        var fillColors = Array.from({
+            length: xData6.length
+        }, () => getRandomColor());
 
         // Create series data
         var seriesData6 = xData6.map((x, index) => ({
-        x: x,
-        y: yData6[index],
-        fill: fillColors[index]
+            x: x,
+            y: yData6[index],
+            fill: fillColors[index]
         }));
 
 
-             // Function to generate a random color
+        // Function to generate a random color
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
             var color = '#';
@@ -687,30 +1165,30 @@
         }
         // Chart options
         var options6 = {
-        series: [{
-            data: seriesData6
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-            horizontal: true,
-            distributed: true
+            series: [{
+                data: seriesData6
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
             }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-        categories: xData6.map((x, index) => `${x} (${yData6[index]})`),
-        labels: {
-            formatter: function(val) {
-                return val;
-            }
-        }
-    }
         };
 
         // Render the chart
@@ -718,45 +1196,47 @@
         chart6.render();
 
 
-        var xData4 = @json($sources_graph['sources_names']) ;
-        var yData4 = @json($sources_graph['sources_count']) ;
+        var xData4 = @json($sources_graph['sources_names']);
+        var yData4 = @json($sources_graph['sources_count']);
 
         // Generate random fill colors
-        var fillColors = Array.from({ length: xData4.length }, () => getRandomColor());
+        var fillColors = Array.from({
+            length: xData4.length
+        }, () => getRandomColor());
 
         // Create series data
         var seriesData4 = xData4.map((x, index) => ({
-        x: x,
-        y: yData4[index],
-        fill: fillColors[index]
+            x: x,
+            y: yData4[index],
+            fill: fillColors[index]
         }));
 
         // Chart options
         var options4 = {
-        series: [{
-            data: seriesData4
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-            horizontal: true,
-            distributed: true
+            series: [{
+                data: seriesData4
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: xData4.map((x, index) => `${x} (${yData4[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
             }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-        categories: xData4.map((x, index) => `${x} (${yData4[index]})`),
-        labels: {
-            formatter: function(val) {
-                return val;
-            }
-        }
-    }
         };
 
         // Render the chart
@@ -764,6 +1244,125 @@
         chart4.render();
 
 
+        var ctx1 = document.getElementById('graph_5');
+
+            const data1 = {
+            labels: @json($category_graph['category_names']) ,
+            datasets: [
+                {
+                label: 'Dataset',
+                data: @json($category_graph['category_count']) ,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    ],
+                }
+            ]
+            };
+
+
+            const config1 = {
+            type: 'doughnut',
+            data: data1,
+            options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                generateLabels: function (chart) {
+                                    const data = chart.data;
+                                    return data.labels.map((label, index) => {
+                                        const value = data.datasets[0].data[index];
+                                        return {
+                                            text: `${label} (${value})`,
+                                            fillStyle: data.datasets[0].backgroundColor[index],
+                                            index: index
+                                        };
+                                    });
+                                }
+                            }
+                        },
+                    title: {
+                        display: false,
+                        text: 'Pie Chart'
+                    }
+                }
+                },
+            };
+
+            var myChart = new Chart(ctx1, config1);
+
+            var ctx6 = document.getElementById('graph_6');
+
+            const data6 = {
+            labels: @json($pdpl_graph['names']) ,
+            datasets: [
+                {
+                label: 'Dataset',
+                data: @json($pdpl_graph['counts']) ,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    ],
+                }
+            ]
+            };
+
+
+            const config6 = {
+            type: 'pie',
+            data: data6,
+            // plugins: [ChartDataLabels],
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
+                }
+            },
+            };
+
+            var myChart = new Chart(ctx6, config6);
+
+        // $(document).ready(function () {
+        //     $(".campaign_wise_row:first-child").click();
+        // });
+
+
+
+        // $(".campaign_wise_row").on("click", function () {
+        //     // Get the value of the data-id attribute
+        //     var dataId = $(this).data("id");
+        //     var detials = $('#campaign_wise_detials_' +dataId).val();
+        //     $('#source_detials_div').html(detials);
+        //     console.log("Data ID:", dataId);
+        //     // Remove the 'active-tr' class from all .campaign_wise_row elements
+        //     $(".campaign_wise_row").removeClass("active-tr");
+
+        //     // Add the 'active-tr' class to the clicked element
+        //     $(this).addClass("active-tr");
+        // });
     </script>
 
 @endsection

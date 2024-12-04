@@ -157,7 +157,7 @@ class SyncGenesysService
                     'Request Date' => $application->request_date,
                     'Contact Comments' => '',
                     'Interested?' => '',
-                    'Salesman comments' => '',
+                    'Salesman  comments' => '',
                     'Schedule callback' => '',
                     'Appointment date' => '',
                     // 'TimeZone' => 'Asia/Riyadh',

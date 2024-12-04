@@ -164,13 +164,32 @@
             </div>
 
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-10 mb-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
                     <div class="card card-bordered">
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
                         <div class="card-body">
-                            <div id="graph_2" style="height: 350px;"></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF6384">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                            <p class="label">Test Drive</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -346,93 +365,6 @@
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
-
-
-
-        ////second chart
-
-        var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
-
-            xaxis: {
-                categories: ["Test Drive"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
-
-            },
-            title: {
-                text: 'Total',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-        chart.render();
 
 
         // Example data
