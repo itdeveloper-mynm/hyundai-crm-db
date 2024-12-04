@@ -637,8 +637,8 @@
                         <div class="card-header pt-7 mb-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Campaign Performance
-                                    ({{ collect($countsByCampaign)->sum('count') ?? 0 }})</span>
+                                <span class="card-label fw-bold text-gray-800">Aftersales Leads Performance
+                                    ({{ collect($countsByCampaignAfterSales)->sum('count') ?? 0 }})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -669,8 +669,8 @@
                                                     'dark',
                                                 ];
                                             @endphp
-                                            @foreach ($countsByCampaign as $key => $campaign_wise)
-                                                <tr class="campaign_wise_row cursor-pointer"
+                                            @foreach ($countsByCampaignAfterSales as $key => $campaign_wise)
+                                                <tr class="campaign_wise_comp_row cursor-pointer"
                                                     data-id="{{ $key }}">
                                                     <td colspan="2"><span style="float: left">
                                                             {{ $campaign_wise['name'] ?? '' }}</span>
@@ -679,7 +679,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                <textarea id="campaign_wise_comp_detials_{{ $key }}" style="display: none">
                                                         <table class="table table-striped gy-4 gs-7">
                                                             <thead>
                                                                 <tr>
@@ -738,7 +738,7 @@
                                 <!-- Backtoschool-2024 Content -->
                                 <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
                                     aria-labelledby="tab-backtoschool">
-                                    <div id="source_detials_div"></div>
+                                    <div id="source_detials_comp_div"></div>
                                     {{-- <table class="table table-striped gy-5 gs-7">
                                             <thead>
                                                 <tr>
