@@ -545,8 +545,8 @@ class Application extends Model
         // ];
 
         $data['names'] =[
-            'Read Accept True',
-            'Read Accept False',
+            'Accepted',
+            'Rejected',
             // 'Letter Accept True',
             // 'Letter Accept False',
         ];
