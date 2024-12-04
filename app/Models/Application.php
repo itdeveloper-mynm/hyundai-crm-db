@@ -443,7 +443,7 @@ class Application extends Model
 
         $allrecords = self::selectRaw('campaign_id, source_id, COUNT(*) as count')
             ->with(['campaign:id,name', 'source:id,name'])
-            ->whereNotNull(['campaign_id', 'source_id'])
+            // ->whereNotNull(['campaign_id', 'source_id'])
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
@@ -458,7 +458,7 @@ class Application extends Model
             // Use the null coalescing operator to set default values
             $result[$campaignId] ??= [
                 'campaign_id' => $campaignId,
-                'name' => optional($count->campaign)->name,
+                'name' => optional($count->campaign)->name ?? 'Others',
                 'count' => 0,
                 'source' => [],
             ];
@@ -466,11 +466,11 @@ class Application extends Model
             $result[$campaignId]['count'] += $count->count;
 
             $result[$campaignId]['source'][] = [
-                'name' => optional($count->source)->name,
+                'name' => optional($count->source)->name ?? 'Others',
                 'count' => $count->count,
             ];
         }
-
+        $result = array_reverse($result); // Reverse the array
         // Convert the associative array into indexed array
         $result = array_values($result);
 
