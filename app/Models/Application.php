@@ -449,7 +449,6 @@ class Application extends Model
             ->graphsearch($filters)
             ->groupBy(['campaign_id', 'source_id'])
             ->get();
-
         // Transform the result into the desired pattern
         $result = [];
 
@@ -719,6 +718,7 @@ class Application extends Model
             )
             ->whereBetween('created_at', [$startDate, $endDate])
             ->whereIn('type', $types)
+            // ->whereNotNull(['campaign_id', 'source_id'])
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
             ->orderBy(DB::raw('MIN(created_at)'), 'asc')
             ->graphsearch($filters)

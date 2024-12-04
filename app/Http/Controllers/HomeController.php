@@ -68,12 +68,12 @@ class HomeController extends Controller
        $data['socialData'] = SocialData::select('social_platform', 'followers', 'likes', 'tweets')->get()->groupBy('social_platform')->toArray();
 
        $all_types = [
-        'request_a_test_quote','request_a_quote','special_offers','leads','events',
-        'request_a_test_drive','online_service_booking','contact_us','service_offers','used_cars',
-        'smo_leads','online_service_booking', 'service_offers', 'contact_us','crm_leads'
+            'request_a_test_quote','request_a_quote','special_offers','leads','events',
+            'request_a_test_drive','online_service_booking','contact_us','service_offers','used_cars',
+            'smo_leads','online_service_booking', 'service_offers', 'contact_us','crm_leads'
         ];
 
-        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types , $filters);
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $sale_types , $filters);
 
         $crm_types = ['crm_leads'];
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
