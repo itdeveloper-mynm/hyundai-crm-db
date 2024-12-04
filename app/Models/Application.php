@@ -529,8 +529,8 @@ class Application extends Model
         $alldata = self::select(
             DB::raw("SUM(CASE WHEN read_accept = 1 THEN 1 ELSE 0 END) as read_accept_true"),
             DB::raw("SUM(CASE WHEN read_accept = 0 THEN 1 ELSE 0 END) as read_accept_false"),
-            DB::raw("SUM(CASE WHEN letter_accept = 1 THEN 1 ELSE 0 END) as letter_accept_true"),
-            DB::raw("SUM(CASE WHEN letter_accept = 0 THEN 1 ELSE 0 END) as letter_accept_false")
+            // DB::raw("SUM(CASE WHEN letter_accept = 1 THEN 1 ELSE 0 END) as letter_accept_true"),
+            // DB::raw("SUM(CASE WHEN letter_accept = 0 THEN 1 ELSE 0 END) as letter_accept_false")
         )
         ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $all_types)
@@ -547,15 +547,15 @@ class Application extends Model
         $data['names'] =[
             'Read Accept True',
             'Read Accept False',
-            'Letter Accept True',
-            'Letter Accept False',
+            // 'Letter Accept True',
+            // 'Letter Accept False',
         ];
 
         $data['counts'] = [
             $alldata->pluck('read_accept_true')->first(),
             $alldata->pluck('read_accept_false')->first(),
-            $alldata->pluck('letter_accept_true')->first(),
-            $alldata->pluck('letter_accept_false')->first(),
+            // $alldata->pluck('letter_accept_true')->first(),
+            // $alldata->pluck('letter_accept_false')->first(),
         ];
 
         return $data;
