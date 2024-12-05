@@ -36,7 +36,7 @@ class SendSMSServiceCron extends Command
      */
     public function handle()
     {
-        Log::info("inside SendSMSServiceCron");
+        Log::channel('sync_service_log')->info("inside SendSMSServiceCron");
         $this->sendSms->sendSMSAPI();
         return 0;
     }

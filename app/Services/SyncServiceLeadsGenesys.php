@@ -71,8 +71,8 @@ class SyncServiceLeadsGenesys
             Storage::put('app/syncServiceLeadsGenesys/token.json', $response_decoded['access_token']);
             $this->setToken($response_decoded['access_token']);
         } else {
-            Log::info("syncServiceLeadsGenesys authorize");
-            Log::info($response);
+            Log::channel('sync_service_log')->info("syncServiceLeadsGenesys authorize");
+            Log::channel('sync_service_log')->info($response);
         }
 
     }
@@ -88,7 +88,7 @@ class SyncServiceLeadsGenesys
         // dd($contactsData);
 
         if (count($contactsData) === 0) {
-            Log::info("Everything is synced.");
+            Log::channel('sync_service_log')->info("Everything is synced.");
             return;
         }
 
@@ -115,8 +115,8 @@ class SyncServiceLeadsGenesys
 		curl_close($curl);
 
 		$response_decoded = json_decode($response,true);
-        Log::info("SyncServiceLeadsGenesys syncApplications");
-        Log::info($response_decoded);
+        Log::channel('sync_service_log')->info("SyncServiceLeadsGenesys syncApplications");
+        Log::channel('sync_service_log')->info($response_decoded);
 
 
         if (isset($response_decoded['status']) && $response_decoded['status'] == 401) {
@@ -124,7 +124,7 @@ class SyncServiceLeadsGenesys
         } elseif (isset($response_decoded['status']) && $response_decoded['status'] == 400) {
         } else {
             Application::whereIn('id', $this->syncd_ids)->update(['sync_genesys' => 1]);
-            // Log::info($response);
+            // Log::channel('sync_service_log')->info($response);
         }
 
     }

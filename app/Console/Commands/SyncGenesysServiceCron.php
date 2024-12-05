@@ -35,7 +35,7 @@ class SyncGenesysServiceCron extends Command
      */
     public function handle()
     {
-        Log::info("inside SyncGenesysServiceCron");
+        Log::channel('sync_service_log')->info("inside SyncGenesysServiceCron");
         $this->sendGenService->syncApplications();
         return 0;
     }

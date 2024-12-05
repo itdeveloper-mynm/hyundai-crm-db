@@ -70,8 +70,8 @@ class SendSMSService
                   }';
 
 
-                Log::info("postdata");
-                Log::info($postdata);
+                  Log::channel('sync_service_log')->info("postdata");
+                  Log::channel('sync_service_log')->info($postdata);
 
                   $curl = curl_init();
 
@@ -97,8 +97,8 @@ class SendSMSService
 
                   $response_decoded = json_decode($response,true);
 
-                   Log::info("SendSMSService");
-                   Log::info($response_decoded);
+                  Log::channel('sync_service_log')->info("SendSMSService");
+                  Log::channel('sync_service_log')->info($response_decoded);
 
                    if($response_decoded['status'] == 'Success'){
                         Application::where('id', $application->id)->update(['is_sms_send' => 1]);
