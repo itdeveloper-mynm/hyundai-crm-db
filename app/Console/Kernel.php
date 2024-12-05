@@ -43,9 +43,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('nodescript-monthly:cron')->monthlyOn(1, '14:45');
         // $schedule->command('email:monthly')->monthlyOn(1, '15:00');
 
-        $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
-        $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
-        $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
+        if(date('Y-m-d') >= '2024-12-05'){
+            $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
+            $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
+            $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
+        }
     }
 
     /**
