@@ -8,7 +8,7 @@
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="{{env('APP_NAME')}}" />
 		<meta property="og:url" content="{{env('APP_URL')}}" />
-		<meta property="og:site_name" content="Keenthemes | Metronic" />
+		<meta property="og:site_name" content="{{env('APP_NAME')}}" />
 		<link rel="canonical" href="{{env('APP_URL')}}" />
 		<link rel="shortcut icon" href="{{ asset('login_asset') }}/assets/media/logos/favicon.ico" />
 		<!--begin::Fonts-->

@@ -2,6 +2,21 @@
 
 @section('title', 'CRM Leads Report')
 
+@section('css')
+
+    <style>
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+    </style>
+@endsection
+
 @section('content')
 
     <!--begin::Content-->

@@ -595,7 +595,7 @@ function sendSmsPdPl($number) {
     $url = "https://el.cloud.unifonic.com/rest/SMS/messages";
 
     $postData = [
-        'AppSid'        => 'kLJvqhhd93gPBnn5W0mCqdqEDhjbja', // Replace with your App SID
+        'AppSid'        => 'gHyhjQPywqHDvbBHet1zm6efBaymj9',
         'SenderID'      => 'Hyundai-AD',
         'Body'          => 'Hello there',
         // 'Recipient'     => '+923125115216',
