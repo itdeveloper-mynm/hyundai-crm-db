@@ -146,8 +146,10 @@ class ApplicationDataSeeder extends Seeder
                     $lead->customers_type = $singleData['customers_type'] ?? null;
                     $lead->number_of_vehicles = $singleData['number_of_vehicles'] ?? null;
                     $lead->fleet_range = $singleData['fleet_range'] ?? null;
-                    $lead->is_sms_send = $singleData['is_sms_send'] ?? 0;
-                    $lead->sync_genesys = $singleData['sync_genesys'] ?? 0;
+                    // $lead->is_sms_send = $singleData['is_sms_send'] ?? 0;
+                    $lead->is_sms_send = 1;
+                    $lead->sync_genesys = 1;
+                    // $lead->sync_genesys = $singleData['sync_genesys'] ?? 0;
                     $lead->category = $singleData['crm_category'] ?? null;
                     $lead->sub_category = $singleData['crm_sub_category'] ?? null;
                     $lead->kyc = $singleData['kyc'] ?? null;

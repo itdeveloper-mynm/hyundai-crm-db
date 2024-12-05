@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\SendSMSService;
+use Illuminate\Support\Facades\Log;
 
 class SendSMSServiceCron extends Command
 {
@@ -35,6 +36,7 @@ class SendSMSServiceCron extends Command
      */
     public function handle()
     {
+        Log::info("inside SendSMSServiceCron");
         $this->sendSms->sendSMSAPI();
         return 0;
     }

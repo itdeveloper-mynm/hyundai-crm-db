@@ -53,6 +53,8 @@ class Application extends Model
         'customers_type',
         'number_of_vehicles',
         'fleet_range',
+        'is_sms_send',
+        'sync_genesys',
         'category',
         'sub_category',
         'kyc',

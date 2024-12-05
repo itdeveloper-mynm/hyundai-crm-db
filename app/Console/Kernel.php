@@ -22,8 +22,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('nodescript:cron')->everyminute();
-        $schedule->command('email:daily')->everyminute();
+        // $schedule->command('nodescript:cron')->everyminute();
+        // $schedule->command('email:daily')->everyminute();
 
         // $schedule->command('nodescript-weekly:cron')->everyminute();
         // $schedule->command('email:weekly')->everyminute();
@@ -42,6 +42,10 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('nodescript-monthly:cron')->monthlyOn(1, '14:45');
         // $schedule->command('email:monthly')->monthlyOn(1, '15:00');
+
+        $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
+        $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
+        $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
     }
 
     /**

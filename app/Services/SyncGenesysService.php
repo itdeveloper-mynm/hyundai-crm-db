@@ -134,39 +134,42 @@ class SyncGenesysService
     {
         $return_arr = [];
         $db_data = $this->getDbData();
-        foreach ($db_data as $application) {
-            $this->syncd_ids[] = $application->id;
-            $contact = [
-                'id' => $application->id,
-                'contactListId' => self::CONTACT_LIST_ID,
-                'data' => [
-                    'Campaign' => $application->campaign->name ?? "",
-                    'Data Type' => $application->type,
-                    'First Name' => $application->customer->first_name,
-                    'Last Name' => $application->customer->last_name,
-                    'Mobile' => $application->customer->mobile,
-                    'Email' => $application->customer->email ?? "",
-                    'Dealer City' => $application->city->name ?? "",
-                    'Dealer Branch' => $application->branch->name ?? "",
-                    'Preferred Time' => $application->preferred_appointment_time ?? "",
-                    'Vehicle' => $application->vehicle->name ?? "",
-                    'Purchase Plan' => $application->purchase_plan ?? "",
-                    'Monthly Salary' => $application->monthly_salary ?? "",
-                    'Bank' => $application->customer->bank->name ?? "",
-                    'Source' => $application->source->name ?? "",
-                    'Request Date' => $application->request_date,
-                    'Contact Comments' => '',
-                    'Interested?' => '',
-                    'Salesman  comments' => '',
-                    'Schedule callback' => '',
-                    'Appointment date' => '',
-                    // 'TimeZone' => 'Asia/Riyadh',
-                    'TimeZone' => date("Y-m-d"),
-                ],
-                'callable' => true,
-                'phoneNumberStatus' => new \stdClass(),
-            ];
-            $return_arr[] = $contact;
+
+        if(count($db_data) > 0 ){
+            foreach ($db_data as $application) {
+                $this->syncd_ids[] = $application->id;
+                $contact = [
+                    'id' => $application->id,
+                    'contactListId' => self::CONTACT_LIST_ID,
+                    'data' => [
+                        'Campaign' => $application->campaign->name ?? "",
+                        'Data Type' => $application->type,
+                        'First Name' => $application->customer->first_name,
+                        'Last Name' => $application->customer->last_name,
+                        'Mobile' => $application->customer->mobile,
+                        'Email' => $application->customer->email ?? "",
+                        'Dealer City' => $application->city->name ?? "",
+                        'Dealer Branch' => $application->branch->name ?? "",
+                        'Preferred Time' => $application->preferred_appointment_time ?? "",
+                        'Vehicle' => $application->vehicle->name ?? "",
+                        'Purchase Plan' => $application->purchase_plan ?? "",
+                        'Monthly Salary' => $application->monthly_salary ?? "",
+                        'Bank' => $application->customer->bank->name ?? "",
+                        'Source' => $application->source->name ?? "",
+                        'Request Date' => $application->request_date,
+                        'Contact Comments' => '',
+                        'Interested?' => '',
+                        'Salesman  comments' => '',
+                        'Schedule callback' => '',
+                        'Appointment date' => '',
+                        // 'TimeZone' => 'Asia/Riyadh',
+                        'TimeZone' => date("Y-m-d"),
+                    ],
+                    'callable' => true,
+                    'phoneNumberStatus' => new \stdClass(),
+                ];
+                $return_arr[] = $contact;
+            }
         }
         return $return_arr;
     }

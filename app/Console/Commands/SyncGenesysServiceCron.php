@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\SyncGenesysService;
+use Illuminate\Support\Facades\Log;
 
 class SyncGenesysServiceCron extends Command
 {
@@ -34,6 +35,7 @@ class SyncGenesysServiceCron extends Command
      */
     public function handle()
     {
+        Log::info("inside SyncGenesysServiceCron");
         $this->sendGenService->syncApplications();
         return 0;
     }
