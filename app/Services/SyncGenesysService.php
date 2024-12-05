@@ -177,6 +177,7 @@ class SyncGenesysService
     public function getDbData()
     {
         return Application::where('sync_genesys', 0)
+            ->where('created_at', '>', now()->subDay()) // for new records
             ->limit(50)
             ->get();
     }

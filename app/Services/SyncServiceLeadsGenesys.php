@@ -175,6 +175,7 @@ class SyncServiceLeadsGenesys
     public function getDbData()
     {
         return Application::where('sync_genesys', 0)
+            ->where('created_at', '>', now()->subDay()) // for new records
             ->where(function ($query) {
                 $query->where('type', 'special_offers')
                       ->orWhere('type', 'online_service_booking')
