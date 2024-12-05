@@ -211,11 +211,24 @@ class ExternalLeadController extends Controller
 
     public function saveformjson(Request $request) {
 
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
             'page' => 'nullable|string|max:255',
+            'email' => 'nullable|email'
         ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+
+        // $validatedData = $request->validate([
+        //     'firstName' => 'required|string|max:255',
+        //     'mobile' => 'required|string|max:15',
+        //     'page' => 'nullable|string|max:255',
+        //     'email' => 'nullable|email'
+        // ]);
 
         \Log::info('saveformjson api hit');
         \Log::info($request->all());
@@ -408,4 +421,40 @@ class ExternalLeadController extends Controller
         // ], 200);
 
     }
+
+
+    public function sendResponse($result, $message)
+    {
+    	$response = [
+            'success' => true,
+            'data'    => $result,
+            'message' => $message,
+        ];
+
+
+        return response()->json($response, 200);
+    }
+
+
+    /**
+     * return error response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sendError($error, $errorMessages = [], $code = 200)
+    {
+    	$response = [
+            'success' => false,
+            'message' => $error,
+        ];
+
+
+        if(!empty($errorMessages)){
+            $response['data'] = $errorMessages;
+        }
+
+
+        return response()->json($response, $code);
+    }
+
 }
