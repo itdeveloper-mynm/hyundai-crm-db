@@ -213,7 +213,7 @@ class AfterSaleController extends Controller
             )
             ->whereNotNull('cust.bank_id')
             // ->where('applications.type', 'after_sales')
-            ->whereIn('applications.type',$types)
+            ->whereIn('applications.type',$this->types)
             ->orderBy('applications.id')
             ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
                 foreach ($records as $record) {
