@@ -116,7 +116,6 @@ class AfterSaleController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        // $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
 
         $countAll = Application::search($conditions)->whereIn('type',$this->types)->count();
 
@@ -195,8 +194,6 @@ class AfterSaleController extends Controller
                                 'Created At','Type']);
             $chunkSize = 50000;
 
-            $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
-
             Application::search($conditions)
             ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
             ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
@@ -212,7 +209,6 @@ class AfterSaleController extends Controller
                 'applications.created_at'
             )
             ->whereNotNull('cust.bank_id')
-            // ->where('applications.type', 'after_sales')
             ->whereIn('applications.type',$this->types)
             ->orderBy('applications.id')
             ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
