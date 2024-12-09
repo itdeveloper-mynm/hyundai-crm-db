@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 
 class AfterSaleController extends Controller
 {
+    private $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -114,12 +116,13 @@ class AfterSaleController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
-        $countAll = Application::search($conditions)->whereIn('type',$types)->count();
+        // $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
+
+        $countAll = Application::search($conditions)->whereIn('type',$this->types)->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
-                ->whereIn('type',$types)
+                ->whereIn('type',$this->types)
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
