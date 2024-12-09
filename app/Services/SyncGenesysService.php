@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class SyncGenesysService
 {
-    // SyncSaleLeadsGenesys
+    // sale Leads Genesys
     const CONTACT_LIST_ID = "767b9401-0061-4cf5-b7d1-0a6a129cbd20";
     const AUTH_URL = "https://login.mypurecloud.ie/oauth/token";
     const CONTACT_SYNC_URL = "https://api.mypurecloud.ie/api/v2/outbound/contactlists/";
@@ -187,13 +187,12 @@ class SyncGenesysService
                       ->orWhere('type', 'request_a_quote')
                       ->orWhere('type', 'special_offers')
                       ->orWhere('type', 'leads')
-                      ->orWhere('type', 'leads')
                       ->orWhere('type', 'events')
-                      ->orWhere('type', 'employees_program')
-                      ->orWhere(function ($query) {
-                          $query->where('type', 'contact_us')
-                                ->where('department', 'sales_maketing');
-                      });
+                      ->orWhere('type', 'employees_program');
+                    //   ->orWhere(function ($query) {
+                    //       $query->where('type', 'contact_us')
+                    //             ->where('department', 'sales_maketing');
+                    //   });
             })
             ->limit(50)
             ->get();
