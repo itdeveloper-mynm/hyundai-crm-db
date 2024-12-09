@@ -208,7 +208,7 @@ class AfterSaleController extends Controller
                 'applications.campaign_id',
                 'applications.created_at'
             )
-            ->whereNotNull('cust.bank_id')
+            // ->whereNotNull('cust.bank_id')
             ->whereIn('applications.type',$this->types)
             ->orderBy('applications.id')
             ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
@@ -221,7 +221,7 @@ class AfterSaleController extends Controller
                         $dataName['vehicles'][$record->vehicle_id] ?? "",
                         $dataName['sources'][$record->source_id] ?? "",
                         $dataName['campaigns'][$record->campaign_id] ?? "",
-                        $record->bank_name,
+                        $record->bank_name ?? "",
                         formateDate($record->created_at),
                         'After Sales',
                     ];
