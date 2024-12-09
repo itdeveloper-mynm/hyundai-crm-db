@@ -213,9 +213,13 @@ class ExternalLeadController extends Controller
 
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
+            // 'mobile' => 'required|string|max:15',
+            'mobile' => 'required|string|regex:/^05\d{8}$/',
             'page' => 'nullable|string|max:255',
             'email' => 'nullable|email'
+        ],
+        [
+            'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 05.',
         ]);
 
         if($validator->fails()){
