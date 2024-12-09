@@ -69,7 +69,7 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                     <!--end:Menu link-->
-                </div>
+                {{-- </div>
                 @can('sales-data-list')
                     <!--begin:Menu item-->
                     <div class="menu-item">
@@ -95,7 +95,7 @@
                         <!--end:Menu link-->
                     </div>
                     <!--end:Menu item-->
-                @endcan
+                @endcan --}}
                 @canany(AllLeadsMenuPermissionArr())
                     <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion {{ activeMenuRoute(AllLeadsMenuArr()) }}">
