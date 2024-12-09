@@ -178,7 +178,32 @@ class SyncGenesysService
     {
         return Application::where('sync_genesys', 0)
             ->where('created_at', '>', now()->subDay()) // for new records
+            ->where(function ($query) {
+                $query->where('type', 'request_a_test_quote')
+                      ->orWhere('type', 'request_a_test_drive')
+                      ->orWhere('type', 'career')
+                      ->orWhere('type', 'used_cars')
+                      ->orWhere('type', 'request_a_brochure')
+                      ->orWhere('type', 'request_a_quote')
+                      ->orWhere('type', 'special_offers')
+                      ->orWhere('type', 'leads')
+                      ->orWhere('type', 'leads')
+                      ->orWhere('type', 'events')
+                      ->orWhere('type', 'employees_program')
+                      ->orWhere(function ($query) {
+                          $query->where('type', 'contact_us')
+                                ->where('department', 'sales_maketing');
+                      });
+            })
             ->limit(50)
             ->get();
     }
+
+    // public function getDbData()
+    // {
+    //     return Application::where('sync_genesys', 0)
+    //         ->where('created_at', '>', now()->subDay()) // for new records
+    //         ->limit(50)
+    //         ->get();
+    // }
 }

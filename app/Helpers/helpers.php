@@ -335,6 +335,10 @@ function checkApplicationType($type) {
             return 'fleet_sales';
         case 'request a test drive':
             return 'request_a_test_drive';
+        case 'request a brochure':
+            return 'request_a_brochure';
+        case 'employees program':
+            return 'employees_program';
         case 'used cars':
             return 'used_cars';
         case 'old leads':
@@ -377,6 +381,10 @@ function reverseCheckApplicationType($value) {
             return 'Fleet Sales';
         case 'request_a_test_drive':
             return 'Request a Test Drive';
+        case 'request_a_brochure':
+            return 'Request a Brochure';
+        case 'employees_program':
+            return 'Employees Program';
         case 'used_cars':
             return 'Used Cars';
         case 'old_leads':
