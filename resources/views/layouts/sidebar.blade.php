@@ -69,8 +69,8 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                     <!--end:Menu link-->
-                {{-- </div>
-                @can('sales-data-list')
+                </div>
+                {{-- @can('sales-data-list')
                     <!--begin:Menu item-->
                     <div class="menu-item">
                         <!--begin:Menu link-->
