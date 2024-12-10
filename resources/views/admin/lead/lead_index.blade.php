@@ -415,6 +415,7 @@
             responsive: true,
             searching: true,
             filter: true,
+            pageLength: 100,
 
             ajax: {
                 "url": "{{ route('leads.pagination') }}",
