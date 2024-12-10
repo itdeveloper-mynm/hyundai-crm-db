@@ -19,7 +19,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Branch Update') }}</h2>
+                                        <h2>{{ __('Source Update') }}</h2>
                                     </div>
                                 </div>
 
@@ -45,6 +45,11 @@
                                                 <option value="1" @selected($source->status==1)>True</option>
                                                 <option value="0" @selected($source->status==0)>False</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.page_type_input', ['page_chk' => 'edit' , 'field_value'=> $source->page_type ])
                                         </div>
                                     </div>
                                 </div>

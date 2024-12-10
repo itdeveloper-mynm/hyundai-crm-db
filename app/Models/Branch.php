@@ -14,6 +14,7 @@ class Branch extends Model
         'name',
         'city_id',
         'status',
+        'page_type',
     ];
 
     public function city(){

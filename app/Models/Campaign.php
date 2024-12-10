@@ -13,6 +13,7 @@ class Campaign extends Model
     protected $fillable = [
         'name',
         'status',
+        'page_type',
     ];
 
     public function applications()

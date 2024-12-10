@@ -37,7 +37,9 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $campaign= Campaign::create($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        Campaign::create($input);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -65,7 +67,10 @@ class CampaignController extends Controller
     public function update(Request $request, string $id)
     {
         $row = Campaign::findorFail($id);
-        $row->update($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $row->update($input);
+
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -115,11 +120,18 @@ class CampaignController extends Controller
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
 
+            $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
+            $formattedPageType = implode(', ', array_map(function ($word) {
+                return ucwords(str_replace('_', ' ', $word));
+            }, explode(',', $page_type)));
+
+
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
+                "page_type" => $formattedPageType ?? "",
                 "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;

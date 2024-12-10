@@ -394,8 +394,8 @@ class ExternalLeadController extends Controller
         $lead->customers_type = $customers_type ?? null;
         $lead->number_of_vehicles = $number_of_vehicles ?? null;
         $lead->fleet_range = $fleet_range ?? null;
-        $lead->read_accept = $request->read_accept ?? 0;
-        $lead->letter_accept = $request->letter_accept ?? 0;
+        $lead->read_accept = (bool) $request->read_accept ?? 0;
+        $lead->letter_accept = (bool) $request->letter_accept ?? 0;
 
         $lead->save();
 

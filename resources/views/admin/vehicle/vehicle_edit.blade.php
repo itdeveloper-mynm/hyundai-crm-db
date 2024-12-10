@@ -19,7 +19,7 @@
 
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>{{ __('Branch Update') }}</h2>
+                                        <h2>{{ __('Vehicle Update') }}</h2>
                                     </div>
                                 </div>
 
@@ -47,6 +47,12 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.page_type_input', ['page_chk' => 'edit' , 'field_value'=> $vehicle->page_type ])
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="d-flex justify-content-center">

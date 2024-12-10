@@ -144,6 +144,7 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th>{{ __('Name') }}</th>
+                            <th>{{ __('Page Type') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -187,6 +188,14 @@ var table = $('#user_table').DataTable({
         },
         {
             data: 'name',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'page_type',
             render: function(data, type, row) {
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
