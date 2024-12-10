@@ -42,9 +42,10 @@
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Mobile') }}</label>
+                                            @include('admin.common_files.mobile_input', ['page_chk' => 'edit' , 'field_value'=> $lead->customer->mobile  ])
+                                            {{-- <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" disabled value="{{$lead->customer->mobile}}"  class="form-control mb-2"
-                                                required />
+                                                required /> --}}
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>

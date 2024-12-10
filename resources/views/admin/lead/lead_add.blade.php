@@ -40,9 +40,10 @@
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Mobile') }}</label>
+                                            @include('admin.common_files.mobile_input', ['page_chk' => 'add' , 'value' ])
+                                            {{-- <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" name="mobile" id="mobile" class="form-control mb-2"
-                                                required />
+                                                required /> --}}
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
