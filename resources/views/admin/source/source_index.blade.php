@@ -171,6 +171,7 @@ var table = $('#user_table').DataTable({
     responsive: true,
     searching: true,
     filter: true,
+    pageLength: 100,
 
     ajax: {
         "url": "{{ route('source.pagination') }}",
