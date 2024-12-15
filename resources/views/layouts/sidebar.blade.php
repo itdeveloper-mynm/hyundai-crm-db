@@ -255,7 +255,7 @@
                             </div>
                             <!--end:Menu sub-->
                         @endcan
-                        @can('google-business-list')
+                        {{-- @can('google-business-list')
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">
                                 <!--begin:Menu item-->
@@ -273,8 +273,8 @@
                                 <!--end:Menu item-->
                             </div>
                             <!--end:Menu sub-->
-                        @endcan
-                        @can('old-leads-list')
+                        @endcan --}}
+                        {{-- @can('old-leads-list')
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">
                                 <!--begin:Menu item-->
@@ -292,7 +292,7 @@
                                 <!--end:Menu item-->
                             </div>
                             <!--end:Menu sub-->
-                        @endcan
+                        @endcan --}}
                         @can('social-data-list')
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">

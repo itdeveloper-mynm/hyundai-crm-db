@@ -33,7 +33,7 @@
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                <option value="Google">Google</option>
+                                                <option value="Instagram">Instagram</option>
                                                 <option value="Facebook">Facebook</option>
                                                 <option value="Twitter">Twitter</option>
                                                 <option value="Linkedin">Linkedin</option>

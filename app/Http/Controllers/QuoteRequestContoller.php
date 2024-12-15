@@ -19,7 +19,7 @@ class QuoteRequestContoller extends Controller
 
     public function index()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
         return view('admin.request_a_quote.index', $data);
     }
 

@@ -165,14 +165,18 @@ class GoogleBusinessController extends Controller
 
    }
 
-   public function getCityBranches($city) {
+   public function getCityBranches($city, $page_type = null) {
 
         if (strpos($city, ',') !== false) {
             // Perform logic to fetch branches based on the selected city
-            $branches = Branch::whereIn('city_id', explode(',',$city))->get();
+            $branches = Branch::whereIn('city_id', explode(',',$city))->when(isset($page_type) && !empty($page_type), function ($query) use ($page_type) {
+                return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+            })->get();
         } else {
             // Perform logic to fetch branches based on the selected city
-            $branches = Branch::where('city_id', $city)->get();
+            $branches = Branch::where('city_id', $city)->when(isset($page_type) && !empty($page_type), function ($query) use ($page_type) {
+                return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+            })->get();
         }
 
         // Return the branches as JSON

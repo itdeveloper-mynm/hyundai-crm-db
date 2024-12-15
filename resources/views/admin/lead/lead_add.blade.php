@@ -55,7 +55,7 @@
 
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'multiple' =>false, 'data' => null ])
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'multiple' =>false ,'page_type' => 'sales', 'data' => null ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.branch' ,[ 'required' =>true, 'data' => null ])

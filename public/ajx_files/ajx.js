@@ -1,14 +1,15 @@
 
 $('#city_id').change(function() {
     var selectedCity = $(this).val();
-    getBranches(selectedCity, '#branch_id');
+    var page_type = $(this).data('page_type') ?? null;
+    getBranches(selectedCity,page_type, '#branch_id');
 
 });
 
-function getBranches(selectedCity, branch_id){
+function getBranches(selectedCity, page_type, branch_id){
     // Make AJAX request to fetch branches based on the selected city
     $.ajax({
-        url: '/get-branches/' + selectedCity,
+        url: '/get-branches/' + selectedCity +'/'+page_type,
         type: 'GET',
         success: function(data) {
             // Populate the branches select box with the fetched data

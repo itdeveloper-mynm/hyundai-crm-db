@@ -31,7 +31,7 @@ class SmoLeadController extends Controller
      */
     public function index()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
         return view('admin.smo_lead.smo_lead_index', $data);
     }
 
@@ -40,7 +40,7 @@ class SmoLeadController extends Controller
      */
     public function create()
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         return view('admin.smo_lead.smo_lead_add' , $data);
     }
 
@@ -68,7 +68,7 @@ class SmoLeadController extends Controller
      */
     public function edit(string $id)
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         $data['smo_lead']= Application::findorFail($id);
 
         return view('admin.smo_lead.smo_lead_edit', $data);

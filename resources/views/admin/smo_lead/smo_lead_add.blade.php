@@ -47,7 +47,7 @@
                                         </div>
 
                                         <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ,'page_type' => 'sales' ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])

@@ -1,4 +1,4 @@
-<label class="form-label fw-semibold">{{ __('Types') }}</label>
+<label class="form-label fw-semibold">{{ __('Page Types') }}</label>
         <div>
             <select class="form-select mb-2" name="type[]" id="type"
                 data-control="select2" data-placeholder="{{ __('select option') }}"

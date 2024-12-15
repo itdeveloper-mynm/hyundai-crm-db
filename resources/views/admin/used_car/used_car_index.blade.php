@@ -60,7 +60,7 @@
                                             @can('used-car-leads-filters')
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.city')
+                                                        @include('admin.common_files_filters.city', ['page_type' => 'sales' ])
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.branch')
@@ -74,35 +74,35 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.campaign')
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.purchase_plan')
-                                                    </div>
-                                                    <div class="col-lg-4">
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.monthly_salary')
-                                                    </div>
-                                                    <div class="col-lg-4">
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.preferred_appointment_time')
-                                                    </div>
-                                                    <div class="col-lg-4">
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.kyc')
-                                                    </div>
-                                                    <div class="col-lg-4">
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.category')
-                                                    </div>
-                                                    <div class="col-lg-4">
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.created_by')
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.updated_by')
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">
                                                     @include('admin.common_files_filters.created_date')
                                             </div>
-                                            <div class="row mt-2">
+                                            {{-- <div class="row mt-2">
                                                     @include('admin.common_files_filters.updated_date')
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">

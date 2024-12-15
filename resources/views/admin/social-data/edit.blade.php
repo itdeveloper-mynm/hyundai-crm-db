@@ -35,7 +35,7 @@
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
-                                                <option value="Google" @selected($social_data->social_platform == 'Google')>Google</option>
+                                                <option value="Instagram" @selected($social_data->social_platform == 'Instagram')>Instagram</option>
                                                 <option value="Facebook"  @selected($social_data->social_platform == 'Facebook')>Facebook</option>
                                                 <option value="Twitter"  @selected($social_data->social_platform == 'Twitter')>Twitter</option>
                                                 <option value="Linkedin"  @selected($social_data->social_platform == 'Linkedin')>Linkedin</option>

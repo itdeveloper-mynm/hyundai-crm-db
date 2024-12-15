@@ -33,7 +33,7 @@ class UsedCarController extends Controller
      */
     public function index()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
         return view('admin.used_car.used_car_index', $data);
     }
 
@@ -42,7 +42,7 @@ class UsedCarController extends Controller
      */
     public function create()
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         return view('admin.used_car.used_car_add' , $data);
     }
 
@@ -71,7 +71,7 @@ class UsedCarController extends Controller
     public function edit(string $id)
     {
 
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         $data['used_car']= Application::findorFail($id);
         return view('admin.used_car.used_car_edit', $data);
     }

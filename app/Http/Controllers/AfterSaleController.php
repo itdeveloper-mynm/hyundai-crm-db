@@ -35,14 +35,14 @@ class AfterSaleController extends Controller
      */
     public function index()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'after_sales');
         return view('admin.after_sale.after_sale_index', $data);
     }
 
 
     public function create()
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'after_sales');
         return view('admin.after_sale.after_sale_add' , $data);
     }
 
@@ -71,7 +71,7 @@ class AfterSaleController extends Controller
     public function edit(string $id)
     {
         $after_sale= Application::findorFail($id);
-        $data =getCommonData($after_sale->city_id);
+        $data =getCommonData($after_sale->city_id, 'after_sales');
         $data['after_sale'] = $after_sale;
 
         return view('admin.after_sale.after_sale_edit', $data);

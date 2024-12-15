@@ -59,7 +59,7 @@
                                             @can('test-drive-request-filters')
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.city')
+                                                        @include('admin.common_files_filters.city', ['page_type' => 'sales' ])
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.branch')

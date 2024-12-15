@@ -127,7 +127,7 @@ Route::resource('google-business', GoogleBusinessController::class);
 Route::controller(GoogleBusinessController::class)->group(function(){
     Route::get('google-business-pagination',  'googleBusinessPagination')->name('google-business.pagination');
     Route::post('google-business-import',  'googleBusinessImport')->name('google-business.import');
-    Route::get('get-branches/{city}',  'getCityBranches')->name('get-city-branches.ajx');
+    Route::get('get-branches/{city}/{page_type?}',  'getCityBranches')->name('get-city-branches.ajx');
 });
 
 

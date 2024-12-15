@@ -57,7 +57,7 @@
                                             @can('crm-leads-filters')
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.city')
+                                                        @include('admin.common_files_filters.city' , ['page_type' => 'sales' ])
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.branch')
@@ -85,6 +85,12 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.app_types')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.departments')
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.created_by')
@@ -403,6 +409,8 @@
                     data.to = $('#to').val();
                     data.upd_from = $('#upd_from').val();
                     data.upd_to = $('#upd_to').val();
+                    data.type = $('#type').val();
+                    data.department_types = $('#department_types').val();
                 }
             },
             columns: [{
@@ -644,6 +652,8 @@
             $("#updated_by").val([]).change();
             $('#monthly_salary').val([]).change();
             $('#preferred_appointment_time').val([]).change();
+            $('#type').val([]).change();
+            $('#department_types').val([]).change();
 
             table.draw();
 

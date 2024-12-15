@@ -34,28 +34,28 @@ class CrmLeadController extends Controller
     public function index()
     {
         // dd(sendSmsPdPl('+923125115216'));
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
 
         return view('admin.crn_lead.index' ,$data);
     }
 
     public function qualifiedCrmLeads()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
 
         return view('admin.crn_lead.qualified_index' ,$data);
     }
 
     public function nonQualifiedCrmLeads()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
 
         return view('admin.crn_lead.non_qualified_index' ,$data);
     }
 
     public function generalCrmLeads()
     {
-        $data = getCommonFilterData();
+        $data = getCommonFilterData(null,'sales');
 
         return view('admin.crn_lead.general_index' ,$data);
     }
@@ -66,7 +66,7 @@ class CrmLeadController extends Controller
     public function create()
     {
 
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
 
         return view('admin.crn_lead.add' , $data);
     }
@@ -97,7 +97,7 @@ class CrmLeadController extends Controller
     {
 
         $lead = Application::findorFail($id);
-        $data = getCommonData($lead->city_id);
+        $data = getCommonData($lead->city_id ,'sales');
         $data['lead'] = $lead;
 
         return view('admin.crn_lead.edit', $data);

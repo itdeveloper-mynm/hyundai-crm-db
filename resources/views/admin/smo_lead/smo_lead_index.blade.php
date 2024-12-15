@@ -60,7 +60,7 @@
                                     @can('smo-leads-filters')
                                     <div class="row">
                                         <div class="col-lg-4">
-                                            @include('admin.common_files_filters.city')
+                                            @include('admin.common_files_filters.city' ,['page_type' => 'sales' ])
                                         </div>
                                         <div class="col-lg-4">
                                             @include('admin.common_files_filters.vehicle')
@@ -68,7 +68,7 @@
                                         <div class="col-lg-4">
                                             @include('admin.common_files_filters.source')
                                         </div>
-                                        <div class="col-lg-4">
+                                        {{-- <div class="col-lg-4">
                                             @include('admin.common_files_filters.category')
                                         </div>
                                         <div class="col-lg-4">
@@ -76,17 +76,17 @@
                                         </div>
                                         <div class="col-lg-4">
                                             @include('admin.common_files_filters.updated_by')
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     @endcan
                                     <div class="row mt-1">
                                             @include('admin.common_files_filters.created_date')
                                     </div>
-                                    <div class="row mt-2">
+                                    {{-- <div class="row mt-2">
                                             @include('admin.common_files_filters.updated_date')
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="d-flex justify-content-end">
+                                    <div class="d-flex justify-content-end mt-2">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <button type="submit" class="btn btn-sm btn-primary"

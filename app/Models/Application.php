@@ -159,6 +159,25 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['department_types'])) {
+                $query->where(function ($query) use ($conditions) {
+                    // Define sales and after-sales types
+                    $sale_types = ['request_a_test_quote', 'request_a_quote', 'special_offers', 'leads', 'events'];
+                    $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us'];
+                    $types = [];
+                    if (in_array('sales', $conditions['department_types'])) {
+                        $types = array_merge($types, $sale_types);
+                    }
+                    if (in_array('after_sales', $conditions['department_types'])) {
+                        $types = array_merge($types, $after_sales_types);
+                    }
+                    if (!empty($types)) {
+                        $query->whereIn('applications.type', $types);
+                    }
+                });
+            }
+
+
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {
                     $startDate = $conditions['from'].' 00:00:00';
@@ -168,7 +187,7 @@ class Application extends Model
             }
 
             if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
-                dd(1);
+                // dd(1);
                 $startDate = $conditions['upd_from'] . ' 00:00:00';
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
                 $query->where(function ($query) use ($startDate, $endDate) {

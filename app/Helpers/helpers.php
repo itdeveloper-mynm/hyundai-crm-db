@@ -456,50 +456,84 @@ function formatInputNumber($mobile) {
     return $mobile;
 }
 
-function getCommonData($cityId = null)
+function getCommonData($cityId = null,$page_type = null)
 {
     $now = Carbon::now();
 
     $commonData = [
-        'cities' => City::whereStatus(1)->get(),
-        'vehicles' => Vehicle::whereStatus(1)->get(),
+        'cities' => City::whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
+        'vehicles' => Vehicle::whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
         // 'sources' => Source::whereStatus(1)->get(),
-        'sources' => Source::whereStatus(1)->get(),
+        'sources' => Source::whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
         // 'campaigns' => Campaign::whereStatus(1)->get(),
         'banks' => Bank::whereStatus(1)->get(),
         'users' => User::get(),
     ];
 
     if ($cityId !== null) {
-        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
-        $commonData['campaigns'] =  Campaign::whereStatus(1)->get();
+        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
+        $commonData['campaigns'] =  Campaign::whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
 
     } else {
-        $commonData['branches'] = Branch::whereStatus(1)->get();
-        $commonData['campaigns'] =Campaign::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->get();
+        $commonData['branches'] = Branch::whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
+        $commonData['campaigns'] =Campaign::whereStatus(1)->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
 
     }
 
     return $commonData;
 }
 
-function getCommonFilterData($cityId = null)
+function getCommonFilterData($cityId = null,$page_type = null)
 {
     $now = Carbon::now();
 
     $commonData = [
-        'cities' => City::whereStatus(1)->get(),
-        'vehicles' => Vehicle::whereStatus(1)->get(),
-        'sources' => Source::whereStatus(1)->get(),
-        'campaigns' => Campaign::whereStatus(1)->get(),
+        'cities' => City::whereStatus(1)
+        ->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })
+        ->get(),
+        'vehicles' => Vehicle::whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
+        'sources' => Source::whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
+        'campaigns' => Campaign::whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get(),
         'banks' => Bank::whereStatus(1)->get(),
         'users' => User::get(),
     ];
 
     if ($cityId !== null) {
-        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->get();
+        $commonData['branches'] = Branch::where('city_id', $cityId)->whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
     } else {
-        $commonData['branches'] = Branch::whereStatus(1)->get();
+        $commonData['branches'] = Branch::whereStatus(1)->when(isset($page_type), function ($query) use ($page_type) {
+            return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
+        })->get();
     }
 
     return $commonData;
