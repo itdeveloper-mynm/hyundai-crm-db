@@ -171,12 +171,12 @@ class GoogleBusinessController extends Controller
             // Perform logic to fetch branches based on the selected city
             $branches = Branch::whereIn('city_id', explode(',',$city))->when(isset($page_type) && !empty($page_type), function ($query) use ($page_type) {
                 return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
-            })->get();
+            })->whereStatus(1)->get();
         } else {
             // Perform logic to fetch branches based on the selected city
             $branches = Branch::where('city_id', $city)->when(isset($page_type) && !empty($page_type), function ($query) use ($page_type) {
                 return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
-            })->get();
+            })->whereStatus(1)->get();
         }
 
         // Return the branches as JSON

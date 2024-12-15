@@ -464,16 +464,16 @@ function getCommonData($cityId = null,$page_type = null)
         'cities' => City::whereStatus(1)
         ->when(isset($page_type), function ($query) use ($page_type) {
             return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
-        })->get(),
+        })->whereStatus(1)->get(),
         'vehicles' => Vehicle::whereStatus(1)
         ->when(isset($page_type), function ($query) use ($page_type) {
             return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
-        })->get(),
+        })->whereStatus(1)->get(),
         // 'sources' => Source::whereStatus(1)->get(),
         'sources' => Source::whereStatus(1)
         ->when(isset($page_type), function ($query) use ($page_type) {
             return $query->whereRaw("FIND_IN_SET(?, page_type)", [$page_type]);
-        })->get(),
+        })->whereStatus(1)->get(),
         // 'campaigns' => Campaign::whereStatus(1)->get(),
         'banks' => Bank::whereStatus(1)->get(),
         'users' => User::get(),
