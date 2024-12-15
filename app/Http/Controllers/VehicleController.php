@@ -129,7 +129,7 @@ class VehicleController extends Controller
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
-                "name" => ucwords($row['name']),
+                "name" => $row['name'],
                 "page_type" => $formattedPageType ?? "",
                 "created_at" =>$row['created_at'],
             );

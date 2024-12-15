@@ -606,7 +606,8 @@ function sendSmsPdPl($number) {
     $postData = [
         'AppSid'        => 'gHyhjQPywqHDvbBHet1zm6efBaymj9',
         'SenderID'      => 'Hyundai-AD',
-        'Body'          => 'Hello there',
+        // 'Body'          => 'Hello there',
+        'Body'          => 'Hello there please fill form using this url : https://new.mynm-livedashboard.com/crm-leads',
         // 'Recipient'     => '+923125115216',
         'Recipient'     => $number,
         'responseType'  => 'JSON',
