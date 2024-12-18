@@ -231,7 +231,27 @@ class ExternalLeadController extends Controller
             // 'mobile' => 'required|string|max:15',
             'mobile' => 'required|string|regex:/^05\d{8}$/',
             'page' => 'nullable|string|max:255',
-            'email' => 'nullable|email'
+            'email' => 'nullable|email',
+            'dealerCity' => 'sometimes|exists:cities,name',
+            'branch' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value && $request->dealerCity) {
+                        $city = \App\Models\City::where('name', $request->dealerCity)->first();
+                        $branchExists = \App\Models\Branch::where('name', $value)
+                                            ->where('city_id', $city->id ?? null)
+                                            ->exists();
+
+                        if (!$branchExists) {
+                            $fail(__('The selected branch does not belong to the selected dealer city.'));
+                        }
+                    }
+                },
+            ],
+            'vehicle' => 'sometimes|exists:vehicles,name',
+            'sourcee' => 'sometimes|exists:sources,name',
+            'pagesub' => 'sometimes|exists:campaigns,name',
+            'customerBank' => 'sometimes|exists:banks,name',
         ],
         [
             'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 05.',

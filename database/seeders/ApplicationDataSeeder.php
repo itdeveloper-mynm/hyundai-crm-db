@@ -28,7 +28,7 @@ class ApplicationDataSeeder extends Seeder
         ini_set('memory_limit', '-1');
         // $json = File::get(storage_path('app/applications.json'));
         // $alldata = json_decode($json, true);
-        $alldata = Items::fromFile(storage_path('app/451-500k.json'));
+        $alldata = Items::fromFile(storage_path('app/451-500kk.json'));
 
 
         foreach($alldata as $singleData){

@@ -47,6 +47,11 @@ class HomeController extends Controller
 
         // $filters = [];
 
+        // comments
+        //sales Vehicles Interested graph same used in home page overview below the section of Sales Leads Perfomance
+        //afte sales Vehicles Interested graph same used in home page overview below the section of Aftersales Leads Performance
+        // instagram box addition for Social Media Performance
+
         $filters = $request->all();
 
         $opt_filters = [

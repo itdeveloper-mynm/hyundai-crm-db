@@ -61,6 +61,13 @@ class SaleGraphController extends Controller
         $third_types = ['smo_leads'];
         $fourth_types = ['contact_us'];
 
+        // comments
+
+        // $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive];
+        // Vehicles Interested graph make like cities and bank and Vehicles Interested graph set in single row
+        // CRM Data, PDPL Graph on last page
+
+
         // $filters = [
         //     'city_id' => request('city_id'),
         //     'branch_id' => request('branch_id'),
@@ -234,6 +241,10 @@ class SaleGraphController extends Controller
         //     'branch_id' => request('branch_id'),
         //     'vehicle_id' => request('vehicle_id')
         // ];
+
+        // comment
+        // vehcile graph addition below Campaign Performance
+
 
         $filters = $request->all();
 
