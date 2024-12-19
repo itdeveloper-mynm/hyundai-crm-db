@@ -44,8 +44,8 @@
                                     <option value=""></option>
                                     <option value="dashboard">Overview Dashboard Page</option>
                                     <option value="crm-leads-graph.index">CRM Leads Graph Page</option>
-                                    <option value="sale-graph.index">Sale Leads Graph Page</option>
-                                    <option value="after-sale-graph.index">After Sale Leads Graph Page</option>
+                                    <option value="sale-graph.index">Sale Graph Page</option>
+                                    <option value="after-sale-graph.index">After Sale Graph Page</option>
                                     <option value="hr-graph.index">HR Graph Page</option>
                                     <option value="used-cars-graph.index">Used Cars Graph Page</option>
                                 </select>

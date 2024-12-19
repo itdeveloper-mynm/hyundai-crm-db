@@ -47,8 +47,8 @@
                                                     <option value=""></option>
                                                     <option value="dashboard" @selected($role->page_redirect == 'dashboard')>Overview Dashboard Page</option>
                                                     <option value="crm-leads-graph.index"  @selected($role->page_redirect == 'crm-leads-graph.index')>CRM Leads Graph Page</option>
-                                                    <option value="sale-graph.index"  @selected($role->page_redirect == 'sale-graph.index')>Sale Leads Graph Page</option>
-                                                    <option value="after-sale-graph.index"  @selected($role->page_redirect == 'after-sale-graph.index')>After Sale Leads Graph Page
+                                                    <option value="sale-graph.index"  @selected($role->page_redirect == 'sale-graph.index')>Sale Graph Page</option>
+                                                    <option value="after-sale-graph.index"  @selected($role->page_redirect == 'after-sale-graph.index')>After Sale Graph Page
                                                     </option>
                                                     <option value="hr-graph.index"  @selected($role->page_redirect == 'hr-graph.index')>HR Graph Page</option>
                                                     <option value="used-cars-graph.index"  @selected($role->page_redirect == 'used-cars-graph.index')>Used Cars Graph Page</option>
