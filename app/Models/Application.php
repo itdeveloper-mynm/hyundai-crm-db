@@ -514,7 +514,8 @@ class Application extends Model
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
         ->groupBy('applications.vehicle_id', 'vehicles.name')
-        ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
+        ->orderBy('count', 'desc')
+        // ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
         ->get();
 
         $data['vehicle_names'] = $alldata->pluck('vehicle_name')->toArray();
