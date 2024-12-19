@@ -239,7 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                {{-- <div class="col-sm-6 col-xl-3 mb-xl-10">
                                     <div class="sales-leads-card" style="background: #36A2EB">
                                         <div>
                                             <p class="value">{{ $second_graph_data[3] ?? 0 }}</p>
@@ -249,7 +249,7 @@
                                             <i class="bi bi-geo-alt"></i>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
                                     <div class="sales-leads-card" style="background: #4BC0C0">
                                         <div>
@@ -261,7 +261,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                {{-- <div class="col-sm-6 col-xl-3 mb-xl-10">
                                     <div class="sales-leads-card" style="background: #323639">
                                         <div>
                                             <p class="value">{{ $second_graph_data[5] ?? 0 }}</p>
@@ -271,7 +271,7 @@
                                             <i class="bi bi-geo-alt"></i>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -939,13 +939,13 @@
                     borderColor: successColor,
                     tension: 0.6
                 },
-                {
-                    label: 'Request a Test Quote ('+ @json($second_graph_data[3]) +')',
-                    data: @json($fourth_count),
-                    fill: false,
-                    borderColor: defaultColor,
-                    tension: 0.6
-                },
+                // {
+                //     label: 'Request a Test Quote ('+ @json($second_graph_data[3]) +')',
+                //     data: @json($fourth_count),
+                //     fill: false,
+                //     borderColor: defaultColor,
+                //     tension: 0.6
+                // },
                 {
                     label: 'Leads ('+ @json($second_graph_data[4]) +')',
                     data: @json($fifth_count),
@@ -953,13 +953,13 @@
                     borderColor: primaryColor,
                     tension: 0.6
                 },
-                {
-                    label: 'Events ('+ @json($second_graph_data[5]) +')',
-                    data: @json($sixth_count),
-                    fill: false,
-                    borderColor: successColor,
-                    tension: 0.6
-                }
+                // {
+                //     label: 'Events ('+ @json($second_graph_data[5]) +')',
+                //     data: @json($sixth_count),
+                //     fill: false,
+                //     borderColor: successColor,
+                //     tension: 0.6
+                // }
             ]
         };
 
