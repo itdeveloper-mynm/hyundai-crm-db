@@ -58,8 +58,10 @@ class SaleGraphController extends Controller
 
         $first_types = ['request_a_quote'];
         $second_types = ['special_offers'];
-        $third_types = ['smo_leads'];
-        $fourth_types = ['contact_us'];
+        $third_types = ['request_a_test_drive'];
+        $fourth_types = ['request_a_test_quote'];
+        $fifth_types = ['leads'];
+        $sixth_types = ['events'];
 
         // comments
 
@@ -79,19 +81,23 @@ class SaleGraphController extends Controller
         $filters = $request->all();
 
         $opt_filters = [
-            'department' => 'sales_maketing',
+            // 'department' => 'sales_maketing',
         ];
 
 
         $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
         $data['second_count'] = Application::getPerformanceMonthWise($second_types,$startDate,$endDate,$months_diff,$filters);
         $data['third_count'] = Application::getPerformanceMonthWise($third_types,$startDate,$endDate,$months_diff,$filters);
-        $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters,$opt_filters);
+        $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters);
+        $data['fifth_count'] = Application::getPerformanceMonthWise($fifth_types,$startDate,$endDate,$months_diff,$filters);
+        $data['sixth_count'] = Application::getPerformanceMonthWise($sixth_types,$startDate,$endDate,$months_diff,$filters);
 
-        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),  array_sum($data['fourth_count'])];
-        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']);
+        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),
+                                      array_sum($data['fourth_count']),  array_sum($data['fifth_count']),  array_sum($data['sixth_count']) ];
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count'])
+                                         + array_sum($data['fourth_count'])  + array_sum($data['fifth_count']) + array_sum($data['sixth_count']);
 
-        $all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
+        $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote','leads','events'];
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $all_types, $filters);
@@ -99,6 +105,12 @@ class SaleGraphController extends Controller
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
         $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
+
+
+        $crm_types = ['crm_leads'];
+        $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
+
+        $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 

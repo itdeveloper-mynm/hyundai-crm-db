@@ -192,7 +192,7 @@
                 <!--end::Col-->
             </div>
 
-            <div class="row g-5 g-xl-10 mb-5">
+            <div class="row g-5 g-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
@@ -232,7 +232,7 @@
                                     <div class="sales-leads-card" style="background: #9966FF">
                                         <div>
                                             <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
-                                            <p class="label">SMO Leads</p>
+                                            <p class="label">Request a Test Drive</p>
                                         </div>
                                         <div class="icon">
                                             <i class="bi bi-geo-alt"></i>
@@ -243,7 +243,29 @@
                                     <div class="sales-leads-card" style="background: #36A2EB">
                                         <div>
                                             <p class="value">{{ $second_graph_data[3] ?? 0 }}</p>
-                                            <p class="label fs-6">ContactUs (Sales & Mar) </p>
+                                            <p class="label fs-6">Request a Test Quote</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #4BC0C0">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[4] ?? 0 }}</p>
+                                            <p class="label">Leads</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #323639">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[5] ?? 0 }}</p>
+                                            <p class="label">Events</p>
                                         </div>
                                         <div class="icon">
                                             <i class="bi bi-geo-alt"></i>
@@ -444,7 +466,7 @@
                 <!--end::Col-->
             </div> --}}
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            {{-- <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -478,9 +500,99 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
+            </div> --}}
+
+
+            <div class="row gx-5 gx-xl-10 mt-10">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Vehicles Interested ({{collect($vehcile_graph['vehicle_count'])->sum() ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($vehcile_graph['vehicle_names'] as $key => $vehcile)
+                                                {{-- {{dd($vehcile_graph['vehicle_names'],$vehcile_graph['vehicle_count'])}} --}}
+                                                    <tr class="" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $vehcile ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $vehcile_graph['vehicle_count'][$key] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Banks</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                                <div class="card-body pt-5">
+                                    @foreach ($banks_graph as $bank)
+                                            <!--begin::Item-->
+                                            <div class="d-flex flex-stack">
+                                                <!--begin::Section-->
+                                                <span
+                                                    class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
+                                                <!--end::Section-->
+                                                <!--begin::Action-->
+                                                <span
+                                                    class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
+                                                    <span
+                                                        class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                                <!--end::Action-->
+                                            </div>
+                                            <!--end::Item-->
+                                            <!--begin::Separator-->
+                                            <div class="separator separator-dashed my-3"></div>
+                                            <!--end::Separator-->
+                                    @endforeach
+                                </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
             </div>
 
-            <div class="row gx-5 gx-xl-10">
+
+            <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -719,48 +831,56 @@
 
             </div>
 
-            <div class="row gx-5 gx-xl-10 mt-10">
-                <div class="col-xl-12">
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
                     <div class="card card-flush h-xl-100">
                         <!--begin::Header-->
-                        <div class="card-header pt-7">
+                        <div class="card-header pt-7 mb-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Banks</span>
+                                <span class="card-label fw-bold text-gray-800">CRM Data</span>
                             </h3>
                             <!--end::Title-->
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                                <div class="card-body pt-5">
-                                    @foreach ($banks_graph as $bank)
-                                            <!--begin::Item-->
-                                            <div class="d-flex flex-stack">
-                                                <!--begin::Section-->
-                                                <span
-                                                    class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
-                                                <!--end::Section-->
-                                                <!--begin::Action-->
-                                                <span
-                                                    class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
-                                                    <span
-                                                        class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
-                                                    <!--end::Svg Icon-->
-                                                </span>
-                                                <!--end::Action-->
-                                            </div>
-                                            <!--end::Item-->
-                                            <!--begin::Separator-->
-                                            <div class="separator separator-dashed my-3"></div>
-                                            <!--end::Separator-->
-                                    @endforeach
-                                </div>
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <canvas id="graph_7" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
                         <!--end::Body-->
                     </div>
                     <!--end::Chart widget 31-->
                 </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">PDPL Graph</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body d-flex align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <canvas id="graph_6" class="mh-400px"></canvas>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+
             </div>
 
         </div>
@@ -813,17 +933,31 @@
                     tension: 0.6
                 },
                 {
-                    label: 'Smo Leads ('+ @json($second_graph_data[2]) +')',
+                    label: 'Request a Test Drive ('+ @json($second_graph_data[2]) +')',
                     data: @json($third_count),
                     fill: false,
                     borderColor: successColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (Sales & Marketing) ('+ @json($second_graph_data[3]) +')',
+                    label: 'Request a Test Quote ('+ @json($second_graph_data[3]) +')',
                     data: @json($fourth_count),
                     fill: false,
-                    borderColor: warningColor,
+                    borderColor: defaultColor,
+                    tension: 0.6
+                },
+                {
+                    label: 'Leads ('+ @json($second_graph_data[4]) +')',
+                    data: @json($fifth_count),
+                    fill: false,
+                    borderColor: primaryColor,
+                    tension: 0.6
+                },
+                {
+                    label: 'Events ('+ @json($second_graph_data[5]) +')',
+                    data: @json($sixth_count),
+                    fill: false,
+                    borderColor: successColor,
                     tension: 0.6
                 }
             ]
@@ -871,24 +1005,19 @@
         var myChart = new Chart(ctx, config);
 
 
-        ////second chart
-
-
         // Example data
-        //var xData = ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'];
-        //var yData = [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380];
-        var xData = @json($vehcile_graph['vehicle_names']) ;
-        var yData = @json($vehcile_graph['vehicle_count']) ;
+        // var xData = @json($vehcile_graph['vehicle_names']) ;
+        // var yData = @json($vehcile_graph['vehicle_count']) ;
 
-        // Generate random fill colors
-        var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
+        // // Generate random fill colors
+        // var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
 
-        // Create series data
-        var seriesData = xData.map((x, index) => ({
-        x: x,
-        y: yData[index],
-        fill: fillColors[index]
-        }));
+        // // Create series data
+        // var seriesData = xData.map((x, index) => ({
+        // x: x,
+        // y: yData[index],
+        // fill: fillColors[index]
+        // }));
 
         // Function to generate a random color
         function getRandomColor() {
@@ -900,42 +1029,42 @@
         return color;
         }
 
-        // Chart options
-        var options = {
-        series: [{
-            data: seriesData
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                distributed: true,
-                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+        // // Chart options
+        // var options = {
+        // series: [{
+        //     data: seriesData
+        // }],
+        // chart: {
+        //     type: 'bar',
+        //     height: 350
+        // },
+        // plotOptions: {
+        //     bar: {
+        //         horizontal: true,
+        //         distributed: true,
+        //         barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
 
-            }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-            categories: xData.map((x, index) => `${x} (${yData[index]})`),
-            labels: {
-                formatter: function(val) {
-                    return val;
-                }
-            }
-        },
-            legend: {
-            show: false // Hides the legend below the graph
-        }
-        };
+        //     }
+        // },
+        // dataLabels: {
+        //     enabled: true
+        // },
+        // xaxis: {
+        //     categories: xData.map((x, index) => `${x} (${yData[index]})`),
+        //     labels: {
+        //         formatter: function(val) {
+        //             return val;
+        //         }
+        //     }
+        // },
+        //     legend: {
+        //     show: false // Hides the legend below the graph
+        // }
+        // };
 
-        // Render the chart
-        var chart = new ApexCharts(document.querySelector("#graph_3"), options);
-        chart.render();
+        // // Render the chart
+        // var chart = new ApexCharts(document.querySelector("#graph_3"), options);
+        // chart.render();
 
 
         var ctx1 = document.getElementById('graph_4');
@@ -1044,6 +1173,104 @@
 
     var myChart = new Chart(ctx2, config2);
 
+
+
+    var ctx7 = document.getElementById('graph_7');
+
+    const data7 = {
+            labels: @json($category_graph['category_names']),
+            datasets: [{
+                label: 'Dataset',
+                data: @json($category_graph['category_count']),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+            }]
+        };
+
+
+        const config7 = {
+            type: 'doughnut',
+            data: data7,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
+                    title: {
+                        display: false,
+                        text: 'Pie Chart'
+                    }
+                }
+            },
+        };
+
+        var myChart = new Chart(ctx7, config7);
+
+        var ctx6 = document.getElementById('graph_6');
+
+        const data6 = {
+            labels: @json($pdpl_graph['names']),
+            datasets: [{
+                label: 'Dataset',
+                data: @json($pdpl_graph['counts']),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+            }]
+        };
+
+
+        const config6 = {
+            type: 'pie',
+            data: data6,
+            // plugins: [ChartDataLabels],
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    return {
+                                        text: `${label} (${value})`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        index: index
+                                    };
+                                });
+                            }
+                        }
+                    },
+                }
+            },
+        };
+
+        var myChart = new Chart(ctx6, config6);
 
 
     // $(document).ready(function() {

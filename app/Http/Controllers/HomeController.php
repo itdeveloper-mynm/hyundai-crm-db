@@ -55,7 +55,7 @@ class HomeController extends Controller
         $filters = $request->all();
 
         $opt_filters = [
-            'department' => 'aftersales',
+            // 'department' => 'aftersales',
         ];
 
 
@@ -84,7 +84,7 @@ class HomeController extends Controller
         $crm_types = ['crm_leads'];
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
 
-        $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$crm_types,$filters);
+        $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
         // dd( $data['category_graph'],$data['pdpl_graph']);
 
         $data['sources_graph'] = Application::countBySourceGroup($startDate, $endDate,$all_types,$filters);
