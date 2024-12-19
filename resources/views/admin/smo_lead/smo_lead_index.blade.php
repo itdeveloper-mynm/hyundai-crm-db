@@ -80,10 +80,10 @@
                                     </div>
                                     @endcan
                                     <div class="row mt-1">
-                                            @include('admin.common_files_filters.created_date')
+                                        @include('admin.common_files_filters.created_date' , ['no_of_months' => getUserNoOfMonths() ])
                                     </div>
                                     {{-- <div class="row mt-2">
-                                            @include('admin.common_files_filters.updated_date')
+                                        @include('admin.common_files_filters.updated_date' , ['no_of_months' => getUserNoOfMonths()  ])
                                     </div> --}}
 
                                     <div class="d-flex justify-content-end mt-2">
@@ -495,16 +495,19 @@ $('#myForm').submit(function(e) {
 
 $('#reset').click(function(e) {
     e.preventDefault();
-    var from = document.querySelector('#from');
-    var to = document.querySelector('#to');
-    from.value = '';
-    to.value = '';
 
-    // Reset date fields
-    var upd_from = document.querySelector('#upd_from');
-    var upd_to = document.querySelector('#upd_to');
-    upd_from.value = '';
-    upd_to.value = '';
+    @role('SuperAdmin')
+        var from = document.querySelector('#from');
+        var to = document.querySelector('#to');
+        from.value = '';
+        to.value = '';
+
+        // Reset date fields
+        var upd_from = document.querySelector('#upd_from');
+        var upd_to = document.querySelector('#upd_to');
+        upd_from.value = '';
+        upd_to.value = '';
+    @endrole
 
 
     $("#city_id").val([]).change();

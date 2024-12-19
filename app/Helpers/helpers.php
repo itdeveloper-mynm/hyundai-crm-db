@@ -171,7 +171,7 @@ function formDataPermissionArr()
 function CRMLeadsDataAllMenuArr()
 {
     $array = [
-        route('crm-leads.index'),route('crm-leads.create'),request()->is('crm-leads/*/edit'),request()->is('crm-leads*'),
+        route('crm-leads.index'),route('crm-leads.create'),request()->is('crm-leads/*/edit'),request()->is('crm-leads/*'),
         route('qualified-crm-leads.index'),request()->is('qualified-crm-leads*'),
         route('non-qualified-crm-leads.index'),request()->is('non-qualified-crm-leads*'),
         route('general-inquiry-crm-leads.index'),request()->is('general-inquiry-crm-leads*'),
@@ -278,6 +278,30 @@ function setDateRange($chk)
         'endDate' => $endDate
     ]);
 }
+
+function getDateRangeForMonths(int $months): array
+{
+    // Calculate the end date as the last day of the current month
+    $endDate = now()->endOfMonth();
+
+    // Calculate the start date based on the number of months passed
+    $startDate = now()->subMonths($months - 1)->startOfMonth();
+
+    return [
+        'start_date' => $startDate->toDateString(), // Format as Y-m-d
+        'end_date' => $endDate->toDateString(),
+    ];
+}
+
+function getUserNoOfMonths() {
+    $user = Auth::user();
+    $role = $user->getRoleNames()->first();
+    $roleData = DB::table('roles')->where('name', $role)->first();
+    $allowedNoOfMonths = $roleData->allowed_no_of_months ?? 1;
+    return $allowedNoOfMonths;
+
+}
+
 
 function addCustomer(Request $request) {
 

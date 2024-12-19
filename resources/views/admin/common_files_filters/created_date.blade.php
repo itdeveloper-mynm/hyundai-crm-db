@@ -9,6 +9,10 @@
         @else
             value="{{ request('from', dateBeforeTenDays()) }}"
         @endif
+        @if(isset($no_of_months) && !auth()->user()->hasRole('SuperAdmin'))
+            min="{{ getDateRangeForMonths($no_of_months)['start_date'] }}" max="{{ getDateRangeForMonths($no_of_months)['end_date'] }}"
+        @endif
+
         id="from" />
 </div>
 
@@ -18,9 +22,12 @@
         placeholder="Select a date" name="to"
         {{-- value="{{ formateDate(request('to', currentDate())) }}" --}}
         @if(request()->has('mobile') && request()->has('date'))
-            value="{{ request('to') }}"
-    @else
-            value="{{ request('to', currentDate()) }}"
-    @endif
+                value="{{ request('to') }}"
+        @else
+                value="{{ request('to', currentDate()) }}"
+        @endif
+        @if(isset($no_of_months) && !auth()->user()->hasRole('SuperAdmin'))
+            min="{{ getDateRangeForMonths($no_of_months)['start_date'] }}" max="{{ getDateRangeForMonths($no_of_months)['end_date'] }}"
+        @endif
      id="to" />
 </div>

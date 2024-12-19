@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailWithAttachment;
 use App\Models\EmailSendingCriteria;
+use App\Models\Role as CustomerRole;
 
 class RoleController extends Controller
 {
@@ -68,7 +69,11 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $role = Role::create(['name' => $request->input('name')]);
+        $role = CustomerRole::create([
+            'name' => $request->input('name') ,
+             'page_redirect' => $request->page_redirect,
+             'allowed_no_of_months' => $request->allowed_no_of_months
+            ]);
         $role->syncPermissions($request->input('permission'));
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
@@ -91,6 +96,8 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $role->name = $request->input('name');
+        $role->page_redirect = $request->page_redirect;
+        $role->allowed_no_of_months = $request->allowed_no_of_months;
         $role->save();
 
          $role->syncPermissions($request->input('permission'));
