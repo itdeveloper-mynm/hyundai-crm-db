@@ -121,6 +121,7 @@ function AllLeadsMenuPermissionArr()
         'old-leads-list',
         'sales-data-list',
         'social-data-list',
+        'hr-list',
     ];
 }
 
@@ -193,6 +194,7 @@ function AllLeadsMenuArr()
         route('old-leads.index'),route('old-leads.create'),request()->is('old-leads/*/edit'),
         // route('sales-data.index'),request()->is('sales-data/*/edit'),
         route('social-data.index'),route('social-data.create'),request()->is('social-data/*/edit'),
+        route('hr.index'),
     ];
     return $array;
 }

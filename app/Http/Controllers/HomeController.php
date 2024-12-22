@@ -88,6 +88,8 @@ class HomeController extends Controller
         // dd( $data['category_graph'],$data['pdpl_graph']);
 
         $data['sources_graph'] = Application::countBySourceGroup($startDate, $endDate,$all_types,$filters);
+        $data['sale_vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $sale_types, $filters);
+        $data['after_sale_vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $after_sales_types, $filters);
         // dd( $data);
        return view('dashboard' , $data , getCommonFilterData());
     }

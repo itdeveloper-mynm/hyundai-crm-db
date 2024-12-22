@@ -1,0 +1,148 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Application;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\DB;
+
+class HrLeadController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:hr-list', ['only' => ['index']]);
+        $this->middleware('permission:hr-export', ['only' => ['allleadsExport']]);
+    }
+
+    public function index()
+    {
+        $data = getCommonFilterData(null,'sales');
+        return view('admin.hr.index_listing', $data);
+    }
+
+    public function hrPagination()
+    {
+        // -- START DEFAULT DATATABLE QUERY PARAMETER
+        $draw = request('draw');
+        $start = request('start');
+        $length = request('length');
+        $page = (int)$start > 0 ? ($start / $length) + 1 : 1;
+        $limit = (int)$length > 0 ? $length : 10;
+        $columnIndex = request('order')[0]['column']; // Column index
+        $columnName = request('columns')[$columnIndex]['data']; // Column name
+        $columnSortOrder = request('order')[0]['dir']; // asc or desc value
+        $searchValue = request('search')['value']; // Search value from datatable
+        //-- END DEFAULT DATATABLE QUERY PARAMETER
+        $conditions = request()->all();
+
+        //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
+        $countAll = Application::search($conditions)->where('type','career')->count();
+
+        //-- CREATE LARAVEL PAGINATION
+        $paginate =  Application::search($conditions)
+                ->where('type','career')
+                ->orderBy($columnName, $columnSortOrder)
+                ->paginate($limit, ["*"], 'page', $page);
+
+        $num = 1;
+        $items = array();
+        foreach ($paginate->items() as $idx => $row) {
+
+            $items[] = array(
+                "no" => $num,
+                "id" => $row['id'],
+                "full_name" => ucwords($row->customer->full_name),
+                "mobile" => $row->customer->mobile ?? '-',
+                "customer_id" => $row->customer_id,
+                "city_id" => $row->city->name ?? "",
+                "branch_id" => $row->branch->name ?? "",
+                "vehicle_id" => $row->vehicle->name ?? "",
+                "source_id" => $row->source->name ?? "",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+            );
+            $num++;
+        }
+        //-- START CREATE JSON RESPONSE FOR DATATABLES
+        $response = array(
+            "draw" => (int)$draw,
+            "recordsTotal" => (int)$countAll,
+            "recordsFiltered" => (int)$paginate->total(),
+            "data" => $items,
+        );
+        return response()->json($response);
+        //-- END CREATE JSON RESPONSE FOR DATATABLES
+
+   }
+
+   public function hrExport(Request $request)
+   {
+       //dd($request->all());
+       ini_set('max_execution_time', 300);
+       //    direct download file
+       $fileName = 'hr_export_' . time() . '.csv';
+
+       $response = new StreamedResponse(function () {
+           $dataName = getCommonDataName();
+           $conditions = request()->all();
+
+           $fileHandle = fopen('php://output', 'w');
+
+            // Add UTF-8 BOM for Excel compatibility
+            fwrite($fileHandle, "\xEF\xBB\xBF");
+
+           fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
+                               'Created At']);
+           $chunkSize = 50000;
+
+           Application::search($conditions)
+           ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
+           ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
+           ->select(
+               DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
+               'cust.mobile',
+               'bank.name as bank_name',
+               'applications.city_id',
+               'applications.branch_id',
+               'applications.vehicle_id',
+               'applications.source_id',
+               'applications.campaign_id',
+               'applications.created_at'
+           )
+        //    ->whereNotNull('cust.bank_id')
+           ->where('applications.type', 'career')
+           ->orderBy('applications.id')
+           ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
+               foreach ($records as $record) {
+                   $row = [
+                       $record->full_name,
+                       $record->mobile,
+                       $dataName['cities'][$record->city_id] ?? "",
+                       $dataName['branches'][$record->branch_id] ?? "",
+                       $dataName['vehicles'][$record->vehicle_id] ?? "",
+                       $dataName['sources'][$record->source_id] ?? "",
+                       $record->bank_name,
+                       formateDate($record->created_at),
+                   ];
+                   fputcsv($fileHandle, (array)$row);
+               }
+
+               // Flush the output buffer every chunk to keep the connection alive
+               ob_flush();
+               flush();
+           });
+
+           fclose($fileHandle);
+
+       });
+
+       $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+       $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+       return $response;
+   }
+
+}

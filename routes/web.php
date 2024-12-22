@@ -26,6 +26,7 @@ use App\Http\Controllers\EmailSendingCriteriaController;
 use App\Http\Controllers\GraphController;
 use App\Http\Controllers\TestDriveRequestContoller;
 use App\Http\Controllers\QuoteRequestContoller;
+use App\Http\Controllers\HrLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,11 @@ Route::controller(QuoteRequestContoller::class)->group(function(){
     Route::post('quote-request-export',  'testdriveExport')->name('quote-request.export');
 });
 
+Route::resource('hr', HrLeadController::class);
+Route::controller(HrLeadController::class)->group(function(){
+    Route::get('hr-pagination',  'hrPagination')->name('hr.pagination');
+    Route::post('hr-export',  'hrExport')->name('hr.export');
+});
 
 Route::resource('after-sale', AfterSaleController::class);
 Route::controller(AfterSaleController::class)->group(function(){

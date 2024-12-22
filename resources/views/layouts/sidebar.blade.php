@@ -257,6 +257,25 @@
                             </div>
                             <!--end:Menu sub-->
                         @endcan
+                        @can('hr-list')
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ activeRoute(route('hr.index')) }}"
+                                        href="{{ route('hr.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Hr Leads</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+                        @endcan
                         {{-- @can('google-business-list')
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">

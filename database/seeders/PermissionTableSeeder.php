@@ -184,6 +184,10 @@ class PermissionTableSeeder extends Seeder
             'crm-leads-graph-list',
             'crm-leads-graph-export',
             'crm-leads-graph-filters',
+            'hr-list',
+            'hr-delete',
+            'hr-filters',
+            'hr-export',
          ];
 
          foreach ($permissions as $permission) {

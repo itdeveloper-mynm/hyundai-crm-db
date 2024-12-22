@@ -221,7 +221,7 @@
                                     <div class="sales-leads-card" style="background: #9966FF">
                                         <div>
                                             <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
-                                            <p class="label">Contact Us (After Sales) </p>
+                                            <p class="label">Contact Us </p>
                                         </div>
                                         <div class="icon">
                                             <i class="bi bi-geo-alt"></i>
@@ -476,7 +476,7 @@
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (After Sales) ('+ @json($second_graph_data[2]) +')',
+                    label: 'Contact Us ('+ @json($second_graph_data[2]) +')',
                     data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,

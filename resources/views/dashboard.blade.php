@@ -62,6 +62,11 @@
             background-color: #ff0000;
         }
 
+        .social-card.instagram {
+            background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+            color: white;
+        }
+
         i {
             line-height: 1;
             font-size: 2rem;
@@ -360,7 +365,7 @@
                                 <!--begin::Col-->
                                 <!--end::Col-->
                                 <!-- Facebook -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                <div class="col-sm-6 col-xl-3 mb-xl-5">
                                     <div class="social-card facebook">
                                         <div class="icon">
                                             <i class="bi bi-facebook" style="color:none"></i>
@@ -379,7 +384,7 @@
                                     </div>
                                 </div>
                                 <!-- Twitter -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                <div class="col-sm-6 col-xl-3 mb-xl-5">
                                     <div class="social-card twitter">
                                         <div class="icon">
                                             <i class="bi bi-twitter"></i>
@@ -398,7 +403,7 @@
                                     </div>
                                 </div>
                                 <!-- LinkedIn -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                <div class="col-sm-6 col-xl-3 mb-xl-5">
                                     <div class="social-card linkedin">
                                         <div class="icon">
                                             <i class="bi bi-linkedin"></i>
@@ -413,7 +418,7 @@
                                     </div>
                                 </div>
                                 <!-- YouTube -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
+                                <div class="col-sm-6 col-xl-3 mb-xl-5">
                                     <div class="social-card youtube">
                                         <div class="icon">
                                             <i class="bi bi-youtube"></i>
@@ -427,6 +432,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Instagram -->
+                                <div class="col-sm-6 col-xl-3 mb-xl-5 mt-5">
+                                    <!-- Instagram Card -->
+                                    <div class="social-card instagram" style="background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); color: white;">
+                                        <div class="icon">
+                                            <i class="bi bi-instagram"></i>
+                                        </div>
+                                        <div class="stat-row d-block">
+                                            <div>
+                                                <p class="stat-value">{{ $socialData['Instagram'][0]['followers'] ?? 0 }}</p>
+                                                <p class="stat-label">Followers</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -628,6 +649,44 @@
 
             </div>
 
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-5">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Sales Vehicles Interested</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_7" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+
+
             <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-6">
@@ -768,6 +827,42 @@
                     <!--end::Chart widget 31-->
                 </div>
 
+            </div>
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-5">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">After Sales Vehicles Interested</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_8" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
             </div>
 
             <div class="row gx-5 gx-xl-10 mt-5">
@@ -1510,6 +1605,114 @@
         };
 
         var myChart = new Chart(ctx6, config6);
+
+
+             // Example data
+        var xData7 = @json($sale_vehcile_graph['vehicle_names']) ;
+        var yData7 = @json($sale_vehcile_graph['vehicle_count']) ;
+
+        // Generate random fill colors
+        var fillColors7 = Array.from({ length: xData7.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData7 = xData7.map((x, index) => ({
+        x: x,
+        y: yData7[index],
+        fill: fillColors7[index]
+        }));
+
+        // Function to generate a random color
+
+        // Chart options
+        var options7 = {
+        series: [{
+            data: seriesData7
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                distributed: true,
+                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: xData7.map((x, index) => `${x} (${yData7[index]})`),
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
+        },
+            legend: {
+            show: false // Hides the legend below the graph
+        }
+        };
+
+        // Render the chart
+        var chart7 = new ApexCharts(document.querySelector("#graph_7"), options7);
+        chart7.render();
+
+
+             // Example data
+        var xData8 = @json($after_sale_vehcile_graph['vehicle_names']) ;
+        var yData8 = @json($after_sale_vehcile_graph['vehicle_count']) ;
+
+        // Generate random fill colors
+        var fillColors8 = Array.from({ length: xData8.length }, () => getRandomColor());
+
+        // Create series data
+        var seriesData8 = xData8.map((x, index) => ({
+        x: x,
+        y: yData8[index],
+        fill: fillColors8[index]
+        }));
+
+        // Function to generate a random color
+
+        // Chart options
+        var options8 = {
+        series: [{
+            data: seriesData8
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                distributed: true,
+                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: xData8.map((x, index) => `${x} (${yData8[index]})`),
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
+        },
+            legend: {
+            show: false // Hides the legend below the graph
+        }
+        };
+
+        // Render the chart
+        var chart8 = new ApexCharts(document.querySelector("#graph_8"), options8);
+        chart8.render();
 
         // $(document).ready(function () {
         //     $(".campaign_wise_row:first-child").click();
