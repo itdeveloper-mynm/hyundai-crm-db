@@ -171,9 +171,9 @@
                                                 </select>
                                             </div>
 
-                                        <div class="mb-5 fv-row col-lg-6">
+                                        {{-- <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => $lead ])
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred Time to contact') }}</label>
                                             <select class="form-select mb-2" name="preferred_appointment_time" required="required"

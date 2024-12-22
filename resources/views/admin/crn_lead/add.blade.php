@@ -170,9 +170,9 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-5 fv-row col-lg-6">
+                                        {{-- <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => null ])
-                                        </div>
+                                        </div> --}}
 
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred Time to contact') }}</label>

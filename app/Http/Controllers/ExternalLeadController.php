@@ -109,7 +109,7 @@ class ExternalLeadController extends Controller
         $mobile = $request->input('mobile');
         $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::firstOrCreate(
+        $customer = Customer::updateOrCreate(
             ['mobile' => $mobile],
             [
                 'first_name' => $request->input('firstName'),
@@ -321,7 +321,7 @@ class ExternalLeadController extends Controller
         $mobile = $request->input('mobile');
         $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::firstOrCreate(
+        $customer = Customer::updateOrCreate(
             ['mobile' => $mobile],
             [
                 'first_name' => $request->input('firstName'),
