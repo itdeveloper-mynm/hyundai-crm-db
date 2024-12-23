@@ -183,12 +183,12 @@
                             <th class="min-w-100px">{{ __('City') }}</th>
                             <th class="min-w-100px">{{ __('Vehicle') }}</th>
                             <th class="min-w-100px">{{ __('Source') }}</th>
-                            <th class="min-w-100px">{{ __('Category') }}</th>
-                            <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                            {{-- <th class="min-w-100px">{{ __('Category') }}</th>
+                            <th class="min-w-100px">{{ __('Sub Category') }}</th> --}}
                             <th class="min-w-100px">{{ __('Created At') }}</th>
                             <th class="min-w-100px">{{ __('Created By') }}</th>
-                            <th class="min-w-100px">{{ __('Updated At') }}</th>
-                            <th class="min-w-100px">{{ __('Updated By') }}</th>
+                            {{-- <th class="min-w-100px">{{ __('Updated At') }}</th>
+                            <th class="min-w-100px">{{ __('Updated By') }}</th> --}}
                             <th class="min-w-100px">{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -352,22 +352,22 @@ var table = $('#user_table').DataTable({
                 return result;
             }
         },
-        {
-        data: 'category',
-            render: function(data, type, row) {
+        //{
+        //    data: 'category',
+        //    render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'sub_category',
-            render: function(data, type, row) {
+        //        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+        //        return result;
+        //    }
+       // },
+        //{
+        //    data: 'sub_category',
+        //    render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
+        //        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+        //        return result;
+        //    }
+        //},
         {
             data: 'created_at',
             render: function(data, type, row) {
@@ -384,22 +384,22 @@ var table = $('#user_table').DataTable({
                 return result;
             }
         },
-        {
-            data: 'updated_at',
-            render: function(data, type, row) {
+        // {
+        //     data: 'updated_at',
+        //     render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
-        {
-            data: 'updated_by',
-            render: function(data, type, row) {
+        //         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+        //         return result;
+        //     }
+        // },
+        // {
+        //     data: 'updated_by',
+        //     render: function(data, type, row) {
 
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
-            }
-        },
+        //         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+        //         return result;
+        //     }
+        // },
 
         {
             data: 'id',
