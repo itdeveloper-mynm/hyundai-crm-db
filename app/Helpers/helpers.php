@@ -164,7 +164,7 @@ function formDataPermissionArr()
         'campaign-list',
         'bank-list',
         // 'sales-data-list',
-        'social-data-list',
+        // 'social-data-list',
         //'crm-leads-list'
     ];
 }
