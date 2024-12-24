@@ -767,10 +767,10 @@ class SaleGraphController extends Controller
         $data['endDate'] = $endDate;
 
 
-        $first_types = ['crm_leads'];
+        $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars'];
 
         $filters = $request->all();
-        // dd($filters);
+        $filters['category_chk'] = 'not_null';
 
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
@@ -778,6 +778,7 @@ class SaleGraphController extends Controller
         $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
+        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
         // dd($data['category_graph']);
         //dd($data);
        return view('admin.crn_lead.graph_index' , $data ,getCommonFilterData());

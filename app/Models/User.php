@@ -53,8 +53,7 @@ class User extends Authenticatable
                 if (isset($conditions['search']['value'])) {
                     $search = $conditions['search']['value'];
                     $query->where(function ($query) use ($search) {
-                            $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
-                                ->orWhere('mobile', $search)
+                            $query->whereRaw("CONCAT(name) LIKE ?", ['%' . $search . '%'])
                                 ->orWhere('email', $search);
                     });
                 }

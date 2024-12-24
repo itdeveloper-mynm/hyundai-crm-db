@@ -256,6 +256,13 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['category_chk'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereNotNull('applications.category')
+                          ->where('applications.category', '!=', '');
+                });
+            }
+
             if (isset($conditions['category'])) {
                 $query->where(function ($query) use ($conditions) {
                         $query->whereIn('applications.category', arraycheck($conditions['category']));
@@ -536,8 +543,8 @@ class Application extends Model
         ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
-        ->groupBy(DB::raw("IFNULL(applications.category, 'Not Assigned')")) // Use the same expression as in select
-        ->orderBy('category_name', 'asc') // Ordering by alias
+        ->groupBy(DB::raw("IFNULL(applications.category, 'Not Assigned')"))
+        ->orderBy('category_name', 'asc')
         ->get();
 
         $data['category_names'] = $alldata->pluck('category_name')->toArray();
