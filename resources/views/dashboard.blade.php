@@ -365,7 +365,7 @@
                                 <!--begin::Col-->
                                 <!--end::Col-->
                                 <!-- Facebook -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-5">
+                                <div class="col-sm-6 col-xl-2 mb-xl-5">
                                     <div class="social-card facebook">
                                         <div class="icon">
                                             <i class="bi bi-facebook" style="color:none"></i>
@@ -384,7 +384,7 @@
                                     </div>
                                 </div>
                                 <!-- Twitter -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-5">
+                                <div class="col-sm-6 col-xl-2 mb-xl-5">
                                     <div class="social-card twitter">
                                         <div class="icon">
                                             <i class="bi bi-twitter"></i>
@@ -403,7 +403,7 @@
                                     </div>
                                 </div>
                                 <!-- LinkedIn -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-5">
+                                <div class="col-sm-6 col-xl-2 mb-xl-5">
                                     <div class="social-card linkedin">
                                         <div class="icon">
                                             <i class="bi bi-linkedin"></i>
@@ -418,7 +418,7 @@
                                     </div>
                                 </div>
                                 <!-- YouTube -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-5">
+                                <div class="col-sm-6 col-xl-2 mb-xl-5">
                                     <div class="social-card youtube">
                                         <div class="icon">
                                             <i class="bi bi-youtube"></i>
@@ -433,7 +433,7 @@
                                     </div>
                                 </div>
                                 <!-- Instagram -->
-                                <div class="col-sm-6 col-xl-3 mb-xl-5 mt-5">
+                                <div class="col-sm-6 col-xl-2 mb-xl-5">
                                     <!-- Instagram Card -->
                                     <div class="social-card instagram" style="background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); color: white;">
                                         <div class="icon">
