@@ -69,4 +69,10 @@ class User extends Authenticatable
                 // Add more conditions as needed...
             });
         }
+
+        public function crmuserapplications()
+        {
+            return $this->hasMany(Application::class,'updated_by');
+        }
+
 }

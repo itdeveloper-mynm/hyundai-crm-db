@@ -5,7 +5,13 @@
                 data-allow-clear="true" multiple>
                 {{-- <option value="">--select--</option> --}}
                 @foreach ($sources as $source)
+                @if (isset($crm_chk))
+                    @if(in_array($source->name, ['Email', 'Whatsapp', 'Inbound','Outbound']))
                     <option value="{{$source->id}}" {{ is_selected($source->id, 'source_id') }}>{{$source->name}}</option>
+                    @endif
+                @else
+                    <option value="{{$source->id}}" {{ is_selected($source->id, 'source_id') }}>{{$source->name}}</option>
+                @endif
                 @endforeach
             </select>
         </div>

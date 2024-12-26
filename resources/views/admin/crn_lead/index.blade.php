@@ -66,7 +66,7 @@
                                                         @include('admin.common_files_filters.vehicle')
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.source')
+                                                        @include('admin.common_files_filters.source', ['crm_chk' => true])
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.campaign')

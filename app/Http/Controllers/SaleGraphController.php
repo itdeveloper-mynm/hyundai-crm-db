@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\SocialData;
 use App\Models\Application;
 use App\Models\SalesData;
+use App\Models\User;
 
 
 class SaleGraphController extends Controller
@@ -274,6 +275,8 @@ class SaleGraphController extends Controller
 
         $all_types = ['online_service_booking', 'service_offers', 'contact_us'];
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
+        $data['after_sale_vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $all_types, $filters);
+        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
@@ -779,7 +782,28 @@ class SaleGraphController extends Controller
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
-        // dd($data['category_graph']);
+
+
+
+        $data['crm_users_graph'] = Application::with('updatedby')
+            ->select(
+                'updated_by',
+                DB::raw("SUM(CASE WHEN category = 'Qualified' THEN 1 ELSE 0 END) as qualified_count"),
+                DB::raw("SUM(CASE WHEN category = 'Not Qualified' THEN 1 ELSE 0 END) as not_qualified_count"),
+                DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count")
+            )
+            ->whereIn('type', $first_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->whereNotNull('updated_by')
+            ->whereHas('updatedby', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Crm Lead User');
+                });
+            })
+            ->groupBy('updated_by')
+            ->get()->toArray();
+
         //dd($data);
        return view('admin.crn_lead.graph_index' , $data ,getCommonFilterData());
     }
