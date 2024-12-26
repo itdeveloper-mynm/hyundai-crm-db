@@ -164,7 +164,7 @@
                                                     data-allow-clear="true">
                                                     <option value=""></option>
                                                     @foreach ($sources as $source)
-                                                        @if(in_array($source->name, ['Email', 'Whatsapp', 'Inbound']))
+                                                        @if(in_array($source->name, ['Email', 'Whatsapp', 'Inbound','Outbound']))
                                                         <option value="{{$source->id}}"  @selected($lead->source_id==$source->id)>{{$source->name}}</option>
                                                         @endif
                                                         @endforeach
