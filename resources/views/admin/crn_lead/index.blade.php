@@ -93,10 +93,10 @@
                                                         @include('admin.common_files_filters.departments')
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.created_by')
+                                                        @include('admin.common_files_filters.created_by', ['crm_chk' => true])
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        @include('admin.common_files_filters.updated_by')
+                                                        @include('admin.common_files_filters.updated_by', ['crm_chk' => true])
                                                     </div>
                                                 </div>
                                             @endcan

@@ -91,9 +91,11 @@
                                                         <div class="col-lg-4">
                                                             @include('admin.common_files_filters.created_by')
                                                         </div>
-                                                        <div class="col-lg-4">
-                                                            @include('admin.common_files_filters.updated_by')
-                                                        </div>
+                                                        @hasanyrole('SuperAdmin|Admin')
+                                                            <div class="col-lg-4">
+                                                                @include('admin.common_files_filters.updated_by')
+                                                            </div>
+                                                        @endhasanyrole
                                                         <div class="col-lg-4">
                                                             @include('admin.common_files_filters.app_types')
                                                         </div>
@@ -102,12 +104,15 @@
                                                         </div>
                                                     </div>
                                                 @endcan
+
                                                 <div class="row mt-1">
                                                     @include('admin.common_files_filters.created_date' , ['no_of_months' => getUserNoOfMonths() ])
                                                 </div>
+                                                @hasanyrole('SuperAdmin|Admin')
                                                 <div class="row mt-2">
                                                     @include('admin.common_files_filters.updated_date' , ['no_of_months' => getUserNoOfMonths()  ])
                                                 </div>
+                                                @endhasanyrole
                                             </div>
 
                                             <div class="d-flex justify-content-end">
@@ -478,7 +483,8 @@
         $('#reset').click(function(e) {
             e.preventDefault();
 
-            @role('SuperAdmin')
+
+            @hasanyrole('SuperAdmin|Admin')
                 var from = document.querySelector('#from');
                 var to = document.querySelector('#to');
                 from.value = '';
@@ -489,7 +495,9 @@
                 var upd_to = document.querySelector('#upd_to');
                 upd_from.value = '';
                 upd_to.value = '';
-            @endrole
+
+                $("#updated_by").val([]).change();
+            @endhasanyrole
 
             // Reset select fields
             $("#city_id").val([]).change();
@@ -501,7 +509,6 @@
             $("#kyc").val([]).change();
             $("#category").val([]).change();
             $("#created_by").val([]).change();
-            $("#updated_by").val([]).change();
             $('#monthly_salary').val([]).change();
             $('#preferred_appointment_time').val([]).change();
             $('#type').val([]).change();

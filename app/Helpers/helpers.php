@@ -565,6 +565,12 @@ function getCommonFilterData($cityId = null,$page_type = null)
     return $commonData;
 }
 
+function getCrmUser(){
+    return User::whereHas('roles', function ($roleQuery) {
+        $roleQuery->where('name', 'Crm Lead User');
+    })->get() ?? [];
+}
+
 function getCommonDataName()
 {
     $commonData = [
