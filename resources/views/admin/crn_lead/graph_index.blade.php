@@ -622,7 +622,7 @@
                                     aria-labelledby="tab-backtoschool">
                                     <table class="table table-striped gy-4 gs-7">
                                         <thead>
-                                            <tr>
+                                            <tr  style="background: #A0C5E8;">
                                                 <th colspan="2">
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
@@ -663,8 +663,8 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        <thead>
-                                            <tr>
+                                        <tfoot>
+                                            <tr style="background: #8FBC8F;">
                                                 <th colspan="2">
                                                     <h5><span style="float: left">Total Count</span></h5>
                                                 </th>
@@ -672,7 +672,7 @@
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_graph)->sum('not_qualified_count') ?? 0}}</span></h5></th>
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_graph)->sum('general_inquiry_count') ?? 0}}</span></h5></th>
                                             </tr>
-                                        </thead>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
