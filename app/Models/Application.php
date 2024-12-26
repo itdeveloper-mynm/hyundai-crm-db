@@ -306,7 +306,7 @@ class Application extends Model
                 // });
             }
 
-            $query->whereNotNull('deleted_at');
+            $query->whereNull('deleted_at');
             // Add more conditions as needed...
         });
     }
