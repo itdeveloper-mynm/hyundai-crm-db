@@ -665,7 +665,15 @@
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
-
+        // Function to generate a random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
         // Example data
         var xData8 = @json($after_sale_vehcile_graph['vehicle_names']) ;
         var yData8 = @json($after_sale_vehcile_graph['vehicle_count']) ;
