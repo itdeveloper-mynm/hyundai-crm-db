@@ -929,9 +929,9 @@ class Application extends Model
 
         $application = self::findorFail($id);
 
-        if ($request->has('mobile')) {
+        // if ($request->has('mobile')) {
             $customer = updCustomer($request,$application->customer_id);
-        }
+        // }
 
         //$customer = Customer::findorFail($application->customer_id);
 

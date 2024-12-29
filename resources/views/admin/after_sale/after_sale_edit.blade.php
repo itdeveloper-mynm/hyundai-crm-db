@@ -31,12 +31,12 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text"name="first_name" id="first_name" value="{{$after_sale->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text"name="last_name" id="last_name" value="{{$after_sale->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" disabled value="{{$after_sale->customer->email}}"  class="form-control mb-2"
+                                            <input type="text"name="email" id="email" value="{{$after_sale->customer->email}}"  class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -110,11 +110,37 @@ $(document).ready(function() {
         rules: {
             'status': {
                 required: true,
-            }
+            },
+            'mobile': {
+                required: true,
+                remote: {
+                    url: "{{ route('check.name.exist') }}",
+                    type: "get",
+                    data: {
+                        mobile: function(data) {
+                            return $('#mobile').val();
+                        },
+                        check: function(data) {
+                            return "{{$after_sale->customer_id}}";
+                        },
+                        tableName: function(data) {
+                            return 'customers';
+                        },
+                        fieldName: function(data) {
+                            return 'mobile';
+                        },
+
+                    }
+                }
+            },
         },
         messages: {
             'status': {
                 'required': "{{ __('status field is required') }}"
+            },
+            mobile: {
+                remote: "Mobile Already Exists",
+
             },
         },
 

@@ -335,7 +335,11 @@ function updCustomer(Request $request,$id) {
     $mobile =formatInputNumber($mobile);
 
     $customer = Customer::whereId($id)->first();
-    $customer->mobile = $mobile;
+    // dd($customer);
+    $customer->first_name = $request->input('first_name') ?? $customer->first_name;
+    $customer->last_name = $request->input('last_name') ?? $customer->last_name;
+    $customer->mobile = $mobile ?? $customer->mobile;
+    $customer->email = $request->input('email') ?? $customer->email;
     $customer->bank_id = $request->input('bank_id') ?? $customer->bank_id;
     $customer->gender = $request->input('gender') ?? $customer->gender;
     $customer->national_id = $request->input('national_id') ?? $customer->national_id;
