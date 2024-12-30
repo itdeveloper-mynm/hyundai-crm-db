@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Customer;
 use GuzzleHttp\Client;
+use Log;
 
 class TranslateCustomerNames extends Command
 {
@@ -22,7 +23,6 @@ class TranslateCustomerNames extends Command
      */
     public function handle()
     {
-        // Fetch 10 customers based on the provided query
         $customers = Customer::whereRaw("
             first_name LIKE '%Ø§%' OR
             first_name LIKE '%Ø¨%' OR
@@ -32,7 +32,7 @@ class TranslateCustomerNames extends Command
             last_name LIKE '%Ø¨%' OR
             last_name LIKE '%Ø­%' OR
             last_name LIKE '%Ù‡%'
-        ")->orderby('id','DESC')->take(10)->get();
+        ")->take(1)->get();
 
         if ($customers->isEmpty()) {
             $this->info('No customers found for translation.');
@@ -40,27 +40,60 @@ class TranslateCustomerNames extends Command
         }
 
         $apiKey = env('OPENAI_API_KEY');
-        $client = new Client();
 
         foreach ($customers as $customer) {
             $prompt = "Translate fname {$customer->first_name} and lname {$customer->last_name} to Arabic and keep the keys the same.";
 
             try {
-                $response = $client->post('https://api.openai.com/v1/chat/completions', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey,
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'model' => 'gpt-4',
+                $maxRetries = 5;
+                $retryDelay = 2; // seconds
+                $attempt = 0;
+
+                do {
+                    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+                    $data = [
+                        'model' => 'gpt-3.5-turbo',
                         'messages' => [
-                            ['role' => 'system', 'content' => 'You are a helpful assistant.'],
+                            ['role' => 'system', 'content' => 'You are a translator that specializes in Arabic translations.'],
+                            // ['role' => 'system', 'content' => 'You are a helpful assistant.'],
                             ['role' => 'user', 'content' => $prompt],
                         ],
-                    ],
-                ]);
+                    ];
 
-                $responseData = json_decode($response->getBody(), true);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Authorization: Bearer ' . $apiKey,
+                        'Content-Type: application/json',
+                    ]);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+                    $response = curl_exec($ch);
+                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                    if ($response !== false && $httpCode === 200) {
+                        curl_close($ch);
+                        break; // Exit loop on success
+                    }
+
+                    if ($httpCode === 429) {
+                        $attempt++;
+                        \Log::warning("Rate limit hit. Retrying in {$retryDelay} seconds. Attempt {$attempt} of {$maxRetries}.");
+                        sleep($retryDelay);
+                    } else {
+                        \Log::error('cURL error: ' . curl_error($ch) . ' HTTP Code: ' . $httpCode);
+                        break; // Exit loop on non-retriable error
+                    }
+
+                    curl_close($ch);
+                } while ($attempt < $maxRetries);
+
+                if ($httpCode !== 200) {
+                    \Log::error("API request failed after {$maxRetries} attempts for customer ID: {$customer->id}");
+                    continue;
+                }
+
+                $responseData = json_decode($response, true);
                 $translatedText = $responseData['choices'][0]['message']['content'] ?? '';
 
                 // Extract translated first_name and last_name using regex
@@ -78,10 +111,155 @@ class TranslateCustomerNames extends Command
 
                 $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
             } catch (\Exception $e) {
-                $this->error("Failed to translate {$customer->first_name} {$customer->last_name}: " . $e->getMessage());
+                \Log::error("Failed to translate customer ID {$customer->id}: " . $e->getMessage());
             }
         }
 
         $this->info('Translation process completed.');
     }
+
+    // public function handle()
+    // {
+    //      // Fetch 10 customers based on the provided query
+    //      $customers = Customer::whereRaw("
+    //          first_name LIKE '%Ø§%' OR
+    //          first_name LIKE '%Ø¨%' OR
+    //          first_name LIKE '%Ø­%' OR
+    //          first_name LIKE '%Ù‡%' OR
+    //          last_name LIKE '%Ø§%' OR
+    //          last_name LIKE '%Ø¨%' OR
+    //          last_name LIKE '%Ø­%' OR
+    //          last_name LIKE '%Ù‡%'
+    //      ")->orderby('id','ASC')->take(1)->get();
+
+    //      if ($customers->isEmpty()) {
+    //          $this->info('No customers found for translation.');
+    //          return;
+    //      }
+
+    //      $apiKey = env('OPENAI_API_KEY');
+
+    //      foreach ($customers as $customer) {
+    //          $prompt = "Translate fname {$customer->first_name} and lname {$customer->last_name} to Arabic and keep the keys the same.";
+
+    //          try {
+    //              // Prepare cURL request
+    //              $ch = curl_init('https://api.openai.com/v1/chat/completions');
+
+    //              $data = [
+    //                  'model' => 'gpt-4',
+    //                  'messages' => [
+    //                      ['role' => 'system', 'content' => 'You are a helpful assistant.'],
+    //                      ['role' => 'user', 'content' => $prompt],
+    //                  ],
+    //              ];
+
+    //              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //              curl_setopt($ch, CURLOPT_POST, true);
+    //              curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    //                  'Authorization: Bearer ' . $apiKey,
+    //                  'Content-Type: application/json',
+    //              ]);
+    //              curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    //              $response = curl_exec($ch);
+    //              $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    //              if ($response === false || $httpCode !== 200) {
+    //                  throw new \Exception('cURL error: ' . curl_error($ch) . ' HTTP Code: ' . $httpCode);
+    //              }
+
+    //              curl_close($ch);
+
+    //              $responseData = json_decode($response, true);
+    //              $translatedText = $responseData['choices'][0]['message']['content'] ?? '';
+
+    //              // Extract translated first_name and last_name using regex
+    //              $fname = null;
+    //              $lname = null;
+    //              if (preg_match('/fname: (.+?) and lname: (.+)/', $translatedText, $matches)) {
+    //                  $fname = trim($matches[1]);
+    //                  $lname = trim($matches[2]);
+    //              }
+
+    //              // Update the customer's translated names
+    //              $customer->first_name = $fname;
+    //              $customer->last_name = $lname;
+    //              $customer->save();
+
+    //              $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
+    //          } catch (\Exception $e) {
+    //              \Log::info($e->getMessage());
+    //              $this->error("Failed to translate {$customer->first_name} {$customer->last_name}: " . $e->getMessage());
+    //          }
+    //      }
+
+    //      $this->info('Translation process completed.');
+    // }
+
+    // public function handle()
+    // {
+    //     // Fetch 10 customers based on the provided query
+    //     $customers = Customer::whereRaw("
+    //         first_name LIKE '%Ø§%' OR
+    //         first_name LIKE '%Ø¨%' OR
+    //         first_name LIKE '%Ø­%' OR
+    //         first_name LIKE '%Ù‡%' OR
+    //         last_name LIKE '%Ø§%' OR
+    //         last_name LIKE '%Ø¨%' OR
+    //         last_name LIKE '%Ø­%' OR
+    //         last_name LIKE '%Ù‡%'
+    //     ")->orderby('id','DESC')->take(1)->get();
+
+    //     if ($customers->isEmpty()) {
+    //         $this->info('No customers found for translation.');
+    //         return;
+    //     }
+
+    //     $apiKey = env('OPENAI_API_KEY');
+    //     $client = new Client();
+
+    //     foreach ($customers as $customer) {
+    //         $prompt = "Translate fname {$customer->first_name} and lname {$customer->last_name} to Arabic and keep the keys the same.";
+
+    //         try {
+    //             $response = $client->post('https://api.openai.com/v1/chat/completions', [
+    //                 'headers' => [
+    //                     'Authorization' => 'Bearer ' . $apiKey,
+    //                     'Content-Type' => 'application/json',
+    //                 ],
+    //                 'json' => [
+    //                     'model' => 'gpt-4',
+    //                     'messages' => [
+    //                         ['role' => 'system', 'content' => 'You are a helpful assistant.'],
+    //                         ['role' => 'user', 'content' => $prompt],
+    //                     ],
+    //                 ],
+    //             ]);
+
+    //             $responseData = json_decode($response->getBody(), true);
+    //             $translatedText = $responseData['choices'][0]['message']['content'] ?? '';
+
+    //             // Extract translated first_name and last_name using regex
+    //             $fname = null;
+    //             $lname = null;
+    //             if (preg_match('/fname: (.+?) and lname: (.+)/', $translatedText, $matches)) {
+    //                 $fname = trim($matches[1]);
+    //                 $lname = trim($matches[2]);
+    //             }
+
+    //             // Update the customer's translated names
+    //             $customer->first_name = $fname;
+    //             $customer->last_name = $lname;
+    //             $customer->save();
+
+    //             $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
+    //         } catch (\Exception $e) {
+    //             Log::info($e->getMessage());
+    //             $this->error("Failed to translate {$customer->first_name} {$customer->last_name}: " . $e->getMessage());
+    //         }
+    //     }
+
+    //     $this->info('Translation process completed.');
+    // }
 }
