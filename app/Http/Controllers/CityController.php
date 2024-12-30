@@ -214,4 +214,38 @@ class CityController extends Controller
         {echo 'false';}
    }
 
+   public function checkNameExistchk(Request $request)
+   {
+        //dd($request->all());
+
+        //$field_name= 'name';
+        $field_name= $request->fieldName ?? 'name';
+        $table_name=$request->tableName;
+        $input = request()->all();
+        if($field_name == 'mobile'){
+            $input['mobile'] = formatInputNumber($input['mobile']);
+        }
+        //dd($input);
+        if(request('check')==0){
+            $validator = Validator::make($input,
+            [
+                //'name' => 'unique:cities,name',
+                 $field_name => 'exists:'.$table_name.','.$field_name.'',
+            ]);
+        }
+        if(request('check')!=0){
+            $id=request('check');
+            $validator = Validator::make($input,
+            [
+                //'name' => 'unique:cities,name,'.$id,
+                $field_name => 'exists:'.$table_name.','.$field_name.','.$id,
+            ]);
+        }
+
+        if($validator->fails() == false)
+        { echo 'true';}
+        else
+        {echo 'false';}
+   }
+
 }

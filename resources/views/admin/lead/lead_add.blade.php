@@ -124,28 +124,28 @@ $(document).ready(function() {
             'status': {
                 required: true,
             },
-            'mobile': {
-                required: true,
-                remote: {
-                    url: "{{ route('check.name.exist') }}",
-                    type: "get",
-                    data: {
-                        mobile: function(data) {
-                            return $('#mobile').val();
-                        },
-                        check: function(data) {
-                            return 0;
-                        },
-                        tableName: function(data) {
-                            return 'customers';
-                        },
-                        fieldName: function(data) {
-                            return 'mobile';
-                        },
+            // 'mobile': {
+            //     required: true,
+            //     remote: {
+            //         url: "{{ route('check.name.exist-chk') }}",
+            //         type: "get",
+            //         data: {
+            //             mobile: function(data) {
+            //                 return $('#mobile').val();
+            //             },
+            //             check: function(data) {
+            //                 return 0;
+            //             },
+            //             tableName: function(data) {
+            //                 return 'customers';
+            //             },
+            //             fieldName: function(data) {
+            //                 return 'mobile';
+            //             },
 
-                    }
-                }
-            }
+            //         }
+            //     }
+            // }
 
         },
         messages: {
@@ -156,10 +156,10 @@ $(document).ready(function() {
                 remote: "Name Already Exists",
 
             },
-            mobile: {
-                remote: "Mobile Already Exists",
+            // mobile: {
+            //     remote: "Mobile Already Exists",
 
-            },
+            // },
         },
 
         submitHandler: function(form) {

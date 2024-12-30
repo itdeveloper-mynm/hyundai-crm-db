@@ -57,6 +57,7 @@ Route::controller(CityController::class)->group(function(){
     Route::get('city-pagination',  'cityPagination')->name('city.pagination');
     Route::get('change-status',  'changeStatus')->name('change.status');
     Route::get('check-name-exist',  'checkNameExist')->name('check.name.exist');
+    Route::get('check-name-exist-chk',  'checkNameExistchk')->name('check.name.exist-chk');
 });
 
 Route::resource('branch', BranchController::class);
