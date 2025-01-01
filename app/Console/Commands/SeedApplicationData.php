@@ -31,6 +31,7 @@ class SeedApplicationData extends Command
 
         Artisan::call('db:seed', [
             '--class' => 'ApplicationDataSeeder',
+            '--force' => true,
         ]);
 
         Log::info('SeedApplicationData end');
