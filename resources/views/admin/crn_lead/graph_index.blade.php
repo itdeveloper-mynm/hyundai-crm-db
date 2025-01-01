@@ -685,6 +685,99 @@
 
             </div>
 
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">CRM User Sources Graph</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <div class="tab-content" id="campaignTabsContent">
+                                <!-- Backtoschool-2024 Content -->
+                                <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                    aria-labelledby="tab-backtoschool">
+                                    <table class="table table-striped gy-4 gs-7">
+                                        <thead>
+                                            <tr  style="background: #A0C5E8;">
+                                                <th colspan="2">
+                                                    <h5><span style="float: left">Name</span></h5>
+                                                </th>
+                                                <th><h5><span style="float: left">Email</span></h5></th>
+                                                <th><h5><span style="float: left">Whatsapp</span></h5></th>
+                                                <th><h5><span style="float: left">Inbound</span></h5></th>
+                                                <th><h5><span style="float: left">Outbound</span></h5></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $badgeClasses = [
+                                                    'primary',
+                                                    'success',
+                                                    'info',
+                                                    'warning',
+                                                    'danger',
+                                                    'dark',
+                                                ];
+                                            @endphp
+                                            @foreach ($crm_users_source_graph as $key => $crm_users)
+                                                <tr class="cursor-pointer">
+                                                    <td colspan="2">
+                                                        <span style="float: left">
+                                                            {{ $crm_users['updatedby']['name'] ?? ""}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['email_count'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['whatsapp_count'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['inbound_count'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['outbound_count'] ?? 0 }}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background: #8FBC8F;">
+                                                <th colspan="2">
+                                                    <h5><span style="float: left">Total Count</span></h5>
+                                                </th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('email_count') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('whatsapp_count') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('inbound_count') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('outbound_count') ?? 0}}</span></h5></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+
+
         </div>
         <!--end::Content container-->
     </div>

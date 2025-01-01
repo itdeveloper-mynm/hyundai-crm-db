@@ -804,7 +804,30 @@ class SaleGraphController extends Controller
             ->groupBy('updated_by')
             ->get()->toArray();
 
-        //dd($data);
+        $data['crm_users_source_graph'] = Application::with('updatedby')
+            ->select(
+                'updated_by',
+                DB::raw("SUM(CASE WHEN sources.name = 'Email' THEN 1 ELSE 0 END) as email_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Whatsapp' THEN 1 ELSE 0 END) as whatsapp_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count")
+            )
+            ->join('sources', 'applications.source_id', '=', 'sources.id')
+            ->whereIn('type', $first_types)
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->whereNotNull('updated_by')
+            ->whereHas('updatedby', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Crm Lead User');
+                });
+            })
+            ->groupBy('updated_by')
+            ->get()->toArray();
+
+
+        // dd($data['crm_users_graph'],$data['crm_users_source_graph']);
+
        return view('admin.crn_lead.graph_index' , $data ,getCommonFilterData());
     }
 
