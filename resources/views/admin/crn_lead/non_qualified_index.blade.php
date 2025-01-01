@@ -523,7 +523,6 @@
                             </svg>
                         </span>
                         </a>`;
-                        // @endcan
 
                         return res + res2 + res3;
                     }
