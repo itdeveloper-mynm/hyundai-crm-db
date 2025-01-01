@@ -19,6 +19,34 @@
             border-bottom: 1px solid #505060 !important;
         }
 
+        @media print {
+    #kt_app_content_container {
+        /* Make sure it takes the full page size */
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        margin: 0; /* Remove margins */
+        padding: 0; /* Remove padding */
+        font-size: 12pt; /* Adjust font size for printing */
+        display: block; /* Ensure it behaves like a block-level element */
+        overflow: visible; /* Ensure content doesn't get cut off */
+    }
+
+    /* Adjust the body to remove any background or other elements */
+    body {
+        background: none; /* Remove background for printing */
+        margin: 0; /* Remove any margin */
+        padding: 0; /* Remove padding */
+    }
+
+    /* Ensure the body and html take the full page size */
+    html, body {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+
     </style>
 @endsection
 
