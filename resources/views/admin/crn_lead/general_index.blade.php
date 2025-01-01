@@ -506,7 +506,6 @@
                             </a>`;
                         @endcan
 
-                        // @can('crm-leads-edit')
                         res3 = `<a href="#" onclick="updateData(${row.id}, '${row.category}', '${row.sub_category}')">
                         <span class="svg-icon svg-icon-3">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -515,7 +514,6 @@
                             </svg>
                         </span>
                         </a>`;
-                        // @endcan
 
                         return res + res2 + res3;
                     }
