@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 class SeedApplicationData extends Command
 {
@@ -27,11 +28,23 @@ class SeedApplicationData extends Command
     public function handle()
     {
         Log::info('SeedApplicationData start');
-        $this->call('db:seed', [
+
+        Artisan::call('db:seed', [
             '--class' => 'ApplicationDataSeeder',
         ]);
 
         Log::info('SeedApplicationData end');
-        $this->info('Application data seeded successfully.');
+        Log::info(Artisan::output());
+
+        // Optional: Output Artisan command logs
+        $this->info(Artisan::output());
+
+        // Log::info('SeedApplicationData start');
+        // $this->call('db:seed', [
+        //     '--class' => 'ApplicationDataSeeder',
+        // ]);
+
+        // Log::info('SeedApplicationData end');
+        // $this->info('Application data seeded successfully.');
     }
 }
