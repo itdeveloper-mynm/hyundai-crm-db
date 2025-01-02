@@ -81,6 +81,13 @@ return [
             'days' => 14,   // Number of days to retain log files
         ],
 
+        'name_correction' => [
+            'driver' => 'daily', // Using 'daily' for rotating logs
+            'path' => storage_path('logs/name_correction_log.log'),
+            'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
+            'days' => 14,   // Number of days to retain log files
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

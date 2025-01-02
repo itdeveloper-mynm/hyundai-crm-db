@@ -45,10 +45,10 @@ class TranslateCustomerNames extends Command
         $apiKey = env('OPENAI_API_KEY');
 
         foreach ($customers as $customer) {
-            Log::info("customer" , [$customer->id]);
+            Log::channel('name_correction')->info("customer detials" , [$customer]);
             try {
-
-                $search = "Translate fname {$customer->first_name} and lname {$customer->last_name} to Arabic and keep the keys the same.";
+                $search = "Translate the following to Arabic and return only the JSON object with 'fname' and 'lname': {\"fname\": \"{$customer->first_name}\", \"lname\": \"{$customer->last_name}\"}";
+                // $search = "Translate fname {$customer->first_name} and lname {$customer->last_name} to Arabic and keep the keys the same.";
                 $header=[
                     'Content-Type' => 'application/json',
                     'Authorization' => 'Bearer '.$apiKey,
@@ -68,35 +68,30 @@ class TranslateCustomerNames extends Command
                 $response = Http::withHeaders($header)->post("https://api.openai.com/v1/chat/completions", $postdata)->json();
 
                 $responseData = $response['choices'][0]['message']['content'] ?? '';
-                Log::info("api responseData", [$responseData]);
+                Log::channel('name_correction')->info("api responseData", [$responseData]);
                 $fname = null;
                 $lname = null;
-                // Use regex to extract the JSON part of the content.
-                if (preg_match('/\{.*?\}/s', $responseData, $matches)) {
-                    $jsonContent = $matches[0]; // Extracted JSON string
 
-                    // Attempt to parse the JSON.
-                    $parsedContent = json_decode($jsonContent, true);
+                // Remove any surrounding backticks, newlines, or extra characters
+                $responseData = preg_replace('/^\s*```json\s*/', '', $responseData); // Remove leading "```json"
+                $responseData = preg_replace('/\s*```$/', '', $responseData); // Remove trailing "```"
 
-                    if (json_last_error() === JSON_ERROR_NONE) {
-                        // Successfully parsed JSON.
-                        $fname = $parsedContent['fname'] ?? null;
-                        $lname = $parsedContent['lname'] ?? null;
-                        Log::info('parsedContent', [$parsedContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE]);
-                        // echo json_encode($parsedContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                    } else {
-                        // JSON parsing failed.
-                        Log::info("Failed to parse extracted JSON:" , [$jsonContent]);
-                        // echo "Failed to parse extracted JSON: {$jsonContent}";
-                    }
+                // Decode the JSON response
+                $parsedContent = json_decode($responseData, true);
+
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $fname = $parsedContent['fname'] ?? null;
+                    $lname = $parsedContent['lname'] ?? null;
+                    // Successfully parsed JSON
+                    Log::channel('name_correction')->info("Successfully parsed JSON:" ,[$parsedContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE]);
+                    // echo json_encode($parsedContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 } else {
-                    // No JSON found in the content.
-                        Log::info("No valid JSON content found:" , [$responseData]);
-                        // echo "No valid JSON content found: {$responseData}";
+                    // JSON parsing failed
+                    Log::channel('name_correction')->info("JSON parsing failed", [$responseData]);
+                    // echo "Failed to parse the JSON response: {$responseData}";
                 }
 
-                Log::info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
-
+                Log::channel('name_correction')->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
                 // Update the customer's translated names
                 if (!is_null($fname) && $fname !== '') {
                     $customer->first_name = $fname;
@@ -106,7 +101,7 @@ class TranslateCustomerNames extends Command
 
                 $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
             } catch (\Exception $e) {
-                Log::error("Failed to translate customer ID {$customer->id}: " . $e->getMessage());
+                Log::channel('name_correction')->error("Failed to translate customer ID {$customer->id}: " . $e->getMessage());
             }
         }
 
@@ -171,10 +166,10 @@ class TranslateCustomerNames extends Command
 
     //                 if ($httpCode === 429) {
     //                     $attempt++;
-    //                     \Log::warning("Rate limit hit. Retrying in {$retryDelay} seconds. Attempt {$attempt} of {$maxRetries}.");
+    //                     Log::channel('name_correction')->warning("Rate limit hit. Retrying in {$retryDelay} seconds. Attempt {$attempt} of {$maxRetries}.");
     //                     sleep($retryDelay);
     //                 } else {
-    //                     \Log::error('cURL error: ' . curl_error($ch) . ' HTTP Code: ' . $httpCode);
+    //                     Log::channel('name_correction')->error('cURL error: ' . curl_error($ch) . ' HTTP Code: ' . $httpCode);
     //                     break; // Exit loop on non-retriable error
     //                 }
 
@@ -182,7 +177,7 @@ class TranslateCustomerNames extends Command
     //             } while ($attempt < $maxRetries);
 
     //             if ($httpCode !== 200) {
-    //                 \Log::error("API request failed after {$maxRetries} attempts for customer ID: {$customer->id}");
+    //                 Log::channel('name_correction')->error("API request failed after {$maxRetries} attempts for customer ID: {$customer->id}");
     //                 continue;
     //             }
 
@@ -204,7 +199,7 @@ class TranslateCustomerNames extends Command
 
     //             $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
     //         } catch (\Exception $e) {
-    //             \Log::error("Failed to translate customer ID {$customer->id}: " . $e->getMessage());
+    //             Log::channel('name_correction')->error("Failed to translate customer ID {$customer->id}: " . $e->getMessage());
     //         }
     //     }
 
@@ -282,7 +277,7 @@ class TranslateCustomerNames extends Command
 
     //              $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
     //          } catch (\Exception $e) {
-    //              \Log::info($e->getMessage());
+    //              Log::channel('name_correction')->info($e->getMessage());
     //              $this->error("Failed to translate {$customer->first_name} {$customer->last_name}: " . $e->getMessage());
     //          }
     //      }
@@ -348,7 +343,7 @@ class TranslateCustomerNames extends Command
 
     //             $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
     //         } catch (\Exception $e) {
-    //             Log::info($e->getMessage());
+    //             Log::channel('name_correction')->info($e->getMessage());
     //             $this->error("Failed to translate {$customer->first_name} {$customer->last_name}: " . $e->getMessage());
     //         }
     //     }
