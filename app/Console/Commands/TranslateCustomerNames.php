@@ -35,7 +35,7 @@ class TranslateCustomerNames extends Command
             last_name LIKE '%Ø¨%' OR
             last_name LIKE '%Ø­%' OR
             last_name LIKE '%Ù‡%'
-        ")->take(10)->orderby('id','ASC')->get();
+        ")->take(20)->orderby('id','ASC')->get();
 
         if ($customers->isEmpty()) {
             $this->info('No customers found for translation.');
