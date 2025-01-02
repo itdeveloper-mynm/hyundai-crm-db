@@ -115,7 +115,7 @@ class SaleGraphController extends Controller
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
-       return view('admin.sale_graph.index' , $data , getCommonFilterData());
+       return view('admin.sale_graph.index' , $data , getCommonFilterData(null,'sales'));
     }
 
     public function comparisonIndex(Request $request)
@@ -280,7 +280,7 @@ class SaleGraphController extends Controller
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
-       return view('admin.after_sale_graph.index' , $data, getCommonFilterData());
+       return view('admin.after_sale_graph.index' , $data, getCommonFilterData(null,'after_sales'));
     }
 
     public function comparisonIndexAfterSale(Request $request)

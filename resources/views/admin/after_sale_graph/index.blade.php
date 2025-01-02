@@ -81,7 +81,7 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.campaign')
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.purchase_plan')
                                                     </div>
                                                     <div class="col-lg-4">
@@ -99,9 +99,9 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.created_by')
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.updated_by')
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">

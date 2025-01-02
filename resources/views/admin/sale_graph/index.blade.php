@@ -131,7 +131,7 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.preferred_appointment_time')
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.kyc')
                                                     </div>
                                                     <div class="col-lg-4">
@@ -142,7 +142,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.updated_by')
-                                                    </div>
+                                                    </div>--}}
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">
