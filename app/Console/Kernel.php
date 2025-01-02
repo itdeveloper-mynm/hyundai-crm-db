@@ -44,8 +44,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('email:monthly')->monthlyOn(1, '15:00');
 
         // $schedule->command('seed:application-data')->everyminute();
+        $schedule->command('translate:customer-names')->everyTwoMinutes();
         $schedule->command('seed:application-data')->dailyAt('11:00');
-        $schedule->command('translate:customer-names')->everyFiveMinutes();
         if(date('Y-m-d') >= '2024-12-05'){
             $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
             $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
