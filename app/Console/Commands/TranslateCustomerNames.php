@@ -67,6 +67,13 @@ class TranslateCustomerNames extends Command
             ];
                 $response = Http::withHeaders($header)->post("https://api.openai.com/v1/chat/completions", $postdata)->json();
 
+                if (isset($response['error']['type'])) {
+                    // Log the error
+                    Log::channel('name_correction')->error('Package insufficient_quota: ' . $response['error']['type']);
+                    // Skip this iteration and continue with the next
+                    continue;
+                }
+
                 $responseData = $response['choices'][0]['message']['content'] ?? '';
                 Log::channel('name_correction')->info("api responseData", [$responseData]);
                 $fname = null;
