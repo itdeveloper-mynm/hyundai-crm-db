@@ -71,7 +71,8 @@ class TranslateCustomerNames extends Command
                     // Log the error
                     Log::channel('name_correction')->error('Package insufficient_quota: ' . $response['error']['type']);
                     // Skip this iteration and continue with the next
-                    continue;
+                    // continue;
+                    break;
                 }
 
                 $responseData = $response['choices'][0]['message']['content'] ?? '';
