@@ -13,6 +13,7 @@ use App\Models\Customer;
 use App\Models\Bank;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ExternalLeadController extends Controller
 {
@@ -463,6 +464,87 @@ class ExternalLeadController extends Controller
 
     }
 
+    public function crmLeadsListing(Request $request){
+
+        $from_date = request('from_date')
+        ? Carbon::parse(request('from_date'))->startOfDay()
+        : Carbon::now()->startOfDay();
+
+        $to_date = request('to_date')
+            ? Carbon::parse(request('to_date'))->endOfDay()
+            : Carbon::now()->endOfDay();
+
+        // Convert to string if needed
+        $from_date_str = $from_date->toDateTimeString();
+        $to_date_str = $to_date->toDateTimeString();
+
+        // dd($from_date_str,$to_date_str);
+
+        $records = DB::table('applications')
+        ->select(
+            'applications.id as id',
+            DB::raw('COALESCE(campaigns.name, "") as Campaign'),
+            DB::raw("
+                CASE applications.type
+                    WHEN 'leads' THEN 'Leads'
+                    WHEN 'request_a_quote' THEN 'Request a Quote'
+                    WHEN 'request_a_test_quote' THEN 'Request a Test Quote'
+                    WHEN 'online_service_booking' THEN 'Online Service Booking'
+                    WHEN 'special_offers' THEN 'Special Offers'
+                    WHEN 'service_offers' THEN 'Service Offers'
+                    WHEN 'fleet_sales' THEN 'Fleet Sales'
+                    WHEN 'request_a_test_drive' THEN 'Request a Test Drive'
+                    WHEN 'request_a_brochure' THEN 'Request a Brochure'
+                    WHEN 'employees_program' THEN 'Employees Program'
+                    WHEN 'used_cars' THEN 'Used Cars'
+                    WHEN 'old_leads' THEN 'Old Leads'
+                    WHEN 'events' THEN 'Events'
+                    WHEN 'contact_us' THEN 'Contact Us'
+                    WHEN 'sales_marketing' THEN 'Sales Maketing'
+                    WHEN 'after_sales' THEN 'After Sales'
+                    WHEN 'smo_leads' THEN 'Smo Leads'
+                    WHEN 'career' THEN 'Career'
+                    WHEN 'crm_leads' THEN 'Crm Leads'
+                    ELSE 'Leads' -- Default value
+                END as DataType
+            "),
+            DB::raw('COALESCE(customers.gender, "") as Gender'),
+            DB::raw('COALESCE(customers.first_name, "") as FirstName'),
+            DB::raw('COALESCE(customers.last_name, "") as LastName'),
+            DB::raw('COALESCE(customers.national_id, "") as NationalID'),
+            DB::raw('COALESCE(customers.mobile, "") as Mobile'),
+            DB::raw('COALESCE(customers.email, "") as Email'),
+            DB::raw('COALESCE(cities.name, "") as DealerCity'),
+            DB::raw('COALESCE(branches.name, "") as DealerBranch'),
+            DB::raw('COALESCE(applications.request_date, "") as RequestDate'),
+            DB::raw('COALESCE(applications.preferred_appointment_time, "") as PreferredTime'),
+            DB::raw('COALESCE(vehicles.name, "") as Vehicle'),
+            DB::raw('COALESCE(applications.yearr, "") as Year'),
+            DB::raw('COALESCE(applications.purchase_plan, "") as PurchasePlan'),
+            DB::raw('COALESCE(applications.monthly_salary, "") as MonthlySalary'),
+            DB::raw('COALESCE(banks.name, "") as Bank'),
+            DB::raw('COALESCE(applications.comments, "") as Comments'),
+            DB::raw('COALESCE(sources.name, "") as Source'),
+            DB::raw('COALESCE(applications.category, "") as Category'),
+            DB::raw('COALESCE(applications.sub_category, "") as SubCategory'),
+            DB::raw('COALESCE(applications.qualified_date, "") as QualifiedDate')
+        )
+        ->join('customers', 'applications.customer_id', '=', 'customers.id')
+        ->join('cities', 'applications.city_id', '=', 'cities.id')
+        ->join('branches', 'applications.branch_id', '=', 'branches.id')
+        ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+        ->join('sources', 'applications.source_id', '=', 'sources.id')
+        ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
+        ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
+        ->where('applications.category', 'Qualified')
+        ->whereBetween('applications.qualified_date', [$from_date_str,$to_date_str])
+        ->get();
+
+
+        return $this->sendResponse($records, 'Leads Listing');
+
+    }
+
 
     public function sendResponse($result, $message)
     {
@@ -473,7 +555,7 @@ class ExternalLeadController extends Controller
         ];
 
 
-        return response()->json($response, 200);
+        return response()->json($response, 200 , [] , JSON_PRETTY_PRINT);
     }
 
 

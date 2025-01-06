@@ -56,7 +56,8 @@ class TranslateCustomerNames extends Command
                 ];
 
             $postdata =[
-                'model' => 'gpt-4o',
+                // 'model' => 'gpt-4o',
+                'model' => 'gpt-4o-mini',
                 'messages' => [
                     ['role' => 'system', 'content' => 'You are a helpful assistant.'],
                     ["role" => "user", "content" => $search]

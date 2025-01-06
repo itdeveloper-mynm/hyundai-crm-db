@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         'saveform/store',
         'saveformjson',
         'campaign_leads',
+        'qualified-crmleads-listing',
     ];
 }

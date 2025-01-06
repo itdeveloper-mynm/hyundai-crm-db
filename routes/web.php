@@ -155,6 +155,7 @@ Route::controller(ExternalLeadController::class)->group(function(){
     // Route::any('saveform/store',  'saveformstore');
     Route::any('saveformjson',  'saveformjson')->withoutMiddleware('auth');
     Route::any('campaign_leads',  'store')->withoutMiddleware('auth');
+    Route::any('qualified-crmleads-listing',  'crmLeadsListing')->withoutMiddleware('auth');
 });
 
 Route::resource('old-leads', OldLeadController::class);
