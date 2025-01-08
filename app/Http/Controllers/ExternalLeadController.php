@@ -466,17 +466,15 @@ class ExternalLeadController extends Controller
 
     public function crmLeadsListing(Request $request){
 
-        $from_date = request('from_date')
-        ? Carbon::parse(request('from_date'))->startOfDay()
-        : Carbon::now()->startOfDay();
+        $from_date_input = request('from_date');
+        $datetime_pattern = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
+        $has_timestamp = $from_date_input && preg_match($datetime_pattern, $from_date_input);
+        // dd($from_date_input, (bool) $has_timestamp);
 
-        $to_date = request('to_date')
-            ? Carbon::parse(request('to_date'))->endOfDay()
-            : Carbon::now()->endOfDay();
+        $from_date_str = request('from_date') ?: Carbon::now()->startOfDay()->toDateTimeString();
 
-        // Convert to string if needed
-        $from_date_str = $from_date->toDateTimeString();
-        $to_date_str = $to_date->toDateTimeString();
+        $to_date_str = request('to_date') ?: Carbon::now()->endOfDay()->toDateTimeString();
+
 
         //  dd($from_date_str,$to_date_str);
 
