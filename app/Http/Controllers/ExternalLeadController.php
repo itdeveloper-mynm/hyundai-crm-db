@@ -478,7 +478,7 @@ class ExternalLeadController extends Controller
         $from_date_str = $from_date->toDateTimeString();
         $to_date_str = $to_date->toDateTimeString();
 
-        // dd($from_date_str,$to_date_str);
+        //  dd($from_date_str,$to_date_str);
 
         $records = DB::table('applications')
         ->select(
