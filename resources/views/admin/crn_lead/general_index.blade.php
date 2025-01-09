@@ -777,20 +777,21 @@
             let options = '';
 
             const categories = {
-                'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
+                'Qualified': ['Lead', 'Follow Up', 'Test Drive'],
+                // 'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
                 'General Inquiry': [
                     'Timing & Locations',
                     'Inquiry - Another Company',
                     'Product Specification',
                     'Price',
-                    'Disconnect',
-                    'Road Assistant',
+                    // 'Disconnect',
+                    // 'Road Assistant',
                     'Showroom Numbers',
-                    'After-sales',
-                    'Sales Complaint',
-                    'AfterSales Complaint',
-                    'Transfer',
-                    'Callback'
+                    // 'After-sales',
+                    // 'Sales Complaint',
+                    // 'AfterSales Complaint',
+                    // 'Transfer',
+                    // 'Callback'
                 ],
                 'Not Qualified': [
                     'Salary does not allow financing',
