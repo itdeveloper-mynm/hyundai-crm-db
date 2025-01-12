@@ -124,9 +124,13 @@ class TranslateCustomerNames extends Command
                 Log::channel('name_correction')->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
                 // Update the customer's translated names
                 if (!is_null($fname) && $fname !== '') {
-                    $customer->first_name = $fname;
-                    $customer->last_name = $lname;
-                    $customer->save();
+                    // $customer->first_name = $fname;
+                    // $customer->last_name = $lname;
+                    // $customer->save();
+                    $customerr =Customer::find($customer->id); //temp
+                    $customerr->first_name = $fname;
+                    $customerr->last_name = $lname;
+                    $customerr->save();
                 }
 
                 $this->info("Translated: {$customer->first_name} {$customer->last_name} to {$fname} {$lname}");
