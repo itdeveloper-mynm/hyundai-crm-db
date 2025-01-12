@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class TranslateCustomerNames extends Command
 {
@@ -26,16 +27,36 @@ class TranslateCustomerNames extends Command
 
     public function handle()
     {
-        $customers = Customer::whereRaw("
-            first_name LIKE '%Ø§%' OR
-            first_name LIKE '%Ø¨%' OR
-            first_name LIKE '%Ø­%' OR
-            first_name LIKE '%Ù‡%' OR
-            last_name LIKE '%Ø§%' OR
-            last_name LIKE '%Ø¨%' OR
-            last_name LIKE '%Ø­%' OR
-            last_name LIKE '%Ù‡%'
-        ")->take(100)->orderby('id','DESC')->get();
+        // $customers = Customer::whereRaw("
+        //     first_name LIKE '%Ø§%' OR
+        //     first_name LIKE '%Ø¨%' OR
+        //     first_name LIKE '%Ø­%' OR
+        //     first_name LIKE '%Ù‡%' OR
+        //     last_name LIKE '%Ø§%' OR
+        //     last_name LIKE '%Ø¨%' OR
+        //     last_name LIKE '%Ø­%' OR
+        //     last_name LIKE '%Ù‡%'
+        // ")->take(100)->orderby('id','DESC')->get();
+
+        $query = "
+            SELECT *
+            FROM `customers`
+            WHERE first_name LIKE '%Ø§%'
+            OR first_name LIKE '%Ø¨%'
+            OR first_name LIKE '%Ø%'
+            OR first_name LIKE '%Ù‡%'
+            OR last_name LIKE '%Ø§%'
+            OR last_name LIKE '%Ø¨%'
+            OR last_name LIKE '%Ø%'
+            OR last_name LIKE '%Ù‡%'
+            ORDER BY `id` DESC
+            LIMIT 100
+        ";
+
+        $customers = DB::select($query);
+
+        // Convert to a collection for easier handling if needed
+        $customers = collect($customers);
 
         if ($customers->isEmpty()) {
             $this->info('No customers found for translation.');
