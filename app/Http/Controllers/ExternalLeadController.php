@@ -249,10 +249,10 @@ class ExternalLeadController extends Controller
                     }
                 },
             ],
-            'vehicle' => 'sometimes|exists:vehicles,name',
-            'sourcee' => 'sometimes|exists:sources,name',
-            'pagesub' => 'sometimes|exists:campaigns,name',
-            'customerBank' => 'sometimes|exists:banks,name',
+            // 'vehicle' => 'sometimes|exists:vehicles,name',
+            // 'sourcee' => 'sometimes|exists:sources,name',
+            // 'pagesub' => 'sometimes|exists:campaigns,name',
+            // 'customerBank' => 'sometimes|exists:banks,name',
         ],
         [
             'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 05.',
