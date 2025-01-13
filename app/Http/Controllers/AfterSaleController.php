@@ -190,6 +190,8 @@ class AfterSaleController extends Controller
             $conditions = request()->all();
 
             $fileHandle = fopen('php://output', 'w');
+            // Add UTF-8 BOM for Excel compatibility
+            fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
                                 'Created At','Type']);
             $chunkSize = 50000;

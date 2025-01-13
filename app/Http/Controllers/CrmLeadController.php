@@ -314,6 +314,8 @@ class CrmLeadController extends Controller
             $conditions = request()->all();
 
             $fileHandle = fopen('php://output', 'w');
+            // Add UTF-8 BOM for Excel compatibility
+            fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile','National Id', 'City','Branch','Vehicle','Year','Source','Campaign','Bank Name',
                                 'Purchase Plan','Monthly Salary','Preferred Appointment Time','KYC','Category','Sub Category',
                                 'Created At','Type']);
