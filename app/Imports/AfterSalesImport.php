@@ -100,7 +100,7 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
         $after_sale->source_id = $sourcee->id;
         $after_sale->campaign_id = $campaign->id;
         $after_sale->customer_id= $customer->id;
-        $after_sale->type= 'after_sales';
+        $after_sale->type= 'service_offers';
         $after_sale->save();
 
        // return $lead;
