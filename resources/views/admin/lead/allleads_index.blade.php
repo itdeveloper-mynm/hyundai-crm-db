@@ -293,42 +293,103 @@
                 },
                 {
                     data: 'city_id',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    render: function (data, type, row) {
+                    @role('SuperAdmin')
+                        return `
+                            <select class="form-control editable" data-id="${row.id}" data-column="city_id">
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}" ${data == {{ $city->id}} ? 'selected' : ''}>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        `;
+                        @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        @endrole
                     }
                 },
                 {
                     data: 'branch_id',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    render: function (data, type, row) {
+                        @role('SuperAdmin')
+                            return `
+                                <select class="form-control editable" data-id="${row.id}" data-column="branch_id">
+                                    @foreach($branches as $branch)
+                                        ${row.city_id == {{ $branch->city_id }} ? `
+                                            <option value="{{ $branch->id }}" ${data == {{ $branch->id }} ? 'selected' : ''}>
+                                                {{ $branch->name }}
+                                            </option>
+                                        ` : ''}
+                                    @endforeach
+                                </select>
+                            `;
+                        @else
+                            var result = '<a class=" text-dark fw-bold ">' + data + '</a>';
+                            return result;
+                        @endrole
                     }
                 },
+
                 {
                     data: 'vehicle_id',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    render: function (data, type, row) {
+                    @role('SuperAdmin')
+                        return `
+                            <select class="form-control editable" data-id="${row.id}" data-column="vehicle_id">
+                                <option value="" disabled>Not Selected</option>
+                                @foreach($vehicles as $vehicle)
+                                    <option value="{{ $vehicle->id }}" ${data == {{ $vehicle->id}} ? 'selected' : ''}>
+                                        {{ $vehicle->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        `;
+                        @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        @endrole
                     }
                 },
                 {
                     data: 'source_id',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    render: function (data, type, row) {
+                    @role('SuperAdmin')
+                        return `
+                            <select class="form-control editable" data-id="${row.id}" data-column="source_id">
+                                <option value="" disabled>Not Selected</option>
+                                @foreach($sources as $source)
+                                    <option value="{{ $source->id }}" ${data == {{ $source->id}} ? 'selected' : ''}>
+                                        {{ $source->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        `;
+                        @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        @endrole
                     }
                 },
                 {
                     data: 'campaign_id',
-                    render: function(data, type, row) {
-
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    render: function (data, type, row) {
+                    @role('SuperAdmin')
+                        return `
+                            <select class="form-control editable" data-id="${row.id}" data-column="campaign_id">
+                                <option value="" disabled>Not Selected</option>
+                                @foreach($campaigns as $campaign)
+                                    <option value="{{ $campaign->id }}" ${data == {{ $campaign->id}} ? 'selected' : ''}>
+                                        {{ $campaign->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        `;
+                        @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        @endrole
                     }
                 },
                 {

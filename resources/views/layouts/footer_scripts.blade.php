@@ -274,4 +274,59 @@
             $(this).addClass("active-tr");
         });
 
+        $(document).on('change', '.editable', function () {
+            let element = $(this);
+            let id = element.data('id');
+            let column = element.data('column');
+            let value = element.val();
+
+            $.ajax({
+                url: '{{ route("leads.updateColumn") }}',
+                type: 'POST',
+                data: {
+                    id: id,
+                    column: column,
+                    value: value,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                    });
+                    Toast.fire({
+                    icon: "success",
+                    title: "Updated successfully!"
+                    });
+                    if (typeof table !== 'undefined') {
+                        table.draw(); // Redraw the table if it's a DataTable
+                    }
+                },
+                error: function (xhr) {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                    });
+                    Toast.fire({
+                    icon: "error",
+                    title: "Failed to update. Please try again."
+                    });
+                }
+            });
+        });
+
 </script>
