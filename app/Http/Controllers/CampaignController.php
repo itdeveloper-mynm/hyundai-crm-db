@@ -122,8 +122,8 @@ class CampaignController extends Controller
 
             $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
             $formattedPageType = implode(', ', array_map(function ($word) {
-                return ucwords(str_replace('_', ' ', $word));
-            }, explode(',', $page_type)));
+                if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+           }, explode(',', $page_type)));
 
 
             $items[] = array(
@@ -147,4 +147,24 @@ class CampaignController extends Controller
         //-- END CREATE JSON RESPONSE FOR DATATABLES
 
    }
+
+   // GeneralController.php
+
+    public function updatePageType(Request $request)
+    {
+        $modelName = $request->model;
+        $modelClass = '\\App\\Models\\' . ucfirst($modelName);
+        if (!class_exists($modelClass)) {
+            return response()->json(['success' => false, 'message' => 'Model not found.']);
+        }
+        $model = $modelClass::find($request->id);
+        if (!$model) {
+            return response()->json(['success' => false, 'message' => 'Model not found with provided ID.']);
+        }
+        $model->page_type = $request->page_type;
+        $model->save();
+
+        return response()->json(['success' => true]);
+    }
+
 }

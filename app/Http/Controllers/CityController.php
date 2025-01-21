@@ -127,8 +127,8 @@ class CityController extends Controller
 
             $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
             $formattedPageType = implode(', ', array_map(function ($word) {
-                return ucwords(str_replace('_', ' ', $word));
-            }, explode(',', $page_type)));
+                if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+           }, explode(',', $page_type)));
 
             $items[] = array(
                 "no" => $num,

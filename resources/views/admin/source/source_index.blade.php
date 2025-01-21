@@ -199,9 +199,12 @@ var table = $('#user_table').DataTable({
         {
             data: 'page_type',
             render: function(data, type, row) {
-
-                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                return result;
+                var checkedSales = (data && data.includes(1)) ? 'checked' : '';
+                var checkedAfterSales = (data && data.includes(2)) ? 'checked' : '';
+                return `
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="source" data-value="sales" ${checkedSales}> Sales</label>
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="source" data-value="after_sales" ${checkedAfterSales}> After Sales</label>
+                `;
             }
         },
 

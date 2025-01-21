@@ -78,6 +78,8 @@ Route::controller(SourceController::class)->group(function(){
 Route::resource('campaign', CampaignController::class);
 Route::controller(CampaignController::class)->group(function(){
     Route::get('campaign-pagination',  'campaignPagination')->name('campaign.pagination');
+    Route::post('campaign/updatePageType','updatePageType')->name('campaign.updatePageType');
+
 });
 
 Route::resource('lead', LeadController::class);

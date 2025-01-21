@@ -306,7 +306,9 @@
                     title: "Updated successfully!"
                     });
                     if (typeof table !== 'undefined') {
-                        table.draw(); // Redraw the table if it's a DataTable
+                        if(column == 'city_id'){
+                            table.draw(); // Redraw the table if it's a DataTable
+                        }
                     }
                 },
                 error: function (xhr) {
@@ -328,5 +330,74 @@
                 }
             });
         });
+
+        $(document).on('change', '.page_type_checkbox', function() {
+            var id = $(this).data('id');
+            var pageType = $(this).data('value');
+            var model = $(this).data('target');
+
+            // Handle when both checkboxes are checked/unchecked
+            var selectedPageTypes = [];
+            $('input.page_type_checkbox[data-id="' + id + '"]:checked').each(function() {
+                selectedPageTypes.push($(this).data('value'));
+            });
+
+            var newPageType = selectedPageTypes.length > 0 ? selectedPageTypes.join(',') : null;
+
+            // Update the page_type value in the database
+            updatePageType(id, newPageType,model);
+        });
+
+        // Function to update the page_type value in the database
+        function updatePageType(id, pageType,model) {
+            $.ajax({
+                url: "{{ route('campaign.updatePageType') }}", // Create a route for this
+                type: "POST",
+                data: {
+                    id: id,
+                    page_type: pageType,
+                    model: model,
+                    _token: '{{ csrf_token() }}'  // CSRF token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                        });
+                        Toast.fire({
+                        icon: "success",
+                        title: "Page type updated successfully!"
+                        });
+                        // if (typeof table !== 'undefined') {
+                        //     table.draw();
+                        // }
+                    } else {
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                        });
+                        Toast.fire({
+                        icon: "error",
+                        title: "Error updating page type."
+                        });
+                    }
+                }
+            });
+        }
 
 </script>
