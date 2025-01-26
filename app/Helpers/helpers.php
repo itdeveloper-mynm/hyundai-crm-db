@@ -248,7 +248,8 @@ function formateDateTime($date) {
 }
 
 function startDate() {
-    return formateDate(now()->subMonths(3)->startOfMonth());
+    // return formateDate(now()->subMonths(3)->startOfMonth());
+    return formateDate(now()->startOfMonth());
 }
 
 function endDate() {
