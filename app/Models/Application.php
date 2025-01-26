@@ -760,7 +760,7 @@ class Application extends Model
             $results = [];
             foreach ($dates as $date) {
                 // $results[$date] = $maincounts->get($date, 0);
-                $results[$date] = $maincounts->get($date, );
+                $results[$date] = $maincounts->get($date, 0);
             }
 
             return array_values($results);

@@ -1233,7 +1233,7 @@
                     data: @json($first_count),
                     fill: false,
                     borderColor: primaryColor,
-                    tension: 0.6
+                    tension: 0.6,
                 },
                 {
                     label: 'Test Drive (' + @json($second_graph_data[1]) + ')',
@@ -1287,6 +1287,10 @@
                         intersect: false,
                         callbacks: {
                             label: function(tooltipItem) {
+                                // const value = tooltipItem.raw;
+                                // if (value === 0) {
+                                //     return '';
+                                // }
                                 // Build the label string by iterating over each dataset
                                 let label = tooltipItem.dataset.label || '';
                                 if (label) {
@@ -1303,6 +1307,11 @@
                     mode: 'index',
                     intersect: false,
                 },
+                // elements: {
+                //     line: {
+                //         spanGaps: true,
+                //     }
+                // },
                 defaults: {
                     global: {
                         defaultFont: fontFamily
