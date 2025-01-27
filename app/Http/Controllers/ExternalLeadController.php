@@ -420,33 +420,33 @@ class ExternalLeadController extends Controller
 
         $lead->save();
 
-        if ($lead) {
+        // if ($lead) {
 
-            $code = $lead->id."-".$lead->branch->name ?? "";
-            $msg=$code;
-            $msgar=$code;
-            // Prepare email body
-                $body = "
-                <table width='100%' cellpadding='0' cellspacing='0'>
-                <tr>
-                    <td valign='top' width='50%'>
-                        Dear  {$request->input('firstName')}<br><br>
-                        Thanks for your submission. Our customer care team will confirm it to you soon. Meanwhile, you can call us any time for further information on 920028008 and by email customer.care@Hyundai.mynaghi.com
-                    </td>
-                    <td valign='top' width='50%'>
-                        <div style='direction:rtl'>
-                        العميل عزيزي  {$request->input('firstName')}<br><br>
-                        شكراً للحجز. سيتم تأكيد الحجز وإبلاغكم عن طريق مركز خدمة العملاء <br>
-                        920028008 <br>
-                        customer.care@Hyundai.mynaghi.com<br>
-                        </div>
-                    </td>
-                </tr>
-                </table>";
+        //     $code = $lead->id."-".$lead->branch->name ?? "";
+        //     $msg=$code;
+        //     // $msgar=$code;
+        //     // // Prepare email body
+        //     //     $body = "
+        //     //     <table width='100%' cellpadding='0' cellspacing='0'>
+        //     //     <tr>
+        //     //         <td valign='top' width='50%'>
+        //     //             Dear  {$request->input('firstName')}<br><br>
+        //     //             Thanks for your submission. Our customer care team will confirm it to you soon. Meanwhile, you can call us any time for further information on 920028008 and by email customer.care@Hyundai.mynaghi.com
+        //     //         </td>
+        //     //         <td valign='top' width='50%'>
+        //     //             <div style='direction:rtl'>
+        //     //             العميل عزيزي  {$request->input('firstName')}<br><br>
+        //     //             شكراً للحجز. سيتم تأكيد الحجز وإبلاغكم عن طريق مركز خدمة العملاء <br>
+        //     //             920028008 <br>
+        //     //             customer.care@Hyundai.mynaghi.com<br>
+        //     //             </div>
+        //     //         </td>
+        //     //     </tr>
+        //     //     </table>";
 
-        }else {
-            $msg = "failed";
-        }
+        // }else {
+        //     $msg = "failed";
+        // }
 
         return response()->json([
             'success' => true,'message' => 'Added Successfully',
