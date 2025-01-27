@@ -440,6 +440,7 @@ class Application extends Model
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy(['city_id', 'branch_id'])
+            ->orderby('count','DESC')
             ->get();
 
         $result = [];
@@ -476,6 +477,7 @@ class Application extends Model
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy(['campaign_id', 'source_id'])
+            ->orderby('count','DESC')
             ->get();
         // Transform the result into the desired pattern
         $result = [];
@@ -498,7 +500,7 @@ class Application extends Model
                 'count' => $count->count,
             ];
         }
-        $result = array_reverse($result); // Reverse the array
+        // $result = array_reverse($result); // Reverse the array
         // Convert the associative array into indexed array
         $result = array_values($result);
 
@@ -589,6 +591,64 @@ class Application extends Model
         return $data;
     }
 
+
+    public static function getCampaignWiseDetialData($startDate, $endDate, $all_types, $filters)
+    {
+        $campaigns = Application::select(
+                'campaign_id',
+                DB::raw('COUNT(*) as mql'),
+                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi')
+            )
+            ->whereIn('type', $all_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->with(['campaign:id,name', 'source:id,name'])
+            ->groupBy('campaign_id')
+            ->orderby('mql','DESC')
+            ->get()
+            ->map(function ($application) use ($all_types, $startDate, $endDate,$filters) {
+                    $application->sources = Application::select(
+                        'source_id',
+                        DB::raw('COUNT(*) as mql'),
+                        DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                        DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi')
+                    )
+                    ->whereIn('type', $all_types)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->graphsearch($filters)
+                    ->with('source:id,name')
+                    ->where('campaign_id', $application->campaign_id)
+                    ->groupBy('source_id')
+                    ->orderby('mql','DESC')
+                    ->get()
+                    ->map(function ($sourceApplication) {
+                        return [
+                            'source_id' => $sourceApplication->source_id,
+                            'source_name' => $sourceApplication->source->name ?? 'Others',
+                            'mql' => $sourceApplication->mql,
+                            'cql' => $sourceApplication->cql,
+                            'cnq' => $sourceApplication->cnq,
+                            'cgi' => $sourceApplication->cgi,
+                        ];
+                    });
+
+                return [
+                    'campaign_id' => $application->campaign_id,
+                    'campaign_name' => $application->campaign->name ?? 'Others',
+                    'mql' => $application->mql,
+                    'cql' => $application->cql,
+                    'cnq' => $application->cnq,
+                    'cgi' => $application->cgi,
+                    'sources' => $application->sources,
+                ];
+            });
+
+        return $campaigns;
+
+    }
 
     public static function countBySourceGroup($startDate, $endDate, $all_types, $filters)
     {
@@ -859,6 +919,9 @@ class Application extends Model
     {
         static::creating(function ($application) {
             $application->created_by = Auth::check() ? Auth::id() : null;
+            if(Auth::user()->hasRole('Crm Lead User')){
+                $application->updated_by = Auth::check() ? Auth::id() : null;
+            }
         });
 
         static::updating(function ($application) {

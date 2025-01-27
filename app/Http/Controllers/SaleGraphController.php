@@ -782,7 +782,7 @@ class SaleGraphController extends Controller
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
-
+        // $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
 
 
         $data['crm_users_graph'] = Application::with('updatedby')

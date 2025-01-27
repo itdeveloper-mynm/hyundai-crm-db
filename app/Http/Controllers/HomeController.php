@@ -65,6 +65,7 @@ class HomeController extends Controller
         $data['fourth_count'] = Application::getPerformanceMonthWise($smo_leads_types,$startDate,$endDate,$months_diff,$filters);
         $data['fifth_count'] = Application::getPerformanceMonthWise($after_sales_types,$startDate,$endDate,$months_diff,$filters);
         $data['sixth_count'] = Application::getPerformanceMonthWise($crm_leads_types,$startDate,$endDate,$months_diff,$filters);
+        // $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($crm_leads_types,$startDate,$endDate,$months_diff,$filters);
 
         $data['second_graph_data'] = [array_sum($data['first_count']) , array_sum($data['second_count']), array_sum($data['third_count']) ,array_sum($data['fourth_count']) , array_sum($data['fifth_count']), array_sum($data['sixth_count'])];
         $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']) +array_sum($data['fifth_count']) +  array_sum($data['sixth_count']);

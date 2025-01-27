@@ -5,6 +5,22 @@
 @section('css')
 
     <style>
+
+.nested-sources {
+            display: none;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .nested-sources table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .nested-sources td, .nested-sources th {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
         .active-tr {
             background-color: #6495ED;
             color: white !important;

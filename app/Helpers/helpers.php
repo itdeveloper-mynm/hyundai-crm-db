@@ -257,6 +257,19 @@ function endDate() {
     //return formateDate(now()->endOfMonth());
 }
 
+function calculatePercentage($total, $obtained)
+{
+    if ($total == 0) {
+        return 0; // Avoid division by zero
+    }
+
+    // return ($obtained / $total) * 100;
+    $percentage = ($obtained / $total) * 100;
+    return (floor($percentage) == $percentage)
+    ? number_format($percentage, 0) . '%' // No decimals if not needed
+    : number_format($percentage, 2) . '%'; // Up to 2 decimals if needed
+}
+
 function setDateRange($chk)
 {
     if ($chk == 'daily') {
