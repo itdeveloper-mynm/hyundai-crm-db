@@ -919,8 +919,8 @@ class Application extends Model
     {
         static::creating(function ($application) {
             $application->created_by = Auth::check() ? Auth::id() : null;
-            if(Auth::user()->hasRole('Crm Lead User')){
-                $application->updated_by = Auth::check() ? Auth::id() : null;
+            if (Auth::check() && Auth::user()->hasRole('Crm Lead User')) {
+                $application->updated_by = Auth::id();
             }
         });
 
