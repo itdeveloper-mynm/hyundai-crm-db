@@ -356,18 +356,18 @@ function getCategories(){
   const categories = {
     'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
     'General Inquiry': [
-      'Timing & Locations',
-      'Inquiry - Another Company',
-      'Product Specification',
-      'Price',
-      'Disconnect',
-      'Road Assistant',
-      'Showroom Numbers',
-      'After-sales',
-      'Sales Complaint',
-      'AfterSales Complaint',
-      'Transfer',
-      'Callback'
+        'Timing & Locations',
+        'Inquiry - Another Company',
+        'Product Specification',
+        'Price',
+        // 'Disconnect',
+        // 'Road Assistant',
+        'Showroom Numbers',
+        // 'After-sales',
+        // 'Sales Complaint',
+        // 'AfterSales Complaint',
+        // 'Transfer',
+        // 'Callback'
     ],
     'Not Qualified': [
       'Salary does not allow financing',
