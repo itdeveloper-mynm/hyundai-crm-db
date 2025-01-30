@@ -360,14 +360,11 @@ function getCategories(){
         'Inquiry - Another Company',
         'Product Specification',
         'Price',
-        // 'Disconnect',
-        // 'Road Assistant',
         'Showroom Numbers',
-        // 'After-sales',
-        // 'Sales Complaint',
-        // 'AfterSales Complaint',
-        // 'Transfer',
-        // 'Callback'
+        'Not interested',
+        'Already bought',
+        'Wrong Number',
+        'Callback'
     ],
     'Not Qualified': [
       'Salary does not allow financing',
