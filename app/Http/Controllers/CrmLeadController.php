@@ -318,16 +318,18 @@ class CrmLeadController extends Controller
             fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile','National Id', 'City','Branch','Vehicle','Year','Source','Campaign','Bank Name',
                                 'Purchase Plan','Monthly Salary','Preferred Appointment Time','KYC','Category','Sub Category',
-                                'Created At','Type']);
+                                'Created At','Type','CRM User Name']);
             $chunkSize = 50000;
 
             Application::search($conditions)
             ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
+            ->leftJoin('users as upduser', 'applications.updated_by', '=', 'upduser.id')
             ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
             ->select(
                 DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
                 'cust.mobile',
                 'cust.national_id',
+                'upduser.name as crm_user_upd_name',
                 'bank.name as bank_name',
                 'applications.city_id',
                 'applications.branch_id',
@@ -366,6 +368,7 @@ class CrmLeadController extends Controller
                         $record->sub_category,
                         formateDate($record->created_at),
                         reverseCheckApplicationType($record->type),
+                        $record->crm_user_upd_name ?? "",
                     ];
                     fputcsv($fileHandle, (array)$row);
                 }
