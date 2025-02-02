@@ -112,6 +112,9 @@ class SaleGraphController extends Controller
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
 
         $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
+        $all_types[] = 'used_cars';
+        $all_types[] = 'smo_leads';
+        $all_types[] = 'crm_leads';
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
