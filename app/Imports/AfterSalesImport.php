@@ -87,7 +87,7 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
             $vehicle = Vehicle::create(['name' => $row['vehicle'] ]);
         }
         if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $row['channel'] ]);
+            $sourcee = Source::create(['name' => $row['source'] ]);
         }
         if(is_null($campaign)){
             $campaign = Campaign::create(['name' => $row['campaign'] ]);
