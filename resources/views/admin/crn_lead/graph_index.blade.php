@@ -184,7 +184,7 @@
                 $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
             @endphp
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            {{-- <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-12">
                     <!--begin::Chart widget 31-->
@@ -301,7 +301,7 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-            </div>
+            </div> --}}
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
