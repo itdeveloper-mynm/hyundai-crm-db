@@ -116,6 +116,19 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
             ]
         );
 
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return null;
+        }
+
         $lead = new Application();
         $lead->city_id = $city->id ?? null;
         $lead->branch_id = $branch->id ?? null;

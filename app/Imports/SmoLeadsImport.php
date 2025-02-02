@@ -55,6 +55,19 @@ class SmoLeadsImport implements ToModel , WithHeadingRow, WithValidation
             ]
         );
 
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return null;
+        }
+
 
         $city = City::where('name', $row['dealer_city'])->first();
         $vehicle = Vehicle::where('name', $row['vehicle'])->first();
