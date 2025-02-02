@@ -45,6 +45,14 @@
     }
 }
 
+.active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
 
 
     </style>
@@ -353,23 +361,23 @@
                                                     </td>
                                                     <td>
                                                         <span style="float: left"
-                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['mql'] ?? 0 }}</span>
+                                                            class="badge badge-primary">{{ $campaign['mql'] ?? 0 }}</span>
                                                     </td>
                                                     <td>
                                                         <span style="float: left"
-                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cql'] ?? 0 }}</span>
+                                                            class="badge badge-success">{{ $campaign['cql'] ?? 0 }}</span>
                                                     </td>
                                                     <td>
                                                         <span style="float: left"
-                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cgi'] ?? 0 }}</span>
+                                                            class="badge badge-info">{{ $campaign['cgi'] ?? 0 }}</span>
                                                     </td>
                                                     <td>
                                                         <span style="float: left"
-                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cnq'] ?? 0 }}</span>
+                                                            class="badge badge-warning">{{ $campaign['cnq'] ?? 0 }}</span>
                                                     </td>
                                                     <td>
                                                         <span style="float: left"
-                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{  calculatePercentage($campaign['mql'] ?? 0 ,$campaign['cql'] ?? 0 ) }}</span>
+                                                            class="badge badge-dark">{{  calculatePercentage($campaign['mql'] ?? 0 ,$campaign['cql'] ?? 0 ) }}</span>
                                                     </td>
                                                 </tr>
 
@@ -1443,6 +1451,18 @@
     //             }
     //         }, 5000); // Delay of 5000 milliseconds (5 seconds)
     // });
+
+
+    $('.toggle-sources').on('click', function () {
+            var campaignId = $(this).data('campaign-id');
+            var sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
+            // var nestedSources = $('.nested-sources[data-campaign-id="' + campaignId + '"]');
+
+            // Toggle the visibility of the source rows
+            sourceRows.toggle();  // Toggle visibility of the source rows
+            // var buttonText = sourceRows.is(':visible') ? 'Hide Sources' : 'Show Sources';
+            // $(this).text(buttonText); // Change button text
+        });
 
     </script>
 
