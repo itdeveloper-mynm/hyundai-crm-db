@@ -306,6 +306,128 @@
                 </div>
             </div>
 
+            @php
+                $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+            @endphp
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Campaign Detials Graph</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                            <div class="tab-content" id="campaignTabsContent">
+                                <!-- Backtoschool-2024 Content -->
+                                <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                    aria-labelledby="tab-backtoschool">
+                                    <table class="table table-striped gy-4 gs-7">
+                                        <thead>
+                                            <tr  style="background: #A0C5E8;">
+                                                <th colspan="2">
+                                                    <h5><span style="float: left">Name</span></h5>
+                                                </th>
+                                                <th><h5><span style="float: left">MQL</span></h5></th>
+                                                <th><h5><span style="float: left">CQL</span></h5></th>
+                                                <th><h5><span style="float: left">CGI</span></h5></th>
+                                                <th><h5><span style="float: left">CNQ</span></h5></th>
+                                                <th><h5><span style="float: left">Converstion (%)</span></h5></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($campaigns_detial_data as $key => $campaign)
+                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" >
+                                                    <td colspan="2">
+                                                        <span style="float: left">
+                                                            {{ $campaign['campaign_name'] }} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['mql'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cql'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cgi'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $campaign['cnq'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{  calculatePercentage($campaign['mql'] ?? 0 ,$campaign['cql'] ?? 0 ) }}</span>
+                                                    </td>
+                                                </tr>
+
+                                                @foreach($campaign['sources'] as $source)
+                                                <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" style="display:none;
+                                                @if ($loop->first) border-top: 2px solid black; @endif
+                                                @if ($loop->last) border-bottom: 2px solid black; @endif">
+                                                    <td colspan="2" style="border-left: 2px solid black;">
+                                                        <span style="float: left">
+                                                            {{ $source['source_name'] }} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $source['mql'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $source['cql'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $source['cgi'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $source['cnq'] ?? 0 }}</span>
+                                                    </td>
+                                                    <td  style="border-right: 2px solid black;">
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{  calculatePercentage($source['mql'] ?? 0 ,$source['cql'] ?? 0 ) }}</span>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background: #8FBC8F;">
+                                                <th colspan="2">
+                                                    <h5><span style="float: left">Total Count</span></h5>
+                                                </th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($campaigns_detial_data)->sum('mql') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($campaigns_detial_data)->sum('cql') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($campaigns_detial_data)->sum('cgi') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($campaigns_detial_data)->sum('cnq') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{  calculatePercentage(collect($campaigns_detial_data)->sum('mql') ?? 0 ,collect($campaigns_detial_data)->sum('cql') ?? 0 ) }}</span></h5></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
