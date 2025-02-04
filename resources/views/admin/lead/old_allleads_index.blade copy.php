@@ -30,105 +30,11 @@
                         </div>
                         <div class="col-lg-8 d-flex justify-content-end">
                             @can('all-leads-delete')
-                                {{-- <button type="button" class="btn btn-primary me-3" id="updateDataAll" data-bs-toggle="modal" data-bs-target="#updateAllModal" style="display:none;">
-                                    {{ __('Update All') }}
-                                </button> --}}
                                 <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
                                     </span>
                                     {{ __('Delete All') }}
                                 </button>
-                                <div class="modal" id="updateAllModal">
-                                    <div class="modal-dialog modal-lg  modal-dialog-centered">
-                                      <div class="modal-content">
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                          <h4 class="modal-title">Modal Heading</h4>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <form method="POST" action="#" id="update_all_form">
-                                                @csrf
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="f_city_id"
-                                                            data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true" data-page_type ={{ $page_type ?? '' }}>
-                                                            <option value="">--select--</option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="f_branch_id" data-control="select2"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            {{-- @foreach ($branches as $branch)
-                                                                <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                                            @endforeach --}}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="f_vehicle_id"
-                                                            data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($vehicles as $vehicle)
-                                                                <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="source_id" id="f_source_id"
-                                                            data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($sources as $source)
-                                                                <option value="{{$source->id}}">{{$source->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="campaign_id" id="f_campaign_id" data-control="select2"
-                                                            data-placeholder="{{ __('select option') }}" data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($campaigns as $campaign)
-                                                                <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" class="btn btn-primary">Update</button>
-                                        </div>
-                                    </form>
-                                      </div>
-                                    </div>
-                                </div>
                             @endcan
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
@@ -388,37 +294,102 @@
                 {
                     data: 'city_id',
                     render: function (data, type, row) {
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    // @role('SuperAdmin')
+                    //     return `
+                    //         <select class="form-control editable" data-id="${row.id}" data-column="city_id">
+                    //             @foreach($cities as $city)
+                    //                 <option value="{{ $city->id }}" ${data == {{ $city->id}} ? 'selected' : ''}>
+                    //                     {{ $city->name }}
+                    //                 </option>
+                    //             @endforeach
+                    //         </select>
+                    //     `;
+                    //     @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        // @endrole
                     }
                 },
                 {
                     data: 'branch_id',
                     render: function (data, type, row) {
-                        var result = '<a class=" text-dark fw-bold ">' + data + '</a>';
-                        return result;
+                        // @role('SuperAdmin')
+                        //     return `
+                        //         <select class="form-control editable" data-id="${row.id}" data-column="branch_id">
+                        //             @foreach($branches as $branch)
+                        //                 ${row.city_id == {{ $branch->city_id }} ? `
+                        //                     <option value="{{ $branch->id }}" ${data == {{ $branch->id }} ? 'selected' : ''}>
+                        //                         {{ $branch->name }}
+                        //                     </option>
+                        //                 ` : ''}
+                        //             @endforeach
+                        //         </select>
+                        //     `;
+                        // @else
+                            var result = '<a class=" text-dark fw-bold ">' + data + '</a>';
+                            return result;
+                        // @endrole
                     }
                 },
 
                 {
                     data: 'vehicle_id',
                     render: function (data, type, row) {
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    // @role('SuperAdmin')
+                    //     return `
+                    //         <select class="form-control editable" data-id="${row.id}" data-column="vehicle_id">
+                    //             <option value="" disabled>Not Selected</option>
+                    //             @foreach($vehicles as $vehicle)
+                    //                 <option value="{{ $vehicle->id }}" ${data == {{ $vehicle->id}} ? 'selected' : ''}>
+                    //                     {{ $vehicle->name }}
+                    //                 </option>
+                    //             @endforeach
+                    //         </select>
+                    //     `;
+                    //     @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        // @endrole
                     }
                 },
                 {
                     data: 'source_id',
                     render: function (data, type, row) {
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    // @role('SuperAdmin')
+                    //     return `
+                    //         <select class="form-control editable" data-id="${row.id}" data-column="source_id">
+                    //             <option value="" disabled>Not Selected</option>
+                    //             @foreach($sources as $source)
+                    //                 <option value="{{ $source->id }}" ${data == {{ $source->id}} ? 'selected' : ''}>
+                    //                     {{ $source->name }}
+                    //                 </option>
+                    //             @endforeach
+                    //         </select>
+                    //     `;
+                    //     @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        // @endrole
                     }
                 },
                 {
                     data: 'campaign_id',
                     render: function (data, type, row) {
-                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
-                        return result;
+                    // @role('SuperAdmin')
+                    //     return `
+                    //         <select class="form-control editable" data-id="${row.id}" data-column="campaign_id">
+                    //             <option value="" disabled>Not Selected</option>
+                    //             @foreach($campaigns as $campaign)
+                    //                 <option value="{{ $campaign->id }}" ${data == {{ $campaign->id}} ? 'selected' : ''}>
+                    //                     {{ $campaign->name }}
+                    //                 </option>
+                    //             @endforeach
+                    //         </select>
+                    //     `;
+                    //     @else
+                            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                            return result;
+                        // @endrole
                     }
                 },
                 {
@@ -668,6 +639,43 @@
             })
         }
 
+        $('#csv_form').submit(function(e) {
+            e.preventDefault();
+            var form = $('#csv_form')[0];
+            var data = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('leads.import') }}",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 800000,
+                success: function(data) {
+                    if (data.result == 'success') {
+                        Swal.fire(
+                            "{{ __('Add') }}",
+                            data.message,
+                            data.result,
+                        )
+
+                    }
+                    if (data.result == 'error') {
+                        Swal.fire(
+                            "{{ __('Not Add') }}",
+                            data.message,
+                            'error'
+                        )
+                        return false;
+                    }
+                    $("#importModal").modal('hide');
+                    table.draw();
+
+                    $("#btnSubmit").prop("disabled", false);
+                }
+            });
+        });
 
         $('#exportbutton').on('mouseenter', function(e) {
             e.preventDefault(); // Prevent the form from submitting
@@ -752,13 +760,6 @@
 
         // });
 
-
-        $('#f_city_id').change(function() {
-            var selectedCity = $(this).val();
-            var page_type = $(this).data('page_type') ?? null;
-            getBranches(selectedCity,page_type, '#f_branch_id');
-
-        });
 
     </script>
 

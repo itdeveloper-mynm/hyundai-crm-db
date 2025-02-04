@@ -135,7 +135,7 @@
                 $('.checkbox-item:checked').each(function() {
                 checkedValues.push($(this).val());
                 });
-                console.log("Checked values: ", checkedValues);
+                // console.log("Checked values: ", checkedValues);
                 return checkedValues;
             }
 
@@ -144,8 +144,10 @@
                 let checkedLength = $('.checkbox-item:checked').length;
                 if (checkedLength > 0) {
                 $('#deleteAll').show();
+                $('#updateDataAll').show();
                 } else {
                 $('#deleteAll').hide();
+                $('#updateDataAll').hide();
                 }
             }
 
@@ -204,6 +206,56 @@
                 }
                 });
             });
+
+
+            $('#update_all_form').submit(function(e) {
+            e.preventDefault();
+            var form = $('#update_all_form')[0];
+            var data = new FormData(form);
+            data.append('checked_values', JSON.stringify(logCheckedValues()));
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('leads.updateAllData') }}",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 800000,
+                success: function(data) {
+                    if (data.result == 'success') {
+                        Swal.fire(
+                            "{{ __('Add') }}",
+                            data.message,
+                            data.result,
+                        )
+
+                    }
+                    if (data.result == 'error') {
+                        Swal.fire(
+                            "{{ __('Not Add') }}",
+                            data.message,
+                            'error'
+                        )
+                        return false;
+                    }
+                    $("#updateAllModal").modal('hide');
+                    // table.draw();
+                    if (typeof table !== 'undefined') {
+                                table.draw(); // Redraw the table if it's a DataTable
+                    }
+
+                    $("#f_city_id").val([]).change();
+                    $("#f_branch_id").val([]).change();
+                    $("#f_vehicle_id").val([]).change();
+                    $("#f_source_id").val([]).change();
+                    $("#f_campaign_id").val([]).change();
+
+
+                    // $("#btnSubmit").prop("disabled", false);
+                }
+            });
+        });
 
 
         });
@@ -399,5 +451,6 @@
                 }
             });
         }
+
 
 </script>

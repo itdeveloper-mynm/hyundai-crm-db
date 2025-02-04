@@ -92,6 +92,7 @@ Route::controller(LeadController::class)->group(function(){
     Route::post('all-leads-export',  'allleadsExport')->name('all-leads.export');
     Route::post('delete-bulk-records',  'deletebulkRecords')->name('delete-bulk-records');
     Route::post('leads/update-column',  'updateColumn')->name('leads.updateColumn');
+    Route::post('upd-all-data',  'updateAllData')->name('leads.updateAllData');
 });
 
 Route::resource('test-drive-request', TestDriveRequestContoller::class);

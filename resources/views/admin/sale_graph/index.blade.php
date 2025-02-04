@@ -437,7 +437,7 @@
 
             </div>
 
-            <div class="row gx-5 gx-xl-10">
+            <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->

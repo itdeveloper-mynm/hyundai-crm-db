@@ -1033,7 +1033,7 @@
 												<!--begin::Username-->
 												<div class="d-flex flex-column">
 													<div class="fw-bold d-flex align-items-center fs-5">{{Auth::User()->name ?? ""}}</div>
-													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{Auth::User()->email ?? ""}}</a>
+													<a href="#" class="fw-semibold text-muted text-hover-primary fs-8">{{Auth::User()->email ?? ""}}</a>
 												</div>
 												<!--end::Username-->
 											</div>
