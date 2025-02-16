@@ -349,7 +349,7 @@ class ExternalLeadController extends Controller
         if ($existingApplication) {
             return response()->json([
                 'success' => true,'message' => 'Already Added Successfully',
-                'data'=> [ $existingApplication->id ],
+                'data'=> [ 'reference_id' => $existingApplication->id ],
             ], 200);
             // return $existingApplication;
         }
@@ -451,7 +451,7 @@ class ExternalLeadController extends Controller
 
         return response()->json([
             'success' => true,'message' => 'Added Successfully',
-            'data'=> [ $lead->id ],
+            'data'=> [ 'reference_id' => $lead->id ],
         ], 200);
 
         // return response()->json(['message' => $msg]);
