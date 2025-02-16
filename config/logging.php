@@ -87,6 +87,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
             'days' => 14,   // Number of days to retain log files
         ],
+        'auto_line' => [
+            'driver' => 'daily', // Using 'daily' for rotating logs
+            'path' => storage_path('logs/auto_line_log.log'),
+            'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
+            'days' => 14,   // Number of days to retain log files
+        ],
 
         'slack' => [
             'driver' => 'slack',

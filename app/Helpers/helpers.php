@@ -760,123 +760,126 @@ function sendSmsPdPl($number) {
 
 // }
 
-function formattedAutoLineLead($row)
-{
-    return [
-        "submissionDate" => currdateTime(),
-        "displayName" => "Lead",
-        "dealerCode" => "2",
-        "outlateCode" => "1600",
-        "branch" => $row->branch->name ?? "",
-        "department" => "Sales",
-        "externalReference" => [
-            "provider" => "OTOLINK",
-            "application" => "OTO Leads",
-            "id" => "OTO Leads",
-            "url" => ""
-        ],
-        "leadReferenceData" => [
-            "externalCampaignId" => "kcc",
-            "externalDealerId" => "OTOLEAD"
-        ],
-        "source" => "WEBSITE",
-        "contact" => [
-            "contactDetails" => [
-                "names" => [
-                    "familyName" => $row->customer->full_name ?? "",
-                    "familyName2" => $row->customer->full_name ?? "",
-                    "middleName" => $row->customer->full_name ?? "",
-                    "givenName" => $row->customer->full_name ?? "",
-                    "preferredName" => $row->customer->full_name ?? "",
-                    "initials" => $row->customer->full_name ?? "",
-                    "salutation" => $row->customer->full_name ?? "",
-                    "titleCommon" => "Mr."
-                ],
-                "addresses" => [
-                    "home" => [
-                        "physicalAddress" => [
-                            "streetType" => "",
-                            "streetName" => "",
-                            "houseNumber" => "",
-                            "buildingName" => "",
-                            "floorNumber" => "",
-                            "doorNumber" => "",
-                            "blockName" => "",
-                            "estate" => "",
-                            "postalCode" => "",
-                            "suburb" => "",
-                            "city" => "",
-                            "county" => "",
-                            "province" => "",
-                            "countryCode" => ""
-                        ]
-                    ]
-                ],
-                "communication" => [
-                    "home" => [
-                        "mobile" => $row->customer->mobile ?? "",
-                        "email" => $row->customer->email ?? "",
-                    ]
-                ]
-            ]
-        ],
-        "vehicle" => [
-            "make" =>  $row->vehicle->name ?? "",
-            "model" => "",
-            "modelYear" => $row->yearr ?? "",
-            "mileage" => ""
-        ],
-        "enquiry" => [
-            "type" => reverseCheckApplicationType($row->type),
-            "message" => "",
-            "offer" => "",
-            "refUrl" => ""
-        ],
-        "notes" => [
-                [
-                    "title" => "Dealer City",
-                    "details" => $row->city->name ?? "",
-                ],
-                [
-                    "title" => "Dealer Branch",
-                    "details" => $row->branch->name ?? "",
-                ],
-                [
-                    "title" => "Purchase Plan",
-                    "details" => $row->purchase_plan ?? "",
-                ],
-                [
-                    "title" => "Monthly Salary",
-                    "details" => $row->monthly_salary ?? "",
-                ],
-                [
-                    "title" => "Customers Bank",
-                    "details" => $row->customer->bank->name ?? "",
-                ],
-                [
-                    "title" => "Source Name",
-                    "details" => $row->source->name ?? "",
-                ],
-                [
-                    "title" => "Campaign Name",
-                    "details" => $row->campaign->name ?? "",
-                ],
-                [
-                    "title" => "Preferred Appointment Time",
-                    "details" => $row->preferred_appointment_time ?? "",
-                ],
-                [
-                    "title" => "Category",
-                    "details" => $row->category ?? "",
-                ],
-                [
-                    "title" => "Sub Category",
-                    "details" => $row->sub_category ?? "",
-                ],
-                [
-                    "title" => "Kyc",
-                    "details" => $row->kyc ?? "",
-                ]
-            ]
-    ];
-}
+
+
+
+// function formattedAutoLineLead($row)
+// {
+//     return [
+//         "submissionDate" => currdateTime(),
+//         "displayName" => "Lead",
+//         "dealerCode" => "2",
+//         "outlateCode" => "1600",
+//         "branch" => $row->branch->name ?? "",
+//         "department" => "Sales",
+//         "externalReference" => [
+//             "provider" => "OTOLINK",
+//             "application" => "OTO Leads",
+//             "id" => "OTO Leads",
+//             "url" => ""
+//         ],
+//         "leadReferenceData" => [
+//             "externalCampaignId" => "kcc",
+//             "externalDealerId" => "OTOLEAD"
+//         ],
+//         "source" => "WEBSITE",
+//         "contact" => [
+//             "contactDetails" => [
+//                 "names" => [
+//                     "familyName" => $row->customer->full_name ?? "",
+//                     "familyName2" => $row->customer->full_name ?? "",
+//                     "middleName" => $row->customer->full_name ?? "",
+//                     "givenName" => $row->customer->full_name ?? "",
+//                     "preferredName" => $row->customer->full_name ?? "",
+//                     "initials" => $row->customer->full_name ?? "",
+//                     "salutation" => $row->customer->full_name ?? "",
+//                     "titleCommon" => "Mr."
+//                 ],
+//                 "addresses" => [
+//                     "home" => [
+//                         "physicalAddress" => [
+//                             "streetType" => "",
+//                             "streetName" => "",
+//                             "houseNumber" => "",
+//                             "buildingName" => "",
+//                             "floorNumber" => "",
+//                             "doorNumber" => "",
+//                             "blockName" => "",
+//                             "estate" => "",
+//                             "postalCode" => "",
+//                             "suburb" => "",
+//                             "city" => "",
+//                             "county" => "",
+//                             "province" => "",
+//                             "countryCode" => ""
+//                         ]
+//                     ]
+//                 ],
+//                 "communication" => [
+//                     "home" => [
+//                         "mobile" => $row->customer->mobile ?? "",
+//                         "email" => $row->customer->email ?? "",
+//                     ]
+//                 ]
+//             ]
+//         ],
+//         "vehicle" => [
+//             "make" =>  $row->vehicle->name ?? "",
+//             "model" => "",
+//             "modelYear" => $row->yearr ?? "",
+//             "mileage" => ""
+//         ],
+//         "enquiry" => [
+//             "type" => reverseCheckApplicationType($row->type),
+//             "message" => "",
+//             "offer" => "",
+//             "refUrl" => ""
+//         ],
+//         "notes" => [
+//                 [
+//                     "title" => "Dealer City",
+//                     "details" => $row->city->name ?? "",
+//                 ],
+//                 [
+//                     "title" => "Dealer Branch",
+//                     "details" => $row->branch->name ?? "",
+//                 ],
+//                 [
+//                     "title" => "Purchase Plan",
+//                     "details" => $row->purchase_plan ?? "",
+//                 ],
+//                 [
+//                     "title" => "Monthly Salary",
+//                     "details" => $row->monthly_salary ?? "",
+//                 ],
+//                 [
+//                     "title" => "Customers Bank",
+//                     "details" => $row->customer->bank->name ?? "",
+//                 ],
+//                 [
+//                     "title" => "Source Name",
+//                     "details" => $row->source->name ?? "",
+//                 ],
+//                 [
+//                     "title" => "Campaign Name",
+//                     "details" => $row->campaign->name ?? "",
+//                 ],
+//                 [
+//                     "title" => "Preferred Appointment Time",
+//                     "details" => $row->preferred_appointment_time ?? "",
+//                 ],
+//                 [
+//                     "title" => "Category",
+//                     "details" => $row->category ?? "",
+//                 ],
+//                 [
+//                     "title" => "Sub Category",
+//                     "details" => $row->sub_category ?? "",
+//                 ],
+//                 [
+//                     "title" => "Kyc",
+//                     "details" => $row->kyc ?? "",
+//                 ]
+//             ]
+//     ];
+// }

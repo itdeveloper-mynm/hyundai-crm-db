@@ -13,10 +13,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\DB;
 use App\Mail\RecordDetailsMail;
 use Illuminate\Support\Facades\Mail;
+use App\Services\AutoLineService;
 
 class CrmLeadController extends Controller
 {
-    public function __construct()
+    protected $apiService;
+    public function __construct(AutoLineService $apiService)
     {
         $this->middleware('auth');
         $this->middleware('permission:crm-leads-list', ['only' => ['index','show']]);
@@ -25,6 +27,7 @@ class CrmLeadController extends Controller
         $this->middleware('permission:crm-leads-delete', ['only' => ['destroy']]);
         $this->middleware('permission:crm-leads-import', ['only' => ['crmleadsImport']]);
         $this->middleware('permission:crm-leads-export', ['only' => ['crmleadsExport']]);
+        $this->apiService = $apiService;
     }
     /**
      * Display a listing of the resource.
@@ -215,7 +218,9 @@ class CrmLeadController extends Controller
         $application->save();
 
         if($request->action_category == 'Qualified'){
-            autoLineAPI($application);
+            // autoLineAPI($application);
+            $response = $this->apiService->callApi($application); // Call the third-party API
+            // dd($response);
         }
 
         // Fetch the record from the database with joins

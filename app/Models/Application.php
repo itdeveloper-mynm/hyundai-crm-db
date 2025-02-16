@@ -63,6 +63,7 @@ class Application extends Model
         'updated_by',
         'deleted_by',
         'qualified_date',
+        'lead_id',
     ];
 
 

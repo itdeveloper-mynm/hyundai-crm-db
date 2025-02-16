@@ -405,6 +405,7 @@ class ExternalLeadController extends Controller
         $lead->klmm = $klmm ?? null;
         $lead->intention = $intention ?? null;
         $lead->request_date = $request_date ?? null;
+        $lead->preferred_appointment_time = $preferred_time ?? null;
         $lead->preferred_time = $preferred_time ?? null;
         $lead->comments = $comments ?? null;
         $lead->sharingcv = $sharingcv ?? null;
