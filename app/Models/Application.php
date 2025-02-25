@@ -926,7 +926,9 @@ class Application extends Model
         });
 
         static::updating(function ($application) {
-            $application->updated_by = Auth::check() ? Auth::id() : null;
+            if (Auth::check() && !Auth::user()->hasRole('Super Admin')) {
+                $application->updated_by = Auth::id();
+            }
         });
 
         static::deleting(function ($application) {

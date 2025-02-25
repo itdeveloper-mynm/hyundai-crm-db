@@ -17,5 +17,6 @@ class VerifyCsrfToken extends Middleware
         'saveformjson',
         'campaign_leads',
         'qualified-crmleads-listing',
+        'pdpl-form-submit',
     ];
 }

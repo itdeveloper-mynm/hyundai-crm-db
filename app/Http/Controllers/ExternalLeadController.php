@@ -25,6 +25,26 @@ class ExternalLeadController extends Controller
         //
     }
 
+    public function pdplForm(Request $request)
+    {
+        $id =base64_decode($request->chk);
+        $existchk = false;
+
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|exists:applications,id',
+        ]);
+
+        if($validator->fails()){
+            $existchk = true;
+        }
+        // dd($existchk,$id);
+        return view('pdpl-index',compact('existchk'));
+    }
+
+    public function pdplFormSubmit(Request $request) {
+        dd($request->all());
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -449,6 +469,8 @@ class ExternalLeadController extends Controller
         //     $msg = "failed";
         // }
 
+        \Log::info('saveformjson api hit end');
+
         return response()->json([
             'success' => true,'message' => 'Added Successfully',
             'data'=> [ 'reference_id' => $lead->id ],
@@ -456,7 +478,6 @@ class ExternalLeadController extends Controller
 
         // return response()->json(['message' => $msg]);
 
-        \Log::info('saveformjson api hit end');
 
         // return response()->json([
         //     'success' => true,'message' => 'Added Successfully',

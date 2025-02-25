@@ -24,6 +24,45 @@ License: For each use you must have a valid license purchased only from above li
                 page-break-inside: avoid;
 
             }
+
+
+
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+        .sales-leads-card {
+            background-color: #FF6F91;
+            /* Pink color */
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sales-leads-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .sales-leads-card .label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .sales-leads-card .icon {
+            font-size: 1.5rem;
+        }
+
         </style>
 </head>
 <!--end::Head-->
@@ -115,94 +154,304 @@ License: For each use you must have a valid license purchased only from above li
                                 </div>
 
 
-                                <div class="row g-5 g-xl-10 mb-5 mb-xl-10 bank-section">
+
+                                <div class="row g-5 g-xl-10 mb-5 bank-section">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12 mb-5 mb-xl-10">
                                         <!--begin::Card widget 20-->
                                         <div class="card card-bordered">
+                                            <div class="card-header pt-5">
+                                                <!--begin::Title-->
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                                                </h3>
+                                                <!--end::Title-->
+                                            </div>
                                             <div class="card-body">
-                                                <div id="graph_2" style="height: 350px;"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                                        <div class="sales-leads-card" style="background: #FF6384">
+                                                            <div>
+                                                                <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                                                <p class="label">Online Service Booking</p>
+                                                            </div>
+                                                            <div class="icon">
+                                                                <i class="bi bi-geo-alt"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                                        <div class="sales-leads-card" style="background: #FF9F40">
+                                                            <div>
+                                                                <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
+                                                                <p class="label">Service Offers</p>
+                                                            </div>
+                                                            <div class="icon">
+                                                                <i class="bi bi-geo-alt"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                                        <div class="sales-leads-card" style="background: #9966FF">
+                                                            <div>
+                                                                <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
+                                                                <p class="label">Contact Us </p>
+                                                            </div>
+                                                            <div class="icon">
+                                                                <i class="bi bi-geo-alt"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row gx-5 gx-xl-10 bank-section">
+                                <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                                     <!--begin::Col-->
-                                    <div class="col-xxl-12 mb-5 mb-xl-10">
+                                    <div class="col-xl-6">
+                                        <!--begin::Chart widget 31-->
+                                        <div class="card card-flush h-xl-100">
+                                            <!--begin::Header-->
+                                            <div class="card-header pt-7 mb-7">
+                                                <!--begin::Title-->
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="card-label fw-bold text-gray-800">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
+                                                </h3>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Header-->
+                                            <!--begin::Body-->
+                                            <div class="card-body align-items-end pt-0">
+                                                <!--begin::Chart-->
+                                                    <div class="tab-content" id="campaignTabsContent">
+                                                        <!-- Backtoschool-2024 Content -->
+                                                        <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                            <table class="table table-striped gy-4 gs-7">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="2">
+                                                                                    <h5><span style="float: left">Current Cities</span></h5>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php
+                                                                        $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                                    @endphp
+                                                                    @foreach ($citygraph as $key => $campaign_wise)
+                                                                        <tr class="city_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                                            <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                                            <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <textarea id="city_wise_detials_{{ $key }}" style="display: none">
+                                                                            <table class="table table-striped gy-4 gs-7">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th colspan="2">
+                                                                                                    <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                                    <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($campaign_wise['branches'] as $source_data)
+                                                                                        @if (isset($source_data))
+                                                                                        <tr class="cursor-pointer">
+                                                                                            <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                                            <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </textarea>
+
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                <!--end::Chart-->
+                                            </div>
+                                            <!--end::Body-->
+                                        </div>
+                                        <!--end::Chart widget 31-->
+                                    </div>
+                                    <!--end::Col-->
+                                    <div class="col-xl-6">
+                                        <!--begin::Chart widget 31-->
+                                        <div class="card card-flush h-xl-100">
+                                            <!--begin::Header-->
+                                            <div class="card-header pt-7 mb-7">
+                                                <!--begin::Title-->
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="card-label fw-bold text-gray-800">Branches</span>
+                                                </h3>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Header-->
+                                            <!--begin::Body-->
+                                            <div class="card-body align-items-end pt-0">
+                                                <!--begin::Chart-->
+                                                    <div class="tab-content" id="campaignTabsContent">
+                                                        <!-- Backtoschool-2024 Content -->
+                                                        <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                            <div id="branch_detials_div"></div>
+                                                        </div>
+                                                    </div>
+                                                <!--end::Chart-->
+                                            </div>
+                                            <!--end::Body-->
+                                        </div>
+                                        <!--end::Chart widget 31-->
+                                    </div>
+
+                                </div>
+
+                                <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+                                    <!--begin::Col-->
+                                    <div class="col-xl-6">
+                                        <!--begin::Chart widget 31-->
+                                        <div class="card card-flush h-xl-100">
+                                            <!--begin::Header-->
+                                            <div class="card-header pt-7 mb-7">
+                                                <!--begin::Title-->
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                                                </h3>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Header-->
+                                            <!--begin::Body-->
+                                            <div class="card-body align-items-end pt-0">
+                                                <!--begin::Chart-->
+                                                    <div class="tab-content" id="campaignTabsContent">
+                                                        <!-- Backtoschool-2024 Content -->
+                                                        <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                            <table class="table table-striped gy-4 gs-7">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="2">
+                                                                                    <h5><span style="float: left">Current Campaigns</span></h5>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php
+                                                                        $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                                    @endphp
+                                                                    @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                                        <tr class="campaign_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                                            <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                                            <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                                            <table class="table table-striped gy-4 gs-7">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th colspan="2">
+                                                                                                    <h5><span style="float: left">Current Campaigns</span></h5>
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th colspan="2">
+                                                                                                    <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                                    <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($campaign_wise['source'] as $source_data)
+                                                                                        @if (isset($source_data))
+                                                                                        <tr class="cursor-pointer">
+                                                                                            <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                                            <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </textarea>
+
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                <!--end::Chart-->
+                                            </div>
+                                            <!--end::Body-->
+                                        </div>
+                                        <!--end::Chart widget 31-->
+                                    </div>
+                                    <!--end::Col-->
+                                    <div class="col-xl-6">
+                                        <!--begin::Chart widget 31-->
+                                        <div class="card card-flush h-xl-100">
+                                            <!--begin::Header-->
+                                            <div class="card-header pt-7 mb-7">
+                                                <!--begin::Title-->
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="card-label fw-bold text-gray-800">Sources</span>
+                                                </h3>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Header-->
+                                            <!--begin::Body-->
+                                            <div class="card-body align-items-end pt-0">
+                                                <!--begin::Chart-->
+                                                    <div class="tab-content" id="campaignTabsContent">
+                                                        <!-- Backtoschool-2024 Content -->
+                                                        <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                            <div id="source_detials_div"></div>
+                                                        </div>
+                                                    </div>
+                                                <!--end::Chart-->
+                                            </div>
+                                            <!--end::Body-->
+                                        </div>
+                                        <!--end::Chart widget 31-->
+                                    </div>
+
+                                </div>
+
+                                <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+                                    <!--begin::Col-->
+                                    <div class="col-xxl-12 mb-5 mb-xl-5">
                                         <!--begin::Chart widget 8-->
                                         <div class="card card-flush h-xl-100">
                                             <!--begin::Header-->
                                             <div class="card-header pt-5">
                                                 <!--begin::Title-->
                                                 <h3 class="card-title align-items-start flex-column">
-                                                    <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                                                    <span class="card-label fw-bold text-dark">After Sales Vehicles Interested</span>
                                                 </h3>
                                                 <!--end::Title-->
                                             </div>
                                             <!--end::Header-->
                                             <!--begin::Body-->
-                                            @foreach ($countsByCampaign as $campaign_wise)
-                                                @if ($loop->first)
-                                                    @php $first_show = "show"; @endphp
-                                                @else
-                                                    @php $first_show = ""; @endphp
-                                                @endif
-                                                <div class="card-body pt-2 pb-0">
-                                                    <div class="row g-5 g-xl-10 mb-5">
-                                                        <!--begin::Accordion-->
-                                                        <div class="accordion" id="kt_accordion_1_{{ $campaign_wise['campaign_id'] }}">
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header">
-                                                                    <button class="accordion-button fs-4 fw-semibold" type="button"
-                                                                        data-bs-toggle="collapse"
-                                                                        data-bs-target="#kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
-                                                                        aria-expanded="true"
-                                                                        aria-controls="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}">
-                                                                        {{ $campaign_wise['name'] ?? '' }}
-                                                                        <span
-                                                                            class="badge py-3 px-4 fs-7 badge-light-danger  justify-content-end">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                                    </button>
-                                                                </h2>
-                                                                {{-- <div id="kt_accordion_1_body_1_{{ $campaign_wise['campaign_id'] }}"
-                                                                    class="accordion-collapse collapse {{ $first_show }}"
-                                                                    aria-labelledby="kt_accordion_1_header_1"
-                                                                    data-bs-parent="#kt_accordion_{{ $campaign_wise['campaign_id'] }}">
-                                                                    <div class="accordion-body">
-                                                                        <div class="card-body pt-5">
-                                                                            @foreach ($campaign_wise['source'] as $source_data)
-                                                                                @if (isset($source_data))
-                                                                                    <!--begin::Item-->
-                                                                                    <div class="d-flex flex-stack">
-                                                                                        <!--begin::Section-->
-                                                                                        <span
-                                                                                            class="text-black fw-semibold fs-6 me-2">{{ $source_data['name'] ?? '' }}</span>
-                                                                                        <!--end::Section-->
-                                                                                        <!--begin::Action-->
-                                                                                        <span
-                                                                                            class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
-                                                                                            <span
-                                                                                                class="badge py-3 px-4 fs-7 badge-light-primary">{{ $source_data['count'] ?? 0 }}</span>
-                                                                                            <!--end::Svg Icon-->
-                                                                                        </span>
-                                                                                        <!--end::Action-->
-                                                                                    </div>
-                                                                                    <!--end::Item-->
-                                                                                    <!--begin::Separator-->
-                                                                                    <div class="separator separator-dashed my-3"></div>
-                                                                                    <!--end::Separator-->
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </div>
-                                                                    </div>
-                                                                </div> --}}
-                                                            </div>
-                                                        </div>
-                                                        <!--end::Accordion-->
+                                            <div class="card-body pt-6">
+                                                <!--begin::Tab content-->
+                                                <div class="tab-content">
+                                                    <!--end::Tab pane-->
+                                                    <!--begin::Tab pane-->
+                                                    <div class="tab-pane fade active show" id="" role="tabpanel">
+                                                        <div id="graph_8" style="height: 350px;"></div>
+                                                        <!--begin::Chart-->
+                                                        <!--end::Chart-->
                                                     </div>
+                                                    <!--end::Tab pane-->
                                                 </div>
-                                            @endforeach
+                                                <!--end::Tab content-->
+                                            </div>
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Chart widget 8-->
@@ -260,7 +509,7 @@ License: For each use you must have a valid license purchased only from above li
                                         tension: 0.6
                                     },
                                     {
-                                        label: 'Contact Us (After Sales) (' + @json($second_graph_data[2]) + ')',
+                                        label: 'Contact Us (' + @json($second_graph_data[2]) + ')',
                                         data: @json($third_count) ,
                                         fill: false,
                                         borderColor: successColor,
@@ -268,6 +517,7 @@ License: For each use you must have a valid license purchased only from above li
                                     }
                                 ]
                             };
+
 
                             // Chart config
                             const config = {
@@ -293,91 +543,66 @@ License: For each use you must have a valid license purchased only from above li
 
 
 
-                            ////second chart
+                        // Example data
+                          // Function to generate a random color
+                        function getRandomColor() {
+                            var letters = '0123456789ABCDEF';
+                            var color = '#';
+                            for (var i = 0; i < 6; i++) {
+                                color += letters[Math.floor(Math.random() * 16)];
+                            }
+                            return color;
+                        }
 
-                            var options = {
-                                series: [{
-                                    name: 'Count',
-                                    data: @json($second_graph_data)
-                                }],
-                                chart: {
-                                    height: 350,
-                                    type: 'bar',
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        borderRadius: 10,
-                                        dataLabels: {
-                                            position: 'top', // top, center, bottom
-                                        },
-                                    }
-                                },
-                                dataLabels: {
-                                    enabled: true,
-                                    formatter: function(val) {
-                                        return val;
-                                    },
-                                    offsetY: -20,
-                                    style: {
-                                        fontSize: '12px',
-                                        colors: ["#304758", '#546E7A']
-                                    }
-                                },
+                        var xData8 = @json($after_sale_vehcile_graph['vehicle_names']) ;
+                        var yData8 = @json($after_sale_vehcile_graph['vehicle_count']) ;
 
-                                xaxis: {
-                                    categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-                                    position: 'top',
-                                    axisBorder: {
-                                        show: false
-                                    },
-                                    axisTicks: {
-                                        show: false
-                                    },
-                                    crosshairs: {
-                                        fill: {
-                                            type: 'gradient',
-                                            gradient: {
-                                                colorFrom: '#D8E3F0',
-                                                colorTo: '#BED1E6',
-                                                stops: [0, 100],
-                                                opacityFrom: 0.4,
-                                                opacityTo: 0.5,
-                                            }
-                                        }
-                                    },
-                                    tooltip: {
-                                        enabled: true,
-                                    }
-                                },
-                                yaxis: {
-                                    axisBorder: {
-                                        show: false
-                                    },
-                                    axisTicks: {
-                                        show: false,
-                                    },
-                                    labels: {
-                                        show: false,
-                                        formatter: function(val) {
-                                            return val;
-                                        }
-                                    }
+                        // Generate random fill colors
+                        var fillColors8 = Array.from({ length: xData8.length }, () => getRandomColor());
 
-                                },
-                                title: {
-                                    text: 'Departments Overall Leads',
-                                    floating: true,
-                                    offsetY: 330,
-                                    align: 'center',
-                                    style: {
-                                        color: '#444'
-                                    }
+                        // Create series data
+                        var seriesData8 = xData8.map((x, index) => ({
+                        x: x,
+                        y: yData8[index],
+                        fill: fillColors8[index]
+                        }));
+
+                        // Chart options
+                        var options8 = {
+                        series: [{
+                            data: seriesData8
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 650
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: true,
+                                distributed: true,
+                                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true
+                        },
+                        xaxis: {
+                            categories: xData8.map((x, index) => `${x} (${yData8[index]})`),
+                            labels: {
+                                formatter: function(val) {
+                                    return val;
                                 }
-                            };
+                            }
+                        },
+                            legend: {
+                            show: false // Hides the legend below the graph
+                        }
+                        };
 
-                            var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-                            chart.render();
-
+                        // Render the chart
+                        var chart8 = new ApexCharts(document.querySelector("#graph_8"), options8);
+                        chart8.render();
 
 
                         </script>

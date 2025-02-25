@@ -2,10 +2,12 @@
 
 @section('title', 'Sales Report')
 
-{{-- @section('header-js')
+@section('header-js')
 
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-@endsection --}}
+
+@endsection
 
 @section('css')
 
@@ -91,6 +93,9 @@
                                 <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
                                 {{ __('Pdf') }}
                             </button>
+
+                            {{-- <button id="captureButton">Capture & Open</button> --}}
+
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -346,10 +351,10 @@
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
                                                 <th><h5><span style="float: left">MQL</span></h5></th>
-                                                <th><h5><span style="float: left">CQL</span></h5></th>
-                                                <th><h5><span style="float: left">CGI</span></h5></th>
-                                                <th><h5><span style="float: left">CNQ</span></h5></th>
-                                                <th><h5><span style="float: left">Converstion (%)</span></h5></th>
+                                                <th><h5><span style="float: left">SQL</span></h5></th>
+                                                <th><h5><span style="float: left">SGI</span></h5></th>
+                                                <th><h5><span style="float: left">SNQ</span></h5></th>
+                                                <th><h5><span style="float: left">Conversation (%)</span></h5></th>
                                             </tr>
                                         </thead>
                                         <tbody>

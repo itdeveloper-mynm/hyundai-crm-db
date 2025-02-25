@@ -157,6 +157,8 @@ Route::controller(ExternalLeadController::class)->group(function(){
     // Route::post('addleads',  'store')->name('addleads.store');
     // Route::get('addleads/create',  'create');
     // Route::any('saveform/store',  'saveformstore');
+    Route::get('pdpl-form',  'pdplForm')->withoutMiddleware('auth');
+    Route::post('pdpl-form-submit',  'pdplFormSubmit')->name('pdplFormSubmit');
     Route::any('saveformjson',  'saveformjson')->withoutMiddleware('auth');
     Route::any('campaign_leads',  'store')->withoutMiddleware('auth');
     Route::any('qualified-crmleads-listing',  'crmLeadsListing')->withoutMiddleware('auth');

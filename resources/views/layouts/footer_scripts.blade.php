@@ -453,4 +453,37 @@
         }
 
 
+    // // kt_app_content
+    // document.getElementById("captureButton").addEventListener("click", function () {
+    //     let element = document.getElementById("kt_app_content"); // Select the graph container
+
+    //     html2canvas(element, { scale: 2 }).then(canvas => {
+    //         let imgData = canvas.toDataURL("image/png"); // Convert to image format
+
+    //         // Open a new tab and print the image
+    //         let newTab = window.open();
+    //         newTab.document.open();
+    //         newTab.document.write(`
+    //             <html>
+    //                 <head>
+    //                     <title>Print Screenshot</title>
+    //                     <style>
+    //                         body { margin: 0; text-align: center; background: #fff; }
+    //                         img { width: 100%; max-width: 100%; height: auto; }
+    //                         @media print {
+    //                             body { margin: 0; }
+    //                             img { width: 100%; max-width: 100%; height: auto; }
+    //                         }
+    //                     </style>
+    //                 </head>
+    //                 <body onload="window.print(); window.onafterprint = function() { window.close(); }">
+    //                     <img src="${imgData}" />
+    //                 </body>
+    //             </html>
+    //         `);
+    //         newTab.document.close();
+    //     });
+    // });
+
+
 </script>
