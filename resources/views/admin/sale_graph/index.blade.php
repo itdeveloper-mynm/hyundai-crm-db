@@ -12,6 +12,12 @@
 @section('css')
 
     <style>
+
+        .bank-section {
+            page-break-inside: avoid;
+
+        }
+
         .active-tr {
             background-color: #6495ED;
             color: white !important;
@@ -194,7 +200,7 @@
             </div>
             <!--end::Toolbar container-->
 
-            <div class="row gx-5 gx-xl-10">
+            <div class="row gx-5 gx-xl-10 bank-section">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -233,7 +239,7 @@
                 <!--end::Col-->
             </div>
 
-            <div class="row g-5 g-xl-10">
+            <div class="row g-5 g-xl-10 bank-section">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
@@ -323,7 +329,7 @@
                 $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
             @endphp
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-12">
                     <!--begin::Chart widget 31-->
@@ -354,65 +360,58 @@
                                                 <th><h5><span style="float: left">SQL</span></h5></th>
                                                 <th><h5><span style="float: left">SGI</span></h5></th>
                                                 <th><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th><h5><span style="float: left">Conversation (%)</span></h5></th>
+                                                <th><h5><span style="float: left">PCL</span></h5></th>
+                                                <th><h5><span style="float: left">Conversion (%)</span></h5></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($campaigns_detial_data as $key => $campaign)
-                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" >
-                                                    <td colspan="2">
-                                                        <span style="float: left">
-                                                            {{ $campaign['campaign_name'] }} </span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-primary">{{ $campaign['mql'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-success">{{ $campaign['cql'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-info">{{ $campaign['cgi'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-warning">{{ $campaign['cnq'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left;background-color: #002c5f !important;"
-                                                            class="badge">{{  calculatePercentage($campaign['mql'] ?? 0 ,$campaign['cql'] ?? 0 ) }}</span>
-                                                    </td>
+                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}">
+                                                    @php
+                                                        $mql = $campaign['mql'] ?? 0;
+                                                        $cql = $campaign['cql'] ?? 0;
+                                                        $cgi = $campaign['cgi'] ?? 0;
+                                                        $cnq = $campaign['cnq'] ?? 0;
+                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                    @endphp
+                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}</span></td>
+                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                    <td><span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $cql) }}
+                                                    </span></td>
                                                 </tr>
 
+
                                                 @foreach($campaign['sources'] as $source)
-                                                <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" style="display:none;
-                                                @if ($loop->first) border-top: 2px solid black; @endif
-                                                @if ($loop->last) border-bottom: 2px solid black; @endif">
+                                                    <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
+                                                    style="display: none;
+                                                    {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
+                                                    {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
+
+                                                    @php
+                                                        $mql = $source['mql'] ?? 0;
+                                                        $cql = $source['cql'] ?? 0;
+                                                        $cgi = $source['cgi'] ?? 0;
+                                                        $cnq = $source['cnq'] ?? 0;
+                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                    @endphp
+
                                                     <td colspan="2" style="border-left: 2px solid black;">
-                                                        <span style="float: left">
-                                                            {{ $source['source_name'] }} </span>
+                                                        <span>{{ $source['source_name'] }}</span>
                                                     </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-primary">{{ $source['mql'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-success">{{ $source['cql'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-info">{{ $source['cgi'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="float: left"
-                                                            class="badge badge-warning">{{ $source['cnq'] ?? 0 }}</span>
-                                                    </td>
-                                                    <td  style="border-right: 2px solid black;">
-                                                        <span style="float: left;background-color: #002c5f !important;"
-                                                            class="badge">{{  calculatePercentage($source['mql'] ?? 0 ,$source['cql'] ?? 0 ) }}</span>
+                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                    <td style="border-right: 2px solid black;">
+                                                        <span class="badge" style="background-color: #002c5f !important;">
+                                                            {{ calculatePercentage($mql, $cql) }}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -420,15 +419,24 @@
                                         </tbody>
                                         <tfoot>
                                             <tr style="background: #a36b4f">
-                                                <th colspan="2">
-                                                    <h5><span style="float: left">Total Count</span></h5>
-                                                </th>
-                                                <th><h5><span style="float: left" class="badge badge-primary">{{collect($campaigns_detial_data)->sum('mql') ?? 0}}</span></h5></th>
-                                                <th><h5><span style="float: left" class="badge badge-success">{{collect($campaigns_detial_data)->sum('cql') ?? 0}}</span></h5></th>
-                                                <th><h5><span style="float: left" class="badge badge-info">{{collect($campaigns_detial_data)->sum('cgi') ?? 0}}</span></h5></th>
-                                                <th><h5><span style="float: left" class="badge badge-warning">{{collect($campaigns_detial_data)->sum('cnq') ?? 0}}</span></h5></th>
-                                                <th><h5><span style="float: left;background-color: #002c5f !important;" class="badge">{{  calculatePercentage(collect($campaigns_detial_data)->sum('mql') ?? 0 ,collect($campaigns_detial_data)->sum('cql') ?? 0 ) }}</span></h5></th>
+                                                <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
+                                                @php
+                                                    $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
+                                                    $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
+                                                    $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
+                                                    $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                @endphp
+                                                <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
+                                                <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
+                                                <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
+                                                <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                                <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
+                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $cql) }}
+                                                </span></h5></th>
                                             </tr>
+
                                         </tfoot>
                                     </table>
                                 </div>
@@ -442,7 +450,7 @@
 
             </div>
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -666,7 +674,7 @@
             </div> --}}
 
 
-            <div class="row gx-5 gx-xl-10 mt-10">
+            <div class="row gx-5 gx-xl-10 mt-10 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -755,7 +763,7 @@
             </div>
 
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -943,7 +951,7 @@
                 <!--end::Col-->
             </div> --}}
 
-            <div class="row gx-5 gx-xl-10 mt-10">
+            <div class="row gx-5 gx-xl-10 mt-10 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -994,7 +1002,7 @@
 
             </div>
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->

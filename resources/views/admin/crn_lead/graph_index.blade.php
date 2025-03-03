@@ -816,6 +816,7 @@
                                                 <th><h5><span style="float: left">Whatsapp</span></h5></th>
                                                 <th><h5><span style="float: left">Inbound</span></h5></th>
                                                 <th><h5><span style="float: left">Outbound</span></h5></th>
+                                                <th><h5><span style="float: left">Other Sources</span></h5></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -841,6 +842,10 @@
                                                         <span style="float: left"
                                                             class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['outbound_count'] ?? 0 }}</span>
                                                     </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['other_count'] ?? 0 }}</span>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -853,6 +858,7 @@
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('whatsapp_count') ?? 0}}</span></h5></th>
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('inbound_count') ?? 0}}</span></h5></th>
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('outbound_count') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_source_graph)->sum('other_count') ?? 0}}</span></h5></th>
                                             </tr>
                                         </tfoot>
                                     </table>

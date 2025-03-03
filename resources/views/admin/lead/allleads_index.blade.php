@@ -30,9 +30,9 @@
                         </div>
                         <div class="col-lg-8 d-flex justify-content-end">
                             @can('all-leads-delete')
-                                {{-- <button type="button" class="btn btn-primary me-3" id="updateDataAll" data-bs-toggle="modal" data-bs-target="#updateAllModal" style="display:none;">
+                                <button type="button" class="btn btn-primary me-3" id="updateDataAll" data-bs-toggle="modal" data-bs-target="#updateAllModal" style="display:none;">
                                     {{ __('Update All') }}
-                                </button> --}}
+                                </button>
                                 <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
                                     <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
                                     </span>
@@ -43,7 +43,7 @@
                                       <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                          <h4 class="modal-title">Modal Heading</h4>
+                                          <h4 class="modal-title">Update Selected Rows</h4>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
 
@@ -113,6 +113,19 @@
                                                             <option value="">--select--</option>
                                                             @foreach ($campaigns as $campaign)
                                                                 <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <label class="form-label fw-semibold">{{ __('Page Types') }}</label>
+                                                    <div>
+                                                        <select class="form-select mb-2" name="type" id="f_type"
+                                                            data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                            data-allow-clear="true">
+                                                            <option value="">--select--</option>
+                                                            @foreach (getApplicationTypeTitles() as $key => $type)
+                                                                <option value="{{ $key }}" {{ is_selected($type, 'type') }}>{{ $type }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -484,8 +497,19 @@
                         var res2 = '-';
                         var res3 = '-';
                         @can('campaign-leads-edit')
-                            res = '<a href="{{ url('lead') }}/' + data +
-                                '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
+                            if (['online_service_booking', 'service_offers', 'contact_us'].includes(row.chk_type)) {
+                                res = '<a href="{{ url('after-sale') }}/' + data +
+                                    '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary" ' +
+                                    'data-toggle="tooltip" title="{{ __('table.edit') }}">' +
+                                    '<i class="fa fa-pencil"></i></a>';
+                            } else {
+                                res = '<a href="{{ url('lead') }}/' + data +
+                                    '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary" ' +
+                                    'data-toggle="tooltip" title="{{ __('table.edit') }}">' +
+                                    '<i class="fa fa-pencil"></i></a>';
+                            }
+                            // res = '<a href="{{ url('lead') }}/' + data +
+                            //     '/edit" target="blank" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __('table.edit') }}"><i class="fa fa-pencil"></i></a> ';
                             res3 = '<a href="{{ url('contact') }}/' + row.customer_id +
                                 '" target="_blank" class="btn btn-sm btn-icon btn-light-primary ms-1"  data-toggle="tooltip" title="View Contact"><i class="fa fa-address-book"></i></a> ';
                         @endcan

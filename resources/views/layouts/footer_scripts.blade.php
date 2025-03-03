@@ -244,12 +244,13 @@
                     if (typeof table !== 'undefined') {
                                 table.draw(); // Redraw the table if it's a DataTable
                     }
-
+                    $('#selectAll').prop('checked',false);
                     $("#f_city_id").val([]).change();
                     $("#f_branch_id").val([]).change();
                     $("#f_vehicle_id").val([]).change();
                     $("#f_source_id").val([]).change();
                     $("#f_campaign_id").val([]).change();
+                    $("#f_type").val([]).change();
 
 
                     // $("#btnSubmit").prop("disabled", false);
