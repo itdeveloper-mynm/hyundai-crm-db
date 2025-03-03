@@ -816,7 +816,8 @@ class SaleGraphController extends Controller
                 DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
                 DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count"),
                 // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count"),
-                DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
+                // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
+                DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count")
             )
             // ->join('sources', 'applications.source_id', '=', 'sources.id')
             ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
