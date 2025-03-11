@@ -565,6 +565,181 @@ class ExternalLeadController extends Controller
 
     }
 
+    public function allLeadsListing(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'from_date' => 'required|date|date_format:Y-m-d H:i:s',
+            'to_date' => 'required|date|date_format:Y-m-d H:i:s',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $from_date_input = request('from_date');
+        $datetime_pattern = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
+        $has_timestamp = $from_date_input && preg_match($datetime_pattern, $from_date_input);
+        // dd($from_date_input, (bool) $has_timestamp);
+
+        $from_date_str = request('from_date') ?: Carbon::now()->startOfDay()->toDateTimeString();
+
+        $to_date_str = request('to_date') ?: Carbon::now()->endOfDay()->toDateTimeString();
+
+
+        //  dd($from_date_str,$to_date_str);
+
+        $records = DB::table('applications')
+        ->select(
+            'applications.id as id',
+            DB::raw('COALESCE(campaigns.name, "") as Campaign'),
+            DB::raw("
+                CASE applications.type
+                    WHEN 'leads' THEN 'Leads'
+                    WHEN 'request_a_quote' THEN 'Request a Quote'
+                    WHEN 'request_a_test_quote' THEN 'Request a Test Quote'
+                    WHEN 'online_service_booking' THEN 'Online Service Booking'
+                    WHEN 'special_offers' THEN 'Special Offers'
+                    WHEN 'service_offers' THEN 'Service Offers'
+                    WHEN 'fleet_sales' THEN 'Fleet Sales'
+                    WHEN 'request_a_test_drive' THEN 'Request a Test Drive'
+                    WHEN 'request_a_brochure' THEN 'Request a Brochure'
+                    WHEN 'employees_program' THEN 'Employees Program'
+                    WHEN 'used_cars' THEN 'Used Cars'
+                    WHEN 'old_leads' THEN 'Old Leads'
+                    WHEN 'events' THEN 'Events'
+                    WHEN 'contact_us' THEN 'Contact Us'
+                    WHEN 'sales_marketing' THEN 'Sales Maketing'
+                    WHEN 'after_sales' THEN 'After Sales'
+                    WHEN 'smo_leads' THEN 'Smo Leads'
+                    WHEN 'career' THEN 'Career'
+                    WHEN 'crm_leads' THEN 'Crm Leads'
+                    ELSE 'Leads' -- Default value
+                END as DataType
+            "),
+            DB::raw('COALESCE(customers.gender, "") as Gender'),
+            DB::raw('COALESCE(customers.first_name, "") as FirstName'),
+            DB::raw('COALESCE(customers.last_name, "") as LastName'),
+            DB::raw('COALESCE(customers.national_id, "") as NationalID'),
+            DB::raw('COALESCE(customers.mobile, "") as Mobile'),
+            DB::raw('COALESCE(customers.email, "") as Email'),
+            DB::raw('COALESCE(cities.name, "") as DealerCity'),
+            DB::raw('COALESCE(branches.name, "") as DealerBranch'),
+            DB::raw('COALESCE(applications.request_date, "") as RequestDate'),
+            DB::raw('COALESCE(applications.preferred_appointment_time, "") as PreferredTime'),
+            DB::raw('COALESCE(vehicles.name, "") as Vehicle'),
+            DB::raw('COALESCE(applications.yearr, "") as Year'),
+            DB::raw('COALESCE(applications.purchase_plan, "") as PurchasePlan'),
+            DB::raw('COALESCE(applications.monthly_salary, "") as MonthlySalary'),
+            DB::raw('COALESCE(banks.name, "") as Bank'),
+            DB::raw('COALESCE(applications.comments, "") as Comments'),
+            DB::raw('COALESCE(sources.name, "") as Source'),
+            DB::raw('COALESCE(applications.category, "") as Category'),
+            DB::raw('COALESCE(applications.sub_category, "") as SubCategory'),
+            DB::raw('COALESCE(applications.qualified_date, "") as QualifiedDate')
+        )
+        ->join('customers', 'applications.customer_id', '=', 'customers.id')
+        ->join('cities', 'applications.city_id', '=', 'cities.id')
+        ->join('branches', 'applications.branch_id', '=', 'branches.id')
+        ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+        ->join('sources', 'applications.source_id', '=', 'sources.id')
+        ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
+        ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
+        ->whereBetween('applications.qualified_date', [$from_date_str,$to_date_str])
+        ->paginate(50);
+
+
+        return $this->sendResponse($records, 'All Leads Listing');
+
+    }
+
+    public function contactLeadsListing(Request $request){
+
+        $mobile = $request->input('mobile');
+
+        // Validate that the input starts with 0
+        if (!preg_match('/^0\d{8,}$/', $mobile)) {
+            return $this->sendError('Validation Error.', ['mobile' => ['Invalid mobile number format.']]);
+        }
+
+        // Convert mobile to database format (remove "0" and add "+966")
+        $formattedMobile = '+966' . substr($mobile, 1);
+
+        $validator = Validator::make(['mobile' => $formattedMobile], [
+            'mobile' => [
+                'required',
+                'regex:/^\+966\d{9}$/', // Ensures correct format (+966XXXXXXXXX)
+                'exists:customers,mobile', // Checks if it exists in customers table
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $records = DB::table('applications')
+        ->select(
+            'applications.id as id',
+            DB::raw('COALESCE(campaigns.name, "") as Campaign'),
+            DB::raw("
+                CASE applications.type
+                    WHEN 'leads' THEN 'Leads'
+                    WHEN 'request_a_quote' THEN 'Request a Quote'
+                    WHEN 'request_a_test_quote' THEN 'Request a Test Quote'
+                    WHEN 'online_service_booking' THEN 'Online Service Booking'
+                    WHEN 'special_offers' THEN 'Special Offers'
+                    WHEN 'service_offers' THEN 'Service Offers'
+                    WHEN 'fleet_sales' THEN 'Fleet Sales'
+                    WHEN 'request_a_test_drive' THEN 'Request a Test Drive'
+                    WHEN 'request_a_brochure' THEN 'Request a Brochure'
+                    WHEN 'employees_program' THEN 'Employees Program'
+                    WHEN 'used_cars' THEN 'Used Cars'
+                    WHEN 'old_leads' THEN 'Old Leads'
+                    WHEN 'events' THEN 'Events'
+                    WHEN 'contact_us' THEN 'Contact Us'
+                    WHEN 'sales_marketing' THEN 'Sales Maketing'
+                    WHEN 'after_sales' THEN 'After Sales'
+                    WHEN 'smo_leads' THEN 'Smo Leads'
+                    WHEN 'career' THEN 'Career'
+                    WHEN 'crm_leads' THEN 'Crm Leads'
+                    ELSE 'Leads' -- Default value
+                END as DataType
+            "),
+            DB::raw('COALESCE(customers.gender, "") as Gender'),
+            DB::raw('COALESCE(customers.first_name, "") as FirstName'),
+            DB::raw('COALESCE(customers.last_name, "") as LastName'),
+            DB::raw('COALESCE(customers.national_id, "") as NationalID'),
+            DB::raw('COALESCE(customers.mobile, "") as Mobile'),
+            DB::raw('COALESCE(customers.email, "") as Email'),
+            DB::raw('COALESCE(cities.name, "") as DealerCity'),
+            DB::raw('COALESCE(branches.name, "") as DealerBranch'),
+            DB::raw('COALESCE(applications.request_date, "") as RequestDate'),
+            DB::raw('COALESCE(applications.preferred_appointment_time, "") as PreferredTime'),
+            DB::raw('COALESCE(vehicles.name, "") as Vehicle'),
+            DB::raw('COALESCE(applications.yearr, "") as Year'),
+            DB::raw('COALESCE(applications.purchase_plan, "") as PurchasePlan'),
+            DB::raw('COALESCE(applications.monthly_salary, "") as MonthlySalary'),
+            DB::raw('COALESCE(banks.name, "") as Bank'),
+            DB::raw('COALESCE(applications.comments, "") as Comments'),
+            DB::raw('COALESCE(sources.name, "") as Source'),
+            DB::raw('COALESCE(applications.category, "") as Category'),
+            DB::raw('COALESCE(applications.sub_category, "") as SubCategory'),
+            DB::raw('COALESCE(applications.qualified_date, "") as QualifiedDate')
+        )
+        ->join('customers', 'applications.customer_id', '=', 'customers.id')
+        ->join('cities', 'applications.city_id', '=', 'cities.id')
+        ->join('branches', 'applications.branch_id', '=', 'branches.id')
+        ->join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+        ->join('sources', 'applications.source_id', '=', 'sources.id')
+        ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
+        ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
+        ->where('customers.mobile', $formattedMobile)
+        ->paginate(50);
+
+
+        return $this->sendResponse($records, 'Contact Leads Listing');
+
+    }
+
 
     public function sendResponse($result, $message)
     {
