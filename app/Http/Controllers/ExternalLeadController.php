@@ -645,7 +645,7 @@ class ExternalLeadController extends Controller
         ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
         ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
         ->whereBetween('applications.qualified_date', [$from_date_str,$to_date_str])
-        ->paginate(50);
+        ->get();
 
 
         return $this->sendResponse($records, 'All Leads Listing');
@@ -733,7 +733,7 @@ class ExternalLeadController extends Controller
         ->leftjoin('campaigns', 'applications.campaign_id', '=', 'campaigns.id')
         ->leftjoin('banks', 'customers.bank_id', '=', 'banks.id')
         ->where('customers.mobile', $formattedMobile)
-        ->paginate(50);
+        ->get();
 
 
         return $this->sendResponse($records, 'Contact Leads Listing');
