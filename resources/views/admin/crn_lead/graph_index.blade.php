@@ -739,6 +739,7 @@
                                                 <th><h5><span style="float: left">Qualified</span></h5></th>
                                                 <th><h5><span style="float: left">Not Qualified</span></h5></th>
                                                 <th><h5><span style="float: left">General Inquiry</span></h5></th>
+                                                <th><h5><span style="float: left">Inv</span></h5></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -760,6 +761,10 @@
                                                         <span style="float: left"
                                                             class="badge badge-{{ Arr::random($badgeClasses) }}">{{ $crm_users['general_inquiry_count'] ?? 0 }}</span>
                                                     </td>
+                                                    <td>
+                                                        <span style="float: left"
+                                                            class="badge badge-success">{{ $crm_users['inv'] ?? 0 }}</span>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -771,6 +776,7 @@
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_graph)->sum('qualified_count') ?? 0}}</span></h5></th>
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_graph)->sum('not_qualified_count') ?? 0}}</span></h5></th>
                                                 <th><h5><span style="float: left" class="badge badge-{{ Arr::random($badgeClasses) }}">{{collect($crm_users_graph)->sum('general_inquiry_count') ?? 0}}</span></h5></th>
+                                                <th><h5><span style="float: left" class="badge badge-success">{{collect($crm_users_graph)->sum('inv') ?? 0}}</span></h5></th>
                                             </tr>
                                         </tfoot>
                                     </table>
