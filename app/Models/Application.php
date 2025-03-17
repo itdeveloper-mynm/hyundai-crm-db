@@ -605,8 +605,8 @@ class Application extends Model
                 //     SELECT customer_id FROM sales_data
                 //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
                 // ) THEN 1 ELSE 0 END) as inv')
-                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-                // DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
+                // DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
 
             )
             ->whereIn('type', $all_types)
@@ -627,8 +627,8 @@ class Application extends Model
                         //     SELECT customer_id FROM sales_data
                         //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
                         // ) THEN 1 ELSE 0 END) as inv')
-                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-                        // DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
+                        // DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                        DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
 
                     )
                     ->whereIn('type', $all_types)
@@ -935,7 +935,9 @@ class Application extends Model
     protected static function booted()
     {
         static::creating(function ($application) {
-            $application->created_by = Auth::check() ? Auth::id() : null;
+            if (Auth::check() && !Auth::user()->hasRole('Super Admin')) {
+                $application->created_by = Auth::check() ? Auth::id() : null;
+            }
             if (Auth::check() && Auth::user()->hasRole('Crm Lead User')) {
                 $application->updated_by = Auth::id();
             }

@@ -795,7 +795,8 @@ class SaleGraphController extends Controller
                 'updated_by',
                 DB::raw("SUM(CASE WHEN category = 'Qualified' THEN 1 ELSE 0 END) as qualified_count"),
                 DB::raw("SUM(CASE WHEN category = 'Not Qualified' THEN 1 ELSE 0 END) as not_qualified_count"),
-                DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count")
+                DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count"),
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
             )
             ->whereIn('type', $first_types)
             ->whereBetween('created_at', [$startDate, $endDate])
