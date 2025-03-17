@@ -19,6 +19,7 @@ class SalesData extends Model
         'chass',
         'vehicle_id',
         'department',
+        'inv_no',
     ];
 
         // Define a scope for searching with conditions

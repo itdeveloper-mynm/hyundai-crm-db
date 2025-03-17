@@ -600,7 +600,14 @@ class Application extends Model
                 DB::raw('COUNT(*) as mql'),
                 DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                 DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
-                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi')
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                // DB::raw('SUM(CASE WHEN customer_id IN (
+                //     SELECT customer_id FROM sales_data
+                //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
+                // ) THEN 1 ELSE 0 END) as inv')
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                // DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
+
             )
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
@@ -615,7 +622,14 @@ class Application extends Model
                         DB::raw('COUNT(*) as mql'),
                         DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                         DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
-                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi')
+                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        // DB::raw('SUM(CASE WHEN customer_id IN (
+                        //     SELECT customer_id FROM sales_data
+                        //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
+                        // ) THEN 1 ELSE 0 END) as inv')
+                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                        // DB::raw('SUM(CASE WHEN EXISTS (SELECT 1 FROM sales_data WHERE sales_data.customer_id = applications.customer_id) THEN 1 ELSE 0 END) as inv')
+
                     )
                     ->whereIn('type', $all_types)
                     ->whereBetween('created_at', [$startDate, $endDate])
@@ -633,6 +647,7 @@ class Application extends Model
                             'cql' => $sourceApplication->cql,
                             'cnq' => $sourceApplication->cnq,
                             'cgi' => $sourceApplication->cgi,
+                            'inv' => $sourceApplication->inv,
                         ];
                     });
 
@@ -643,6 +658,7 @@ class Application extends Model
                     'cql' => $application->cql,
                     'cnq' => $application->cnq,
                     'cgi' => $application->cgi,
+                    'inv' => $application->inv,
                     'sources' => $application->sources,
                 ];
             });

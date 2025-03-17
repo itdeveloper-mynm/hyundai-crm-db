@@ -165,6 +165,7 @@
                                 <th>{{ __('Chass') }}</th>
                                 <th>{{ __('Vehicle') }}</th>
                                 <th>{{ __('Department') }}</th>
+                                <th>{{ __('Inv No') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -353,6 +354,14 @@
                 },
                 {
                     data: 'department',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'inv_no',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';

@@ -361,6 +361,7 @@
                                                 <th><h5><span style="float: left">SGI</span></h5></th>
                                                 <th><h5><span style="float: left">SNQ</span></h5></th>
                                                 <th><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
+                                                <th><h5><span style="float: left">Inv</span></h5></th>
                                                 <th><h5><span style="float: left">Conversion (%)</span></h5></th>
                                             </tr>
                                         </thead>
@@ -372,6 +373,7 @@
                                                         $cql = $campaign['cql'] ?? 0;
                                                         $cgi = $campaign['cgi'] ?? 0;
                                                         $cnq = $campaign['cnq'] ?? 0;
+                                                        $inv = $campaign['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}</span></td>
@@ -380,6 +382,7 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
                                                     </span></td>
@@ -397,6 +400,7 @@
                                                         $cql = $source['cql'] ?? 0;
                                                         $cgi = $source['cgi'] ?? 0;
                                                         $cnq = $source['cnq'] ?? 0;
+                                                        $inv = $source['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
                                                     @endphp
 
@@ -408,6 +412,7 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td style="border-right: 2px solid black;">
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
@@ -425,6 +430,7 @@
                                                     $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
                                                     $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
                                                     $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                    $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
@@ -432,6 +438,7 @@
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
+                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
                                                 </span></h5></th>

@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
             $table->date('inv_date');
-            $table->year('year');
-            $table->char('s');
-            $table->string('chass');
-            $table->string('department');
+            $table->string('year')->nullable();
+            $table->char('s')->nullable();
+            $table->string('chass')->nullable();
+            $table->string('department')->nullable();
             $table->timestamps();
         });
     }

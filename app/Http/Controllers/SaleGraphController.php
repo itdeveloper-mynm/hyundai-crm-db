@@ -119,6 +119,7 @@ class SaleGraphController extends Controller
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
+        // dd($data['campaigns_detial_data']);
        return view('admin.sale_graph.index' , $data , getCommonFilterData(null,'sales'));
     }
 
