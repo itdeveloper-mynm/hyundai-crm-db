@@ -264,6 +264,12 @@ class Application extends Model
                 });
             }
 
+            if (isset($conditions['category_chk_others'])) {
+                $query->where(function ($query) use ($conditions) {
+                    $query->whereNull('applications.category')->orwhere('applications.category', '');
+                });
+            }
+
             if (isset($conditions['category'])) {
                 $query->where(function ($query) use ($conditions) {
                         $query->whereIn('applications.category', arraycheck($conditions['category']));
@@ -539,14 +545,14 @@ class Application extends Model
     public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
 
         $alldata = self::select(
-            DB::raw("IFNULL(applications.category, 'Not Assigned') as category_name"),
+            DB::raw("IFNULL(applications.category, 'Pending CRM LEADS') as category_name"),
             // DB::raw('COUNT(DISTINCT applications.customer_id) as count')
             DB::raw('COUNT(*) as count')
         )
         ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
-        ->groupBy(DB::raw("IFNULL(applications.category, 'Not Assigned')"))
+        ->groupBy(DB::raw("IFNULL(applications.category, 'Pending CRM LEADS')"))
         ->orderBy('category_name', 'asc')
         ->get();
 

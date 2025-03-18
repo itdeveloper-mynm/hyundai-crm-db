@@ -778,8 +778,15 @@ class SaleGraphController extends Controller
         $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
 
         $filters = $request->all();
-        $filters['category_chk'] = 'not_null';
+        // $filters['category_chk'] = 'not_null';
 
+        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Qualified']));
+        $data['second_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Not Qualified']));
+        $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'General Inquiry']));
+        $data['forth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category_chk_others' => 'not_null']));
+
+        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']), array_sum($data['forth_count'])];
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['forth_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
@@ -787,7 +794,7 @@ class SaleGraphController extends Controller
         $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
-        // $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
+        $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
 
 
         $data['crm_users_graph'] = Application::with('updatedby')
