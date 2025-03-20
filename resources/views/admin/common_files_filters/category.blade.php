@@ -6,4 +6,5 @@
         <option value="Qualified"  {{ is_selected('Qualified', 'category') }}>Qualified</option>
         <option value="Not Qualified"  {{ is_selected('Not Qualified', 'category') }}>Not Qualified</option>
         <option value="General Inquiry"  {{ is_selected('General Inquiry', 'category') }}>General Inquiry</option>
+        {{-- <option value="CallBack"  {{ is_selected('CallBack', 'category') }}>CallBack</option> --}}
 </select>

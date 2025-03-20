@@ -267,6 +267,7 @@
                                                                                 </option>
                                                                                 <option value="General Inquiry">General
                                                                                     Inquiry</option>
+                                                                                {{-- <option value="CallBack">CallBack</option> --}}
                                                                             </select>
                                                                         </div>
 
@@ -860,6 +861,9 @@
                     'High-Prices',
                     'Traffic Violations'
                 ]
+                // 'Callback': [
+                //     'Callback'
+                // ]
             };
 
             if (category in categories) {

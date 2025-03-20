@@ -740,6 +740,26 @@ class ExternalLeadController extends Controller
 
     }
 
+    public function ivrCategoryUpdate(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:applications,id',
+            'sub_category' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $row = Application::findorFail($request->id);
+        $row->category = 'Callback';
+        $row->sub_category = $request->sub_category;
+        $row->save();
+
+        return $this->sendResponse("", 'Updated Successfully');
+
+    }
+
 
     public function sendResponse($result, $message)
     {

@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(ExternalLeadController::class)->group(function(){
     Route::any('all-leads-listing', 'allLeadsListing')->middleware('basic.auth');
     Route::any('contact-leads', 'contactLeadsListing')->middleware('basic.auth');
+    Route::any('ivr-category-update', 'ivrCategoryUpdate')->middleware('basic.auth');
 
 });

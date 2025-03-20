@@ -139,7 +139,7 @@ class SyncServiceLeadsGenesys
             foreach ($dbData as $application) {
                 $contact = [];
                 $this->syncd_ids[] = $application->id;
-                $contact['id'] = $application->dummy_applicationid;
+                $contact['id'] = $application->id;
                 $contact['contactListId'] = self::CONTACT_LIST_ID;
                 $contact['data'] = [
                     'Campaign' => $application->campaign->name ?? "",
