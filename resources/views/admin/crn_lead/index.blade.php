@@ -261,13 +261,9 @@
                                                                                 data-placeholder="{{ __('select option') }}"
                                                                                 data-allow-clear="true">
                                                                                 <option value="">--select--</option>
-                                                                                <option value="Qualified">Qualified
-                                                                                </option>
-                                                                                <option value="Not Qualified">Not Qualified
-                                                                                </option>
-                                                                                <option value="General Inquiry">General
-                                                                                    Inquiry</option>
-                                                                                {{-- <option value="CallBack">CallBack</option> --}}
+                                                                                    @foreach (getCategories() as $category)
+                                                                                        <option value="{{$category}}">{{$category}}</option>
+                                                                                    @endforeach
                                                                             </select>
                                                                         </div>
 
@@ -841,30 +837,7 @@
             const subCategory = $('#action_sub_category');
             let options = '';
 
-            const categories = {
-                'Qualified': ['Lead', 'Follow Up', 'Test Drive'],
-                // 'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
-                'General Inquiry': [
-                    'Timing & Locations',
-                    'Inquiry - Another Company',
-                    'Product Specification',
-                    'Price',
-                    'Showroom Numbers',
-                    'Not interested',
-                    'Already bought',
-                    'Wrong Number',
-                    'Callback'
-                ],
-                'Not Qualified': [
-                    'Salary does not allow financing',
-                    'High Commitment',
-                    'High-Prices',
-                    'Traffic Violations'
-                ]
-                // 'Callback': [
-                //     'Callback'
-                // ]
-            };
+            const categories = @json(getsubCategories());
 
             if (category in categories) {
                 const optionsArray = categories[category];

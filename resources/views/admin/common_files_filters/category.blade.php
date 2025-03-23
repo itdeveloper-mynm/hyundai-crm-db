@@ -2,9 +2,11 @@
 <select class="form-select mb-2" name="category[]" id="category"
     data-control="select2" data-placeholder="{{ __('select option') }}"
     data-allow-clear="true" multiple>
+    @foreach (getCategories() as $category)
+        <option value="{{$category}}"  {{ is_selected($category, 'category') }}>{{$category}}</option>
+    @endforeach
     {{-- <option value="">--select--</option> --}}
-        <option value="Qualified"  {{ is_selected('Qualified', 'category') }}>Qualified</option>
+        {{-- <option value="Qualified"  {{ is_selected('Qualified', 'category') }}>Qualified</option>
         <option value="Not Qualified"  {{ is_selected('Not Qualified', 'category') }}>Not Qualified</option>
-        <option value="General Inquiry"  {{ is_selected('General Inquiry', 'category') }}>General Inquiry</option>
-        {{-- <option value="CallBack"  {{ is_selected('CallBack', 'category') }}>CallBack</option> --}}
+        <option value="General Inquiry"  {{ is_selected('General Inquiry', 'category') }}>General Inquiry</option> --}}
 </select>

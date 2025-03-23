@@ -475,6 +475,39 @@ function getApplicationTypeTitles() {
     ];
 }
 
+function getCategories() {
+    return [
+        'Qualified',
+        'Not Qualified',
+        'General Inquiry',
+        'Callback',
+    ];
+}
+
+
+function getsubCategories()
+    {
+        return [
+            'Qualified' => ['New Leads', 'Follow Up', 'Lead - Test Drive'],
+            'General Inquiry' => [
+                'Timing & Locations',
+                'Inquiry - Another Company',
+                'Product Specification',
+                'Price',
+                'Showroom Numbers',
+                'Not interested',
+                'Already bought',
+                'Wrong Number'
+            ],
+            'Not Qualified' => [
+                'Salary does not allow financing',
+                'High Commitment',
+                'High-Prices',
+                'Traffic Violations'
+            ],
+            'Callback' => ['Callback'],
+        ];
+    }
 
 function formatInputNumber($mobile) {
 

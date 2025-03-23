@@ -193,9 +193,9 @@
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                     <option value=""></option>
-                                                    <option value="Qualified">Qualified</option>
-                                                    <option value="Not Qualified">Not Qualified</option>
-                                                    <option value="General Inquiry">General Inquiry</option>
+                                                    @foreach (getCategories() as $category)
+                                                        <option value="{{$category}}"  {{ is_selected($category, 'category') }}>{{$category}}</option>
+                                                    @endforeach
                                             </select>
                                         </div>
 
@@ -365,29 +365,11 @@ function updateSubCategory() {
   const subCategory = $('#sub_category');
   let options = '';
 
-  const categories = {
-    'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
-    'General Inquiry': [
-        'Timing & Locations',
-        'Inquiry - Another Company',
-        'Product Specification',
-        'Price',
-        'Showroom Numbers',
-        'Not interested',
-        'Already bought',
-        'Wrong Number',
-        'Callback'
-    ],
-    'Not Qualified': [
-      'Salary does not allow financing',
-      'High Commitment',
-      'High-Prices',
-      'Traffic Violations'
-    ]
-  };
+ const categories = @json(getsubCategories());
 
   if (category in categories) {
     const optionsArray = categories[category];
+
     optionsArray.forEach(option => {
       options += `<option value="${option}">${option}</option>`;
     });

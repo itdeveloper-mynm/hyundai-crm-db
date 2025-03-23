@@ -193,9 +193,12 @@
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                     <option value=""></option>
-                                                    <option value="Qualified"  @selected($lead->category=='Qualified')>Qualified</option>
+                                                    @foreach (getCategories() as $category)
+                                                        <option value="{{$category}}"  @selected($lead->category== $category)>{{$category}}</option>
+                                                    @endforeach
+                                                    {{-- <option value="Qualified"  @selected($lead->category=='Qualified')>Qualified</option>
                                                     <option value="Not Qualified" @selected($lead->category=='Not Qualified')>Not Qualified</option>
-                                                    <option value="General Inquiry" @selected($lead->category=='General Inquiry')>General Inquiry</option>
+                                                    <option value="General Inquiry" @selected($lead->category=='General Inquiry')>General Inquiry</option> --}}
                                             </select>
                                         </div>
 
@@ -384,7 +387,9 @@ function updateSubCategory() {
 
   let options = '';
 
-  const categories = getCategories(); // Changed from const category to const categories
+//   const categories = getCategories(); // Changed from const category to const categories
+
+    const categories = @json(getsubCategories());
 
   if (selectedCategory in categories) { // Changed from category to selectedCategory
     const optionsArray = categories[selectedCategory]; // Changed from categories[category] to categories[selectedCategory]
