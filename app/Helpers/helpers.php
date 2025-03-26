@@ -42,6 +42,11 @@ function dateTimeformat($date)
     return Carbon::parse($date)->format('d-m-Y h:i:s');
 }
 
+function dateformat($date)
+{
+    return Carbon::parse($date)->format('Y-m-d');
+}
+
 function arraycheck($value) {
     if (is_array($value)) {
         return $value;
@@ -268,6 +273,11 @@ function calculatePercentage($total, $obtained)
     return (floor($percentage) == $percentage)
     ? number_format($percentage, 0) . '%' // No decimals if not needed
     : number_format($percentage, 2) . '%'; // Up to 2 decimals if needed
+}
+
+function calculatePercentageValue($totalRecords, $percentage)
+{
+    return ($totalRecords * $percentage) / 100;
 }
 
 function setDateRange($chk)

@@ -188,6 +188,10 @@ class PermissionTableSeeder extends Seeder
             'hr-delete',
             'hr-filters',
             'hr-export',
+            'target-list',
+            'target-import',
+            'target-filters',
+            'target-export',
          ];
 
          foreach ($permissions as $permission) {

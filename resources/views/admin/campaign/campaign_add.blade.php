@@ -34,6 +34,16 @@
 
                                     </div>
 
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-sm-4 col-md-4">
+                                            <label class="required form-label">{{ __('Percentage') }}</label>
+                                            <input type="number" name="percentage" id="percentage" class="form-control mb-2" min="1" oninput="validity.valid||(value='');"
+                                                required />
+                                        </div>
+
+                                    </div>
+
                                     <div class="row mt-5">
                                         <div class="mb-10 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Status') }}</label>

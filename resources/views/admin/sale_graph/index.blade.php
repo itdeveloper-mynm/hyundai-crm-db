@@ -353,16 +353,18 @@
                                     <table class="table table-striped gy-4 gs-7">
                                         <thead>
                                             <tr  style="background: #A0C5E8;">
-                                                <th colspan="2">
+                                                <th class="w-250px" colspan="2">
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
-                                                <th><h5><span style="float: left">MQL</span></h5></th>
-                                                <th><h5><span style="float: left">SQL</span></h5></th>
-                                                <th><h5><span style="float: left">SGI</span></h5></th>
-                                                <th><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th><h5><span style="float: left">Inv</span></h5></th>
-                                                <th><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
+                                                <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                                <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -376,8 +378,9 @@
                                                         $inv = $campaign['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
                                                     @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}</span></td>
+                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                    <td><span class="badge badge-primary">{{ calculatePercentageValue($mql, $campaign['percentage']) }}</span></td>
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -385,6 +388,9 @@
                                                     <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
+                                                    </span></td>
+                                                    <td><span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $inv) }}
                                                     </span></td>
                                                 </tr>
 
@@ -408,14 +414,20 @@
                                                         <span>{{ $source['source_name'] }}</span>
                                                     </td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                    <td>0</td>
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td style="border-right: 2px solid black;">
+                                                    <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
+                                                        </span>
+                                                    </td>
+                                                    <td style="border-right: 2px solid black;">
+                                                        <span class="badge" style="background-color: #002c5f !important;">
+                                                            {{ calculatePercentage($mql, $inv) }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -434,6 +446,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
+                                                <th><h5><span class="badge badge-primary">0</span></h5></th>
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
@@ -441,6 +454,9 @@
                                                 <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
+                                                </span></h5></th>
+                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $inv) }}
                                                 </span></h5></th>
                                             </tr>
 
@@ -1131,13 +1147,13 @@
                     borderColor: primaryColor,
                     tension: 0.6
                 },
-                // {
-                //     label: 'Events ('+ @json($second_graph_data[5]) +')',
-                //     data: @json($sixth_count),
-                //     fill: false,
-                //     borderColor: successColor,
-                //     tension: 0.6
-                // }
+                {
+                    label: 'Target ('+ @json(array_sum($seventh_count)) +')',
+                    data: @json($seventh_count),
+                    fill: false,
+                    borderColor: successColor,
+                    tension: 0.6
+                }
             ]
         };
 

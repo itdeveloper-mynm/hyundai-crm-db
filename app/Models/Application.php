@@ -618,7 +618,7 @@ class Application extends Model
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
-            ->with(['campaign:id,name', 'source:id,name'])
+            ->with(['campaign:id,name,percentage', 'source:id,name'])
             ->groupBy('campaign_id')
             ->orderby('mql','DESC')
             ->get()
@@ -659,6 +659,7 @@ class Application extends Model
 
                 return [
                     'campaign_id' => $application->campaign_id,
+                    'percentage' => $application->campaign->percentage,
                     'campaign_name' => $application->campaign->name ?? 'Others',
                     'mql' => $application->mql,
                     'cql' => $application->cql,
@@ -847,6 +848,28 @@ class Application extends Model
             }
 
             return array_values($results);
+
+    }
+
+
+    public static function getTargetMonthWise($startDate, $endDate, $months_diff) {
+
+        $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
+        $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
+        $data = Target::selectRaw('date, SUM(count) as total_count')
+        ->whereBetween('date', [dateformat($startDate), dateformat($endDate)])
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get()
+        ->pluck('total_count', 'date');
+
+        $results = [];
+        foreach ($dates as $date) {
+            // $results[$date] = $maincounts->get($date, 0);
+            $results[$date] = $data->get($date, 0);
+        }
+        return array_values($results);
+        // dd($data,array_values($results));
 
     }
 

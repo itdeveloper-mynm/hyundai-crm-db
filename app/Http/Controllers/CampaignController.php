@@ -131,6 +131,7 @@ class CampaignController extends Controller
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
+                "percentage" => $row['percentage'] .'%',
                 "page_type" => $formattedPageType ?? "",
                 "created_at" => dateTimeformat($row['created_at']),
             );

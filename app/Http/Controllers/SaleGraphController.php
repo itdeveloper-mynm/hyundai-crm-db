@@ -92,6 +92,8 @@ class SaleGraphController extends Controller
         $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters);
         $data['fifth_count'] = Application::getPerformanceMonthWise($fifth_types,$startDate,$endDate,$months_diff,$filters);
         $data['sixth_count'] = Application::getPerformanceMonthWise($sixth_types,$startDate,$endDate,$months_diff,$filters);
+        $data['seventh_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
+
 
         $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),
                                       array_sum($data['fourth_count']),  array_sum($data['fifth_count']),  array_sum($data['sixth_count']) ];
@@ -116,6 +118,7 @@ class SaleGraphController extends Controller
         $all_types[] = 'smo_leads';
         $all_types[] = 'crm_leads';
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
+        // dd( $data['campaigns_detial_data']);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 

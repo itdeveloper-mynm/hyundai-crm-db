@@ -27,6 +27,7 @@ use App\Http\Controllers\GraphController;
 use App\Http\Controllers\TestDriveRequestContoller;
 use App\Http\Controllers\QuoteRequestContoller;
 use App\Http\Controllers\HrLeadController;
+use App\Http\Controllers\TargetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -211,6 +212,12 @@ Route::group(['middleware' => ['auth'] ], function () {
         Route::get('general-inquiry-crm-leads',  'generalCrmLeads')->name('general-inquiry-crm-leads.index');
     });
 
+    Route::resource('targets', TargetController::class);
+    Route::controller(TargetController::class)->group(function(){
+        Route::get('targets-pagination',  'targetsPagination')->name('targets.pagination');
+        Route::post('import-targets',  'importTargets')->name('targets.import');
+        Route::post('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
+    });
 
 });
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\SocialData;
 use App\Models\Application;
+use App\Models\Target;
 
 class HomeController extends Controller
 {
@@ -45,6 +46,24 @@ class HomeController extends Controller
         $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us'];
         $crm_leads_types = ['crm_leads'];
 
+
+        // $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
+        // $dates = Application::generateDateRange($startDate, $endDate, $dateFormat);
+        // $data = Target::selectRaw('date, SUM(count) as total_count')
+        // ->whereBetween('date', [dateformat($startDate), dateformat($endDate)])
+        // ->groupBy('date')
+        // ->orderBy('date')
+        // ->get()
+        // ->pluck('total_count', 'date');
+
+        // $results = [];
+        // foreach ($dates as $date) {
+        //     // $results[$date] = $maincounts->get($date, 0);
+        //     $results[$date] = $data->get($date, 0);
+        // }
+
+        // dd($data,array_values($results));
+
         // $filters = [];
 
         // comments
@@ -69,7 +88,7 @@ class HomeController extends Controller
 
         $data['second_graph_data'] = [array_sum($data['first_count']) , array_sum($data['second_count']), array_sum($data['third_count']) ,array_sum($data['fourth_count']) , array_sum($data['fifth_count']), array_sum($data['sixth_count'])];
         $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['fourth_count']) +array_sum($data['fifth_count']) +  array_sum($data['sixth_count']);
-       // dd($data);
+    //    dd($data);
 
        $data['socialData'] = SocialData::select('social_platform', 'followers', 'likes', 'tweets')->get()->groupBy('social_platform')->toArray();
 

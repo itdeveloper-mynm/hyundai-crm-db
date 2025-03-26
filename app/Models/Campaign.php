@@ -14,6 +14,7 @@ class Campaign extends Model
         'name',
         'status',
         'page_type',
+        'percentage',
     ];
 
     public function applications()
