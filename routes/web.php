@@ -216,7 +216,6 @@ Route::group(['middleware' => ['auth'] ], function () {
     Route::controller(TargetController::class)->group(function(){
         Route::get('targets-pagination',  'targetsPagination')->name('targets.pagination');
         Route::post('import-targets',  'importTargets')->name('targets.import');
-        // Route::post('crm-leads-export',  'crmLeadsExport')->name('crm-leads.export');
     });
 
 });

@@ -118,7 +118,7 @@ class SaleGraphController extends Controller
         $all_types[] = 'smo_leads';
         $all_types[] = 'crm_leads';
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
-        // $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types , $filters);
+        $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types , $filters);
         // dd( $data['campaigns_detial_data']);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);

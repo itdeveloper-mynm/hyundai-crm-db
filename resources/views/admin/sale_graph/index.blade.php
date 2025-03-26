@@ -239,6 +239,45 @@
                 <!--end::Col-->
             </div>
 
+            {{-- <div class="row gx-5 gx-xl-10 bank-section">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Performance</span>
+                                <span class="text-gray-400 mt-1 fw-semibold fs-6">Total Leads
+                                    ({{ $total_performance_count }})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+
+                                    <canvas id="myChart" class="mh-400px"></canvas>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div> --}}
+
             <div class="row g-5 g-xl-10 bank-section">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
@@ -473,7 +512,7 @@
 
             </div>
 
-            {{-- <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-12">
                     <!--begin::Chart widget 31-->
@@ -615,7 +654,7 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-            </div> --}}
+            </div>
 
             <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
@@ -1652,6 +1691,68 @@
         // // Toggle the visibility of the source rows
         // sourceRows.toggle();  // Toggle visibility of the source rows
     });
+
+
+    // var ctx = $("#myChart");
+
+    // var dataa = {
+    //     labels: ["Kona", "Venue", "Azera", "Sonata", "Tucson", "Creta Grand", "Creta", "Elantra", "Accent"],
+    //     datasets: [
+    //         {
+    //             label: "Target",
+    //             data: [5, 10, 7, 8, 6, 9, 11, 15, 18],
+    //             backgroundColor: "#3B82F6"
+    //         },
+    //         {
+    //             label: "Total MQL",
+    //             data: [20, 25, 18, 22, 24, 30, 35, 50, 55],
+    //             backgroundColor: "#F97316"
+    //         },
+    //         {
+    //             label: "Qualified",
+    //             data: [10, 12, 9, 11, 10, 13, 15, 22, 24],
+    //             backgroundColor: "#9CA3AF"
+    //         },
+    //         {
+    //             label: "Not Qualified",
+    //             data: [3, 4, 2, 3, 5, 6, 7, 8, 9],
+    //             backgroundColor: "#FACC15"
+    //         },
+    //         {
+    //             label: "General Inquiry",
+    //             data: [2, 3, 2, 3, 4, 5, 6, 7, 8],
+    //             backgroundColor: "#2563EB"
+    //         },
+    //         {
+    //             label: "Unreachable",
+    //             data: [8, 9, 7, 10, 12, 15, 18, 25, 30],
+    //             backgroundColor: "#22C55E"
+    //         },
+    //         {
+    //             label: "New",
+    //             data: [1, 2, 1, 2, 3, 4, 5, 6, 7],
+    //             backgroundColor: "#1E3A8A"
+    //         }
+    //     ]
+    // };
+
+    // var options = {
+    //     indexAxis: 'y',
+    //     responsive: true,
+    //     plugins: {
+    //         legend: { position: 'bottom' }
+    //     },
+    //     scales: {
+    //         x: { stacked: true },
+    //         y: { stacked: true }
+    //     }
+    // };
+
+    // new Chart(ctx, {
+    //     type: 'bar',
+    //     data: dataa,
+    //     options: options
+    // });
 
     </script>
 
