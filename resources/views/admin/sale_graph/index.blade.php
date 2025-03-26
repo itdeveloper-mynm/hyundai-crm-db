@@ -407,6 +407,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $total_percentage_value = 0;
+                                            @endphp
                                             @foreach ($campaigns_detial_data as $key => $campaign)
                                                 <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}">
                                                     @php
@@ -416,10 +419,14 @@
                                                         $cnq = $campaign['cnq'] ?? 0;
                                                         $inv = $campaign['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
+
+                                                        // Calculate percentage value and sum it
+                                                        $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
+                                                        $total_percentage_value += $percentage_value;
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ calculatePercentageValue($mql, $campaign['percentage']) }}</span></td>
+                                                    <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -485,7 +492,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-primary">0</span></h5></th>
+                                                <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th>
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
@@ -551,6 +558,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $total_percentage_value = 0;
+                                            @endphp
+
                                             @foreach ($campaigns_vehcile_data as $key => $campaign)
                                                 <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-name="vehciles-row">
                                                     @php
@@ -560,10 +571,15 @@
                                                         $cnq = $campaign['cnq'] ?? 0;
                                                         $inv = $campaign['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
+
+                                                        // Calculate percentage value and sum it
+                                                        $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
+                                                        $total_percentage_value += $percentage_value;
+
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ calculatePercentageValue($mql, $campaign['percentage']) }}</span></td>
+                                                    <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -629,7 +645,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-primary">0</span></h5></th>
+                                                <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th>
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>

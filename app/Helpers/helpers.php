@@ -277,8 +277,9 @@ function calculatePercentage($total, $obtained)
 
 function calculatePercentageValue($totalRecords, $percentage)
 {
-    return ($totalRecords * $percentage) / 100;
+    return round(($totalRecords * $percentage) / 100);
 }
+
 
 function setDateRange($chk)
 {
