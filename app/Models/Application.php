@@ -674,6 +674,69 @@ class Application extends Model
 
     }
 
+    public static function getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types, $filters)
+    {
+        $campaigns = Application::select(
+                'campaign_id',
+                DB::raw('COUNT(*) as mql'),
+                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+            )
+            ->whereIn('type', $all_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->with(['campaign:id,name,percentage', 'vehicle:id,name'])
+            ->groupBy('campaign_id')
+            ->orderby('mql','DESC')
+            ->get()
+            ->map(function ($application) use ($all_types, $startDate, $endDate, $filters) {
+                    $application->vehicles = Application::select(
+                        'vehicle_id',
+                        DB::raw('COUNT(*) as mql'),
+                        DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                        DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                    )
+                    ->whereIn('type', $all_types)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->graphsearch($filters)
+                    ->with('vehicle:id,name')
+                    ->where('campaign_id', $application->campaign_id)
+                    ->groupBy('vehicle_id')
+                    ->orderby('mql','DESC')
+                    ->get()
+                    ->map(function ($vehicleApplication) {
+                        return [
+                            'vehicle_id' => $vehicleApplication->vehicle_id,
+                            'vehicle_name' => $vehicleApplication->vehicle->name ?? 'Others',
+                            'mql' => $vehicleApplication->mql,
+                            'cql' => $vehicleApplication->cql,
+                            'cnq' => $vehicleApplication->cnq,
+                            'cgi' => $vehicleApplication->cgi,
+                            'inv' => $vehicleApplication->inv,
+                        ];
+                    });
+
+                return [
+                    'campaign_id' => $application->campaign_id,
+                    'percentage' => $application->campaign->percentage ?? 30,
+                    'campaign_name' => $application->campaign->name ?? 'Others',
+                    'mql' => $application->mql,
+                    'cql' => $application->cql,
+                    'cnq' => $application->cnq,
+                    'cgi' => $application->cgi,
+                    'inv' => $application->inv,
+                    'vehicles' => $application->vehicles,
+                ];
+            });
+
+        return $campaigns;
+    }
+
+
     public static function countBySourceGroup($startDate, $endDate, $all_types, $filters)
     {
         $alldata = self::select(
