@@ -659,7 +659,7 @@ class Application extends Model
 
                 return [
                     'campaign_id' => $application->campaign_id,
-                    'percentage' => $application->campaign->percentage,
+                    'percentage' => $application->campaign->percentage ?? 0,
                     'campaign_name' => $application->campaign->name ?? 'Others',
                     'mql' => $application->mql,
                     'cql' => $application->cql,
