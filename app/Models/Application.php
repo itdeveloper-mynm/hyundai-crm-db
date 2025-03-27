@@ -737,6 +737,99 @@ class Application extends Model
     }
 
 
+    public static function getCampaignCityWiseDetailData($startDate, $endDate, $all_types, $filters)
+    {
+        $campaigns = Application::select(
+                'campaign_id',
+                DB::raw('COUNT(*) as mql'),
+                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+            )
+            ->whereIn('type', $all_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->with(['campaign:id,name,percentage', 'city:id,name'])
+            ->groupBy('campaign_id')
+            ->orderby('mql', 'DESC')
+            ->get()
+            ->map(function ($application) use ($all_types, $startDate, $endDate, $filters) {
+                $application->cities = Application::select(
+                    'city_id',
+                    DB::raw('COUNT(*) as mql'),
+                    DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                    DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                    DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                    DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                )
+                ->whereIn('type', $all_types)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->graphsearch($filters)
+                ->with('city:id,name')
+                ->where('campaign_id', $application->campaign_id)
+                ->groupBy('city_id')
+                ->orderby('mql', 'DESC')
+                ->get()
+                ->map(function ($cityApplication) use ($all_types, $startDate, $endDate, $filters, $application) {
+                    $cityApplication->branches = Application::select(
+                        'branch_id',
+                        DB::raw('COUNT(*) as mql'),
+                        DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                        DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                    )
+                    ->whereIn('type', $all_types)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->graphsearch($filters)
+                    ->with('branch:id,name')
+                    ->where('campaign_id', $application->campaign_id)
+                    ->where('city_id', $cityApplication->city_id)
+                    ->groupBy('branch_id')
+                    ->orderby('mql', 'DESC')
+                    ->get()
+                    ->map(function ($branchApplication) {
+                        return [
+                            'branch_id' => $branchApplication->branch_id,
+                            'branch_name' => $branchApplication->branch->name ?? 'Others',
+                            'mql' => $branchApplication->mql,
+                            'cql' => $branchApplication->cql,
+                            'cnq' => $branchApplication->cnq,
+                            'cgi' => $branchApplication->cgi,
+                            'inv' => $branchApplication->inv,
+                        ];
+                    });
+
+                    return [
+                        'city_id' => $cityApplication->city_id,
+                        'city_name' => $cityApplication->city->name ?? 'Others',
+                        'mql' => $cityApplication->mql,
+                        'cql' => $cityApplication->cql,
+                        'cnq' => $cityApplication->cnq,
+                        'cgi' => $cityApplication->cgi,
+                        'inv' => $cityApplication->inv,
+                        'branches' => $cityApplication->branches,
+                    ];
+                });
+
+                return [
+                    'campaign_id' => $application->campaign_id,
+                    'percentage' => $application->campaign->percentage ?? 30,
+                    'campaign_name' => $application->campaign->name ?? 'Others',
+                    'mql' => $application->mql,
+                    'cql' => $application->cql,
+                    'cnq' => $application->cnq,
+                    'cgi' => $application->cgi,
+                    'inv' => $application->inv,
+                    'cities' => $application->cities,
+                ];
+            });
+
+        return $campaigns;
+    }
+
+
     public static function countBySourceGroup($startDate, $endDate, $all_types, $filters)
     {
         $alldata = self::select(

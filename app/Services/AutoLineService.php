@@ -14,8 +14,13 @@ class AutoLineService
 
     public function __construct()
     {
-        $this->accesstokenUrl = 'https://api.eu-stage.keyloop.io/oauth/client_credential/accesstoken?grant_type=client_credentials'; // Store API URL in config/services.php
-        $this->saleLeadUrl = 'https://api.eu-stage.keyloop.io/partner/33531/97100005-H-0147T/v1/sales-lead'; // Store API URL in config/services.php
+        // for stage test
+        // $this->accesstokenUrl = 'https://api.eu-stage.keyloop.io/oauth/client_credential/accesstoken?grant_type=client_credentials'; // Store API URL in config/services.php
+        //$this->saleLeadUrl = 'https://api.eu-stage.keyloop.io/partner/33531/97100005-H-0147T/v1/sales-lead'; // Store API URL in config/services.php
+
+        // for live
+        $this->accesstokenUrl = 'https://api.eu.keyloop.io/oauth/client_credential/accesstoken?grant_type=client_credentials'; // Store API URL in config/services.php
+        $this->saleLeadUrl = 'https://api.eu.keyloop.io/partner/33475/97100005-H-0135L/v1/sales-lead'; // Store API URL in config/services.php
     }
 
     /**
@@ -41,8 +46,10 @@ class AutoLineService
         $url = $this->accesstokenUrl;
 
         $postData = [
-            'client_id' => "mGdfiijbinsHDoqNfF159PaoOwCYff3k",
-            'client_secret' => "TOt5lIEGQM2Y81zt",
+            //'client_id' => "mGdfiijbinsHDoqNfF159PaoOwCYff3k", // for test
+            //'client_secret' => "TOt5lIEGQM2Y81zt", // for test
+            'client_id' => "caKu4tPUzkQdhPZFF8jAoMOXcrizH2fq", // for live
+            'client_secret' => "OzUCSGfkY6Rhid6GbbuXgeF3iFtZDBNE06JA_2vjum6eqBD3ZjwItpjK-MSyMx1E", // for live
             'grant_type' => 'client_credentials',
         ];
 
@@ -161,7 +168,7 @@ class AutoLineService
                 "url" => "http://leadmanagement.DummyProvider.com/6e5b8bd0-8867-446c-a3a8-8ade9f7a07a0"
             ],
             "leadReferenceData" => [
-                "externalCampaignId" => "0320",
+                "externalCampaignId" => "0320", // is ki jaga sheet sy data aya ga
                 "externalDealerId" => "44014796-B"
             ],
             "source" => "WEBSITE",
