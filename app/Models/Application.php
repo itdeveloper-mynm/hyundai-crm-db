@@ -541,6 +541,32 @@ class Application extends Model
 
     }
 
+    public static function getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters) {
+        $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
+            ->select(
+                'vehicles.name as vehicle_name',
+                DB::raw('COUNT(*) as mql'),
+                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi')
+            )
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->groupBy('applications.vehicle_id', 'vehicles.name')
+            ->orderBy('mql', 'desc')
+            ->get();
+
+        return [
+            'vehicle_names' => $alldata->pluck('vehicle_name')->toArray(),
+            'mql' => $alldata->pluck('mql')->toArray(),
+            'cql' => $alldata->pluck('cql')->toArray(),
+            'cnq' => $alldata->pluck('cnq')->toArray(),
+            'cgi' => $alldata->pluck('cgi')->toArray(),
+        ];
+    }
+
+
 
     public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
 

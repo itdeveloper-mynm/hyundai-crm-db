@@ -239,44 +239,6 @@
                 <!--end::Col-->
             </div>
 
-            {{-- <div class="row gx-5 gx-xl-10 bank-section">
-                <!--begin::Col-->
-                <div class="col-xxl-12 mb-5 mb-xl-10">
-                    <!--begin::Chart widget 8-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-5">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Performance</span>
-                                <span class="text-gray-400 mt-1 fw-semibold fs-6">Total Leads
-                                    ({{ $total_performance_count }})</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body pt-6">
-                            <!--begin::Tab content-->
-                            <div class="tab-content">
-                                <!--end::Tab pane-->
-                                <!--begin::Tab pane-->
-                                <div class="tab-pane fade active show" id="" role="tabpanel">
-
-                                    <canvas id="myChart" class="mh-400px"></canvas>
-                                    <!--begin::Chart-->
-                                    <!--end::Chart-->
-                                </div>
-                                <!--end::Tab pane-->
-                            </div>
-                            <!--end::Tab content-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 8-->
-                </div>
-                <!--end::Col-->
-            </div> --}}
 
             <div class="row g-5 g-xl-10 bank-section">
                 <!--begin::Col-->
@@ -858,6 +820,45 @@
                     <!--end::Chart widget 31-->
                 </div>
 
+            </div>
+
+
+
+            <div class="row gx-5 gx-xl-10 bank-section">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Analysis Vehicle wise</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+
+                                    <canvas id="vehicleAnalysisChart" class="mh-400px"></canvas>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
             </div>
 
 
@@ -1899,9 +1900,7 @@
 
     $('.toggle-child-sources').on('click', function () {
         var campaignId = $(this).data('child-id');
-
         var childName = $(this).data('child-name');
-
         var sourceRows;
         if (childName) {
             sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
@@ -1911,13 +1910,60 @@
         }
         // Toggle the visibility of the source rows
         sourceRows.toggle();
-
-        // var sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
-        // // Toggle the visibility of the source rows
-        // sourceRows.toggle();  // Toggle visibility of the source rows
     });
 
-    // var ctx = $("#myChart");
+    var ctx = $("#vehicleAnalysisChart");
+
+    var dataa = {
+        labels: @json($vehcile_all_graph['vehicle_names']),
+        datasets: [
+            {
+                label: "Total MQL",
+                data: @json($vehcile_all_graph['mql']),
+                backgroundColor: "#F97316"
+            },
+            {
+                label: "Qualified",
+                data: @json($vehcile_all_graph['cql']),
+                backgroundColor: "#9CA3AF"
+            },
+            {
+                label: "Not Qualified",
+                data: @json($vehcile_all_graph['cnq']),
+                backgroundColor: "#FACC15"
+            },
+            {
+                label: "General Inquiry",
+                data: @json($vehcile_all_graph['cgi']),
+                backgroundColor: "#2563EB"
+            },
+            // {
+            //     label: "Unreachable",
+            //     data: [8, 9, 7, 10, 12, 15, 18, 25, 30],
+            //     backgroundColor: "#22C55E"
+            // }
+        ]
+    };
+
+    var options = {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: { stacked: true }
+        }
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: dataa,
+        options: options
+    });
+
+    // var ctx = $("#vehicleAnalysisChart");
 
     // var dataa = {
     //     labels: ["Kona", "Venue", "Azera", "Sonata", "Tucson", "Creta Grand", "Creta", "Elantra", "Accent"],

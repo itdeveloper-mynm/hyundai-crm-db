@@ -120,7 +120,8 @@ class SaleGraphController extends Controller
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
         $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types , $filters);
         $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $all_types , $filters);
-        // dd( $data['campaigns_city_data']);
+        $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters);
+        // dd( $data['vehcile_all_graph']);
         // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
