@@ -168,7 +168,8 @@ class AutoLineService
                 "url" => "http://leadmanagement.DummyProvider.com/6e5b8bd0-8867-446c-a3a8-8ade9f7a07a0"
             ],
             "leadReferenceData" => [
-                "externalCampaignId" => "0320", // is ki jaga sheet sy data aya ga
+                // "externalCampaignId" => "0320", // is ki jaga sheet sy data aya ga
+                "externalCampaignId" => $row->branch->cc_code ?? 'h100', // is ki jaga sheet sy data aya ga
                 "externalDealerId" => "44014796-B"
             ],
             "source" => "WEBSITE",
