@@ -1893,6 +1893,14 @@
         // Toggle the visibility of the source rows
         sourceRows.toggle();
 
+         // Ensure all child elements (branches) are hidden when collapsing cities
+         if (!sourceRows.is(':visible')) {
+            sourceRows.each(function () {
+                var childId = $(this).data('child-id');
+                $('.branches-row[data-campaign-id="' + childId + '"]').hide();
+            });
+        }
+
         // var sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
         // // Toggle the visibility of the source rows
         // sourceRows.toggle();  // Toggle visibility of the source rows
@@ -1918,22 +1926,22 @@
         labels: @json($vehcile_all_graph['vehicle_names']),
         datasets: [
             {
-                label: "Total MQL",
+                label: 'Total MQL ('+ @json(array_sum($vehcile_all_graph['mql'])) +')',
                 data: @json($vehcile_all_graph['mql']),
                 backgroundColor: "#F97316"
             },
             {
-                label: "Qualified",
+                label: 'Qualified ('+ @json(array_sum($vehcile_all_graph['cql'])) +')',
                 data: @json($vehcile_all_graph['cql']),
                 backgroundColor: "#9CA3AF"
             },
             {
-                label: "Not Qualified",
+                label:'Not Qualified ('+ @json(array_sum($vehcile_all_graph['cnq'])) +')',
                 data: @json($vehcile_all_graph['cnq']),
                 backgroundColor: "#FACC15"
             },
             {
-                label: "General Inquiry",
+                label: 'General Inquiry ('+ @json(array_sum($vehcile_all_graph['cgi'])) +')',
                 data: @json($vehcile_all_graph['cgi']),
                 backgroundColor: "#2563EB"
             },
