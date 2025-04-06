@@ -544,7 +544,8 @@ class Application extends Model
     public static function getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters) {
         $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
             ->select(
-                'vehicles.name as vehicle_name',
+                // 'vehicles.name as vehicle_name',
+                DB::raw('COALESCE(vehicles.name, "Not Added") as vehicle_name'),
                 DB::raw('COUNT(*) as mql'),
                 DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                 DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
