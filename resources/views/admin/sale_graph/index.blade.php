@@ -363,8 +363,8 @@
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
                                             </tr>
                                         </thead>
@@ -393,10 +393,10 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
                                                     </span></td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $inv) }}
                                                     </span></td>
@@ -427,12 +427,12 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
                                                         </span>
                                                     </td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td style="border-right: 2px solid black;">
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $inv) }}
@@ -459,10 +459,10 @@
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
                                                 </span></h5></th>
+                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $inv) }}
                                                 </span></h5></th>
@@ -514,8 +514,8 @@
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
                                             </tr>
                                         </thead>
@@ -546,10 +546,10 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
                                                     </span></td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $inv) }}
                                                     </span></td>
@@ -580,12 +580,12 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
                                                         </span>
                                                     </td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td style="border-right: 2px solid black;">
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $inv) }}
@@ -612,10 +612,10 @@
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
                                                 </span></h5></th>
+                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $inv) }}
                                                 </span></h5></th>
@@ -667,8 +667,8 @@
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
                                             </tr>
                                         </thead>
@@ -699,10 +699,10 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
                                                     </span></td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $inv) }}
                                                     </span></td>
@@ -731,12 +731,12 @@
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
                                                         </span>
                                                     </td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                     <td style="border-right: 2px solid black;">
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $inv) }}
@@ -744,7 +744,7 @@
                                                     </td>
                                                 </tr>
                                                     @foreach($city['branches'] as $branch)
-                                                        <tr class="branches-row nested-sources" data-campaign-id="{{ $city['city_id'] }}"
+                                                        <tr class="branches-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-city-id="{{ $city['city_id'] }}"
                                                         style="display: none;
                                                         {{ $loop->first ? 'border-top: 2px solid #b503ff;' : '' }}
                                                         {{ $loop->last ? 'border-bottom: 2px solid #b503ff;' : '' }}">
@@ -767,12 +767,12 @@
                                                         <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                         <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                         <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                        <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                         <td>
                                                             <span class="badge" style="background-color: #002c5f !important;">
                                                                 {{ calculatePercentage($mql, $cql) }}
                                                             </span>
                                                         </td>
+                                                        <td><span class="badge badge-success">{{ $inv }}</span></td>
                                                         <td style="border-right: 2px solid #b503ff;">
                                                             <span class="badge" style="background-color: #002c5f !important;">
                                                                 {{ calculatePercentage($mql, $inv) }}
@@ -800,10 +800,10 @@
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
                                                 </span></h5></th>
+                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $inv) }}
                                                 </span></h5></th>
@@ -1900,25 +1900,24 @@
                 $('.branches-row[data-campaign-id="' + childId + '"]').hide();
             });
         }
-
-        // var sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
-        // // Toggle the visibility of the source rows
-        // sourceRows.toggle();  // Toggle visibility of the source rows
     });
 
     $('.toggle-child-sources').on('click', function () {
         var campaignId = $(this).data('child-id');
         var childName = $(this).data('child-name');
+        var campaignAttr = $(this).data('campaign-id');
         var sourceRows;
+
         if (childName) {
-            sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
-            // sourceRows = $('.source-row[data-"'+childName+'"="' + campaignId + '"]');
+            sourceRows = $('.' + childName + '[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
         } else {
-            sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
+            sourceRows = $('.source-row[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
         }
+
         // Toggle the visibility of the source rows
         sourceRows.toggle();
     });
+
 
     var ctx = $("#vehicleAnalysisChart");
 
