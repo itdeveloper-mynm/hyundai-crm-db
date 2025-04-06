@@ -219,7 +219,7 @@ class CrmLeadController extends Controller
 
         if($request->action_category == 'Qualified'){
             // autoLineAPI($application);
-            $response = $this->apiService->callApi($application); // Call the third-party API
+            // $response = $this->apiService->callApi($application); // Call the third-party API
             // dd($response);
         }
 
