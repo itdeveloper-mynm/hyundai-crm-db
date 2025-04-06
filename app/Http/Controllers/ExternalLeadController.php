@@ -409,6 +409,7 @@ class ExternalLeadController extends Controller
         $lead->vehicle_id = $vehicle->id ?? null;
         $lead->source_id = $sourcee->id ?? null;
         $lead->campaign_id = $campaign->id ?? null;
+        $lead->purchase_plan = $intention ?? null;
         $lead->monthly_salary = $monthly_salary ?? null;
         $lead->customer_id= $customer->id;
         $lead->apply_for = $apply_for ?? null;
