@@ -221,136 +221,539 @@
 
 
             @php
-                $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
-            @endphp
+            $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+        @endphp
 
-            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
-                <!--begin::Col-->
-                <div class="col-xl-12">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Campaign Performance Measurement</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                            <div class="tab-content" id="campaignTabsContent">
-                                <!-- Backtoschool-2024 Content -->
-                                <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
-                                    aria-labelledby="tab-backtoschool">
-                                    <table class="table table-striped gy-4 gs-7">
-                                        <thead>
-                                            <tr  style="background: #A0C5E8;">
-                                                <th colspan="2">
-                                                    <h5><span style="float: left">Name</span></h5>
-                                                </th>
-                                                <th><h5><span style="float: left">MQL</span></h5></th>
-                                                <th><h5><span style="float: left">SQL</span></h5></th>
-                                                <th><h5><span style="float: left">SGI</span></h5></th>
-                                                <th><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th><h5><span style="float: left">Inv</span></h5></th>
-                                                <th><h5><span style="float: left">Conversion (%)</span></h5></th>
+        <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+            <!--begin::Col-->
+            <div class="col-xl-12">
+                <!--begin::Chart widget 31-->
+                <div class="card card-flush h-xl-100">
+                    <!--begin::Header-->
+                    <div class="card-header pt-7 mb-7">
+                        <!--begin::Title-->
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bold text-gray-800">Campaign Performance Measurement</span>
+                        </h3>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body align-items-end pt-0">
+                        <!--begin::Chart-->
+                        <div class="tab-content" id="campaignTabsContent">
+                            <!-- Backtoschool-2024 Content -->
+                            <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                aria-labelledby="tab-backtoschool">
+                                <table class="table table-striped gy-4 gs-7">
+                                    <thead>
+                                        <tr  style="background: #A0C5E8;">
+                                            <th class="w-250px" colspan="2">
+                                                <h5><span style="float: left">Name</span></h5>
+                                            </th>
+                                            <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $total_percentage_value = 0;
+                                        @endphp
+                                        @foreach ($campaigns_detial_data as $key => $campaign)
+                                            <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}">
+                                                @php
+                                                    $mql = $campaign['mql'] ?? 0;
+                                                    $cql = $campaign['cql'] ?? 0;
+                                                    $cgi = $campaign['cgi'] ?? 0;
+                                                    $cnq = $campaign['cnq'] ?? 0;
+                                                    $inv = $campaign['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+
+                                                    // Calculate percentage value and sum it
+                                                    $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
+                                                    $total_percentage_value += $percentage_value;
+                                                @endphp
+                                                <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $cql) }}
+                                                </span></td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $inv) }}
+                                                </span></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($campaigns_detial_data as $key => $campaign)
-                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}">
-                                                    @php
-                                                        $mql = $campaign['mql'] ?? 0;
-                                                        $cql = $campaign['cql'] ?? 0;
-                                                        $cgi = $campaign['cgi'] ?? 0;
-                                                        $cnq = $campaign['cnq'] ?? 0;
-                                                        $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
-                                                    @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
+
+
+                                            @foreach($campaign['sources'] as $source)
+                                                <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
+                                                style="display: none;
+                                                {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
+                                                {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
+
+                                                @php
+                                                    $mql = $source['mql'] ?? 0;
+                                                    $cql = $source['cql'] ?? 0;
+                                                    $cgi = $source['cgi'] ?? 0;
+                                                    $cnq = $source['cnq'] ?? 0;
+                                                    $inv = $source['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                @endphp
+
+                                                <td colspan="2" style="border-left: 2px solid black;">
+                                                    <span>{{ $source['source_name'] }}</span>
+                                                </td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td>0</td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td>
+                                                    <span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
-                                                    </span></td>
-                                                </tr>
+                                                    </span>
+                                                </td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td style="border-right: 2px solid black;">
+                                                    <span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $inv) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="background: #a36b4f">
+                                            <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
+                                            @php
+                                                $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
+                                                $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
+                                                $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
+                                                $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
+                                                $remaining = $mql - $cql - $cgi - $cnq;
+                                            @endphp
+                                            <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
+                                            <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                            <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $cql) }}
+                                            </span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $inv) }}
+                                            </span></h5></th>
+                                        </tr>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <!--end::Chart-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Chart widget 31-->
+            </div>
+
+        </div>
+
+        <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+            <!--begin::Col-->
+            <div class="col-xl-12">
+                <!--begin::Chart widget 31-->
+                <div class="card card-flush h-xl-100">
+                    <!--begin::Header-->
+                    <div class="card-header pt-7 mb-7">
+                        <!--begin::Title-->
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bold text-gray-800">Campaign Vehcile Performance Measurement</span>
+                        </h3>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body align-items-end pt-0">
+                        <!--begin::Chart-->
+                        <div class="tab-content" id="campaignTabsContent">
+                            <!-- Backtoschool-2024 Content -->
+                            <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                aria-labelledby="tab-backtoschool">
+                                <table class="table table-striped gy-4 gs-7">
+                                    <thead>
+                                        <tr  style="background: #A0C5E8;">
+                                            <th class="w-250px" colspan="2">
+                                                <h5><span style="float: left">Name</span></h5>
+                                            </th>
+                                            <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $total_percentage_value = 0;
+                                        @endphp
+
+                                        @foreach ($campaigns_vehcile_data as $key => $campaign)
+                                            <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-name="vehciles-row">
+                                                @php
+                                                    $mql = $campaign['mql'] ?? 0;
+                                                    $cql = $campaign['cql'] ?? 0;
+                                                    $cgi = $campaign['cgi'] ?? 0;
+                                                    $cnq = $campaign['cnq'] ?? 0;
+                                                    $inv = $campaign['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+
+                                                    // Calculate percentage value and sum it
+                                                    $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
+                                                    $total_percentage_value += $percentage_value;
+
+                                                @endphp
+                                                <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $cql) }}
+                                                </span></td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $inv) }}
+                                                </span></td>
+                                            </tr>
 
 
-                                                @foreach($campaign['sources'] as $source)
-                                                    <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
+                                            @foreach($campaign['vehicles'] as $source)
+                                                <tr class="vehciles-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
+                                                style="display: none;
+                                                {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
+                                                {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
+
+                                                @php
+                                                    $mql = $source['mql'] ?? 0;
+                                                    $cql = $source['cql'] ?? 0;
+                                                    $cgi = $source['cgi'] ?? 0;
+                                                    $cnq = $source['cnq'] ?? 0;
+                                                    $inv = $source['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                @endphp
+
+                                                <td colspan="2" style="border-left: 2px solid black;">
+                                                    <span>{{ $source['vehicle_name'] }}</span>
+                                                </td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td>0</td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td>
+                                                    <span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $cql) }}
+                                                    </span>
+                                                </td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td style="border-right: 2px solid black;">
+                                                    <span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $inv) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="background: #a36b4f">
+                                            <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
+                                            @php
+                                                $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
+                                                $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
+                                                $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
+                                                $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
+                                                $remaining = $mql - $cql - $cgi - $cnq;
+                                            @endphp
+                                            <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
+                                            <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                            <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $cql) }}
+                                            </span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $inv) }}
+                                            </span></h5></th>
+                                        </tr>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <!--end::Chart-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Chart widget 31-->
+            </div>
+
+        </div>
+
+        <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+            <!--begin::Col-->
+            <div class="col-xl-12">
+                <!--begin::Chart widget 31-->
+                <div class="card card-flush h-xl-100">
+                    <!--begin::Header-->
+                    <div class="card-header pt-7 mb-7">
+                        <!--begin::Title-->
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bold text-gray-800">Campaign City Branches Performance Measurement</span>
+                        </h3>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body align-items-end pt-0">
+                        <!--begin::Chart-->
+                        <div class="tab-content" id="campaignTabsContent">
+                            <!-- Backtoschool-2024 Content -->
+                            <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
+                                aria-labelledby="tab-backtoschool">
+                                <table class="table table-striped gy-4 gs-7">
+                                    <thead>
+                                        <tr  style="background: #A0C5E8;">
+                                            <th class="w-250px" colspan="2">
+                                                <h5><span style="float: left">Name</span></h5>
+                                            </th>
+                                            <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
+                                            <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
+                                            <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $total_percentage_value = 0;
+                                        @endphp
+
+                                        @foreach ($campaigns_city_data as $key => $campaign)
+                                            <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-name="cities-row">
+                                                @php
+                                                    $mql = $campaign['mql'] ?? 0;
+                                                    $cql = $campaign['cql'] ?? 0;
+                                                    $cgi = $campaign['cgi'] ?? 0;
+                                                    $cnq = $campaign['cnq'] ?? 0;
+                                                    $inv = $campaign['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+
+                                                    // Calculate percentage value and sum it
+                                                    $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
+                                                    $total_percentage_value += $percentage_value;
+
+                                                @endphp
+                                                <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $cql) }}
+                                                </span></td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td><span class="badge" style="background-color: #002c5f !important;">
+                                                    {{ calculatePercentage($mql, $inv) }}
+                                                </span></td>
+                                            </tr>
+                                            @foreach($campaign['cities'] as $city)
+                                                <tr class="cities-row nested-sources toggle-child-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-id="{{ $city['city_id'] }}" data-child-name="branches-row"
+                                                style="cursor: pointer;display: none;
+                                                {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
+                                                {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
+
+                                                @php
+                                                    $mql = $city['mql'] ?? 0;
+                                                    $cql = $city['cql'] ?? 0;
+                                                    $cgi = $city['cgi'] ?? 0;
+                                                    $cnq = $city['cnq'] ?? 0;
+                                                    $inv = $city['inv'] ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                @endphp
+
+                                                <td colspan="2" style="border-left: 2px solid black;">
+                                                    <span>{{ $city['city_name'] }}</span>
+                                                </td>
+                                                <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                <td>0</td>
+                                                <td><span class="badge badge-success">{{ $cql }}</span></td>
+                                                <td><span class="badge badge-info">{{ $cgi }}</span></td>
+                                                <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                <td><span class="badge badge-danger">{{ $remaining }}</span></td>
+                                                <td>
+                                                    <span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $cql) }}
+                                                    </span>
+                                                </td>
+                                                <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                <td style="border-right: 2px solid black;">
+                                                    <span class="badge" style="background-color: #002c5f !important;">
+                                                        {{ calculatePercentage($mql, $inv) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                                @foreach($city['branches'] as $branch)
+                                                    <tr class="branches-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-city-id="{{ $city['city_id'] }}"
                                                     style="display: none;
-                                                    {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
-                                                    {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
+                                                    {{ $loop->first ? 'border-top: 2px solid #b503ff;' : '' }}
+                                                    {{ $loop->last ? 'border-bottom: 2px solid #b503ff;' : '' }}">
 
                                                     @php
-                                                        $mql = $source['mql'] ?? 0;
-                                                        $cql = $source['cql'] ?? 0;
-                                                        $cgi = $source['cgi'] ?? 0;
-                                                        $cnq = $source['cnq'] ?? 0;
-                                                        $inv = $source['inv'] ?? 0;
+                                                        $mql = $branch['mql'] ?? 0;
+                                                        $cql = $branch['cql'] ?? 0;
+                                                        $cgi = $branch['cgi'] ?? 0;
+                                                        $cnq = $branch['cnq'] ?? 0;
+                                                        $inv = $branch['inv'] ?? 0;
                                                         $remaining = $mql - $cql - $cgi - $cnq;
                                                     @endphp
 
-                                                    <td colspan="2" style="border-left: 2px solid black;">
-                                                        <span>{{ $source['source_name'] }}</span>
+                                                    <td colspan="2" style="border-left: 2px solid #b503ff;">
+                                                        <span>{{ $branch['branch_name'] }}</span>
                                                     </td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
+                                                    <td>0</td>
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td style="border-right: 2px solid black;">
+                                                    <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
                                                             {{ calculatePercentage($mql, $cql) }}
+                                                        </span>
+                                                    </td>
+                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
+                                                    <td style="border-right: 2px solid #b503ff;">
+                                                        <span class="badge" style="background-color: #002c5f !important;">
+                                                            {{ calculatePercentage($mql, $inv) }}
                                                         </span>
                                                     </td>
                                                 </tr>
                                                 @endforeach
                                             @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                            <tr style="background: #a36b4f">
-                                                <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
-                                                @php
-                                                    $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
-                                                    $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq;
-                                                @endphp
-                                                <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
-                                                <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
-                                                <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $cql) }}
-                                                </span></h5></th>
-                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="background: #a36b4f">
+                                            <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
+                                            @php
+                                                $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
+                                                $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
+                                                $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
+                                                $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
+                                                $remaining = $mql - $cql - $cgi - $cnq;
+                                            @endphp
+                                            <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
+                                            <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
+                                            <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                            <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $cql) }}
+                                            </span></h5></th>
+                                            <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
+                                            <th><h5><span class="badge" style="background-color: #002c5f !important;">
+                                                {{ calculatePercentage($mql, $inv) }}
+                                            </span></h5></th>
+                                        </tr>
 
-                                        </tfoot>
-                                    </table>
-                                </div>
+                                    </tfoot>
+                                </table>
                             </div>
-                            <!--end::Chart-->
                         </div>
-                        <!--end::Body-->
+                        <!--end::Chart-->
                     </div>
-                    <!--end::Chart widget 31-->
+                    <!--end::Body-->
                 </div>
-
+                <!--end::Chart widget 31-->
             </div>
+
+        </div>
+
+
+
+        <div class="row gx-5 gx-xl-10 bank-section">
+            <!--begin::Col-->
+            <div class="col-xxl-12 mb-5 mb-xl-10">
+                <!--begin::Chart widget 8-->
+                <div class="card card-flush h-xl-100">
+                    <!--begin::Header-->
+                    <div class="card-header pt-5">
+                        <!--begin::Title-->
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bold text-dark">Analysis Vehicle wise</span>
+                        </h3>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-6">
+                        <!--begin::Tab content-->
+                        <div class="tab-content">
+                            <!--end::Tab pane-->
+                            <!--begin::Tab pane-->
+                            <div class="tab-pane fade active show" id="" role="tabpanel">
+
+                                <canvas id="vehicleAnalysisChart" class="mh-400px"></canvas>
+                                <!--begin::Chart-->
+                                <!--end::Chart-->
+                            </div>
+                            <!--end::Tab pane-->
+                        </div>
+                        <!--end::Tab content-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Chart widget 8-->
+            </div>
+            <!--end::Col-->
+        </div>
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -1216,17 +1619,6 @@
         var chart6 = new ApexCharts(document.querySelector("#graph_6"), options6);
         chart6.render();
 
-        $('.toggle-sources').on('click', function () {
-            var campaignId = $(this).data('campaign-id');
-            var sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
-            // var nestedSources = $('.nested-sources[data-campaign-id="' + campaignId + '"]');
-
-            // Toggle the visibility of the source rows
-            sourceRows.toggle();  // Toggle visibility of the source rows
-            // var buttonText = sourceRows.is(':visible') ? 'Hide Sources' : 'Show Sources';
-            // $(this).text(buttonText); // Change button text
-        });
-
 
         var ctx = document.getElementById('1st_graph');
 
@@ -1309,7 +1701,99 @@
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
 
+        $('.toggle-sources').on('click', function () {
+        var campaignId = $(this).data('campaign-id');
 
+        var childName = $(this).data('child-name');
+
+        var sourceRows;
+        if (childName) {
+            sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
+            // sourceRows = $('.source-row[data-"'+childName+'"="' + campaignId + '"]');
+        } else {
+            sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
+        }
+        // Toggle the visibility of the source rows
+        sourceRows.toggle();
+
+         // Ensure all child elements (branches) are hidden when collapsing cities
+         if (!sourceRows.is(':visible')) {
+            sourceRows.each(function () {
+                var childId = $(this).data('child-id');
+                $('.branches-row[data-campaign-id="' + childId + '"]').hide();
+            });
+        }
+    });
+
+    $('.toggle-child-sources').on('click', function () {
+        var campaignId = $(this).data('child-id');
+        var childName = $(this).data('child-name');
+        var campaignAttr = $(this).data('campaign-id');
+        var sourceRows;
+
+        if (childName) {
+            sourceRows = $('.' + childName + '[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
+        } else {
+            sourceRows = $('.source-row[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
+        }
+
+        // Toggle the visibility of the source rows
+        sourceRows.toggle();
+    });
+
+
+
+
+    var ctx = $("#vehicleAnalysisChart");
+
+    var dataa = {
+        labels: @json($vehcile_all_graph['vehicle_names']),
+        datasets: [
+            {
+                label: 'Total MQL ('+ @json(array_sum($vehcile_all_graph['mql'])) +')',
+                data: @json($vehcile_all_graph['mql']),
+                backgroundColor: "#F97316"
+            },
+            {
+                label: 'Qualified ('+ @json(array_sum($vehcile_all_graph['cql'])) +')',
+                data: @json($vehcile_all_graph['cql']),
+                backgroundColor: "#9CA3AF"
+            },
+            {
+                label:'Not Qualified ('+ @json(array_sum($vehcile_all_graph['cnq'])) +')',
+                data: @json($vehcile_all_graph['cnq']),
+                backgroundColor: "#FACC15"
+            },
+            {
+                label: 'General Inquiry ('+ @json(array_sum($vehcile_all_graph['cgi'])) +')',
+                data: @json($vehcile_all_graph['cgi']),
+                backgroundColor: "#2563EB"
+            },
+            // {
+            //     label: "Unreachable",
+            //     data: [8, 9, 7, 10, 12, 15, 18, 25, 30],
+            //     backgroundColor: "#22C55E"
+            // }
+        ]
+    };
+
+    var options = {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: { stacked: true }
+        }
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: dataa,
+        options: options
+    });
 
     </script>
 

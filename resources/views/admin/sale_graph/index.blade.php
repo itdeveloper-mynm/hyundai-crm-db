@@ -358,7 +358,7 @@
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
                                                 <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
@@ -388,7 +388,7 @@
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -422,7 +422,7 @@
                                                         <span>{{ $source['source_name'] }}</span>
                                                     </td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td>0</td>
+                                                    {{-- <td>0</td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -454,7 +454,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th>
+                                                {{-- <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
@@ -509,7 +509,7 @@
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
                                                 <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
@@ -541,7 +541,7 @@
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -575,7 +575,7 @@
                                                         <span>{{ $source['vehicle_name'] }}</span>
                                                     </td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td>0</td>
+                                                    {{-- <td>0</td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -607,7 +607,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th>
+                                                {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
@@ -662,7 +662,7 @@
                                                     <h5><span style="float: left">Name</span></h5>
                                                 </th>
                                                 <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th>
+                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
@@ -694,7 +694,7 @@
                                                     @endphp
                                                     <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td><span class="badge badge-primary">{{ $percentage_value }}</span></td>
+                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -726,7 +726,7 @@
                                                         <span>{{ $city['city_name'] }}</span>
                                                     </td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    <td>0</td>
+                                                    {{-- <td>0</td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -762,7 +762,7 @@
                                                             <span>{{ $branch['branch_name'] }}</span>
                                                         </td>
                                                         <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                        <td>0</td>
+                                                        {{-- <td>0</td> --}}
                                                         <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                         <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                         <td><span class="badge badge-warning">{{ $cnq }}</span></td>
@@ -795,7 +795,7 @@
                                                     $remaining = $mql - $cql - $cgi - $cnq;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th>
+                                                {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>

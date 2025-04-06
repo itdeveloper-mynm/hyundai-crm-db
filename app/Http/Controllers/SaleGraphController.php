@@ -801,6 +801,9 @@ class SaleGraphController extends Controller
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
+        $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
+        $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $first_types , $filters);
+        $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $first_types, $filters);
 
 
         $data['crm_users_graph'] = Application::with('updatedby')
