@@ -753,7 +753,7 @@ class ExternalLeadController extends Controller
         }
 
         $row = Application::findorFail($request->id);
-        $row->category = 'Callback';
+        $row->category = 'Unreachable';
         $row->sub_category = $request->sub_category;
         $row->save();
 

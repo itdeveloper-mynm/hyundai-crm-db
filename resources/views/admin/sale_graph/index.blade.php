@@ -1886,7 +1886,6 @@
         var sourceRows;
         if (childName) {
             sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
-            // sourceRows = $('.source-row[data-"'+childName+'"="' + campaignId + '"]');
         } else {
             sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
         }
