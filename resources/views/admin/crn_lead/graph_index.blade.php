@@ -1674,6 +1674,13 @@
                     tension: 0.6
                 },
                 {
+                    label: 'Unreachable ('+ @json($second_graph_data[4]) +')',
+                    data: @json($sixth_count),
+                    fill: false,
+                    borderColor: primaryColor,
+                    tension: 0.6
+                },
+                {
                     label: 'PCL ('+ @json($second_graph_data[3]) +')',
                     data: @json($third_count),
                     fill: false,
