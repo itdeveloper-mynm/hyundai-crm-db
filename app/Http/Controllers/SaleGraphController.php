@@ -92,7 +92,6 @@ class SaleGraphController extends Controller
         $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters);
         $data['fifth_count'] = Application::getPerformanceMonthWise($fifth_types,$startDate,$endDate,$months_diff,$filters);
         $data['sixth_count'] = Application::getPerformanceMonthWise($sixth_types,$startDate,$endDate,$months_diff,$filters);
-        $data['seventh_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
 
 
         $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),
@@ -790,6 +789,7 @@ class SaleGraphController extends Controller
         $data['second_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Not Qualified']));
         $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'General Inquiry']));
         $data['forth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category_chk_others' => 'not_null']));
+        $data['fifth_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
 
         $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']), array_sum($data['forth_count'])];
         $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['forth_count']);

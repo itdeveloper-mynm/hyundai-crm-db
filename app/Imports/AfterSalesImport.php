@@ -22,6 +22,12 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
 
     use Importable;
 
+    public function __construct()
+    {
+        // Skip tracking for the entire import process
+        Application::skipTracking(true);
+    }
+
 
     public function rules(): array
     {

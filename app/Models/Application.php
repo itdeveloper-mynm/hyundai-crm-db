@@ -634,6 +634,7 @@ class Application extends Model
                 DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                 DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                 DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                 // DB::raw('SUM(CASE WHEN customer_id IN (
                 //     SELECT customer_id FROM sales_data
                 //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
@@ -656,6 +657,7 @@ class Application extends Model
                         DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                         DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                         DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                         // DB::raw('SUM(CASE WHEN customer_id IN (
                         //     SELECT customer_id FROM sales_data
                         //     WHERE inv_date BETWEEN "' . $startDate . '" AND "' . $endDate . '"
@@ -709,6 +711,7 @@ class Application extends Model
                 DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                 DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                 DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                 DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
             )
             ->whereIn('type', $all_types)
@@ -725,6 +728,7 @@ class Application extends Model
                         DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                         DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                         DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                         DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                     )
                     ->whereIn('type', $all_types)
@@ -772,6 +776,7 @@ class Application extends Model
                 DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                 DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                 DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                 DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
             )
             ->whereIn('type', $all_types)
@@ -788,6 +793,7 @@ class Application extends Model
                     DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                     DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                     DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                    DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                     DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                 )
                 ->whereIn('type', $all_types)
@@ -805,6 +811,7 @@ class Application extends Model
                         DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
                         DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                         DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
                         DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                     )
                     ->whereIn('type', $all_types)
@@ -1143,10 +1150,20 @@ class Application extends Model
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
+    protected static bool $skipTracking = false;
+
+    public static function skipTracking(bool $skip = true)
+    {
+        static::$skipTracking = $skip;
+    }
 
     protected static function booted()
     {
         static::creating(function ($application) {
+            if (self::$skipTracking) {
+                return;
+            }
+
             if (Auth::check() && !Auth::user()->hasRole('Super Admin')) {
                 $application->created_by = Auth::check() ? Auth::id() : null;
             }
@@ -1156,6 +1173,10 @@ class Application extends Model
         });
 
         static::updating(function ($application) {
+            if (self::$skipTracking) {
+                return;
+            }
+
             if (Auth::check() && !Auth::user()->hasRole('Super Admin')) {
                 $application->updated_by = Auth::id();
             }

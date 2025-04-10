@@ -24,6 +24,12 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
 
     use Importable;
 
+    public function __construct()
+    {
+        // Skip tracking for the entire import process
+        Application::skipTracking(true);
+    }
+
     /**
     * @param array $row
     *

@@ -362,6 +362,7 @@
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
@@ -379,19 +380,21 @@
                                                         $cql = $campaign['cql'] ?? 0;
                                                         $cgi = $campaign['cgi'] ?? 0;
                                                         $cnq = $campaign['cnq'] ?? 0;
+                                                        $unreachable = $campaign['unreach'] ?? 0;
                                                         $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
 
                                                         // Calculate percentage value and sum it
                                                         $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
                                                         $total_percentage_value += $percentage_value;
                                                     @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
                                                     {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
@@ -414,8 +417,9 @@
                                                         $cql = $source['cql'] ?? 0;
                                                         $cgi = $source['cgi'] ?? 0;
                                                         $cnq = $source['cnq'] ?? 0;
+                                                        $unreachable = $source['unreach'] ?? 0;
                                                         $inv = $source['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                     @endphp
 
                                                     <td colspan="2" style="border-left: 2px solid black;">
@@ -426,6 +430,7 @@
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
@@ -450,14 +455,16 @@
                                                     $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
                                                     $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
                                                     $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
+                                                    $unreachable = collect($campaigns_detial_data)->sum('unreach') ?? 0;
                                                     $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
                                                 {{-- <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
@@ -513,6 +520,7 @@
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
@@ -531,20 +539,22 @@
                                                         $cql = $campaign['cql'] ?? 0;
                                                         $cgi = $campaign['cgi'] ?? 0;
                                                         $cnq = $campaign['cnq'] ?? 0;
+                                                        $unreachable = $campaign['unreach'] ?? 0;
                                                         $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
 
                                                         // Calculate percentage value and sum it
                                                         $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
                                                         $total_percentage_value += $percentage_value;
 
                                                     @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}  </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
                                                     {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
@@ -567,8 +577,9 @@
                                                         $cql = $source['cql'] ?? 0;
                                                         $cgi = $source['cgi'] ?? 0;
                                                         $cnq = $source['cnq'] ?? 0;
+                                                        $unreachable = $source['unreach'] ?? 0;
                                                         $inv = $source['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                     @endphp
 
                                                     <td colspan="2" style="border-left: 2px solid black;">
@@ -579,6 +590,7 @@
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
@@ -599,18 +611,20 @@
                                             <tr style="background: #a36b4f">
                                                 <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
                                                 @php
-                                                    $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
-                                                    $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                    $mql = collect($campaigns_vehcile_data)->sum('mql') ?? 0;
+                                                    $cql = collect($campaigns_vehcile_data)->sum('cql') ?? 0;
+                                                    $cgi = collect($campaigns_vehcile_data)->sum('cgi') ?? 0;
+                                                    $cnq = collect($campaigns_vehcile_data)->sum('cnq') ?? 0;
+                                                    $unreachable = collect($campaigns_vehcile_data)->sum('unreach') ?? 0;
+                                                    $inv = collect($campaigns_vehcile_data)->sum('inv') ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
                                                 {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
@@ -666,6 +680,7 @@
                                                 <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
+                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
                                                 <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
                                                 <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
@@ -684,20 +699,22 @@
                                                         $cql = $campaign['cql'] ?? 0;
                                                         $cgi = $campaign['cgi'] ?? 0;
                                                         $cnq = $campaign['cnq'] ?? 0;
+                                                        $unreachable = $campaign['unreach'] ?? 0;
                                                         $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
 
                                                         // Calculate percentage value and sum it
                                                         $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
                                                         $total_percentage_value += $percentage_value;
 
                                                     @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} ({{ $campaign['percentage'] }}%) </span></td>
+                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} </span></td>
                                                     <td><span class="badge badge-primary">{{ $mql }}</span></td>
                                                     {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td><span class="badge" style="background-color: #002c5f !important;">
                                                         {{ calculatePercentage($mql, $cql) }}
@@ -718,8 +735,9 @@
                                                         $cql = $city['cql'] ?? 0;
                                                         $cgi = $city['cgi'] ?? 0;
                                                         $cnq = $city['cnq'] ?? 0;
+                                                        $unreachable = $city['unreach'] ?? 0;
                                                         $inv = $city['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq;
+                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                     @endphp
 
                                                     <td colspan="2" style="border-left: 2px solid black;">
@@ -730,6 +748,7 @@
                                                     <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                     <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                     <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                     <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                     <td>
                                                         <span class="badge" style="background-color: #002c5f !important;">
@@ -754,8 +773,9 @@
                                                             $cql = $branch['cql'] ?? 0;
                                                             $cgi = $branch['cgi'] ?? 0;
                                                             $cnq = $branch['cnq'] ?? 0;
+                                                            $unreachable = $branch['unreach'] ?? 0;
                                                             $inv = $branch['inv'] ?? 0;
-                                                            $remaining = $mql - $cql - $cgi - $cnq;
+                                                            $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                         @endphp
 
                                                         <td colspan="2" style="border-left: 2px solid #b503ff;">
@@ -766,6 +786,7 @@
                                                         <td><span class="badge badge-success">{{ $cql }}</span></td>
                                                         <td><span class="badge badge-info">{{ $cgi }}</span></td>
                                                         <td><span class="badge badge-warning">{{ $cnq }}</span></td>
+                                                        <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
                                                         <td><span class="badge badge-danger">{{ $remaining }}</span></td>
                                                         <td>
                                                             <span class="badge" style="background-color: #002c5f !important;">
@@ -787,18 +808,20 @@
                                             <tr style="background: #a36b4f">
                                                 <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
                                                 @php
-                                                    $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
-                                                    $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq;
+                                                    $mql = collect($campaigns_city_data)->sum('mql') ?? 0;
+                                                    $cql = collect($campaigns_city_data)->sum('cql') ?? 0;
+                                                    $cgi = collect($campaigns_city_data)->sum('cgi') ?? 0;
+                                                    $cnq = collect($campaigns_city_data)->sum('cnq') ?? 0;
+                                                    $unreachable = collect($campaigns_city_data)->sum('unreach') ?? 0;
+                                                    $inv = collect($campaigns_city_data)->sum('inv') ?? 0;
+                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
                                                 @endphp
                                                 <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
                                                 {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
                                                 <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
                                                 <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
                                                 <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
+                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
                                                 <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
                                                 <th><h5><span class="badge" style="background-color: #002c5f !important;">
                                                     {{ calculatePercentage($mql, $cql) }}
@@ -1534,13 +1557,6 @@
                     data: @json($fifth_count),
                     fill: false,
                     borderColor: primaryColor,
-                    tension: 0.6
-                },
-                {
-                    label: 'Target ('+ @json(array_sum($seventh_count)) +')',
-                    data: @json($seventh_count),
-                    fill: false,
-                    borderColor: successColor,
                     tension: 0.6
                 }
             ]
