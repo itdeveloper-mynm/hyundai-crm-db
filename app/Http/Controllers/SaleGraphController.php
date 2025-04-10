@@ -791,9 +791,10 @@ class SaleGraphController extends Controller
         $data['forth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category_chk_others' => 'not_null']));
         $data['fifth_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
         $data['sixth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Unreachable']));
+        $data['seventh_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Callback']));
 
-        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']), array_sum($data['forth_count']), array_sum($data['sixth_count'])];
-        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['forth_count']) + array_sum($data['sixth_count']);
+        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']), array_sum($data['forth_count']), array_sum($data['sixth_count']) ,  array_sum($data['seventh_count'])];
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['forth_count']) + array_sum($data['sixth_count']) +  array_sum($data['seventh_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);

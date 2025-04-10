@@ -1408,6 +1408,7 @@
         var warningColor = KTUtil.getCssVariableValue('--kt-warning');
         var defaultColor = KTUtil.getCssVariableValue('--kt-default');
         var infoColor = KTUtil.getCssVariableValue('--kt-info');
+        var dangerLightColor = KTUtil.getCssVariableValue('--kt-danger-light');
 
         // Define fonts
         var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
@@ -1672,6 +1673,13 @@
                     data: @json($third_count),
                     fill: false,
                     borderColor: successColor,
+                    tension: 0.6
+                },
+                {
+                    label: 'Callback ('+ @json($second_graph_data[5]) +')',
+                    data: @json($seventh_count),
+                    fill: false,
+                    borderColor: dangerLightColor,
                     tension: 0.6
                 },
                 {
