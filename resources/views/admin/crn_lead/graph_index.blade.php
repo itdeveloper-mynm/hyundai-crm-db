@@ -1408,7 +1408,7 @@
         var warningColor = KTUtil.getCssVariableValue('--kt-warning');
         var defaultColor = KTUtil.getCssVariableValue('--kt-default');
         var infoColor = KTUtil.getCssVariableValue('--kt-info');
-        var dangerLightColor = KTUtil.getCssVariableValue('--kt-danger-light');
+        var dangerLightColor = '#1E1E2D';
 
         // Define fonts
         var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
