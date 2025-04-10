@@ -580,6 +580,7 @@ class Application extends Model
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
         ->groupBy(DB::raw("IFNULL(applications.category, 'Pending CRM LEADS')"))
+        ->orderByRaw("FIELD(category_name, 'Qualified', 'Not Qualified', 'General Inquiry', 'Callback', 'Unreachable','Pending CRM LEADS') ASC")
         ->orderBy('category_name', 'asc')
         ->get();
 
