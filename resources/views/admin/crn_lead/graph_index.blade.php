@@ -1407,6 +1407,7 @@
         var successColor = KTUtil.getCssVariableValue('--kt-success');
         var warningColor = KTUtil.getCssVariableValue('--kt-warning');
         var defaultColor = KTUtil.getCssVariableValue('--kt-default');
+        var infoColor = KTUtil.getCssVariableValue('--kt-info');
 
         // Define fonts
         var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
@@ -1677,7 +1678,7 @@
                     label: 'Unreachable ('+ @json($second_graph_data[4]) +')',
                     data: @json($sixth_count),
                     fill: false,
-                    borderColor: primaryColor,
+                    borderColor: infoColor,
                     tension: 0.6
                 },
                 {
