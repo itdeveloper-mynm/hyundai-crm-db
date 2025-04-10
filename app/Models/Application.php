@@ -682,6 +682,7 @@ class Application extends Model
                             'cql' => $sourceApplication->cql,
                             'cnq' => $sourceApplication->cnq,
                             'cgi' => $sourceApplication->cgi,
+                            'unreach' => $sourceApplication->unreach,
                             'inv' => $sourceApplication->inv,
                         ];
                     });
@@ -694,6 +695,7 @@ class Application extends Model
                     'cql' => $application->cql,
                     'cnq' => $application->cnq,
                     'cgi' => $application->cgi,
+                    'unreach' => $application->unreach,
                     'inv' => $application->inv,
                     'sources' => $application->sources,
                 ];
@@ -747,6 +749,7 @@ class Application extends Model
                             'cql' => $vehicleApplication->cql,
                             'cnq' => $vehicleApplication->cnq,
                             'cgi' => $vehicleApplication->cgi,
+                            'unreach' => $vehicleApplication->unreach,
                             'inv' => $vehicleApplication->inv,
                         ];
                     });
@@ -759,6 +762,7 @@ class Application extends Model
                     'cql' => $application->cql,
                     'cnq' => $application->cnq,
                     'cgi' => $application->cgi,
+                    'unreach' => $application->unreach,
                     'inv' => $application->inv,
                     'vehicles' => $application->vehicles,
                 ];
@@ -831,6 +835,7 @@ class Application extends Model
                             'cql' => $branchApplication->cql,
                             'cnq' => $branchApplication->cnq,
                             'cgi' => $branchApplication->cgi,
+                            'unreach' => $branchApplication->unreach,
                             'inv' => $branchApplication->inv,
                         ];
                     });
@@ -842,6 +847,7 @@ class Application extends Model
                         'cql' => $cityApplication->cql,
                         'cnq' => $cityApplication->cnq,
                         'cgi' => $cityApplication->cgi,
+                        'unreach' => $cityApplication->unreach,
                         'inv' => $cityApplication->inv,
                         'branches' => $cityApplication->branches,
                     ];
@@ -855,6 +861,7 @@ class Application extends Model
                     'cql' => $application->cql,
                     'cnq' => $application->cnq,
                     'cgi' => $application->cgi,
+                    'unreach' => $application->unreach,
                     'inv' => $application->inv,
                     'cities' => $application->cities,
                 ];
