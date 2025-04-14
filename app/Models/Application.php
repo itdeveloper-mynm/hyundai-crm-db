@@ -871,6 +871,142 @@ class Application extends Model
         return $campaigns;
     }
 
+    public static function getCityBranchCampaignData($startDate, $endDate, $all_types, $filters)
+    {
+        $cities = Application::select(
+                'city_id',
+                DB::raw('COUNT(*) as mql'),
+                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+            )
+            ->whereIn('type', $all_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->with('city:id,name')
+            ->groupBy('city_id')
+            ->orderBy('mql', 'DESC')
+            ->get()
+            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters) {
+                $cityApp->branches = Application::select(
+                        'branch_id',
+                        DB::raw('COUNT(*) as mql'),
+                        DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                        DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                        DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                    )
+                    ->whereIn('type', $all_types)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->graphsearch($filters)
+                    ->with('branch:id,name')
+                    ->where('city_id', $cityApp->city_id)
+                    ->groupBy('branch_id')
+                    ->orderBy('mql', 'DESC')
+                    ->get()
+                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp) {
+                        $branchApp->campaigns = Application::select(
+                                'campaign_id',
+                                DB::raw('COUNT(*) as mql'),
+                                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                            )
+                            ->whereIn('type', $all_types)
+                            ->whereBetween('created_at', [$startDate, $endDate])
+                            ->graphsearch($filters)
+                            ->with('campaign:id,name,percentage')
+                            ->where('city_id', $cityApp->city_id)
+                            ->where('branch_id', $branchApp->branch_id)
+                            ->groupBy('campaign_id')
+                            ->orderBy('mql', 'DESC')
+                            ->get()
+                            ->map(function ($campApp) {
+                                return [
+                                    'campaign_id' => $campApp->campaign_id,
+                                    'campaign_name' => $campApp->campaign->name ?? 'Others',
+                                    'percentage' => $campApp->campaign->percentage ?? 30,
+                                    'mql' => $campApp->mql,
+                                    'cql' => $campApp->cql,
+                                    'cnq' => $campApp->cnq,
+                                    'cgi' => $campApp->cgi,
+                                    'unreach' => $campApp->unreach,
+                                    'inv' => $campApp->inv,
+                                ];
+                            });
+
+                        return [
+                            'branch_id' => $branchApp->branch_id,
+                            'branch_name' => $branchApp->branch->name ?? 'Others',
+                            'mql' => $branchApp->mql,
+                            'cql' => $branchApp->cql,
+                            'cnq' => $branchApp->cnq,
+                            'cgi' => $branchApp->cgi,
+                            'unreach' => $branchApp->unreach,
+                            'inv' => $branchApp->inv,
+                            'campaigns' => $branchApp->campaigns,
+                        ];
+                    });
+
+                return [
+                    'city_id' => $cityApp->city_id,
+                    'city_name' => $cityApp->city->name ?? 'Others',
+                    'mql' => $cityApp->mql,
+                    'cql' => $cityApp->cql,
+                    'cnq' => $cityApp->cnq,
+                    'cgi' => $cityApp->cgi,
+                    'unreach' => $cityApp->unreach,
+                    'inv' => $cityApp->inv,
+                    'branches' => $cityApp->branches,
+                ];
+            });
+
+        return $cities;
+    }
+
+
+    public static function getVehcileDetialData($startDate, $endDate, $all_types, $filters)
+    {
+
+        $vehicles = Application::select(
+            'vehicle_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+        )
+        ->whereIn('type', $all_types)
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->graphsearch($filters)
+        ->with('vehicle:id,name')
+        ->groupBy('vehicle_id')
+        ->orderBy('mql', 'DESC')
+        ->get()
+        ->map(function ($vehicleApplication) {
+            return [
+                'vehicle_id' => $vehicleApplication->vehicle_id,
+                'vehicle_name' => $vehicleApplication->vehicle->name ?? 'Others',
+                'mql' => $vehicleApplication->mql,
+                'cql' => $vehicleApplication->cql,
+                'cnq' => $vehicleApplication->cnq,
+                'cgi' => $vehicleApplication->cgi,
+                'unreach' => $vehicleApplication->unreach,
+                'inv' => $vehicleApplication->inv,
+            ];
+        });
+
+        return $vehicles;
+
+
+    }
+
 
     public static function countBySourceGroup($startDate, $endDate, $all_types, $filters)
     {

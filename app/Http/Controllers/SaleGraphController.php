@@ -786,15 +786,11 @@ class SaleGraphController extends Controller
         // $filters['category_chk'] = 'not_null';
 
         $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Qualified']));
-        $data['second_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Not Qualified']));
-        $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'General Inquiry']));
-        $data['forth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category_chk_others' => 'not_null']));
-        $data['fifth_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
-        $data['sixth_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Unreachable']));
-        $data['seventh_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Callback']));
+        $data['second_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
+        $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
 
-        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']), array_sum($data['forth_count']), array_sum($data['sixth_count']) ,  array_sum($data['seventh_count'])];
-        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']) + array_sum($data['forth_count']) + array_sum($data['sixth_count']) +  array_sum($data['seventh_count']);
+        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']) ,  array_sum($data['third_count'])];
+        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
@@ -804,9 +800,10 @@ class SaleGraphController extends Controller
         $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
         $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
-        $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $first_types , $filters);
+        // $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $first_types , $filters);
+        $data['city_branch_camp_data'] = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
         $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $first_types, $filters);
-
+        $data['vehcile_detial_graph'] = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
 
         $data['crm_users_graph'] = Application::with('updatedby')
             ->select(
