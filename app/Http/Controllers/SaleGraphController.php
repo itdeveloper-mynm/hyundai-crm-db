@@ -790,7 +790,7 @@ class SaleGraphController extends Controller
         $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
 
         $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']) ,  array_sum($data['third_count'])];
-        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count']);
+        $data['total_performance_count'] = array_sum($data['third_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
