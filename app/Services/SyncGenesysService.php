@@ -177,7 +177,7 @@ class SyncGenesysService
     public function getDbData()
     {
         return Application::where('sync_genesys', 0)
-            ->where('created_at', '>', now()->subDay()) // for new records
+            // ->where('created_at', '>', now()->subDay()) // for new records
             ->where(function ($query) {
                 $query->where('type', 'request_a_test_quote')
                       ->orWhere('type', 'request_a_test_drive')
