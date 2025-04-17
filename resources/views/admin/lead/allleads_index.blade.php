@@ -634,9 +634,23 @@
 
 
 
-        $('#search').keyup(function() {
+        // Debounce function
+        function debounce(fn, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        // Apply to your search input
+        $('#search').on('keyup', debounce(function () {
             table.search($(this).val()).draw();
-        })
+        }, 1000)); // 1000ms delay
+
+        // $('#search').keyup(function() {
+        //     table.search($(this).val()).draw();
+        // })
 
         $('.export_excel').on('click', function() {
             $(".buttons-excel").trigger("click");
