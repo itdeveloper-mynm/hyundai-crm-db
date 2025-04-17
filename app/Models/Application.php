@@ -137,9 +137,33 @@ class Application extends Model
                 });
             }
             if (isset($conditions['category'])) {
+                // $query->where(function ($query) use ($conditions) {
+                //         $query->whereIn('applications.category', arraycheck($conditions['category']));
+                // });
+
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.category', arraycheck($conditions['category']));
+                    $categories = arraycheck($conditions['category']);
+                    $hasPCL = in_array('PCL', $categories);
+
+                    $filteredCategories = array_filter($categories, function ($item) {
+                        return $item !== 'PCL';
+                    });
+
+                    $query->where(function ($q) use ($filteredCategories, $hasPCL) {
+                        if (!empty($filteredCategories)) {
+                            $q->whereIn('applications.category', $filteredCategories);
+                        }
+
+                        if ($hasPCL) {
+                            if (!empty($filteredCategories)) {
+                                $q->orWhereNull('applications.category');
+                            } else {
+                                $q->whereNull('applications.category');
+                            }
+                        }
+                    });
                 });
+
             }
 
             if (isset($conditions['created_by'])) {
