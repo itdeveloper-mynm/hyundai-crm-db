@@ -195,6 +195,7 @@ class SyncGenesysService
                     //             ->where('department', 'sales_maketing');
                     //   });
             })
+            ->orderBy('id', 'desc')
             ->limit(50)
             ->get();
     }
