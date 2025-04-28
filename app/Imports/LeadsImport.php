@@ -105,12 +105,6 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
         }
 
         $mobile = formatInputNumber($row['mobile']);
-        if(isset($row['request_date'])){
-            $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['request_date']));
-        }else{
-            $request_date = null;
-        }
-
         $customer = Customer::firstOrCreate(
             ['mobile' => $mobile],
             [
@@ -121,6 +115,12 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
                 'bank_id' => $bank->id ?? null,
             ]
         );
+
+        if(isset($row['request_date'])){
+            $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['request_date']));
+        }else{
+            $request_date = null;
+        }
 
         $currentDate = Carbon::now();
         $currentYear = $currentDate->year;

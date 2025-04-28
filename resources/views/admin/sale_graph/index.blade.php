@@ -150,6 +150,20 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.preferred_appointment_time')
                                                     </div>
+                                                      <div class="col-lg-4">
+                                                        <label class="form-label fw-semibold">{{ __('Agency') }}</label>
+                                                        <div>
+                                                            <select class="form-select mb-2" name="agency" id="agency" data-control="select2"
+                                                                data-placeholder="{{ __('select option') }}" data-allow-clear="true">
+                                                                <option value="">All</option>
+                                                                <option value="CORE3">CORE3</option>
+                                                                <option value="HMCinc">HMCinc</option>
+                                                                <option value="DAS">DAS</option>
+                                                                <option value="SMCM">SMCM</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
                                                     {{-- <div class="col-lg-4">
                                                         @include('admin.common_files_filters.kyc')
                                                     </div>
@@ -1437,7 +1451,7 @@
 
             </div>
 
-            <div class="row gx-5 gx-xl-10 mt-5 bank-section">
+            {{-- <div class="row gx-5 gx-xl-10 mt-5 bank-section">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -1487,7 +1501,7 @@
                 </div>
                 <!--end::Col-->
 
-            </div>
+            </div> --}}
 
         </div>
         <!--end::Content container-->
@@ -1773,7 +1787,7 @@
     var myChart = new Chart(ctx2, config2);
 
 
-
+{{--
     var ctx7 = document.getElementById('graph_7');
 
     const data7 = {
@@ -1870,7 +1884,7 @@
         };
 
         var myChart = new Chart(ctx6, config6);
-
+    --}}
 
     // $(document).ready(function() {
     //         setTimeout(function() {
@@ -2045,6 +2059,22 @@
     //     data: dataa,
     //     options: options
     // });
+
+
+    $('#agency').on('change', function() {
+        var selectedText = $(this).val();
+        $('#source_id option').prop('selected', false); // clear previous
+        $('#source_id option').each(function() {
+            // Check if dropdown2 option text contains the selectedText
+            if ($(this).text().includes(selectedText)) {
+                $(this).prop('selected', true);
+            }
+        });
+
+        $('#source_id').trigger('change'); // if you need it'
+        $('#source_id').trigger('select2:select'); // Explicit Select2 refresh
+
+    });
 
     </script>
 

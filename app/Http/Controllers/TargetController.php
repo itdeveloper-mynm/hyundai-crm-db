@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\TargetImport;
 use App\Models\Target;
+use App\Models\Customer;
 
 class TargetController extends Controller
 {
@@ -21,6 +22,10 @@ class TargetController extends Controller
 
     public function index()
     {
+        // $data = Customer::whereDoesntHave('applications')->limit(10)->get();
+        // dd($data);
+
+
         return view('admin.target.index');
     }
 

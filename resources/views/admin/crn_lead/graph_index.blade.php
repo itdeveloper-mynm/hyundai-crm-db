@@ -104,6 +104,20 @@
                                                     <div class="col-lg-4">
                                                         @include('admin.common_files_filters.updated_by')
                                                     </div>
+                                                    {{-- <div class="col-lg-4">
+                                                        <label class="form-label fw-semibold">{{ __('Agency') }}</label>
+                                                        <div>
+                                                            <select class="form-select mb-2" name="agency" id="agency" data-control="select2"
+                                                                data-placeholder="{{ __('select option') }}" data-allow-clear="true">
+                                                                <option value="">All</option>
+                                                                <option value="CORE3">CORE3</option>
+                                                                <option value="HMCinc">HMCinc</option>
+                                                                <option value="DAS">DAS</option>
+                                                                <option value="SMCM">SMCM</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div> --}}
                                                 </div>
                                             @endcan
                                             <div class="row mt-1">
@@ -1126,7 +1140,7 @@
                 </div>
                 <!--end::Col-->
             </div>
-            <div class="row gx-5 gx-xl-10">
+            {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -1227,26 +1241,6 @@
                                 <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
                                     aria-labelledby="tab-backtoschool">
                                     <div id="source_detials_div"></div>
-                                    {{-- <table class="table table-striped gy-5 gs-7">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">
-                                                                <h5><span style="float: left">Current Campaigns</span></h5>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($countsByCampaign as $campaign_wise)
-                                                    <tr>
-                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
-                                                                        <span  style="float: right" class="badge badge-success">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                        </td>
-                                                    </tr>
-
-
-                                                @endforeach
-                                            </tbody>
-                                        </table> --}}
                                 </div>
                             </div>
                             <!--end::Chart-->
@@ -1256,8 +1250,8 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-            </div>
-            <div class="row gx-5 gx-xl-10 mt-5">
+            </div> --}}
+            {{-- <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -1357,7 +1351,7 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-            </div>
+            </div> --}}
 
             {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -1445,7 +1439,7 @@
 
 
 
-            <div class="row gx-5 gx-xl-10 mt-5">
+            {{-- <div class="row gx-5 gx-xl-10 mt-5">
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!--begin::Chart widget 31-->
@@ -1462,7 +1456,6 @@
                         <!--begin::Body-->
                         <div class="card-body d-flex align-items-end pt-0">
                             <!--begin::Chart-->
-                            {{-- <div id="graph_4" style="height: 350px;"></div> --}}
                             <canvas id="graph_4" class="mh-400px"></canvas>
                             <!--end::Chart-->
                         </div>
@@ -1494,7 +1487,7 @@
                     <!--end::Chart widget 31-->
                 </div>
 
-            </div>
+            </div> --}}
 
 
             <div class="row gx-5 gx-xl-10 mt-5">
@@ -1790,7 +1783,7 @@
 
 
 
-        var ctx1 = document.getElementById('graph_4');
+    {{--   var ctx1 = document.getElementById('graph_4');
 
         const data1 = {
             labels: @json($salary_graph['monthly_salary']),
@@ -1892,6 +1885,8 @@
 
         var myChart = new Chart(ctx2, config2);
 
+
+        --}}
 
         // $('#printButton').click(function() {
         //     // Open the print dialog
@@ -2073,6 +2068,21 @@
         sourceRows.toggle();
     });
 
+
+    // $('#agency').on('change', function() {
+    //     var selectedText = $(this).val();
+    //     $('#source_id option').prop('selected', false); // clear previous
+    //     $('#source_id option').each(function() {
+    //         // Check if dropdown2 option text contains the selectedText
+    //         if ($(this).text().includes(selectedText)) {
+    //             $(this).prop('selected', true);
+    //         }
+    //     });
+
+    //     $('#source_id').trigger('change'); // if you need it'
+    //     $('#source_id').trigger('select2:select'); // Explicit Select2 refresh
+
+    // });
 
 
 

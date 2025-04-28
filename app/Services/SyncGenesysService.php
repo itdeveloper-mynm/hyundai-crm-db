@@ -156,7 +156,7 @@ class SyncGenesysService
                         'Monthly Salary' => $application->monthly_salary ?? "",
                         'Bank' => $application->customer->bank->name ?? "",
                         'Source' => $application->source->name ?? "",
-                        'Request Date' => $application->request_date,
+                        'Request Date' => $application->request_date ?? "",
                         'Contact Comments' => '',
                         'Interested?' => '',
                         'Salesman  comments' => '',
@@ -192,6 +192,7 @@ class SyncGenesysService
                       ->orWhere('type', 'leads')
                       ->orWhere('type', 'events')
                       ->orWhere('type', 'employees_program');
+                    //   ->orWhere('type', 'crm_leads');
                     //   ->orWhere(function ($query) {
                     //       $query->where('type', 'contact_us')
                     //             ->where('department', 'sales_maketing');

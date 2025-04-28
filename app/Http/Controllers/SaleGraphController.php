@@ -110,9 +110,9 @@ class SaleGraphController extends Controller
 
 
         $crm_types = ['crm_leads'];
-        $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
+        // $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
 
-        $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
+        // $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
         $all_types[] = 'used_cars';
         $all_types[] = 'smo_leads';
         $all_types[] = 'crm_leads';
@@ -793,11 +793,11 @@ class SaleGraphController extends Controller
         $data['total_performance_count'] = array_sum($data['third_count']);
 
         $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
-        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
-        $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
-        $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
+        // $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
+        // $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
+        // $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
         $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
-        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
+        // $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
         $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
         $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
         // $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $first_types , $filters);
