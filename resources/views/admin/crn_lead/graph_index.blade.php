@@ -1160,7 +1160,7 @@
                         tension: 0.6
                     },
                     {
-                        label: 'Target (' + secondCount + ')',
+                        label: 'Target (' + total_target_count + ')',
                         data: secondCount,
                         fill: false,
                         borderColor: infoColor,
