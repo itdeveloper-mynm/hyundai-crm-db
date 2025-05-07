@@ -804,15 +804,19 @@ class SaleGraphController extends Controller
             elseif ($mode === 'table') {
                 $campaigns_detial_data = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
                 $campaigns_vehcile_data = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
-                $city_branch_camp_data = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
-                $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
                 $campaigns_detial_data_html = view('admin.crn_lead.campaign_first_graph', compact('campaigns_detial_data'))->render();
                 $campaigns_vehcile_data_html = view('admin.crn_lead.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();
-                $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
-                $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
                 return response()->json([
                     'campaigns_detial_data_html' => $campaigns_detial_data_html,
                     'campaigns_vehcile_data_html' => $campaigns_vehcile_data_html,
+                ]);
+            }
+            elseif ($mode === 'second_table') {
+                $city_branch_camp_data = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
+                $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
+                $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
+                $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
+                return response()->json([
                     'city_branch_camp_data_html' => $city_branch_camp_data_html,
                     'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
                 ]);
