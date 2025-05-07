@@ -806,8 +806,6 @@ class SaleGraphController extends Controller
                 $campaigns_vehcile_data = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
                 $city_branch_camp_data = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
                 $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
-                $crm_users_graph = Application::getCrmUserGraph($startDate, $endDate, $first_types, $filters);
-                $crm_users_source_graph = Application::getCrmUserSourcesGraph($startDate, $endDate, $first_types, $filters);
                 $campaigns_detial_data_html = view('admin.crn_lead.campaign_first_graph', compact('campaigns_detial_data'))->render();
                 $campaigns_vehcile_data_html = view('admin.crn_lead.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();
                 $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
