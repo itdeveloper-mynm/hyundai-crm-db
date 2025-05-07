@@ -793,6 +793,7 @@ class SaleGraphController extends Controller
 
                 $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']) ,  array_sum($data['third_count'])];
                 $data['total_performance_count'] = array_sum($data['third_count']);
+                $data['total_target_count'] = array_sum($data['second_count']);
 
                 $category_graph = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
                 $data['category_graph_count'] = collect($category_graph['category_count'])->sum() ?? 0 ;

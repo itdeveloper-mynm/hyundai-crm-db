@@ -1140,7 +1140,7 @@
 
         let myChartInstance = null; // global chart instance for reuse/destroy
 
-        function renderLeadLineChart(labels, firstCount, secondCount, thirdCount, secondGraphData) {
+        function renderLeadLineChart(labels, firstCount, secondCount, thirdCount, total_target_count, secondGraphData) {
 
             const data = {
                 labels: labels,
@@ -1160,7 +1160,7 @@
                         tension: 0.6
                     },
                     {
-                        label: 'Target (' + secondCount.reduce((a, b) => a + b, 0) + ')',
+                        label: 'Target (' + secondCount + ')',
                         data: secondCount,
                         fill: false,
                         borderColor: infoColor,
@@ -1500,7 +1500,7 @@
 
                 if (mode === 'graph') {
                     renderVehcileIntrestedChart(data.vehcile_graph.vehicle_names, data.vehcile_graph.vehicle_count);
-                    renderLeadLineChart(data.months, data.first_count, data.second_count, data.third_count, data.second_graph_data);
+                    renderLeadLineChart(data.months, data.first_count, data.second_count, data.third_count , data.total_target_count, data.second_graph_data);
                     renderCategoryChart(data.category_graph.category_names, data.category_graph.category_count);
                     $('#category_graph_count').empty().text(data.category_graph_count);
                     $('#total_performance_count').empty().text(data.total_performance_count);
