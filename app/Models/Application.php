@@ -9,7 +9,7 @@ use DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Campaign;
+use App\Models\{Campaign,City,Branch};
 
 
 
@@ -803,115 +803,232 @@ class Application extends Model
     }
 
     public static function getCampaignCityWiseDetailData($startDate, $endDate, $all_types, $filters)
-    {
-        // 1. Campaign-level Aggregation
-        $campaigns = Application::select(
-                'campaign_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
-            ->whereIn('type', $all_types)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->graphsearch($filters)
-            ->groupBy('campaign_id')
-            ->get();
+{
+    // Preload all names to avoid N+1 queries
+    $campaignsList = Campaign::pluck('name', 'id');
+    $campaignPercentages = Campaign::pluck('percentage', 'id');
+    $citiesList = City::pluck('name', 'id');
+    $branchesList = Branch::pluck('name', 'id');
 
-        // 2. City-level Aggregation
-        $cities = Application::select(
-                'campaign_id',
-                'city_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
-            ->whereIn('type', $all_types)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->graphsearch($filters)
-            ->groupBy('campaign_id', 'city_id')
-            ->with('city:id,name')
-            ->get();
+    // Apply filters manually if needed, assuming graphsearch() is a macro
+    $baseQuery = DB::table('applications')
+        ->leftJoin('sales_data', 'applications.customer_id', '=', 'sales_data.customer_id')
+        ->whereIn('applications.type', $all_types)
+        ->whereBetween('applications.created_at', [$startDate, $endDate]);
 
-        // 3. Branch-level Aggregation
-        $branches = Application::select(
-                'campaign_id',
-                'city_id',
-                'branch_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
-            ->whereIn('type', $all_types)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->graphsearch($filters)
-            ->groupBy('campaign_id', 'city_id', 'branch_id')
-            ->with('branch:id,name')
-            ->get();
+    // If graphsearch is a macro or scope
+    if (method_exists(Application::class, 'graphsearch')) {
+        $baseQuery = Application::graphsearch($filters)->getQuery(); // Extract query builder
+    }
 
-        // Grouping data
-        $citiesGrouped = $cities->groupBy('campaign_id');
-        $branchesGrouped = $branches->groupBy(fn($b) => $b->campaign_id . '_' . $b->city_id);
+    // Step 1: Get campaign-level aggregates
+    $campaigns = clone $baseQuery;
+    $campaignData = $campaigns
+        ->select(
+            'applications.campaign_id',
+            DB::raw('COUNT(applications.id) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('COUNT(sales_data.customer_id) as inv')
+        )
+        ->groupBy('applications.campaign_id')
+        ->orderByDesc('mql')
+        ->get();
 
-        // Fetch campaign metadata
-        $campaignIds = $campaigns->pluck('campaign_id')->unique();
-        $campaignData = \App\Models\Campaign::whereIn('id', $campaignIds)->pluck('name', 'id');
-        $campaignPercentages = \App\Models\Campaign::whereIn('id', $campaignIds)->pluck('percentage', 'id');
+    // Step 2: Get city-level aggregates per campaign
+    $cityData = (clone $baseQuery)
+        ->select(
+            'applications.campaign_id',
+            'applications.city_id',
+            DB::raw('COUNT(applications.id) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('COUNT(sales_data.customer_id) as inv')
+        )
+        ->groupBy('applications.campaign_id', 'applications.city_id')
+        ->get()
+        ->groupBy('campaign_id');
 
-        // Final structured result
-        return $campaigns->map(function ($campaign) use ($citiesGrouped, $branchesGrouped, $campaignData, $campaignPercentages) {
-            $cityData = $citiesGrouped[$campaign->campaign_id] ?? collect();
+    // Step 3: Get branch-level aggregates per city per campaign
+    $branchData = (clone $baseQuery)
+        ->select(
+            'applications.campaign_id',
+            'applications.city_id',
+            'applications.branch_id',
+            DB::raw('COUNT(applications.id) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('COUNT(sales_data.customer_id) as inv')
+        )
+        ->groupBy('applications.campaign_id', 'applications.city_id', 'applications.branch_id')
+        ->get()
+        ->groupBy(fn($item) => $item->campaign_id . '-' . $item->city_id);
 
-            $cities = $cityData->map(function ($city) use ($branchesGrouped) {
-                $branchKey = $city->campaign_id . '_' . $city->city_id;
-                $branchData = $branchesGrouped[$branchKey] ?? collect();
+    // Build final structured result
+    $result = $campaignData->map(function ($campaign) use ($cityData, $branchData, $campaignsList, $campaignPercentages, $citiesList, $branchesList) {
+        $cities = $cityData[$campaign->campaign_id] ?? collect();
 
-                return [
-                    'city_id' => $city->city_id,
-                    'city_name' => $city->city->name ?? 'Others',
-                    'mql' => $city->mql,
-                    'cql' => $city->cql,
-                    'cnq' => $city->cnq,
-                    'cgi' => $city->cgi,
-                    'unreach' => $city->unreach,
-                    'inv' => $city->inv,
-                    'branches' => $branchData->map(function ($branch) {
-                        return [
-                            'branch_id' => $branch->branch_id,
-                            'branch_name' => $branch->branch->name ?? 'Others',
-                            'mql' => $branch->mql,
-                            'cql' => $branch->cql,
-                            'cnq' => $branch->cnq,
-                            'cgi' => $branch->cgi,
-                            'unreach' => $branch->unreach,
-                            'inv' => $branch->inv,
-                        ];
-                    })->values(),
-                ];
-            });
+        $cityResults = $cities->map(function ($city) use ($campaign, $branchData, $citiesList, $branchesList) {
+            $key = $city->campaign_id . '-' . $city->city_id;
+            $branches = $branchData[$key] ?? collect();
 
             return [
-                'campaign_id' => $campaign->campaign_id,
-                'percentage' => $campaignPercentages[$campaign->campaign_id] ?? 30,
-                'campaign_name' => $campaignData[$campaign->campaign_id] ?? 'Others',
-                'mql' => $campaign->mql,
-                'cql' => $campaign->cql,
-                'cnq' => $campaign->cnq,
-                'cgi' => $campaign->cgi,
-                'unreach' => $campaign->unreach,
-                'inv' => $campaign->inv,
-                'cities' => $cities->values(),
+                'city_id' => $city->city_id,
+                'city_name' => $citiesList[$city->city_id] ?? 'Others',
+                'mql' => $city->mql,
+                'cql' => $city->cql,
+                'cnq' => $city->cnq,
+                'cgi' => $city->cgi,
+                'unreach' => $city->unreach,
+                'inv' => $city->inv,
+                'branches' => $branches->map(function ($branch) use ($branchesList) {
+                    return [
+                        'branch_id' => $branch->branch_id,
+                        'branch_name' => $branchesList[$branch->branch_id] ?? 'Others',
+                        'mql' => $branch->mql,
+                        'cql' => $branch->cql,
+                        'cnq' => $branch->cnq,
+                        'cgi' => $branch->cgi,
+                        'unreach' => $branch->unreach,
+                        'inv' => $branch->inv,
+                    ];
+                })->values(),
             ];
-        })->sortByDesc('mql')->values();
-    }
+        });
+
+        return [
+            'campaign_id' => $campaign->campaign_id,
+            'campaign_name' => $campaignsList[$campaign->campaign_id] ?? 'Others',
+            'percentage' => $campaignPercentages[$campaign->campaign_id] ?? 30,
+            'mql' => $campaign->mql,
+            'cql' => $campaign->cql,
+            'cnq' => $campaign->cnq,
+            'cgi' => $campaign->cgi,
+            'unreach' => $campaign->unreach,
+            'inv' => $campaign->inv,
+            'cities' => $cityResults->values(),
+        ];
+    });
+
+    return $result;
+}
+
+    // public static function getCampaignCityWiseDetailData($startDate, $endDate, $all_types, $filters)
+    // {
+    //     // 1. Campaign-level Aggregation
+    //     $campaigns = Application::select(
+    //             'campaign_id',
+    //             DB::raw('COUNT(*) as mql'),
+    //             DB::raw('SUM(category = "Qualified") as cql'),
+    //             DB::raw('SUM(category = "Not Qualified") as cnq'),
+    //             DB::raw('SUM(category = "General Inquiry") as cgi'),
+    //             DB::raw('SUM(category = "Unreachable") as unreach'),
+    //             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+    //         )
+    //         ->whereIn('type', $all_types)
+    //         ->whereBetween('created_at', [$startDate, $endDate])
+    //         ->graphsearch($filters)
+    //         ->groupBy('campaign_id')
+    //         ->get();
+
+    //     // 2. City-level Aggregation
+    //     $cities = Application::select(
+    //             'campaign_id',
+    //             'city_id',
+    //             DB::raw('COUNT(*) as mql'),
+    //             DB::raw('SUM(category = "Qualified") as cql'),
+    //             DB::raw('SUM(category = "Not Qualified") as cnq'),
+    //             DB::raw('SUM(category = "General Inquiry") as cgi'),
+    //             DB::raw('SUM(category = "Unreachable") as unreach'),
+    //             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+    //         )
+    //         ->whereIn('type', $all_types)
+    //         ->whereBetween('created_at', [$startDate, $endDate])
+    //         ->graphsearch($filters)
+    //         ->groupBy('campaign_id', 'city_id')
+    //         ->with('city:id,name')
+    //         ->get();
+
+    //     // 3. Branch-level Aggregation
+    //     $branches = Application::select(
+    //             'campaign_id',
+    //             'city_id',
+    //             'branch_id',
+    //             DB::raw('COUNT(*) as mql'),
+    //             DB::raw('SUM(category = "Qualified") as cql'),
+    //             DB::raw('SUM(category = "Not Qualified") as cnq'),
+    //             DB::raw('SUM(category = "General Inquiry") as cgi'),
+    //             DB::raw('SUM(category = "Unreachable") as unreach'),
+    //             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+    //         )
+    //         ->whereIn('type', $all_types)
+    //         ->whereBetween('created_at', [$startDate, $endDate])
+    //         ->graphsearch($filters)
+    //         ->groupBy('campaign_id', 'city_id', 'branch_id')
+    //         ->with('branch:id,name')
+    //         ->get();
+
+    //     // Grouping data
+    //     $citiesGrouped = $cities->groupBy('campaign_id');
+    //     $branchesGrouped = $branches->groupBy(fn($b) => $b->campaign_id . '_' . $b->city_id);
+
+    //     // Fetch campaign metadata
+    //     $campaignIds = $campaigns->pluck('campaign_id')->unique();
+    //     $campaignData = Campaign::whereIn('id', $campaignIds)->pluck('name', 'id');
+    //     $campaignPercentages = Campaign::whereIn('id', $campaignIds)->pluck('percentage', 'id');
+
+    //     // Final structured result
+    //     return $campaigns->map(function ($campaign) use ($citiesGrouped, $branchesGrouped, $campaignData, $campaignPercentages) {
+    //         $cityData = $citiesGrouped[$campaign->campaign_id] ?? collect();
+
+    //         $cities = $cityData->map(function ($city) use ($branchesGrouped) {
+    //             $branchKey = $city->campaign_id . '_' . $city->city_id;
+    //             $branchData = $branchesGrouped[$branchKey] ?? collect();
+
+    //             return [
+    //                 'city_id' => $city->city_id,
+    //                 'city_name' => $city->city->name ?? 'Others',
+    //                 'mql' => $city->mql,
+    //                 'cql' => $city->cql,
+    //                 'cnq' => $city->cnq,
+    //                 'cgi' => $city->cgi,
+    //                 'unreach' => $city->unreach,
+    //                 'inv' => $city->inv,
+    //                 'branches' => $branchData->map(function ($branch) {
+    //                     return [
+    //                         'branch_id' => $branch->branch_id,
+    //                         'branch_name' => $branch->branch->name ?? 'Others',
+    //                         'mql' => $branch->mql,
+    //                         'cql' => $branch->cql,
+    //                         'cnq' => $branch->cnq,
+    //                         'cgi' => $branch->cgi,
+    //                         'unreach' => $branch->unreach,
+    //                         'inv' => $branch->inv,
+    //                     ];
+    //                 })->values(),
+    //             ];
+    //         });
+
+    //         return [
+    //             'campaign_id' => $campaign->campaign_id,
+    //             'percentage' => $campaignPercentages[$campaign->campaign_id] ?? 30,
+    //             'campaign_name' => $campaignData[$campaign->campaign_id] ?? 'Others',
+    //             'mql' => $campaign->mql,
+    //             'cql' => $campaign->cql,
+    //             'cnq' => $campaign->cnq,
+    //             'cgi' => $campaign->cgi,
+    //             'unreach' => $campaign->unreach,
+    //             'inv' => $campaign->inv,
+    //             'cities' => $cities->values(),
+    //         ];
+    //     })->sortByDesc('mql')->values();
+    // }
 
 
     // ECWD
