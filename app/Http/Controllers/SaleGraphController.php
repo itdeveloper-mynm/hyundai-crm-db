@@ -770,8 +770,9 @@ class SaleGraphController extends Controller
         //dd($request->all());
         $startDate = request('start_date') ?? startDate();
         $endDate = request('end_date') ?? endDate();
+
         $dates = Application::getPerformanceLabel($startDate,$endDate);
-        //dd($dates);
+
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];
@@ -779,78 +780,58 @@ class SaleGraphController extends Controller
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
 
+        if($request->ajax()){
 
-        $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
 
-        $filters = $request->all();
+            $mode = $request->input('mode', 'graph');
+            $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
+            $filters = $request->all();
+            if ($mode === 'graph') {
+                $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Qualified']));
+                $data['second_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
+                $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+
+                $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']) ,  array_sum($data['third_count'])];
+                $data['total_performance_count'] = array_sum($data['third_count']);
+
+                $category_graph = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
+                $data['category_graph_count'] = collect($category_graph['category_count'])->sum() ?? 0 ;
+                $data['category_graph'] =  $category_graph;
+                $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
+                return response()->json($data);
+            }
+            elseif ($mode === 'table') {
+                $campaigns_detial_data = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
+                $campaigns_vehcile_data = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
+                $city_branch_camp_data = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
+                $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
+                $crm_users_graph = Application::getCrmUserGraph($startDate, $endDate, $first_types, $filters);
+                $crm_users_source_graph = Application::getCrmUserSourcesGraph($startDate, $endDate, $first_types, $filters);
+                $campaigns_detial_data_html = view('admin.crn_lead.campaign_first_graph', compact('campaigns_detial_data'))->render();
+                $campaigns_vehcile_data_html = view('admin.crn_lead.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();
+                $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
+                $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
+                $crm_users_graph_html = view('admin.crn_lead.crm_user_graph', compact('crm_users_graph'))->render();
+                $crm_users_source_graph_html = view('admin.crn_lead.crm_user_source_graph', compact('crm_users_source_graph'))->render();
+                return response()->json([
+                    'campaigns_detial_data_html' => $campaigns_detial_data_html,
+                    'campaigns_vehcile_data_html' => $campaigns_vehcile_data_html,
+                    'city_branch_camp_data_html' => $city_branch_camp_data_html,
+                    'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
+                    'crm_users_graph_html' => $crm_users_graph_html,
+                    'crm_users_source_graph_html' => $crm_users_source_graph_html,
+                ]);
+            }
+        }
+
         // $filters['category_chk'] = 'not_null';
 
-        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Qualified']));
-        $data['second_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);
-        $data['third_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
-
-        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']) ,  array_sum($data['third_count'])];
-        $data['total_performance_count'] = array_sum($data['third_count']);
-
-        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate,$first_types,$filters);
         // $data['citygraph'] = Application::getCityWiseData($startDate, $endDate,$first_types, $filters);
         // $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate,$first_types,$filters);
         // $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate,$first_types,$filters);
-        $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$first_types,$filters);
         // $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $first_types , $filters);
-        $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types , $filters);
-        $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types , $filters);
         // $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $first_types , $filters);
-        $data['city_branch_camp_data'] = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
-        $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $first_types, $filters);
-        $data['vehcile_detial_graph'] = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
-
-        $data['crm_users_graph'] = Application::with('updatedby')
-            ->select(
-                'updated_by',
-                DB::raw("SUM(CASE WHEN category = 'Qualified' THEN 1 ELSE 0 END) as qualified_count"),
-                DB::raw("SUM(CASE WHEN category = 'Not Qualified' THEN 1 ELSE 0 END) as not_qualified_count"),
-                DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count"),
-                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-            )
-            ->whereIn('type', $first_types)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->graphsearch($filters)
-            ->whereNotNull('updated_by')
-            ->whereHas('updatedby', function ($query) {
-                $query->whereHas('roles', function ($roleQuery) {
-                    $roleQuery->where('name', 'Crm Lead User');
-                });
-            })
-            ->groupBy('updated_by')
-            ->get()->toArray();
-
-        $data['crm_users_source_graph'] = Application::with('updatedby')
-            ->select(
-                'updated_by',
-                DB::raw("SUM(CASE WHEN sources.name = 'Email' THEN 1 ELSE 0 END) as email_count"),
-                DB::raw("SUM(CASE WHEN sources.name = 'Whatsapp' THEN 1 ELSE 0 END) as whatsapp_count"),
-                DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
-                DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count"),
-                // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count"),
-                // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
-                DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count")
-            )
-            // ->join('sources', 'applications.source_id', '=', 'sources.id')
-            ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
-            ->whereIn('type', $first_types)
-            ->whereBetween('applications.created_at', [$startDate, $endDate])
-            ->graphsearch($filters)
-            ->whereNotNull('updated_by')
-            ->whereHas('updatedby', function ($query) {
-                $query->whereHas('roles', function ($roleQuery) {
-                    $roleQuery->where('name', 'Crm Lead User');
-                });
-            })
-            ->groupBy('updated_by')
-            ->get()->toArray();
-
-
+        // $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $first_types, $filters);
         // dd($data['crm_users_graph'],$data['crm_users_source_graph']);
 
        return view('admin.crn_lead.graph_index' , $data ,getCommonFilterData());

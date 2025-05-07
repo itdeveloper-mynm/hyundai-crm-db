@@ -1231,6 +1231,59 @@ class Application extends Model
 
     }
 
+    public static function getCrmUserGraph($startDate,$endDate,$first_types,$filters) {
+
+        return self::with('updatedby')
+            ->select(
+                'updated_by',
+                DB::raw("SUM(CASE WHEN category = 'Qualified' THEN 1 ELSE 0 END) as qualified_count"),
+                DB::raw("SUM(CASE WHEN category = 'Not Qualified' THEN 1 ELSE 0 END) as not_qualified_count"),
+                DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count"),
+                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+            )
+            ->whereIn('type', $first_types)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->whereNotNull('updated_by')
+            ->whereHas('updatedby', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Crm Lead User');
+                });
+            })
+            ->groupBy('updated_by')
+            ->get()->toArray();
+
+    }
+
+    public static function getCrmUserSourcesGraph($startDate,$endDate,$first_types,$filters) {
+
+        return self::with('updatedby')
+        ->select(
+            'updated_by',
+            DB::raw("SUM(CASE WHEN sources.name = 'Email' THEN 1 ELSE 0 END) as email_count"),
+            DB::raw("SUM(CASE WHEN sources.name = 'Whatsapp' THEN 1 ELSE 0 END) as whatsapp_count"),
+            DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
+            DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count"),
+            // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count"),
+            // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
+            DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count")
+        )
+        // ->join('sources', 'applications.source_id', '=', 'sources.id')
+        ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
+        ->whereIn('type', $first_types)
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
+        ->graphsearch($filters)
+        ->whereNotNull('updated_by')
+        ->whereHas('updatedby', function ($query) {
+            $query->whereHas('roles', function ($roleQuery) {
+                $roleQuery->where('name', 'Crm Lead User');
+            });
+        })
+        ->groupBy('updated_by')
+        ->get()->toArray();
+
+    }
+
       // Helper function to generate the date range
     //   public static function generateDateRange($startDate, $endDate, $dateFormat) {
     //     $start = new \DateTime($startDate);
