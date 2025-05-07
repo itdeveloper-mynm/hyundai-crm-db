@@ -68,6 +68,13 @@
 
 @section('content')
 
+    <!--begin::Page loading(append to body)-->
+    <!--begin::Page loading(append to body)-->
+    <div class="page-loader flex-column bg-dark bg-opacity-25">
+        <span class="spinner-border text-primary" role="status"></span>
+        <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+    </div>
+    <!--end::Page loading-->
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -119,7 +126,7 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="POST" action="{{ route('sale-graph.index') }}"
+                                <form method="POST" action="#"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     @csrf
                                     <div class="px-7 py-5">
@@ -224,8 +231,7 @@
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bold text-dark">Performance</span>
-                                <span class="text-gray-400 mt-1 fw-semibold fs-6">Total Leads
-                                    ({{ $total_performance_count }})</span>
+                                <span class="text-gray-400 mt-1 fw-semibold fs-6">Total Leads (<span id="total_performance_count">0</span>)</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -267,74 +273,7 @@
                             <!--end::Title-->
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF6384">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
-                                            <p class="label">Request a Quote</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF9F40">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
-                                            <p class="label">Special Offers</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #9966FF">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
-                                            <p class="label">Request a Test Drive</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #36A2EB">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[3] ?? 0 }}</p>
-                                            <p class="label fs-6">Request a Test Quote</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #4BC0C0">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[4] ?? 0 }}</p>
-                                            <p class="label">Leads</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #323639">
-                                        <div>
-                                            <p class="value">{{ $second_graph_data[5] ?? 0 }}</p>
-                                            <p class="label">Events</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="bi bi-geo-alt"></i>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                            </div>
+                            <div id="dept_leads_graph_div"></div>
                         </div>
                     </div>
                 </div>
@@ -365,132 +304,7 @@
                                 <!-- Backtoschool-2024 Content -->
                                 <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
                                     aria-labelledby="tab-backtoschool">
-                                    <table class="table table-striped gy-4 gs-7">
-                                        <thead>
-                                            <tr  style="background: #A0C5E8;">
-                                                <th class="w-250px" colspan="2">
-                                                    <h5><span style="float: left">Name</span></h5>
-                                                </th>
-                                                <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
-                                                <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $total_percentage_value = 0;
-                                            @endphp
-                                            @foreach ($campaigns_detial_data as $key => $campaign)
-                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}">
-                                                    @php
-                                                        $mql = $campaign['mql'] ?? 0;
-                                                        $cql = $campaign['cql'] ?? 0;
-                                                        $cgi = $campaign['cgi'] ?? 0;
-                                                        $cnq = $campaign['cnq'] ?? 0;
-                                                        $unreachable = $campaign['unreach'] ?? 0;
-                                                        $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-
-                                                        // Calculate percentage value and sum it
-                                                        $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
-                                                        $total_percentage_value += $percentage_value;
-                                                    @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} </span></td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $cql) }}
-                                                    </span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $inv) }}
-                                                    </span></td>
-                                                </tr>
-
-
-                                                @foreach($campaign['sources'] as $source)
-                                                    <tr class="source-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
-                                                    style="display: none;
-                                                    {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
-                                                    {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
-
-                                                    @php
-                                                        $mql = $source['mql'] ?? 0;
-                                                        $cql = $source['cql'] ?? 0;
-                                                        $cgi = $source['cgi'] ?? 0;
-                                                        $cnq = $source['cnq'] ?? 0;
-                                                        $unreachable = $source['unreach'] ?? 0;
-                                                        $inv = $source['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                    @endphp
-
-                                                    <td colspan="2" style="border-left: 2px solid black;">
-                                                        <span>{{ $source['source_name'] }}</span>
-                                                    </td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td>0</td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td>
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $cql) }}
-                                                        </span>
-                                                    </td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td style="border-right: 2px solid black;">
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $inv) }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                            <tr style="background: #a36b4f">
-                                                <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
-                                                @php
-                                                    $mql = collect($campaigns_detial_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_detial_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_detial_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_detial_data)->sum('cnq') ?? 0;
-                                                    $unreachable = collect($campaigns_detial_data)->sum('unreach') ?? 0;
-                                                    $inv = collect($campaigns_detial_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                @endphp
-                                                <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                {{-- <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th> --}}
-                                                <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
-                                                <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
-                                                <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $cql) }}
-                                                </span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $inv) }}
-                                                </span></h5></th>
-                                            </tr>
-
-                                        </tfoot>
-                                    </table>
+                                    <div id="campaign_first_graph_div"></div>
                                 </div>
                             </div>
                             <!--end::Chart-->
@@ -523,134 +337,7 @@
                                 <!-- Backtoschool-2024 Content -->
                                 <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
                                     aria-labelledby="tab-backtoschool">
-                                    <table class="table table-striped gy-4 gs-7">
-                                        <thead>
-                                            <tr  style="background: #A0C5E8;">
-                                                <th class="w-250px" colspan="2">
-                                                    <h5><span style="float: left">Name</span></h5>
-                                                </th>
-                                                <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
-                                                <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $total_percentage_value = 0;
-                                            @endphp
-
-                                            @foreach ($campaigns_vehcile_data as $key => $campaign)
-                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-name="vehciles-row">
-                                                    @php
-                                                        $mql = $campaign['mql'] ?? 0;
-                                                        $cql = $campaign['cql'] ?? 0;
-                                                        $cgi = $campaign['cgi'] ?? 0;
-                                                        $cnq = $campaign['cnq'] ?? 0;
-                                                        $unreachable = $campaign['unreach'] ?? 0;
-                                                        $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-
-                                                        // Calculate percentage value and sum it
-                                                        $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
-                                                        $total_percentage_value += $percentage_value;
-
-                                                    @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }}  </span></td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $cql) }}
-                                                    </span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $inv) }}
-                                                    </span></td>
-                                                </tr>
-
-
-                                                @foreach($campaign['vehicles'] as $source)
-                                                    <tr class="vehciles-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}"
-                                                    style="display: none;
-                                                    {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
-                                                    {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
-
-                                                    @php
-                                                        $mql = $source['mql'] ?? 0;
-                                                        $cql = $source['cql'] ?? 0;
-                                                        $cgi = $source['cgi'] ?? 0;
-                                                        $cnq = $source['cnq'] ?? 0;
-                                                        $unreachable = $source['unreach'] ?? 0;
-                                                        $inv = $source['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                    @endphp
-
-                                                    <td colspan="2" style="border-left: 2px solid black;">
-                                                        <span>{{ $source['vehicle_name'] }}</span>
-                                                    </td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td>0</td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td>
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $cql) }}
-                                                        </span>
-                                                    </td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td style="border-right: 2px solid black;">
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $inv) }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                            <tr style="background: #a36b4f">
-                                                <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
-                                                @php
-                                                    $mql = collect($campaigns_vehcile_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_vehcile_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_vehcile_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_vehcile_data)->sum('cnq') ?? 0;
-                                                    $unreachable = collect($campaigns_vehcile_data)->sum('unreach') ?? 0;
-                                                    $inv = collect($campaigns_vehcile_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                @endphp
-                                                <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
-                                                <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
-                                                <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
-                                                <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $cql) }}
-                                                </span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $inv) }}
-                                                </span></h5></th>
-                                            </tr>
-
-                                        </tfoot>
-                                    </table>
+                                    <div id="campaign_vehcile_second_graph_div"></div>
                                 </div>
                             </div>
                             <!--end::Chart-->
@@ -683,171 +370,7 @@
                                 <!-- Backtoschool-2024 Content -->
                                 <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel"
                                     aria-labelledby="tab-backtoschool">
-                                    <table class="table table-striped gy-4 gs-7">
-                                        <thead>
-                                            <tr  style="background: #A0C5E8;">
-                                                <th class="w-250px" colspan="2">
-                                                    <h5><span style="float: left">Name</span></h5>
-                                                </th>
-                                                <th class="w-100px"><h5><span style="float: left">MQL</span></h5></th>
-                                                {{-- <th class="w-100px"><h5><span style="float: left" title="Target Sql">TSQL</span></h5></th> --}}
-                                                <th class="w-100px"><h5><span style="float: left">SQL</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SGI</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">SNQ</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Unreachable">Unreach</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left" title="Pending CRM Leads">PCL</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">Conversion (%)</span></h5></th>
-                                                <th class="w-100px"><h5><span style="float: left">Inv</span></h5></th>
-                                                <th class="w-150px"><h5><span style="float: left">SalesConv (%)</span></h5></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $total_percentage_value = 0;
-                                            @endphp
-
-                                            @foreach ($campaigns_city_data as $key => $campaign)
-                                                <tr class="cursor-pointer campaign-row toggle-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-name="cities-row">
-                                                    @php
-                                                        $mql = $campaign['mql'] ?? 0;
-                                                        $cql = $campaign['cql'] ?? 0;
-                                                        $cgi = $campaign['cgi'] ?? 0;
-                                                        $cnq = $campaign['cnq'] ?? 0;
-                                                        $unreachable = $campaign['unreach'] ?? 0;
-                                                        $inv = $campaign['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-
-                                                        // Calculate percentage value and sum it
-                                                        $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
-                                                        $total_percentage_value += $percentage_value;
-
-                                                    @endphp
-                                                    <td colspan="2"><span style="float: left">{{ $campaign['campaign_name'] }} </span></td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td><span class="badge badge-primary">{{ $percentage_value }}</span></td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $cql) }}
-                                                    </span></td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td><span class="badge" style="background-color: #002c5f !important;">
-                                                        {{ calculatePercentage($mql, $inv) }}
-                                                    </span></td>
-                                                </tr>
-                                                @foreach($campaign['cities'] as $city)
-                                                    <tr class="cities-row nested-sources toggle-child-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-child-id="{{ $city['city_id'] }}" data-child-name="branches-row"
-                                                    style="cursor: pointer;display: none;
-                                                    {{ $loop->first ? 'border-top: 2px solid black;' : '' }}
-                                                    {{ $loop->last ? 'border-bottom: 2px solid black;' : '' }}">
-
-                                                    @php
-                                                        $mql = $city['mql'] ?? 0;
-                                                        $cql = $city['cql'] ?? 0;
-                                                        $cgi = $city['cgi'] ?? 0;
-                                                        $cnq = $city['cnq'] ?? 0;
-                                                        $unreachable = $city['unreach'] ?? 0;
-                                                        $inv = $city['inv'] ?? 0;
-                                                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                    @endphp
-
-                                                    <td colspan="2" style="border-left: 2px solid black;">
-                                                        <span>{{ $city['city_name'] }}</span>
-                                                    </td>
-                                                    <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                    {{-- <td>0</td> --}}
-                                                    <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                    <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                    <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                    <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                    <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                    <td>
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $cql) }}
-                                                        </span>
-                                                    </td>
-                                                    <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                    <td style="border-right: 2px solid black;">
-                                                        <span class="badge" style="background-color: #002c5f !important;">
-                                                            {{ calculatePercentage($mql, $inv) }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                    @foreach($city['branches'] as $branch)
-                                                        <tr class="branches-row nested-sources" data-campaign-id="{{ $campaign['campaign_id'] }}" data-city-id="{{ $city['city_id'] }}"
-                                                        style="display: none;
-                                                        {{ $loop->first ? 'border-top: 2px solid #b503ff;' : '' }}
-                                                        {{ $loop->last ? 'border-bottom: 2px solid #b503ff;' : '' }}">
-
-                                                        @php
-                                                            $mql = $branch['mql'] ?? 0;
-                                                            $cql = $branch['cql'] ?? 0;
-                                                            $cgi = $branch['cgi'] ?? 0;
-                                                            $cnq = $branch['cnq'] ?? 0;
-                                                            $unreachable = $branch['unreach'] ?? 0;
-                                                            $inv = $branch['inv'] ?? 0;
-                                                            $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                        @endphp
-
-                                                        <td colspan="2" style="border-left: 2px solid #b503ff;">
-                                                            <span>{{ $branch['branch_name'] }}</span>
-                                                        </td>
-                                                        <td><span class="badge badge-primary">{{ $mql }}</span></td>
-                                                        {{-- <td>0</td> --}}
-                                                        <td><span class="badge badge-success">{{ $cql }}</span></td>
-                                                        <td><span class="badge badge-info">{{ $cgi }}</span></td>
-                                                        <td><span class="badge badge-warning">{{ $cnq }}</span></td>
-                                                        <td><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></td>
-                                                        <td><span class="badge badge-danger">{{ $remaining }}</span></td>
-                                                        <td>
-                                                            <span class="badge" style="background-color: #002c5f !important;">
-                                                                {{ calculatePercentage($mql, $cql) }}
-                                                            </span>
-                                                        </td>
-                                                        <td><span class="badge badge-success">{{ $inv }}</span></td>
-                                                        <td style="border-right: 2px solid #b503ff;">
-                                                            <span class="badge" style="background-color: #002c5f !important;">
-                                                                {{ calculatePercentage($mql, $inv) }}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                @endforeach
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                            <tr style="background: #a36b4f">
-                                                <th colspan="2"><h5><span style="float: left">Total Count</span></h5></th>
-                                                @php
-                                                    $mql = collect($campaigns_city_data)->sum('mql') ?? 0;
-                                                    $cql = collect($campaigns_city_data)->sum('cql') ?? 0;
-                                                    $cgi = collect($campaigns_city_data)->sum('cgi') ?? 0;
-                                                    $cnq = collect($campaigns_city_data)->sum('cnq') ?? 0;
-                                                    $unreachable = collect($campaigns_city_data)->sum('unreach') ?? 0;
-                                                    $inv = collect($campaigns_city_data)->sum('inv') ?? 0;
-                                                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
-                                                @endphp
-                                                <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
-                                                {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}
-                                                <th><h5><span class="badge badge-success">{{ $cql }}</span></h5></th>
-                                                <th><h5><span class="badge badge-info">{{ $cgi }}</span></h5></th>
-                                                <th><h5><span class="badge badge-warning">{{ $cnq }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color : #4BC0C0">{{ $unreachable }}</span></h5></th>
-                                                <th><h5><span class="badge badge-danger">{{ $remaining }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $cql) }}
-                                                </span></h5></th>
-                                                <th><h5><span class="badge badge-success">{{ $inv }}</span></h5></th>
-                                                <th><h5><span class="badge" style="background-color: #002c5f !important;">
-                                                    {{ calculatePercentage($mql, $inv) }}
-                                                </span></h5></th>
-                                            </tr>
-
-                                        </tfoot>
-                                    </table>
+                                    <div id="camp_city_branch_graph_div"></div>
                                 </div>
                             </div>
                             <!--end::Chart-->
@@ -900,108 +423,7 @@
 
 
             <div class="row gx-5 gx-xl-10 mt-5 bank-section">
-                <!--begin::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                                <div class="tab-content" id="campaignTabsContent">
-                                    <!-- Backtoschool-2024 Content -->
-                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
-                                        <table class="table table-striped gy-4 gs-7">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">
-                                                                <h5><span style="float: left">Current Campaigns</span></h5>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
-                                                @endphp
-                                                @foreach ($countsByCampaign as $key => $campaign_wise)
-                                                    <tr class="campaign_wise_row cursor-pointer" data-id="{{ $key }}">
-                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
-                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                        </td>
-                                                    </tr>
-
-                                                    <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
-                                                        <table class="table table-striped gy-4 gs-7">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th colspan="2">
-                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
-                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($campaign_wise['source'] as $source_data)
-                                                                    @if (isset($source_data))
-                                                                    <tr class="cursor-pointer">
-                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
-                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </textarea>
-
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            <!--end::Chart-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-                <!--end::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Sources</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                                <div class="tab-content" id="campaignTabsContent">
-                                    <!-- Backtoschool-2024 Content -->
-                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
-                                        <div id="source_detials_div"></div>
-                                    </div>
-                                </div>
-                            <!--end::Chart-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-
+                <div id="campaign_performance_graph_div"></div>
             </div>
             {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
@@ -1124,197 +546,12 @@
 
 
             <div class="row gx-5 gx-xl-10 mt-10 bank-section">
-                <!--begin::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Vehicles Interested ({{collect($vehcile_graph['vehicle_count'])->sum() ?? 0}})</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                                <div class="tab-content">
-                                    <!-- Backtoschool-2024 Content -->
-                                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-backtoschool">
-                                        <table class="table table-striped gy-4 gs-7">
-                                            <tbody>
-                                                @php
-                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
-                                                @endphp
-                                                @foreach ($vehcile_graph['vehicle_names'] as $key => $vehcile)
-                                                {{-- {{dd($vehcile_graph['vehicle_names'],$vehcile_graph['vehicle_count'])}} --}}
-                                                    <tr class="" data-id="{{ $key }}">
-                                                        <td colspan="2"><span style="float: left"> {{ $vehcile ?? '' }}</span>
-                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $vehcile_graph['vehicle_count'][$key] ?? 0 }}</span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            <!--end::Chart-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-                <!--end::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Banks  ({{collect($banks_graph)->sum('count') ?? 0}})</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                                <div class="card-body pt-5">
-                                    @foreach ($banks_graph as $bank)
-                                            <!--begin::Item-->
-                                            <div class="d-flex flex-stack">
-                                                <!--begin::Section-->
-                                                <span
-                                                    class="text-black fw-semibold fs-6 me-2">{{ $bank['bank_name'] ?? '' }}</span>
-                                                <!--end::Section-->
-                                                <!--begin::Action-->
-                                                <span
-                                                    class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr095.svg-->
-                                                    <span
-                                                        class="badge py-3 px-4 fs-7 badge-light-primary">{{ $bank['count'] ?? 0 }}</span>
-                                                    <!--end::Svg Icon-->
-                                                </span>
-                                                <!--end::Action-->
-                                            </div>
-                                            <!--end::Item-->
-                                            <!--begin::Separator-->
-                                            <div class="separator separator-dashed my-3"></div>
-                                            <!--end::Separator-->
-                                    @endforeach
-                                </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-
+                <div id="vehicle_bank_graph_div"></div>
             </div>
 
 
             <div class="row gx-5 gx-xl-10 mt-5 bank-section">
-                <!--begin::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                                <div class="tab-content" id="campaignTabsContent">
-                                    <!-- Backtoschool-2024 Content -->
-                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
-                                        <table class="table table-striped gy-4 gs-7">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">
-                                                                <h5><span style="float: left">Current Cities</span></h5>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
-                                                @endphp
-                                                @foreach ($citygraph as $key => $campaign_wise)
-                                                    <tr class="city_wise_row cursor-pointer" data-id="{{ $key }}">
-                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
-                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                        </td>
-                                                    </tr>
-
-                                                    <textarea id="city_wise_detials_{{ $key }}" style="display: none">
-                                                        <table class="table table-striped gy-4 gs-7">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th colspan="2">
-                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
-                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($campaign_wise['branches'] as $source_data)
-                                                                    @if (isset($source_data))
-                                                                    <tr class="cursor-pointer">
-                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
-                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </textarea>
-
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            <!--end::Chart-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-                <!--end::Col-->
-                <div class="col-xl-6">
-                    <!--begin::Chart widget 31-->
-                    <div class="card card-flush h-xl-100">
-                        <!--begin::Header-->
-                        <div class="card-header pt-7 mb-7">
-                            <!--begin::Title-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Branches</span>
-                            </h3>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body align-items-end pt-0">
-                            <!--begin::Chart-->
-                                <div class="tab-content" id="campaignTabsContent">
-                                    <!-- Backtoschool-2024 Content -->
-                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
-                                        <div id="branch_detials_div"></div>
-                                    </div>
-                                </div>
-                            <!--end::Chart-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Chart widget 31-->
-                </div>
-
+                <div id="city_branches_div"></div>
             </div>
 
             {{-- <div class="row gx-5 gx-xl-10">
@@ -1518,8 +755,6 @@
 
     <script>
         //var ctx = document.getElementById('kt_chartjs_2');
-        var ctx = document.getElementById('1st_graph');
-
         // Define colors
         var primaryColor = KTUtil.getCssVariableValue('--kt-primary');
         var dangerColor = KTUtil.getCssVariableValue('--kt-danger');
@@ -1533,104 +768,84 @@
         // Chart labels
         // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
      // Chart labels
-        const labels = @json($months);
 
-        // Chart data
-        const data = {
-            labels: labels,
-            datasets: [{
-                    label: 'Request a Quote ('+ @json($second_graph_data[0]) +')',
-                    data: @json($first_count),
-                    fill: false,
-                    borderColor: primaryColor,
-                    tension: 0.6
-                },
-                {
-                    label: 'Special Offers ('+ @json($second_graph_data[1]) +')',
-                    data: @json($second_count),
-                    fill: false,
-                    borderColor: dangerColor,
-                    tension: 0.6
-                },
-                {
-                    label: 'Request a Test Drive ('+ @json($second_graph_data[2]) +')',
-                    data: @json($third_count),
-                    fill: false,
-                    borderColor: successColor,
-                    tension: 0.6
-                },
-                // {
-                //     label: 'Request a Test Quote ('+ @json($second_graph_data[3]) +')',
-                //     data: @json($fourth_count),
-                //     fill: false,
-                //     borderColor: defaultColor,
-                //     tension: 0.6
-                // },
-                {
-                    label: 'Leads ('+ @json($second_graph_data[4]) +')',
-                    data: @json($fifth_count),
-                    fill: false,
-                    borderColor: primaryColor,
-                    tension: 0.6
-                }
-            ]
-        };
+        let myChartInstance = null; // global chart instance for reuse/destroy
 
-        // Chart config
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                plugins: {
-                    title: {
-                        display: false,
+        function renderCustomLineChart(months, firstCount, secondCount, thirdCount, fifthCount, secondGraphData) {
+            const data = {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Request a Quote (' + secondGraphData[0] + ')',
+                        data: firstCount,
+                        fill: false,
+                        borderColor: primaryColor,
+                        tension: 0.6
                     },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                // Build the label string by iterating over each dataset
-                                let label = tooltipItem.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
+                    {
+                        label: 'Special Offers (' + secondGraphData[1] + ')',
+                        data: secondCount,
+                        fill: false,
+                        borderColor: dangerColor,
+                        tension: 0.6
+                    },
+                    {
+                        label: 'Request a Test Drive (' + secondGraphData[2] + ')',
+                        data: thirdCount,
+                        fill: false,
+                        borderColor: successColor,
+                        tension: 0.6
+                    },
+                    {
+                        label: 'Leads (' + secondGraphData[4] + ')',
+                        data: fifthCount,
+                        fill: false,
+                        borderColor: primaryColor,
+                        tension: 0.6
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    plugins: {
+                        title: {
+                            display: false,
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    let label = tooltipItem.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += tooltipItem.raw;
+                                    return label;
                                 }
-                                label += tooltipItem.raw;
-                                return label;
                             }
                         }
-                    }
-                },
-                responsive: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                defaults: {
-                    global: {
-                        defaultFont: fontFamily
+                    },
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
                     }
                 }
+            };
+
+            // Destroy previous chart instance if exists
+            if (myChartInstance) {
+                myChartInstance.destroy();
             }
-        };
 
-        // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
-        var myChart = new Chart(ctx, config);
+            const ctx = document.getElementById('1st_graph');
+            myChartInstance = new Chart(ctx, config);
+        }
 
-
-        // Example data
-        // var xData = @json($vehcile_graph['vehicle_names']) ;
-        // var yData = @json($vehcile_graph['vehicle_count']) ;
-
-        // // Generate random fill colors
-        // var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
-
-        // // Create series data
-        // var seriesData = xData.map((x, index) => ({
-        // x: x,
-        // y: yData[index],
-        // fill: fillColors[index]
-        // }));
 
         // Function to generate a random color
         function getRandomColor() {
@@ -1642,152 +857,188 @@
         return color;
         }
 
-        // // Chart options
-        // var options = {
-        // series: [{
-        //     data: seriesData
-        // }],
-        // chart: {
-        //     type: 'bar',
-        //     height: 350
-        // },
-        // plotOptions: {
-        //     bar: {
-        //         horizontal: true,
-        //         distributed: true,
-        //         barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+        {{--
+            // Example data
+            var xData = @json($vehcile_graph['vehicle_names']) ;
+            var yData = @json($vehcile_graph['vehicle_count']) ;
 
-        //     }
-        // },
-        // dataLabels: {
-        //     enabled: true
-        // },
-        // xaxis: {
-        //     categories: xData.map((x, index) => `${x} (${yData[index]})`),
-        //     labels: {
-        //         formatter: function(val) {
-        //             return val;
-        //         }
-        //     }
-        // },
-        //     legend: {
-        //     show: false // Hides the legend below the graph
-        // }
-        // };
+            // Generate random fill colors
+            var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
 
-        // // Render the chart
-        // var chart = new ApexCharts(document.querySelector("#graph_3"), options);
-        // chart.render();
+            // Create series data
+            var seriesData = xData.map((x, index) => ({
+            x: x,
+            y: yData[index],
+            fill: fillColors[index]
+            }));
 
 
-        var ctx1 = document.getElementById('graph_4');
+            // Chart options
+            var options = {
+            series: [{
+                data: seriesData
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    distributed: true,
+                    barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
 
-        const data1 = {
-        labels: @json($salary_graph['monthly_salary']) ,
-        datasets: [
-            {
-            label: 'Dataset',
-            data: @json($salary_graph['monthly_salary_count']) ,
-            backgroundColor: [
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: xData.map((x, index) => `${x} (${yData[index]})`),
+                labels: {
+                    formatter: function(val) {
+                        return val;
+                    }
+                }
+            },
+                legend: {
+                show: false // Hides the legend below the graph
+            }
+            };
+
+            // Render the chart
+            var chart = new ApexCharts(document.querySelector("#graph_3"), options);
+            chart.render();
+        --}}
+
+        let salaryChartInstance = null; // Global chart instance for reuse/destroy
+
+        function renderSalaryDoughnutChart(labels, dataValues) {
+            const backgroundColors = [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
                 'rgb(255, 205, 86)',
                 'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                ],
-            }
-        ]
-        };
+                'rgb(54, 162, 235)'
+            ];
 
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Dataset',
+                        data: dataValues,
+                        backgroundColor: backgroundColors
+                    }
+                ]
+            };
 
-        const config1 = {
-        type: 'doughnut',
-        data: data1,
-        options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            generateLabels: function (chart) {
-                                const data = chart.data;
-                                return data.labels.map((label, index) => {
-                                    const value = data.datasets[0].data[index];
-                                    return {
-                                        text: `${label} (${value})`,
-                                        fillStyle: data.datasets[0].backgroundColor[index],
-                                        index: index
-                                    };
-                                });
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                generateLabels: function (chart) {
+                                    const chartData = chart.data;
+                                    return chartData.labels.map((label, index) => {
+                                        const value = chartData.datasets[0].data[index];
+                                        return {
+                                            text: `${label} (${value})`,
+                                            fillStyle: chartData.datasets[0].backgroundColor[index],
+                                            index: index
+                                        };
+                                    });
+                                }
                             }
+                        },
+                        title: {
+                            display: false,
+                            text: 'Pie Chart'
                         }
-                    },
-                title: {
-                    display: false,
-                    text: 'Pie Chart'
-                }
-            }
-            },
-        };
-
-    var myChart = new Chart(ctx1, config1);
-
-
-
-    var ctx2 = document.getElementById('graph_5');
-
-    const data2 = {
-    labels: @json($purchase_plan_graph['purchase_plan']) ,
-    datasets: [
-        {
-        label: 'Dataset',
-        data: @json($purchase_plan_graph['purchase_plan_count']) ,
-        backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            ],
-        }
-    ]
-    };
-
-
-    const config2 = {
-    type: 'pie',
-    data: data2,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-                labels: {
-                    generateLabels: function (chart) {
-                        const data = chart.data;
-                        return data.labels.map((label, index) => {
-                            const value = data.datasets[0].data[index];
-                            return {
-                                text: `${label} (${value})`,
-                                fillStyle: data.datasets[0].backgroundColor[index],
-                                index: index
-                            };
-                        });
                     }
                 }
-            },
-            title: {
-                display: false,
-                text: 'Pie Chart'
+            };
+
+            // Destroy previous chart instance if it exists
+            if (salaryChartInstance) {
+                salaryChartInstance.destroy();
             }
+
+            const ctx = document.getElementById('graph_4');
+            salaryChartInstance = new Chart(ctx, config);
         }
-    },
-};
-
-    var myChart = new Chart(ctx2, config2);
 
 
-{{--
+
+
+        let purchasePlanChartInstance = null; // Global chart instance for reuse/destroy
+
+        function renderPurchasePlanPieChart(labels, dataValues) {
+            const backgroundColors = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)'
+            ];
+
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Dataset',
+                        data: dataValues,
+                        backgroundColor: backgroundColors
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                generateLabels: function (chart) {
+                                    const chartData = chart.data;
+                                    return chartData.labels.map((label, index) => {
+                                        const value = chartData.datasets[0].data[index];
+                                        return {
+                                            text: `${label} (${value})`,
+                                            fillStyle: chartData.datasets[0].backgroundColor[index],
+                                            index: index
+                                        };
+                                    });
+                                }
+                            }
+                        },
+                        title: {
+                            display: false,
+                            text: 'Pie Chart'
+                        }
+                    }
+                }
+            };
+
+            // Destroy previous chart instance if it exists
+            if (purchasePlanChartInstance) {
+                purchasePlanChartInstance.destroy();
+            }
+
+            const ctx = document.getElementById('graph_5');
+            purchasePlanChartInstance = new Chart(ctx, config);
+        }
+
+
+
+    {{--
     var ctx7 = document.getElementById('graph_7');
 
     const data7 = {
@@ -1908,96 +1159,102 @@
     // });
 
 
-    $('.toggle-sources').on('click', function () {
-        var campaignId = $(this).data('campaign-id');
+    $(document).on('click', '.toggle-sources', function () {
+            var campaignId = $(this).data('campaign-id');
+            var childName = $(this).data('child-name');
 
-        var childName = $(this).data('child-name');
+            var sourceRows;
+            if (childName) {
+                sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
+            } else {
+                sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
+            }
 
-        var sourceRows;
-        if (childName) {
-            sourceRows = $('.' + childName + '[data-campaign-id="' + campaignId + '"]');
-        } else {
-            sourceRows = $('.source-row[data-campaign-id="' + campaignId + '"]');
-        }
-        // Toggle the visibility of the source rows
-        sourceRows.toggle();
+            // Toggle the visibility of the source rows
+            sourceRows.toggle();
 
-         // Ensure all child elements (branches) are hidden when collapsing cities
-         if (!sourceRows.is(':visible')) {
-            sourceRows.each(function () {
-                var childId = $(this).data('child-id');
-                $('.branches-row[data-campaign-id="' + childId + '"]').hide();
-            });
-        }
-    });
-
-    $('.toggle-child-sources').on('click', function () {
-        var campaignId = $(this).data('child-id');
-        var childName = $(this).data('child-name');
-        var campaignAttr = $(this).data('campaign-id');
-        var sourceRows;
-
-        if (childName) {
-            sourceRows = $('.' + childName + '[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
-        } else {
-            sourceRows = $('.source-row[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
-        }
-
-        // Toggle the visibility of the source rows
-        sourceRows.toggle();
-    });
+            // Ensure all child elements (branches) are hidden when collapsing cities
+            if (!sourceRows.is(':visible')) {
+                sourceRows.each(function () {
+                    var childId = $(this).data('child-id');
+                    $('.branches-row[data-campaign-id="' + childId + '"]').hide();
+                });
+            }
+        });
 
 
-    var ctx = $("#vehicleAnalysisChart");
+        $(document).on('click', '.toggle-child-sources', function () {
+            var campaignId = $(this).data('child-id');
+            var childName = $(this).data('child-name');
+            var campaignAttr = $(this).data('campaign-id');
+            var sourceRows;
 
-    var dataa = {
-        labels: @json($vehcile_all_graph['vehicle_names']),
-        datasets: [
-            {
-                label: 'Total MQL ('+ @json(array_sum($vehcile_all_graph['mql'])) +')',
-                data: @json($vehcile_all_graph['mql']),
-                backgroundColor: "#F97316"
+            if (childName) {
+                sourceRows = $('.' + childName + '[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
+            } else {
+                sourceRows = $('.source-row[data-city-id="' + campaignId + '"][data-campaign-id="' + campaignAttr + '"]');
+            }
+
+            // Toggle the visibility of the source rows
+            sourceRows.toggle();
+        });
+
+
+    let vehicleAnalysisChartInstance = null; // Global chart instance for reuse/destroy
+
+    function renderVehicleAnalysisChart(vehicle_graph_data) {
+        const data = {
+            labels: vehicle_graph_data.vehicle_names,
+            datasets: [
+                {
+                    label: 'Total MQL (' + vehicle_graph_data.mql_total + ')',
+                    data: vehicle_graph_data.mql,
+                    backgroundColor: "#F97316"
+                },
+                {
+                    label: 'Qualified (' + vehicle_graph_data.cql_total + ')',
+                    data: vehicle_graph_data.cql,
+                    backgroundColor: "#9CA3AF"
+                },
+                {
+                    label: 'Not Qualified (' + vehicle_graph_data.cnq_total + ')',
+                    data: vehicle_graph_data.cnq,
+                    backgroundColor: "#FACC15"
+                },
+                {
+                    label: 'General Inquiry (' + vehicle_graph_data.cgi_total + ')',
+                    data: vehicle_graph_data.cgi,
+                    backgroundColor: "#2563EB"
+                }
+            ]
+        };
+
+        const options = {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
             },
-            {
-                label: 'Qualified ('+ @json(array_sum($vehcile_all_graph['cql'])) +')',
-                data: @json($vehcile_all_graph['cql']),
-                backgroundColor: "#9CA3AF"
-            },
-            {
-                label:'Not Qualified ('+ @json(array_sum($vehcile_all_graph['cnq'])) +')',
-                data: @json($vehcile_all_graph['cnq']),
-                backgroundColor: "#FACC15"
-            },
-            {
-                label: 'General Inquiry ('+ @json(array_sum($vehcile_all_graph['cgi'])) +')',
-                data: @json($vehcile_all_graph['cgi']),
-                backgroundColor: "#2563EB"
-            },
-            // {
-            //     label: "Unreachable",
-            //     data: [8, 9, 7, 10, 12, 15, 18, 25, 30],
-            //     backgroundColor: "#22C55E"
-            // }
-        ]
-    };
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true }
+            }
+        };
 
-    var options = {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-            legend: { position: 'bottom' }
-        },
-        scales: {
-            x: { stacked: true },
-            y: { stacked: true }
+        // Destroy previous chart instance if it exists
+        if (vehicleAnalysisChartInstance) {
+            vehicleAnalysisChartInstance.destroy();
         }
-    };
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: dataa,
-        options: options
-    });
+        const ctx = document.getElementById('vehicleAnalysisChart');
+        vehicleAnalysisChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+
+    }
+
 
     // var ctx = $("#vehicleAnalysisChart");
 
@@ -2075,6 +1332,82 @@
         $('#source_id').trigger('select2:select'); // Explicit Select2 refresh
 
     });
+
+    function fetchAndRenderGraphData(formElement, mode = 'graph', callback = null) {
+        var formData = new FormData(formElement);
+        formData.append('mode', mode); // Pass mode with request
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('sale-graph.index') }}",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 800000,
+            beforeSend: function () {
+                document.body.setAttribute('data-kt-app-page-loading', 'on');
+            },
+            success: function (data) {
+                document.body.removeAttribute('data-kt-app-page-loading');
+
+                if (mode === 'graph') {
+                    renderCustomLineChart(data.months, data.first_count, data.second_count, data.third_count , data.fifth_count, data.second_graph_data);
+                    renderVehicleAnalysisChart(data.vehicle_graph);
+                    renderSalaryDoughnutChart(data.salary_graph.monthly_salary,data.salary_graph.monthly_salary_count);
+                    renderPurchasePlanPieChart(data.purchase_plan_graph.purchase_plan,data.purchase_plan_graph.purchase_plan_count);
+                    $('#total_performance_count').empty().text(data.total_performance_count);
+                    $('#dept_leads_graph_div').empty().html(data.dept_leads_graph_html);
+                }else if (mode === 'second_graph') {
+                    $('#campaign_performance_graph_div').empty().html(data.campaign_performance_graph_html);
+                    $('.campaign_wise_row:first-child').trigger('click');
+                    $('#city_branches_div').empty().html(data.city_branches_graph_html);
+                    $('.city_wise_row:first-child').trigger('click');
+                    $('#vehicle_bank_graph_div').empty().html(data.vehicle_bank_graph_html);
+                } else if (mode === 'table') {
+                    $('#campaign_first_graph_div').empty().html(data.campaigns_detial_data_html);
+                    $('#campaign_vehcile_second_graph_div').empty().html(data.campaigns_vehcile_data_html);
+                } else if (mode === 'second_table') {
+                    $('#camp_city_branch_graph_div').empty().html(data.camp_city_branch_graph_html);
+                }
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            },
+            error: function (xhr, status, error) {
+                document.body.removeAttribute('data-kt-app-page-loading');
+                console.error("AJAX Error:", error);
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        fetchAndRenderGraphData($('#myForm')[0], 'graph');
+        fetchAndRenderGraphData($('#myForm')[0], 'second_graph');
+        fetchAndRenderGraphData($('#myForm')[0], 'table');
+        fetchAndRenderGraphData($('#myForm')[0], 'second_table');
+
+        // Form validation and submit
+        $("#myForm").validate({
+            ignore: [],
+            rules: {
+                // your rules
+            },
+            messages: {
+                // your messages
+            },
+            submitHandler: function (form) {
+                fetchAndRenderGraphData($('#myForm')[0], 'graph');
+                fetchAndRenderGraphData($('#myForm')[0], 'second_graph');
+                fetchAndRenderGraphData($('#myForm')[0], 'table');
+                fetchAndRenderGraphData($('#myForm')[0], 'second_table');
+                return false; // Prevent default
+            }
+        });
+    });
+
 
     </script>
 

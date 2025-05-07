@@ -64,64 +64,89 @@ class SaleGraphController extends Controller
         $fifth_types = ['leads'];
         $sixth_types = ['events'];
 
-        // comments
-
-        // $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive];
-        // Vehicles Interested graph make like cities and bank and Vehicles Interested graph set in single row
-        // CRM Data, PDPL Graph on last page
-
-
-        // $filters = [
-        //     'city_id' => request('city_id'),
-        //     'branch_id' => request('branch_id'),
-        //     'vehicle_id' => request('vehicle_id'),
-        //     'source_id' => request('source_id'),
-        //     'campaign_id' => request('campaign_id')
-        // ];
-
         $filters = $request->all();
 
-        $opt_filters = [
-            // 'department' => 'sales_maketing',
-        ];
+        if($request->ajax()){
 
+            $mode = $request->input('mode', 'graph');
+            $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote','leads','events'];
 
-        $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
-        $data['second_count'] = Application::getPerformanceMonthWise($second_types,$startDate,$endDate,$months_diff,$filters);
-        $data['third_count'] = Application::getPerformanceMonthWise($third_types,$startDate,$endDate,$months_diff,$filters);
-        $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters);
-        $data['fifth_count'] = Application::getPerformanceMonthWise($fifth_types,$startDate,$endDate,$months_diff,$filters);
-        $data['sixth_count'] = Application::getPerformanceMonthWise($sixth_types,$startDate,$endDate,$months_diff,$filters);
+            if ($mode === 'graph') {
+                $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,$filters);
+                $data['second_count'] = Application::getPerformanceMonthWise($second_types,$startDate,$endDate,$months_diff,$filters);
+                $data['third_count'] = Application::getPerformanceMonthWise($third_types,$startDate,$endDate,$months_diff,$filters);
+                $data['fourth_count'] = Application::getPerformanceMonthWise($fourth_types,$startDate,$endDate,$months_diff,$filters);
+                $data['fifth_count'] = Application::getPerformanceMonthWise($fifth_types,$startDate,$endDate,$months_diff,$filters);
+                $data['sixth_count'] = Application::getPerformanceMonthWise($sixth_types,$startDate,$endDate,$months_diff,$filters);
 
+                $second_graph_data= [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),
+                array_sum($data['fourth_count']),  array_sum($data['fifth_count']),  array_sum($data['sixth_count']) ];
+                $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count'])
+                + array_sum($data['fourth_count'])  + array_sum($data['fifth_count']) + array_sum($data['sixth_count']);
 
-        $data['second_graph_data'] = [array_sum($data['first_count']), array_sum($data['second_count']), array_sum($data['third_count']),
-                                      array_sum($data['fourth_count']),  array_sum($data['fifth_count']),  array_sum($data['sixth_count']) ];
-        $data['total_performance_count'] = array_sum($data['first_count']) + array_sum($data['second_count']) + array_sum($data['third_count'])
-                                         + array_sum($data['fourth_count'])  + array_sum($data['fifth_count']) + array_sum($data['sixth_count']);
+                $data['second_graph_data'] = $second_graph_data;
+                $data['dept_leads_graph_html'] = view('admin.sale_graph.dept_overall_leads_graph', compact('second_graph_data'))->render();
 
-        $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote','leads','events'];
-        $data['countsByCampaign'] = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
+                $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
+                $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
 
-        $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $all_types, $filters);
-        $data['citygraph'] = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
-        $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
-        $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
-        $data['banks_graph'] = Application::countByBank($startDate, $endDate, $all_types, $filters);
+                $all_types[] = 'used_cars';
+                $all_types[] = 'smo_leads';
+                $all_types[] = 'crm_leads';
+                $vehcile_all_graph = Application::getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters);
+                $data['vehicle_graph'] = [
+                    'vehicle_names' => $vehcile_all_graph['vehicle_names'],
+                    'mql'     => $vehcile_all_graph['mql'],
+                    'cql'     => $vehcile_all_graph['cql'],
+                    'cnq'     => $vehcile_all_graph['cnq'],
+                    'cgi'     => $vehcile_all_graph['cgi'],
+                    'mql_total'     => array_sum($vehcile_all_graph['mql']),
+                    'cql_total'     => array_sum($vehcile_all_graph['cql']),
+                    'cnq_total'     => array_sum($vehcile_all_graph['cnq']),
+                    'cgi_total'     => array_sum($vehcile_all_graph['cgi']),
+                ];
 
+                return response()->json($data);
+            }
+            elseif ($mode === 'second_graph') {
+                $countsByCampaign = Application::getCampaignWiseData($startDate, $endDate, $all_types, $filters);
+                $citygraph = Application::getCityWiseData($startDate, $endDate, $all_types, $filters);
+                $vehcile_graph = Application::getVechileGraph($startDate, $endDate, $all_types, $filters);
+                $banks_graph = Application::countByBank($startDate, $endDate, $all_types, $filters);
 
-        $crm_types = ['crm_leads'];
+                $campaign_performance_graph_html = view('admin.sale_graph.campaign_performance_graph', compact('countsByCampaign'))->render();
+                $city_branches_graph_html = view('admin.sale_graph.city_branches_graph', compact('citygraph'))->render();
+                $vehicle_bank_graph_html = view('admin.sale_graph.vehicle_bank_graph', compact('vehcile_graph','banks_graph'))->render();
+                return response()->json([
+                    'campaign_performance_graph_html' => $campaign_performance_graph_html,
+                    'city_branches_graph_html' => $city_branches_graph_html,
+                    'vehicle_bank_graph_html' => $vehicle_bank_graph_html,
+                ]);
+            }
+            elseif ($mode === 'table') {
+                $all_types = array_merge($all_types, ['used_cars', 'smo_leads', 'crm_leads']);
+                $campaigns_detial_data = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
+                $campaigns_vehcile_data = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types , $filters);
+                $campaigns_detial_data_html = view('admin.sale_graph.campaign_first_graph', compact('campaigns_detial_data'))->render();
+                $campaigns_vehcile_data_html = view('admin.sale_graph.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();
+                return response()->json([
+                    'campaigns_detial_data_html' => $campaigns_detial_data_html,
+                    'campaigns_vehcile_data_html' => $campaigns_vehcile_data_html,
+                ]);
+            }
+            elseif ($mode === 'second_table') {
+                $all_types = array_merge($all_types, ['used_cars', 'smo_leads', 'crm_leads']);
+                $campaigns_city_data = Application::getCampaignCityWiseDetailData($startDate, $endDate, $all_types , $filters);
+                $camp_city_branch_graph_html = view('admin.sale_graph.campaign_city_branch_graph', compact('campaigns_city_data'))->render();
+                return response()->json([
+                    'camp_city_branch_graph_html' => $camp_city_branch_graph_html,
+                ]);
+            }
+        }
+
+        // $crm_types = ['crm_leads'];
         // $data['category_graph'] = Application::countByCategoryGroup($startDate, $endDate,$crm_types,$filters);
-
         // $data['pdpl_graph'] = Application::countByAcceptance($startDate, $endDate,$all_types,$filters);
-        $all_types[] = 'used_cars';
-        $all_types[] = 'smo_leads';
-        $all_types[] = 'crm_leads';
-        $data['campaigns_detial_data'] = Application::getCampaignWiseDetialData($startDate, $endDate, $all_types , $filters);
-        $data['campaigns_vehcile_data'] = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types , $filters);
-        $data['campaigns_city_data'] = Application::getCampaignCityWiseDetailData($startDate, $endDate, $all_types , $filters);
-        $data['vehcile_all_graph'] = Application::getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters);
-        // dd( $data['vehcile_all_graph']);
-        // $data['dropdown'] = getCommonFilterData();
         //dd($data);
 
         // dd($data['campaigns_detial_data']);

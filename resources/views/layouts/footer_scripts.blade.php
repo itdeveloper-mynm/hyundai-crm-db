@@ -272,7 +272,7 @@
 
 
 
-        $(".campaign_wise_row").on("click", function () {
+        $(document).on('click', '.campaign_wise_row', function () {
             // Get the value of the data-id attribute
             var dataId = $(this).data("id");
             var detials = $('#campaign_wise_detials_' +dataId).val();
@@ -286,7 +286,7 @@
         });
 
 
-        $(".city_wise_row").on("click", function () {
+        $(document).on('click', '.city_wise_row', function () {
             // Get the value of the data-id attribute
             var dataId = $(this).data("id");
             var detials = $('#city_wise_detials_' +dataId).val();
@@ -300,7 +300,7 @@
         });
 
 
-        $(".campaign_wise_comp_row").on("click", function () {
+        $(document).on('click', '.campaign_wise_comp_row', function () {
             // Get the value of the data-id attribute
             var dataId = $(this).data("id");
             var detials = $('#campaign_wise_comp_detials_' +dataId).val();
@@ -313,8 +313,7 @@
             $(this).addClass("active-tr");
         });
 
-
-        $(".city_wise_comp_row").on("click", function () {
+        $(document).on('click', '.city_wise_comp_row', function () {
             // Get the value of the data-id attribute
             var dataId = $(this).data("id");
             var detials = $('#city_wise_comp_detials_' +dataId).val();
