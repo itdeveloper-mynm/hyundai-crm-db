@@ -812,13 +812,19 @@ class SaleGraphController extends Controller
                 $campaigns_vehcile_data_html = view('admin.crn_lead.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();
                 $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
                 $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
-                $crm_users_graph_html = view('admin.crn_lead.crm_user_graph', compact('crm_users_graph'))->render();
-                $crm_users_source_graph_html = view('admin.crn_lead.crm_user_source_graph', compact('crm_users_source_graph'))->render();
                 return response()->json([
                     'campaigns_detial_data_html' => $campaigns_detial_data_html,
                     'campaigns_vehcile_data_html' => $campaigns_vehcile_data_html,
                     'city_branch_camp_data_html' => $city_branch_camp_data_html,
                     'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
+                ]);
+            }
+            elseif ($mode === 'crm_user') {
+                $crm_users_graph = Application::getCrmUserGraph($startDate, $endDate, $first_types, $filters);
+                $crm_users_source_graph = Application::getCrmUserSourcesGraph($startDate, $endDate, $first_types, $filters);
+                $crm_users_graph_html = view('admin.crn_lead.crm_user_graph', compact('crm_users_graph'))->render();
+                $crm_users_source_graph_html = view('admin.crn_lead.crm_user_source_graph', compact('crm_users_source_graph'))->render();
+                return response()->json([
                     'crm_users_graph_html' => $crm_users_graph_html,
                     'crm_users_source_graph_html' => $crm_users_source_graph_html,
                 ]);
