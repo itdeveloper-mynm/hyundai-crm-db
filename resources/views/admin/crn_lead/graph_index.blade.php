@@ -1526,11 +1526,11 @@
 
 
     $(document).ready(function () {
-        // fetchAndRenderGraphData($('#myForm')[0], 'graph');
-        // fetchAndRenderGraphData($('#myForm')[0], 'table');
-        fetchAndRenderGraphData($('#myForm')[0], 'graph', function () {
-            fetchAndRenderGraphData($('#myForm')[0], 'table');
-        });
+        fetchAndRenderGraphData($('#myForm')[0], 'graph');
+        fetchAndRenderGraphData($('#myForm')[0], 'table');
+        // fetchAndRenderGraphData($('#myForm')[0], 'graph', function () {
+        //     fetchAndRenderGraphData($('#myForm')[0], 'table');
+        // });
 
 
         // Form validation and submit
@@ -1543,11 +1543,11 @@
                 // your messages
             },
             submitHandler: function (form) {
-                // fetchAndRenderGraphData($('#myForm')[0], 'graph');
-                // fetchAndRenderGraphData($('#myForm')[0], 'table');
-                fetchAndRenderGraphData($('#myForm')[0], 'graph', function () {
-                    fetchAndRenderGraphData($('#myForm')[0], 'table');
-                });
+                fetchAndRenderGraphData($('#myForm')[0], 'graph');
+                fetchAndRenderGraphData($('#myForm')[0], 'table');
+                // fetchAndRenderGraphData($('#myForm')[0], 'graph', function () {
+                //     fetchAndRenderGraphData($('#myForm')[0], 'table');
+                // });
                 return false; // Prevent default
             }
         });
