@@ -1347,6 +1347,14 @@
             timeout: 800000,
             beforeSend: function () {
                 document.body.setAttribute('data-kt-app-page-loading', 'on');
+                $('#total_performance_count').empty();
+                $('#dept_leads_graph_div').empty();
+                $('#campaign_performance_graph_div').empty();
+                $('#city_branches_div').empty();
+                $('#vehicle_bank_graph_div').empty();
+                $('#campaign_first_graph_div').empty();
+                $('#campaign_vehcile_second_graph_div').empty();
+                $('#camp_city_branch_graph_div').empty();
             },
             success: function (data) {
                 document.body.removeAttribute('data-kt-app-page-loading');

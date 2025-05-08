@@ -1494,6 +1494,21 @@
             timeout: 800000,
             beforeSend: function () {
                 document.body.setAttribute('data-kt-app-page-loading', 'on');
+                // Clear containers before loading new data
+                if (mode === 'graph') {
+                    $('#category_graph_count').empty();
+                    $('#total_performance_count').empty();
+                } else if (mode === 'table') {
+                    $('#campaign_first_graph_div').empty();
+                    $('#campaign_vehcile_second_graph_div').empty();
+                } else if (mode === 'second_table') {
+                    $('#city_branch_campaign_graph_div').empty();
+                    $('#analysis_vehicle_wise_div').empty();
+                } else if (mode === 'crm_user') {
+                    $('#crm_user_graph_div').empty();
+                    $('#crm_user_source_graph').empty();
+                }
+
             },
             success: function (data) {
                 document.body.removeAttribute('data-kt-app-page-loading');
