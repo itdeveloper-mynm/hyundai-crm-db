@@ -7,7 +7,10 @@
         @if(request()->has('mobile') && request()->has('date'))
             value="{{ request('from') }}"
         @else
-            value="{{ request('from', dateBeforeTenDays()) }}"
+            {{-- value="{{ request('from', dateBeforeTenDays()) }}" --}}
+            @if(Route::currentRouteName() !== 'qualified-crm-leads.index')
+                value="{{ request('from', dateBeforeTenDays()) }}"
+            @endif
         @endif
         @if(isset($no_of_months) && !auth()->user()->hasRole('SuperAdmin'))
             min="{{ getDateRangeForMonths($no_of_months)['start_date'] }}" max="{{ getDateRangeForMonths($no_of_months)['end_date'] }}"
@@ -24,7 +27,10 @@
         @if(request()->has('mobile') && request()->has('date'))
                 value="{{ request('to') }}"
         @else
-                value="{{ request('to', currentDate()) }}"
+                {{-- value="{{ request('to', currentDate()) }}" --}}
+                @if(Route::currentRouteName() !== 'qualified-crm-leads.index')
+                    value="{{ request('to', currentDate()) }}"
+                @endif
         @endif
         @if(isset($no_of_months) && !auth()->user()->hasRole('SuperAdmin'))
             min="{{ getDateRangeForMonths($no_of_months)['start_date'] }}" max="{{ getDateRangeForMonths($no_of_months)['end_date'] }}"
