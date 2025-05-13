@@ -196,7 +196,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 col-xl-4 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF6384">
+                                    <div class="sales-leads-card" style="background: #009EF7">
                                         <div>
                                             <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
                                             <p class="label">Online Service Booking</p>
@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-4 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF9F40">
+                                    <div class="sales-leads-card" style="background: #F1416C">
                                         <div>
                                             <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
                                             <p class="label">Service Offers</p>
@@ -218,7 +218,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-4 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #9966FF">
+                                    <div class="sales-leads-card" style="background: #50CD89">
                                         <div>
                                             <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
                                             <p class="label">Contact Us </p>

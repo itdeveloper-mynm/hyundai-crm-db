@@ -293,7 +293,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF6384">
+                                    <div class="sales-leads-card" style="background: #009EF7">
                                         <div>
                                             <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
                                             <p class="label">Sales</p>
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #FF9F40">
+                                    <div class="sales-leads-card" style="background: #F1416C">
                                         <div>
                                             <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
                                             <p class="label">Test Drive</p>
@@ -315,7 +315,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #9966FF">
+                                    <div class="sales-leads-card" style="background: #323639">
                                         <div>
                                             <p class="value">{{ $second_graph_data[4] ?? 0 }}</p>
                                             <p class="label">Aftersales</p>
@@ -326,7 +326,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #36A2EB">
+                                    <div class="sales-leads-card" style="background: #50CD89">
                                         <div>
                                             <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
                                             <p class="label">Used Cars</p>
@@ -348,7 +348,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xl-3 mb-xl-10">
-                                    <div class="sales-leads-card" style="background: #323639">
+                                    <div class="sales-leads-card" style="background: #9966FF">
                                         <div>
                                             <p class="value">{{ $second_graph_data[5] ?? 0 }}</p>
                                             <p class="label">CRM Leads</p>
@@ -1262,28 +1262,28 @@
                     label: 'Used Cars (' + @json($second_graph_data[2]) + ')',
                     data: @json($third_count),
                     fill: false,
-                    borderColor: defaultColor,
+                    borderColor: successColor,
                     tension: 0.6
                 },
                 {
                     label: 'SMO (' + @json($second_graph_data[3]) + ')',
                     data: @json($fourth_count),
                     fill: false,
-                    borderColor: primaryColor,
+                    borderColor: "#4BC0C0",
                     tension: 0.6
                 },
                 {
                     label: 'Aftersales (' + @json($second_graph_data[4]) + ')',
                     data: @json($fifth_count),
                     fill: false,
-                    borderColor: successColor,
+                    borderColor: defaultColor,
                     tension: 0.6
                 },
                 {
                     label: 'CrmLeads (' + @json($second_graph_data[5]) + ')',
                     data: @json($sixth_count),
                     fill: false,
-                    borderColor: primaryColor,
+                    borderColor: "#9966FF",
                     tension: 0.6
                 },
             ]

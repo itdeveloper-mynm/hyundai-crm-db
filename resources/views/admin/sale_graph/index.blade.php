@@ -800,7 +800,7 @@
                         label: 'Leads (' + secondGraphData[4] + ')',
                         data: fifthCount,
                         fill: false,
-                        borderColor: primaryColor,
+                        borderColor: defaultColor,
                         tension: 0.6
                     }
                 ]
