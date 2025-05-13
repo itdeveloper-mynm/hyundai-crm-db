@@ -215,7 +215,7 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                            @include('admin.common_files.top-message-graph-page')
+                            {{-- @include('admin.common_files.top-message-graph-page') --}}
                     </div>
                 </div>
             </div>
