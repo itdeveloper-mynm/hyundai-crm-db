@@ -1503,8 +1503,8 @@
                     $('#campaign_vehcile_second_graph_div').empty();
                 } else if (mode === 'second_table') {
                     $('#city_branch_campaign_graph_div').empty();
-                    $('#analysis_vehicle_wise_div').empty();
                 } else if (mode === 'crm_user') {
+                    $('#analysis_vehicle_wise_div').empty();
                     $('#crm_user_graph_div').empty();
                     $('#crm_user_source_graph').empty();
                 }
