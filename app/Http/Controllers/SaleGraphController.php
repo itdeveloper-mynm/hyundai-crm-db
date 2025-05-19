@@ -793,8 +793,13 @@ class SaleGraphController extends Controller
     public function crmLeadsGraphIndex(Request $request)
     {
         //dd($request->all());
-        $startDate = request('start_date') ?? startDate();
-        $endDate = request('end_date') ?? endDate();
+        $dateInfo = getDateRangeAndColumn();
+        // $startDate = request('start_date') ?? startDate();
+        // $endDate = request('end_date') ?? endDate();
+
+        $startDate = $dateInfo['start_date'];
+        $endDate = $dateInfo['end_date'];
+
 
         $dates = Application::getPerformanceLabel($startDate,$endDate);
 
@@ -811,6 +816,7 @@ class SaleGraphController extends Controller
             $mode = $request->input('mode', 'graph');
             $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
             $filters = $request->all();
+            $filters = array_merge( $filters,['upd_graph' =>true]);
             if ($mode === 'graph') {
                 $data['first_count'] = Application::getPerformanceMonthWise($first_types,$startDate,$endDate,$months_diff,array_merge($filters ,['category' => 'Qualified']));
                 $data['second_count'] = Application::getTargetMonthWise($startDate,$endDate,$months_diff);

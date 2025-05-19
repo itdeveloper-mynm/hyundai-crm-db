@@ -498,27 +498,50 @@ function getCategories() {
 
 
 function getsubCategories()
+{
+    return [
+        'Qualified' => ['New Leads', 'Follow Up', 'Lead - Test Drive'],
+        'General Inquiry' => [
+            'Timing & Locations',
+            'Inquiry - Another Company',
+            'Product Specification',
+            'Price',
+            'Showroom Numbers',
+            'Not interested',
+            'Already bought',
+            'Wrong Number'
+        ],
+        'Not Qualified' => [
+            'Salary does not allow financing',
+            'High Commitment',
+            'High-Prices',
+            'Traffic Violations'
+        ],
+        'Callback' => ['Callback'],
+    ];
+}
+
+function getDateRangeAndColumn()
     {
-        return [
-            'Qualified' => ['New Leads', 'Follow Up', 'Lead - Test Drive'],
-            'General Inquiry' => [
-                'Timing & Locations',
-                'Inquiry - Another Company',
-                'Product Specification',
-                'Price',
-                'Showroom Numbers',
-                'Not interested',
-                'Already bought',
-                'Wrong Number'
-            ],
-            'Not Qualified' => [
-                'Salary does not allow financing',
-                'High Commitment',
-                'High-Prices',
-                'Traffic Violations'
-            ],
-            'Callback' => ['Callback'],
-        ];
+        if (request()->has(['upd_from', 'upd_to'])) {
+            return [
+                'date_column' => 'updated_at',
+                'start_date' => request('upd_from'),
+                'end_date' => request('upd_to'),
+            ];
+        } elseif (request()->has(['start_date', 'end_date'])) {
+            return [
+                'date_column' => 'created_at',
+                'start_date' => request('start_date'),
+                'end_date' => request('end_date'),
+            ];
+        } else {
+            return [
+                'date_column' => 'created_at',
+                'start_date' => startDate(),
+                'end_date' => endDate(),
+            ];
+        }
     }
 
 function formatInputNumber($mobile) {

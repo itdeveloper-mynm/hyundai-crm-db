@@ -128,9 +128,9 @@
                                             <div class="row mt-1">
                                                 @include('admin.common_files_filters.created_date_graph')
                                             </div>
-                                            {{-- <div class="row mt-2">
+                                            <div class="row mt-2">
                                                     @include('admin.common_files_filters.updated_date')
-                                            </div> --}}
+                                            </div>
                                         </div>
 
                                         <div class="d-flex justify-content-end">

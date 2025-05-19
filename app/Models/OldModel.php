@@ -327,12 +327,15 @@ class Application extends Model
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
 
                 $query->where(function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
-                        //   ->where('applications.updated_by','!=',null);
+                    $query->whereBetween('applications.updated_at', [$startDate, $endDate])
+                          ->where('applications.updated_by','!=',null);
                 });
-                if (!isset($conditions['upd_graph'])) {
-                    $query->where('applications.updated_by', '!=', null);
-                }
+
+                // $query->where(function ($query) use ($conditions) {
+                //     $startDate = $conditions['upd_from'].' 00:00:00';
+                //     $endDate = $conditions['upd_to'].' 23:59:59';
+                //     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                // });
             }
 
             $query->whereNull('deleted_at');
@@ -545,12 +548,10 @@ class Application extends Model
         //     'smo_leads',
         //     'contact_us'
         // ];
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
 
         $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
         ->select('vehicles.name as vehicle_name', DB::raw('COUNT(*) as count'))
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
         ->groupBy('applications.vehicle_id', 'vehicles.name')
@@ -595,15 +596,12 @@ class Application extends Model
 
     public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
 
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
-
         $alldata = self::select(
             DB::raw("IFNULL(applications.category, 'Pending CRM LEADS') as category_name"),
             // DB::raw('COUNT(DISTINCT applications.customer_id) as count')
             DB::raw('COUNT(*) as count')
         )
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->whereIn('applications.type', $all_types)
         ->graphsearch($filters)
         ->groupBy(DB::raw("IFNULL(applications.category, 'Pending CRM LEADS')"))
@@ -656,8 +654,6 @@ class Application extends Model
 
     public static function getCampaignWiseDetialData($startDate, $endDate, $all_types, $filters)
     {
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         // Query for campaigns
         $campaigns = Application::select(
                 'campaign_id',
@@ -669,7 +665,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id')
             ->orderby('mql','DESC')
@@ -687,7 +683,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id', 'source_id')
             ->with('source:id,name')
@@ -733,8 +729,6 @@ class Application extends Model
 
     public static function getCampaignVehcileWiseDetialData($startDate, $endDate, $all_types, $filters)
     {
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         // Step 1: Get campaign-level aggregates
         $campaigns = Application::select(
                 'campaign_id',
@@ -746,7 +740,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id')
             ->get();
@@ -763,7 +757,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id', 'vehicle_id')
             ->with('vehicle:id,name')
@@ -927,8 +921,6 @@ class Application extends Model
 
     public static function getCampaignCityWiseDetailData($startDate, $endDate, $all_types, $filters)
     {
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         // 1. Campaign-level Aggregation
         $campaigns = Application::select(
                 'campaign_id',
@@ -940,7 +932,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id')
             ->get();
@@ -957,7 +949,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id', 'city_id')
             ->with('city:id,name')
@@ -976,7 +968,7 @@ class Application extends Model
                 DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id', 'city_id', 'branch_id')
             ->with('branch:id,name')
@@ -1285,8 +1277,6 @@ class Application extends Model
 
     public static function getCityBranchCampaignData($startDate, $endDate, $all_types, $filters)
     {
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         $cities = Application::select(
                 'city_id',
                 DB::raw('COUNT(*) as mql'),
@@ -1297,13 +1287,13 @@ class Application extends Model
                 DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
             )
             ->whereIn('type', $all_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->with('city:id,name')
             ->groupBy('city_id')
             ->orderBy('mql', 'DESC')
             ->get()
-            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters,$dateColumn) {
+            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters) {
                 $cityApp->branches = Application::select(
                         'branch_id',
                         DB::raw('COUNT(*) as mql'),
@@ -1314,14 +1304,14 @@ class Application extends Model
                         DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                     )
                     ->whereIn('type', $all_types)
-                    ->whereBetween($dateColumn, [$startDate, $endDate])
+                    ->whereBetween('created_at', [$startDate, $endDate])
                     ->graphsearch($filters)
                     ->with('branch:id,name')
                     ->where('city_id', $cityApp->city_id)
                     ->groupBy('branch_id')
                     ->orderBy('mql', 'DESC')
                     ->get()
-                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp,$dateColumn) {
+                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp) {
                         $branchApp->campaigns = Application::select(
                                 'campaign_id',
                                 DB::raw('COUNT(*) as mql'),
@@ -1332,7 +1322,7 @@ class Application extends Model
                                 DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                             )
                             ->whereIn('type', $all_types)
-                            ->whereBetween($dateColumn, [$startDate, $endDate])
+                            ->whereBetween('created_at', [$startDate, $endDate])
                             ->graphsearch($filters)
                             ->with('campaign:id,name,percentage')
                             ->where('city_id', $cityApp->city_id)
@@ -1386,8 +1376,7 @@ class Application extends Model
 
     public static function getVehcileDetialData($startDate, $endDate, $all_types, $filters)
     {
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
+
         $vehicles = Application::select(
             'vehicle_id',
             DB::raw('COUNT(*) as mql'),
@@ -1398,7 +1387,7 @@ class Application extends Model
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
         )
         ->whereIn('type', $all_types)
-        ->whereBetween($dateColumn, [$startDate, $endDate])
+        ->whereBetween('created_at', [$startDate, $endDate])
         ->graphsearch($filters)
         ->with('vehicle:id,name')
         ->groupBy('vehicle_id')
@@ -1570,21 +1559,19 @@ class Application extends Model
         // Adjust the end date to include the full day
         //$endDate = Carbon::parse($endDate)->endOfDay();
         // Generate the date range sequence
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
-
+        // dd($dates);
         $maincounts = self::select(
-                DB::raw("DATE_FORMAT($dateColumn, '$dateFormat') as month_year"),
+                DB::raw("DATE_FORMAT(created_at, '$dateFormat') as month_year"),
                DB::raw('COUNT(*) as count'),
                 // DB::raw('COUNT(DISTINCT customer_id) as count')
                 //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
             )
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->whereIn('type', $types)
             // ->whereNotNull(['campaign_id', 'source_id'])
-            ->groupBy(DB::raw("DATE_FORMAT($dateColumn, '$dateFormat')"))
-            ->orderBy(DB::raw("MIN($dateColumn)"), 'asc')
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '$dateFormat')"))
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
             ->graphsearch($filters)
             ->when(isset($opt_filters['department']), function ($query) use ($opt_filters) {
                 return $query->where('department', $opt_filters['department']);
@@ -1626,8 +1613,6 @@ class Application extends Model
 
     public static function getCrmUserGraph($startDate,$endDate,$first_types,$filters) {
 
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         return self::with('updatedby')
             ->select(
                 'updated_by',
@@ -1637,7 +1622,7 @@ class Application extends Model
                 DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
             )
             ->whereIn('type', $first_types)
-            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->whereNotNull('updated_by')
             ->whereHas('updatedby', function ($query) {
@@ -1652,8 +1637,6 @@ class Application extends Model
 
     public static function getCrmUserSourcesGraph($startDate,$endDate,$first_types,$filters) {
 
-        $dateInfo = getDateRangeAndColumn();
-        $dateColumn = $dateInfo['date_column'];
         return self::with('updatedby')
         ->select(
             'updated_by',
@@ -1668,7 +1651,7 @@ class Application extends Model
         // ->join('sources', 'applications.source_id', '=', 'sources.id')
         ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
         ->whereIn('type', $first_types)
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
+        ->whereBetween('applications.created_at', [$startDate, $endDate])
         ->graphsearch($filters)
         ->whereNotNull('updated_by')
         ->whereHas('updatedby', function ($query) {
