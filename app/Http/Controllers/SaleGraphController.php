@@ -844,22 +844,25 @@ class SaleGraphController extends Controller
             }
             elseif ($mode === 'second_table') {
                 $city_branch_camp_data = Application::getCityBranchCampaignData($startDate, $endDate, $first_types , $filters);
-                $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
+                // $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
                 $city_branch_camp_data_html = view('admin.crn_lead.city_branch_campaign_graph', compact('city_branch_camp_data'))->render();
-                $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
+                // $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
                 return response()->json([
                     'city_branch_camp_data_html' => $city_branch_camp_data_html,
-                    'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
+                    // 'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
                 ]);
             }
             elseif ($mode === 'crm_user') {
                 $crm_users_graph = Application::getCrmUserGraph($startDate, $endDate, $first_types, $filters);
                 $crm_users_source_graph = Application::getCrmUserSourcesGraph($startDate, $endDate, $first_types, $filters);
+                $vehcile_detial_graph = Application::getVehcileDetialData($startDate, $endDate, $first_types, $filters);
                 $crm_users_graph_html = view('admin.crn_lead.crm_user_graph', compact('crm_users_graph'))->render();
                 $crm_users_source_graph_html = view('admin.crn_lead.crm_user_source_graph', compact('crm_users_source_graph'))->render();
+                $vehcile_detial_graph_html = view('admin.crn_lead.analysis_vehicle_wise', compact('vehcile_detial_graph'))->render();
                 return response()->json([
                     'crm_users_graph_html' => $crm_users_graph_html,
                     'crm_users_source_graph_html' => $crm_users_source_graph_html,
+                    'vehcile_detial_graph_html' => $vehcile_detial_graph_html,
                 ]);
             }
         }

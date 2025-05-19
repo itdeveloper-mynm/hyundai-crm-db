@@ -1524,8 +1524,9 @@
                     $('#campaign_vehcile_second_graph_div').empty().html(data.campaigns_vehcile_data_html);
                 }else if (mode === 'second_table') {
                     $('#city_branch_campaign_graph_div').empty().html(data.city_branch_camp_data_html);
-                    $('#analysis_vehicle_wise_div').empty().html(data.vehcile_detial_graph_html);
+                    // $('#analysis_vehicle_wise_div').empty().html(data.vehcile_detial_graph_html);
                 }  else if (mode === 'crm_user') {
+                    $('#analysis_vehicle_wise_div').empty().html(data.vehcile_detial_graph_html);
                     $('#crm_user_graph_div').empty().html(data.crm_users_graph_html);
                     $('#crm_user_source_graph').empty().html(data.crm_users_source_graph_html);
                 }
