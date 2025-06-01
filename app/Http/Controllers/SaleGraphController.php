@@ -90,9 +90,7 @@ class SaleGraphController extends Controller
                 $data['salary_graph'] = Application::countBySalaryGroup($startDate, $endDate, $all_types, $filters);
                 $data['purchase_plan_graph'] = Application::countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters);
 
-                $all_types[] = 'used_cars';
-                $all_types[] = 'smo_leads';
-                $all_types[] = 'crm_leads';
+                $all_types = array_merge($all_types, ['used_cars', 'smo_leads', 'crm_leads']);
                 $vehcile_all_graph = Application::getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters);
                 $data['vehicle_graph'] = [
                     'vehicle_names' => $vehcile_all_graph['vehicle_names'],

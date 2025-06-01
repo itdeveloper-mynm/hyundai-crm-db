@@ -1203,6 +1203,7 @@
     let vehicleAnalysisChartInstance = null; // Global chart instance for reuse/destroy
 
     function renderVehicleAnalysisChart(vehicle_graph_data) {
+        console.log(vehicle_graph_data);
         const data = {
             labels: vehicle_graph_data.vehicle_names,
             datasets: [
