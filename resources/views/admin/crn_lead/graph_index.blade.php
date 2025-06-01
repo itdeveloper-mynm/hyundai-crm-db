@@ -1102,7 +1102,7 @@
 
         function renderVehcileIntrestedChart(xData, yData) {
             var fillColors = Array.from({ length: xData.length }, () => getRandomColor());
-
+            console.log(xData.length, yData.length);
             var seriesData = xData.map((x, index) => ({
                 x: x,
                 y: yData[index],
@@ -1115,7 +1115,8 @@
                 }],
                 chart: {
                     type: 'bar',
-                    height: 600
+                    // height: 600
+                     height: xData.length * 35
                 },
                 plotOptions: {
                     bar: {
@@ -1133,7 +1134,7 @@
                     show: false
                 }
             };
-
+            console.log(seriesData);
             var chart = new ApexCharts(document.querySelector("#graph_3"), options);
             chart.render();
         }

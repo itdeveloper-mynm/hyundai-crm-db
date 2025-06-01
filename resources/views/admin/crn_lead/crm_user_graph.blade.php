@@ -9,7 +9,7 @@
             <th class="w-200px"><h5><span style="float: left">Not Qualified</span></h5></th>
             <th class="w-200px"><h5><span style="float: left">General Inquiry</span></h5></th>
             <th class="w-200px"><h5><span style="float: left">Total</span></h5></th>
-            {{-- <th><h5><span style="float: left">Inv</span></h5></th> --}}
+            <th><h5><span style="float: left">Inv</span></h5></th>
         </tr>
     </thead>
     <tbody>
@@ -42,10 +42,10 @@
                 <td>
                     <span class="float-left badge badge-{{ $badgeClass }}">{{ $total }}</span>
                 </td>
-                {{-- <td>
+                <td>
                     <span style="float: left"
                         class="badge badge-success">{{ $crm_users['inv'] ?? 0 }}</span>
-                </td> --}}
+                </td>
             </tr>
         @endforeach
     </tbody>
@@ -74,7 +74,7 @@
             <th>
                 <h5><span class="float-left badge badge-{{ $badgeClass }}">{{ $grandTotal }}</span></h5>
             </th>
-            {{-- <th><h5><span style="float: left" class="badge badge-success">{{collect($crm_users_graph)->sum('inv') ?? 0}}</span></h5></th> --}}
+            <th><h5><span style="float: left" class="badge badge-success">{{collect($crm_users_graph)->sum('inv') ?? 0}}</span></h5></th>
         </tr>
     </tfoot>
 </table>
