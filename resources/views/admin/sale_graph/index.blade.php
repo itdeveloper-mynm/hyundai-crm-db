@@ -406,7 +406,7 @@
                                 <!--begin::Tab pane-->
                                 <div class="tab-pane fade active show" id="" role="tabpanel">
 
-                                    <canvas id="vehicleAnalysisChart" class="mh-400px"></canvas>
+                                    <canvas id="vehicleAnalysisChart" class="mh-600px"></canvas>
                                     <!--begin::Chart-->
                                     <!--end::Chart-->
                                 </div>
