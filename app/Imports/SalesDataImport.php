@@ -59,6 +59,7 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
             $customer =new Customer();
             // $customer->first_name = $row['customer_name'];
             $customer->first_name = $row['first_name'];
+            $customer->last_name = $row['last_name'];
             $customer->mobile = $mobile;
             $customer->gender = $row['gender'];
             $customer->save();
