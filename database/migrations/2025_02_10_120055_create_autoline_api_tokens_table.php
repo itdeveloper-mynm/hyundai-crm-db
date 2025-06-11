@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('autoline_api_tokens', function (Blueprint $table) {
             $table->id();
-            $table->longText('token')->unique();
+            $table->longText('token')->nullable();
             $table->timestamp('expires_at');
             $table->timestamps();
         });
