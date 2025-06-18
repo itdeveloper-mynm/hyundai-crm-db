@@ -50,6 +50,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
             $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
             $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
+            $schedule->command('app:auto-line-data')->everyTwoMinutes();
         }
     }
 
