@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\AutoLineService;
 use App\Models\Application;
+use Illuminate\Support\Facades\Log;
 
 class AutoLineData extends Command
 {
