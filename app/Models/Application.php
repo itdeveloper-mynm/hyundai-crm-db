@@ -212,15 +212,30 @@ class Application extends Model
                 });
             }
 
-            if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
-                // dd(1);
+            // if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
+            //     // dd(1);
+            //     $startDate = $conditions['upd_from'] . ' 00:00:00';
+            //     $endDate = $conditions['upd_to'] . ' 23:59:59';
+            //     $query->where(function ($query) use ($startDate, $endDate) {
+            //         $query->whereNotNull('applications.updated_by')
+            //               ->whereBetween('applications.updated_at', [$startDate, $endDate]);
+            //     });
+            // }
+
+            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
+
                 $startDate = $conditions['upd_from'] . ' 00:00:00';
                 $endDate = $conditions['upd_to'] . ' 23:59:59';
+
                 $query->where(function ($query) use ($startDate, $endDate) {
-                    $query->whereNotNull('applications.updated_by')
-                          ->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
+                        //   ->where('applications.updated_by','!=',null);
                 });
+                if (!isset($conditions['upd_graph'])) {
+                    $query->where('applications.updated_by', '!=', null);
+                }
             }
+
 
             // Add more conditions as needed...
         });
