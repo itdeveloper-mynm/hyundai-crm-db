@@ -812,7 +812,7 @@ class SaleGraphController extends Controller
 
 
             $mode = $request->input('mode', 'graph');
-            $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
+            $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads','contact_us'];
             $filters = $request->all();
             $filters = array_merge( $filters,['upd_graph' =>true]);
             if ($mode === 'graph') {
