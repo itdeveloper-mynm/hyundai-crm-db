@@ -188,7 +188,7 @@ class Application extends Model
             if (isset($conditions['department_types'])) {
                 $query->where(function ($query) use ($conditions) {
                     // Define sales and after-sales types
-                    $sale_types = ['request_a_test_quote', 'request_a_quote', 'special_offers', 'leads', 'events'];
+                    $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
                     $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us'];
                     $types = [];
                     if (in_array('sales', $conditions['department_types'])) {
@@ -229,11 +229,7 @@ class Application extends Model
 
                 $query->where(function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
-                        //   ->where('applications.updated_by','!=',null);
                 });
-                if (!isset($conditions['upd_graph'])) {
-                    $query->where('applications.updated_by', '!=', null);
-                }
             }
 
 
