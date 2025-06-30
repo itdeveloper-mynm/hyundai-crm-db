@@ -157,7 +157,7 @@ class CrmLeadController extends Controller
         // }
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::search($conditions)->count();
+        $countAll = Application::search($conditions)->whereNotIn('type',['online_service_booking', 'service_offers', 'contact_us'])->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
