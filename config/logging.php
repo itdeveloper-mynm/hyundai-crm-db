@@ -54,7 +54,8 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            // 'channels' => ['single'],
+            'channels' => ['daily'],
             'ignore_exceptions' => false,
         ],
 
@@ -71,6 +72,26 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
             'replace_placeholders' => true,
+        ],
+
+        'sync_service_log' => [
+            'driver' => 'daily', // Using 'daily' for rotating logs
+            'path' => storage_path('logs/sync_service_log.log'),
+            'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
+            'days' => 14,   // Number of days to retain log files
+        ],
+
+        'name_correction' => [
+            'driver' => 'daily', // Using 'daily' for rotating logs
+            'path' => storage_path('logs/name_correction_log.log'),
+            'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
+            'days' => 14,   // Number of days to retain log files
+        ],
+        'auto_line' => [
+            'driver' => 'daily', // Using 'daily' for rotating logs
+            'path' => storage_path('logs/auto_line_log.log'),
+            'level' => env('LOG_LEVEL', 'debug'), // Use your environment LOG_LEVEL or set it directly
+            'days' => 14,   // Number of days to retain log files
         ],
 
         'slack' => [

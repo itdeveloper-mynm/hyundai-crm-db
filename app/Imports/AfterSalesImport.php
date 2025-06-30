@@ -22,6 +22,12 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
 
     use Importable;
 
+    public function __construct()
+    {
+        // Skip tracking for the entire import process
+        Application::skipTracking(true);
+    }
+
 
     public function rules(): array
     {
@@ -69,6 +75,26 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
             $customer->save();
         }
 
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return null;
+        }
+
+
+        if(isset($row['creation_date'])){
+            $request_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['creation_date']));
+        }else{
+            $request_date = null;
+        }
+
         $city = City::where('name', $row['dealer_city'])->first();
         $branch = Branch::where('name', $row['dealer_branch'])->first();
         $vehicle = Vehicle::where('name', $row['vehicle'])->first();
@@ -87,7 +113,7 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
             $vehicle = Vehicle::create(['name' => $row['vehicle'] ]);
         }
         if(is_null($sourcee)){
-            $sourcee = Source::create(['name' => $row['channel'] ]);
+            $sourcee = Source::create(['name' => $row['source'] ]);
         }
         if(is_null($campaign)){
             $campaign = Campaign::create(['name' => $row['campaign'] ]);
@@ -100,7 +126,10 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
         $after_sale->source_id = $sourcee->id;
         $after_sale->campaign_id = $campaign->id;
         $after_sale->customer_id= $customer->id;
-        $after_sale->type= 'after_sales';
+        $after_sale->type= 'service_offers';
+        if (isset($row['creation_date'])) {
+            $after_sale->created_at = formateDate($request_date) . ' ' . Carbon::now()->format('H:i:s');
+        }
         $after_sale->save();
 
        // return $lead;

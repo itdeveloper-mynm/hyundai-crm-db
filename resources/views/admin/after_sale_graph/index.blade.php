@@ -1,6 +1,21 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'After Sales Report')
+
+@section('css')
+
+    <style>
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+    </style>
+@endsection
 
 @section('content')
 
@@ -13,7 +28,20 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        After Sales Report</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -25,7 +53,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -35,68 +63,53 @@
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
-
                                         <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="city_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                            @can('after-sale-graph-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                        </select>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
                                                     </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                     <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div> --}}
                                                 </div>
-                                            </div>
+                                            @endcan
                                             <div class="row mt-1">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date"
-                                                        value="{{ formateDate($startDate) }}"
-                                                        id="start_date" />
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date"
-                                                        value="{{ formateDate($endDate)}}" id="end_date" />
-                                                </div>
+                                                    @include('admin.common_files_filters.created_date_graph')
                                             </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -107,7 +120,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
+                                                    <a href="{{ route('after-sale-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>
@@ -119,6 +132,10 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -164,19 +181,310 @@
             </div>
 
 
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-10 mb-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
                     <div class="card card-bordered">
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
                         <div class="card-body">
-                            <div id="graph_2" style="height: 350px;"></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #009EF7">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                            <p class="label">Online Service Booking</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #F1416C">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
+                                            <p class="label">Service Offers</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #50CD89">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
+                                            <p class="label">Contact Us </p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row gx-5 gx-xl-10">
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">City ({{collect($citygraph)->sum('count') ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Cities</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($citygraph as $key => $campaign_wise)
+                                                    <tr class="city_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <textarea id="city_wise_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['branches'] as $source_data)
+                                                                    @if (isset($source_data))
+                                                                    <tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Branches</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <div id="branch_detials_div"></div>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                    <tr class="campaign_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['source'] as $source_data)
+                                                                    @if (isset($source_data))
+                                                                    <tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Sources</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <div id="source_detials_div"></div>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+            <div class="row gx-5 gx-xl-10 mt-5">
+                <!--begin::Col-->
+                <div class="col-xxl-12 mb-5 mb-xl-5">
+                    <!--begin::Chart widget 8-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">After Sales Vehicles Interested</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Tab content-->
+                            <div class="tab-content">
+                                <!--end::Tab pane-->
+                                <!--begin::Tab pane-->
+                                <div class="tab-pane fade active show" id="" role="tabpanel">
+                                    <div id="graph_8" style="height: 350px;"></div>
+                                    <!--begin::Chart-->
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Tab pane-->
+                            </div>
+                            <!--end::Tab content-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 8-->
+                </div>
+                <!--end::Col-->
+            </div>
+            {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -185,7 +493,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -257,7 +565,7 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
         </div>
         <!--end::Content container-->
@@ -269,7 +577,7 @@
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
     {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
@@ -294,21 +602,21 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($second_graph_data[0]) +')',
                     data: @json($first_count) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Offers',
+                    label: 'Service Offers ('+ @json($second_graph_data[1]) +')',
                     data: @json($second_count) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (After Sales)',
+                    label: 'Contact Us ('+ @json($second_graph_data[2]) +')',
                     data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,
@@ -325,108 +633,99 @@
                 plugins: {
                     title: {
                         display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
                 }
             }
         };
 
         // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
         var myChart = new Chart(ctx, config);
+        // Function to generate a random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        // Example data
+        var xData8 = @json($after_sale_vehcile_graph['vehicle_names']) ;
+        var yData8 = @json($after_sale_vehcile_graph['vehicle_count']) ;
 
+        // Generate random fill colors
+        var fillColors8 = Array.from({ length: xData8.length }, () => getRandomColor());
 
+        // Create series data
+        var seriesData8 = xData8.map((x, index) => ({
+        x: x,
+        y: yData8[index],
+        fill: fillColors8[index]
+        }));
 
-        ////second chart
+        // Function to generate a random color
 
-        var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
+        // Chart options
+        var options8 = {
+        series: [{
+            data: seriesData8
+        }],
+        chart: {
+            type: 'bar',
+            height: 650
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                distributed: true,
+                barHeight: '70%', // Adjust bar height (value can be in percentage or pixels)
+
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: xData8.map((x, index) => `${x} (${yData8[index]})`),
+            labels: {
                 formatter: function(val) {
                     return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
-
-            xaxis: {
-                categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
-
-            },
-            title: {
-                text: 'Departments Overall Leads',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
                 }
             }
+        },
+            legend: {
+            show: false // Hides the legend below the graph
+        }
         };
 
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-        chart.render();
-
-
+        // Render the chart
+        var chart8 = new ApexCharts(document.querySelector("#graph_8"), options8);
+        chart8.render();
 
     </script>
 

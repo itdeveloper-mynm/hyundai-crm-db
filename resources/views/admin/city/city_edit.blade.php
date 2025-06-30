@@ -47,6 +47,12 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.page_type_input', ['page_chk' => 'edit' , 'field_value'=> $city->page_type ])
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="d-flex justify-content-center">

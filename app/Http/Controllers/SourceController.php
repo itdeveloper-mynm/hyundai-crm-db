@@ -37,7 +37,9 @@ class SourceController extends Controller
      */
     public function store(Request $request)
     {
-        $branch= Source::create($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        Source::create($input);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -65,7 +67,9 @@ class SourceController extends Controller
     public function update(Request $request, string $id)
     {
         $row = Source::findorFail($id);
-        $row->update($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $row->update($input);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -76,6 +80,11 @@ class SourceController extends Controller
     public function destroy(string $id)
     {
         $row = Source::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this source already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -102,6 +111,7 @@ class SourceController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Source::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -109,12 +119,18 @@ class SourceController extends Controller
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
 
+            $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
+            $formattedPageType = implode(', ', array_map(function ($word) {
+                if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+           }, explode(',', $page_type)));
+
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
-                "created_at" =>$row['created_at'],
+                "page_type" => $formattedPageType ?? "",
+                "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;
         }

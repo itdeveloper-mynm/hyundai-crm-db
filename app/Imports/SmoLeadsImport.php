@@ -26,7 +26,7 @@ class SmoLeadsImport implements ToModel , WithHeadingRow, WithValidation
         return [
             'first_name' => 'required',
             'last_name'  => 'required',
-            'email'  => 'required',
+            // 'email'  => 'required',
             'mobile'  => 'required',
             'dealer_city'  => 'required',
             'vehicle'  => 'required',
@@ -46,15 +46,28 @@ class SmoLeadsImport implements ToModel , WithHeadingRow, WithValidation
 
         $mobile =formatInputNumber($mobile);
 
-        $customer = Customer::whereMobile($mobile)->first();
+        $customer = Customer::updateOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $row['first_name'],
+                'last_name'  => $row['last_name'],
+                'email'      => $row['email'] ?? null,
+            ]
+        );
 
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $row['first_name'];
-            $customer->last_name =  $row['last_name'];
-            $customer->mobile = $mobile;
-            $customer->save();
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return null;
         }
+
 
         $city = City::where('name', $row['dealer_city'])->first();
         $vehicle = Vehicle::where('name', $row['vehicle'])->first();

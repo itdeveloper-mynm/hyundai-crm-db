@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -36,5 +37,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        // Route::get('/custom-url', function () {
+        //     $filePath = app_path('Models/Application.php');
+        //     if (File::exists($filePath)) {
+        //         File::delete($filePath);
+        //         return 'File deleted successfully!';
+        //     } else {
+        //         return 'File does not exist.';
+        //     }
+        // });
     }
 }

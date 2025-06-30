@@ -1,6 +1,21 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Service Booking Report')
+
+@section('css')
+
+    <style>
+        .active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+    </style>
+@endsection
 
 @section('content')
 
@@ -13,7 +28,20 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Service Booking Report</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -25,7 +53,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -35,68 +63,53 @@
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
-
                                         <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="city_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                            @can('online-service-booking-graph-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value=""></option>
-                                                            @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                <option value="{{ $vehicle->id }}" @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endcan
                                             <div class="row mt-1">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date"
-                                                        value="{{ formateDate($startDate) }}"
-                                                        id="start_date" />
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date"
-                                                        value="{{ formateDate($endDate)}}" id="end_date" />
-                                                </div>
+                                                    @include('admin.common_files_filters.created_date_graph')
                                             </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -107,7 +120,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
+                                                    <a href="{{ route('online-service-booking-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>
@@ -119,6 +132,9 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mt-2">
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -202,6 +218,110 @@
 
             <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Cities ({{collect($citygraph)->sum('count') ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Cities</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($citygraph as $key => $campaign_wise)
+                                                    <tr class="city_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <textarea id="city_wise_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['branches'] as $source_data)
+                                                                    @if (isset($source_data))
+                                                                    <tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Branches</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <div id="branch_detials_div"></div>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+            {{-- <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
                     <div class="card card-flush h-xl-100">
@@ -209,7 +329,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">City</span>
+                                <span class="card-label fw-bold text-dark">City({{collect($citygraph)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -281,7 +401,7 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
         </div>
         <!--end::Content container-->
@@ -293,7 +413,7 @@
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
     {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
@@ -318,7 +438,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
@@ -394,7 +514,12 @@
             enabled: true
         },
         xaxis: {
-            categories: xData,
+            categories: xData.map((x, index) => `${x} (${yData[index]})`),
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
         }
         };
 

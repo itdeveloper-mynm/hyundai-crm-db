@@ -43,4 +43,36 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+        // Define a scope for searching with conditions
+        public function scopeSearch($query, $conditions)
+        {
+            return $query->where(function ($query) use ($conditions) {
+                // Add your where conditions here based on $conditions array
+                if (isset($conditions['search']['value'])) {
+                    $search = $conditions['search']['value'];
+                    $query->where(function ($query) use ($search) {
+                            $query->whereRaw("CONCAT(name) LIKE ?", ['%' . $search . '%'])
+                                ->orWhere('email', $search);
+                    });
+                }
+
+                if (isset($conditions['from']) &&  isset($conditions['to'])) {
+                    $query->where(function ($query) use ($conditions) {
+                        $startDate = $conditions['from'].' 00:00:00';
+                        $endDate = $conditions['to'].' 23:59:59';
+                        $query->whereBetween('created_at', [$startDate, $endDate]);
+                    });
+                }
+
+                // Add more conditions as needed...
+            });
+        }
+
+        public function crmuserapplications()
+        {
+            return $this->hasMany(Application::class,'updated_by');
+        }
+
 }

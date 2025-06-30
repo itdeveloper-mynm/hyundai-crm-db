@@ -146,6 +146,7 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th>{{ __('Name') }}</th>
+                            <th>{{ __('Page Type') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -169,6 +170,7 @@ var table = $('#user_table').DataTable({
     responsive: true,
     searching: true,
     filter: true,
+    pageLength: 100,
 
     ajax: {
         "url": "{{ route('vehicle.pagination') }}",
@@ -193,6 +195,17 @@ var table = $('#user_table').DataTable({
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
                 return result;
+            }
+        },
+        {
+            data: 'page_type',
+            render: function(data, type, row) {
+                var checkedSales = (data && data.includes(1)) ? 'checked' : '';
+                var checkedAfterSales = (data && data.includes(2)) ? 'checked' : '';
+                return `
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="vehicle" data-value="sales" ${checkedSales}> Sales</label>
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="vehicle" data-value="after_sales" ${checkedAfterSales}> After Sales</label>
+                `;
             }
         },
 

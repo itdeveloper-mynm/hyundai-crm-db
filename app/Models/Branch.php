@@ -14,11 +14,18 @@ class Branch extends Model
         'name',
         'city_id',
         'status',
+        'page_type',
     ];
 
     public function city(){
         return $this->belongsTo(City::class);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 
 
 }

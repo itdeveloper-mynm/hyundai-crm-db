@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Hr Report')
 
 @section('content')
 
@@ -13,7 +13,20 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Hr Report</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -25,7 +38,7 @@
                                     </svg>
                                 </span>Filter</button>
 
-                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
                                 id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -35,51 +48,53 @@
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
                                     {{-- @csrf --}}
                                     <div class="px-7 py-5">
-
                                         <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                    <div>
-                                                        <select class="form-select mb-2" name="city_id" id="city_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                            @foreach ($dropdown['cities'] as $city)
-                                                                <option value="{{ $city->id }}" @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                            @can('hr-graph-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                    <div>
-                                                        <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                            data-control="select"
-                                                            data-placeholder="{{ __('select option') }}"
-                                                            data-allow-clear="true">
-                                                            <option value="">--select--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endcan
                                             <div class="row mt-1">
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="start_date"
-                                                        value="{{ formateDate($startDate) }}"
-                                                        id="start_date" />
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control form-control-solid ps-12"
-                                                        placeholder="Select a date" name="end_date"
-                                                        value="{{ formateDate($endDate)}}" id="end_date" />
-                                                </div>
+                                                    @include('admin.common_files_filters.created_date_graph')
                                             </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date')
+                                            </div> --}}
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -90,7 +105,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph.index') }}"
+                                                    <a href="{{ route('hr-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>
@@ -102,6 +117,9 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mt-2">
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -156,7 +174,7 @@
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
     {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
@@ -181,7 +199,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Hr',
+                    label: 'Hr ('+ @json($total_performance_count) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,

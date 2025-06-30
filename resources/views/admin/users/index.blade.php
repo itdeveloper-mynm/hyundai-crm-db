@@ -75,12 +75,12 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ currentDate() }}" name="from" id="from" />
+                                                    placeholder="Select a date"  name="from" id="from" />
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ currentDate() }}" name="to" id="to" />
+                                                    placeholder="Select a date"  name="to" id="to" />
                                             </div>
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@ var table = $('#user_table').DataTable({
             data: 'name',
             render: function(data, type, row) {
 
-                var result = '<a href="{{ url('used-car') }}/' + row.id +
+                var result = '<a href="{{ url('users') }}/' + row.id +
                             '/edit" target="a_blank" class="fw-bold"  data-toggle="tooltip" title="{{ __('table.edit') }}"  >' + data + '</a>';
                 return result;
 
@@ -399,7 +399,7 @@ function rowDelete(id) {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: '{{ url("used-car") }}/' + id,
+                url: '{{ url("users") }}/' + id,
                 method: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"

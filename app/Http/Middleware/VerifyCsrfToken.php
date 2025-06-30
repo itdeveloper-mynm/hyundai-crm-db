@@ -13,5 +13,10 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'addleads',
+        'saveform/store',
+        'saveformjson',
+        'campaign_leads',
+        'qualified-crmleads-listing',
+        'pdpl-form-submit',
     ];
 }

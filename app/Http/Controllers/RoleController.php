@@ -7,9 +7,13 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Validation\Rule;
-use Yajra\DataTables\DataTables;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailWithAttachment;
+use App\Models\EmailSendingCriteria;
+use App\Models\Role as CustomerRole;
 
 class RoleController extends Controller
 {
@@ -24,6 +28,34 @@ class RoleController extends Controller
 
     public function index()
     {
+
+        // $files = Storage::files('public/pdf_graph/daily');
+        // $filePaths = []; // Initialize an array to hold local file paths
+
+        // // Process each file to get local paths
+        // foreach ($files as $file) {
+        //     $filePath = storage_path('app/' . $file); // Convert to local path
+        //     $filePaths[] = $filePath; // Add local path to the array
+        // }
+
+        // $row = EmailSendingCriteria::where('type', 'Daily')->first();
+        // $subject = $row->subject ?? "Graph Email";
+        // $recipients = $row->emails ? explode(',', $row->emails) : [];
+        // $data = [
+        //     'subject' => $subject,
+        //     'message' => $row->body,
+        // ];
+
+        // // $attachmentPaths = $filePaths;
+
+        // $data['files'] = $filePaths;
+
+        // foreach ($recipients as $recipient) {
+        //     Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+        // }
+
+
+
         $data['roles'] = Role::whereNotIn('id',[1])->get();
         return view('admin.roles.index' ,$data);
     }
@@ -37,7 +69,11 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $role = Role::create(['name' => $request->input('name')]);
+        $role = CustomerRole::create([
+            'name' => $request->input('name') ,
+             'page_redirect' => $request->page_redirect,
+             'allowed_no_of_months' => $request->allowed_no_of_months
+            ]);
         $role->syncPermissions($request->input('permission'));
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
@@ -60,6 +96,8 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $role->name = $request->input('name');
+        $role->page_redirect = $request->page_redirect;
+        $role->allowed_no_of_months = $request->allowed_no_of_months;
         $role->save();
 
          $role->syncPermissions($request->input('permission'));
@@ -70,6 +108,11 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         $role = Role::find($id);
+
+        if($role->users()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this role already exists')]);
+        }
+
         if ($role) {
             $role->delete();
         }

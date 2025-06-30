@@ -53,7 +53,9 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data['customer']= Customer::findorFail($id);
+        $data['banks']= Bank::whereStatus(1)->get();
+        return view('admin.customer.customer_show' , $data);
     }
 
     /**
@@ -91,6 +93,11 @@ class CustomerController extends Controller
     public function destroy(string $id)
     {
         $row = Customer::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this customer already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -117,6 +124,7 @@ class CustomerController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Customer::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -132,6 +140,7 @@ class CustomerController extends Controller
                 "mobile" => $row->mobile,
                 "email" => $row->email,
                 "bank_id" => $row->bank->name ?? "",
+                "leads_count" => $row->applications()->count() ?? 0,
                 "created_at" =>$row['created_at'],
             );
             $num++;

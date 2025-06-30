@@ -104,10 +104,23 @@ class SocialDataController extends Controller
         //dd($conditions,$conditions['search']['value']);
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = SocialData::count();
+        $countAll = SocialData::when(request('to'), function ($query) use ($conditions) {
+            return  $query->where(function ($query) use ($conditions) {
+                $startDate = $conditions['from'].' 00:00:00';
+                $endDate = $conditions['to'].' 23:59:59';
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            });
+        })->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  SocialData::orderBy($columnName, $columnSortOrder)
+        $paginate =  SocialData::when(request('to'), function ($query) use ($conditions) {
+                return  $query->where(function ($query) use ($conditions) {
+                    $startDate = $conditions['from'].' 00:00:00';
+                    $endDate = $conditions['to'].' 23:59:59';
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                });
+            })
+            ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
         $num = 1;

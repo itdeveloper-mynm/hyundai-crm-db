@@ -35,6 +35,16 @@
 
                                     </div>
 
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-sm-4 col-md-4">
+                                            <label class="required form-label">{{ __('Percentage') }}</label>
+                                            <input type="number" name="percentage" id="percentage" value="{{$campaign->percentage}}" class="form-control mb-2" min="1" oninput="validity.valid||(value='');"
+                                                required />
+                                        </div>
+
+                                    </div>
+
                                     <div class="row mt-5">
                                         <div class="mb-10 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Status') }}</label>
@@ -45,6 +55,11 @@
                                                 <option value="1" @selected($campaign->status==1)>True</option>
                                                 <option value="0" @selected($campaign->status==0)>False</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.page_type_input', ['page_chk' => 'edit' , 'field_value'=> $campaign->page_type ])
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExternalLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::controller(ExternalLeadController::class)->group(function(){
+    Route::any('all-leads-listing', 'allLeadsListing')->middleware('basic.auth');
+    Route::any('contact-leads', 'contactLeadsListing')->middleware('basic.auth');
+    Route::any('ivr-category-update', 'ivrCategoryUpdate')->middleware('basic.auth');
+
 });

@@ -46,7 +46,7 @@
                                                 required />
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => $smo_lead ])
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => $smo_lead ,'page_type' => 'sales' ])
                                         </div>
 
                                     <div class="row mt-5">

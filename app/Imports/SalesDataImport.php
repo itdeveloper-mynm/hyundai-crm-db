@@ -20,12 +20,13 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
     {
         return [
             'inv_date' => 'required',
-            'year'  => 'required',
-            's'  => 'required',
+            'year'  => 'nullable',
+            's'  => 'nullable',
             'chass'  => 'required',
             'model'  => 'required',
             'mobile'  => 'required',
-            'customer_name'  => 'required',
+            // 'customer_name'  => 'required',
+            'first_name'  => 'required',
             'gender'  => 'required',
             //'request_date'  => 'required',
             //'van_code'  => 'required|unique:vans,van_code',
@@ -51,11 +52,14 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
         }
 
         $mobile = $row['mobile'];
+        $mobile = str_replace(' ', '', $row['mobile']);
         $mobile =formatInputNumber($mobile);
         $customer = Customer::whereMobile($mobile)->first();
         if(is_null($customer)){
             $customer =new Customer();
-            $customer->first_name = $row['customer_name'];
+            // $customer->first_name = $row['customer_name'];
+            $customer->first_name = $row['first_name'];
+            $customer->last_name = $row['last_name'];
             $customer->mobile = $mobile;
             $customer->gender = $row['gender'];
             $customer->save();
@@ -64,12 +68,13 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
             return new SalesData([
                 'customer_id' => $customer->id,
                 'inv_date' => $inv_date,
-                'year' => $row['year'],
-                's' => $row['s'],
+                'year' => $row['year'] ?? "",
+                's' => $row['s'] ?? "",
                 'chass' => $row['chass'],
                 'vehicle_id' => $vehicle->id,
-                //'department' => request('department') ?? 'sales',
-                'department' =>  'sales',
+                'department' => request('department') ?? 'sales',
+                'inv_no' => $row['inv_no'] ?? "",
+                // 'department' =>  'sales',
                 // Add other columns as needed
             ]);
     }

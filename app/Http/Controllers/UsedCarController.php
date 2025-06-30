@@ -33,7 +33,7 @@ class UsedCarController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData(null,'sales');
         return view('admin.used_car.used_car_index', $data);
     }
 
@@ -42,7 +42,7 @@ class UsedCarController extends Controller
      */
     public function create()
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         return view('admin.used_car.used_car_add' , $data);
     }
 
@@ -71,7 +71,7 @@ class UsedCarController extends Controller
     public function edit(string $id)
     {
 
-        $data = getCommonData();
+        $data = getCommonData(null,'sales');
         $data['used_car']= Application::findorFail($id);
         return view('admin.used_car.used_car_edit', $data);
     }
@@ -119,6 +119,7 @@ class UsedCarController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
+                ->latest()
                 ->where('type','used_cars')
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
@@ -130,12 +131,20 @@ class UsedCarController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "first_name" => ucwords($row->customer->first_name),
-                "last_name" => ucwords($row->customer->last_name),
+                "full_name" => ucwords($row->customer->full_name),
+                "mobile" => $row->customer->mobile ?? '-',
+                // "first_name" => ucwords($row->customer->first_name),
+                // "last_name" => ucwords($row->customer->last_name),
+                "customer_id" => $row->customer_id,
                 "city_id" => $row->city->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" =>$row['created_at'],
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => $row->updated_by ? dateTimeformat($row['created_at']) : '-',
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

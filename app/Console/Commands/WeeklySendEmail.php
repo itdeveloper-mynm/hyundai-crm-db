@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailWithAttachment;
+use App\Models\EmailSendingCriteria;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
+class WeeklySendEmail extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'email:weekly';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Send weekly email with attachment';
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $files = Storage::files('public/pdf_graph/weekly');
+        $filePaths = []; // Initialize an array to hold local file paths
+
+        // Process each file to get local paths
+        foreach ($files as $file) {
+            $filePath = storage_path('app/' . $file); // Convert to local path
+            $filePaths[] = $filePath; // Add local path to the array
+        }
+
+        $row = EmailSendingCriteria::where('type', 'Weekly')->first();
+        if($row){
+            $subject = $row->header ?? "Weekly Graphs";
+            $recipients = $row->emails ? explode(',', $row->emails) : [];
+            $data = [
+                'subject' => $subject,
+                'message' => $row->body,
+            ];
+
+
+            $data['files'] = $filePaths;
+
+            foreach ($recipients as $recipient) {
+                Mail::to($recipient)->send(new SendMailWithAttachment($data, $subject));
+            }
+
+            // Delete files after sending email
+            foreach ($files as $filePath) {
+                Storage::delete($filePath);
+            }
+        }
+
+        Log::info('Weekly email sent successfully!');
+    }
+}

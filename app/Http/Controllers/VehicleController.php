@@ -37,7 +37,9 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        $vehicle= Vehicle::create($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $vehicle= Vehicle::create($input);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -65,7 +67,9 @@ class VehicleController extends Controller
     public function update(Request $request, string $id)
     {
         $row = Vehicle::findorFail($id);
-        $row->update($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $row->update($input);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -76,6 +80,11 @@ class VehicleController extends Controller
     public function destroy(string $id)
     {
         $row = Vehicle::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this vehicle already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -103,6 +112,7 @@ class VehicleController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Vehicle::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -110,11 +120,17 @@ class VehicleController extends Controller
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
 
+            $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
+            $formattedPageType = implode(', ', array_map(function ($word) {
+                 if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+            }, explode(',', $page_type)));
+
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
-                "name" => ucwords($row['name']),
+                "name" => $row['name'],
+                "page_type" => $formattedPageType ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;

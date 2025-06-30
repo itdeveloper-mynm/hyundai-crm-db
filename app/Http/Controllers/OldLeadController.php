@@ -34,7 +34,7 @@ class OldLeadController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData();
 
         return view('admin.old_lead.index' , $data);
     }
@@ -126,6 +126,7 @@ class OldLeadController extends Controller
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
                 ->where('type','old_leads')
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -136,14 +137,22 @@ class OldLeadController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "first_name" => ucwords($row->customer->first_name),
-                "last_name" => ucwords($row->customer->last_name),
+                "full_name" => ucwords($row->customer->full_name),
+                "mobile" => $row->customer->mobile ?? '-',
+                // "first_name" => ucwords($row->customer->first_name),
+                // "last_name" => ucwords($row->customer->last_name),
+                "customer_id" => $row->customer_id,
                 "city_id" => $row->city->name ?? "",
                 "branch_id" => $row->branch->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" => formateDateTime($row['created_at']),
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                 "updated_at" => $row->updated_by ? dateTimeformat($row['updated_at']) : '-',
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }

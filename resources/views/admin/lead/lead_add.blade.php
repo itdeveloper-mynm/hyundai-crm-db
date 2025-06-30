@@ -40,9 +40,10 @@
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Mobile') }}</label>
+                                            @include('admin.common_files.mobile_input', ['page_chk' => 'add' , 'value' ])
+                                            {{-- <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" name="mobile" id="mobile" class="form-control mb-2"
-                                                required />
+                                                required /> --}}
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
@@ -54,7 +55,7 @@
 
                                     <div class="row mt-5">
                                         <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'multiple' =>false ,'page_type' => 'sales', 'data' => null ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.branch' ,[ 'required' =>true, 'data' => null ])
@@ -123,6 +124,28 @@ $(document).ready(function() {
             'status': {
                 required: true,
             },
+            // 'mobile': {
+            //     required: true,
+            //     remote: {
+            //         url: "{{ route('check.name.exist-chk') }}",
+            //         type: "get",
+            //         data: {
+            //             mobile: function(data) {
+            //                 return $('#mobile').val();
+            //             },
+            //             check: function(data) {
+            //                 return 0;
+            //             },
+            //             tableName: function(data) {
+            //                 return 'customers';
+            //             },
+            //             fieldName: function(data) {
+            //                 return 'mobile';
+            //             },
+
+            //         }
+            //     }
+            // }
 
         },
         messages: {
@@ -133,6 +156,10 @@ $(document).ready(function() {
                 remote: "Name Already Exists",
 
             },
+            // mobile: {
+            //     remote: "Mobile Already Exists",
+
+            // },
         },
 
         submitHandler: function(form) {

@@ -86,6 +86,8 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th class="min-w-150px">{{ __('Name') }}</th>
+                            <th class="min-w-150px">{{ __('After Login Redirection') }}</th>
+                            <th class="min-w-150px">{{ __('No of Months Allowed') }}</th>
                             <th class="min-w-150px">{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -96,6 +98,12 @@
                             <td class="center">{{ $loop->iteration }}</td>
                             <td>
                                 <a class="text-dark fw-bold">{{$role->name}}</a>
+                            </td>
+                            <td>
+                                <a class="text-dark fw-bold">{{$role->page_redirect}}</a>
+                            </td>
+                            <td>
+                                <a class="text-dark fw-bold">{{$role->allowed_no_of_months}} {{ $role->allowed_no_of_months == 1 ? 'Month':'Months'}}</a>
                             </td>
                             <td>
                                 <a class="text-dark fw-bold">

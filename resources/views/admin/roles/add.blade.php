@@ -27,15 +27,37 @@
                                 <div class="card-body pt-0">
 
                                     <!--begin::Input group-->
-                        <div class="fv-row mb-10">
-                            <!--begin::Label-->
-                            <label class="fs-5 fw-bold form-label mb-2">
-                                <span class="required">Role name</span>
-                            </label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input class="form-control form-control-solid" placeholder="Enter a role name" required name="name" />
-                            <!--end::Input-->
+                        <div class="row mb-10">
+
+                            <div class="col-lg-4 col-sm-4 col-md-4">
+                                <label class="fs-5 fw-bold form-label mb-2">
+                                    <span class="required">Role name</span>
+                                </label>
+                                <input type="text" class="form-control form-control-solid" placeholder="Enter a role name" required name="name" id="name" />
+                            </div>
+
+                            <div class="col-lg-4 col-sm-4 col-md-4">
+                                <label class="required form-label">{{ __('After Login Dashboard Redirection') }}</label>
+                                <select class="form-select mb-2" name="page_redirect" id="page_redirect" required="required"
+                                    data-control="select2" data-placeholder="{{ __('select option') }}"
+                                    data-allow-clear="true">
+                                    <option value=""></option>
+                                    <option value="dashboard">Overview Dashboard Page</option>
+                                    <option value="crm-leads-graph.index">CRM Leads Graph Page</option>
+                                    <option value="sale-graph.index">Sale Graph Page</option>
+                                    <option value="after-sale-graph.index">After Sale Graph Page</option>
+                                    <option value="hr-graph.index">HR Graph Page</option>
+                                    <option value="used-cars-graph.index">Used Cars Graph Page</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4">
+                                <label class="fs-5 fw-bold form-label mb-2">
+                                    <span class="required">No of Months Allowed</span>
+                                </label>
+                                <input type="number" class="form-control" placeholder="Enter no of months" required name="allowed_no_of_months" id="allowed_no_of_months"
+                                    min="1" oninput="validity.valid||(value='');"
+                                />
+                            </div>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Permissions-->
@@ -89,6 +111,28 @@ $(document).ready(function() {
             'status': {
                 required: true,
             },
+            'page_redirect': {
+                required: true,
+            },
+            'name': {
+                required: true,
+                remote: {
+                    url: "{{ route('check.name.exist') }}",
+                    type: "get",
+                    data: {
+                        name: function(data) {
+                            return $('#name').val();
+                        },
+                        check: function(data) {
+                            return 0;
+                        },
+                        tableName: function(data) {
+                            return 'roles';
+                        },
+
+                    }
+                }
+            },
 
         },
         messages: {
@@ -107,12 +151,12 @@ $(document).ready(function() {
             const $allCheckboxes = $form.find('[type="checkbox"]:not(:disabled)');
             let allChecked = true;
 
-            $allCheckboxes.each(function() {
-                if (!$(this).is(':checked')) {
-                    allChecked = false;
-                    return false; // Exit each loop
-                }
-            });
+            // $allCheckboxes.each(function() {
+            //     if (!$(this).is(':checked')) {
+            //         allChecked = false;
+            //         return false; // Exit each loop
+            //     }
+            // });
 
             if (!allChecked) {
                 Swal.fire({

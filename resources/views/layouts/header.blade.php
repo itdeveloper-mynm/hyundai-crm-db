@@ -17,7 +17,7 @@
 						<!--end::sidebar mobile toggle-->
 						<!--begin::Mobile logo-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-							<a href="../../demo1/dist/index.html" class="d-lg-none">
+							<a href="#" class="d-lg-none">
 								<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/logos/default-small.svg" class="h-30px" />
 							</a>
 						</div>
@@ -51,7 +51,7 @@
 																<!--begin:Menu item-->
 																<div class="menu-item p-0 m-0">
 																	<!--begin:Menu link-->
-																	<a href="../../demo1/dist/index.html" class="menu-link active">
+																	<a href="#" class="menu-link active">
 																		<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
 																			<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 																			<span class="svg-icon svg-icon-primary svg-icon-1">
@@ -1016,7 +1016,8 @@
 								<div class="app-navbar-item ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 									<!--begin::Menu wrapper-->
 									<div class="cursor-pointer symbol symbol-35px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-										<img src="{{ asset('login_asset') }}/assets/media/avatars/300-1.jpg" alt="user" />
+										{{-- <img src="{{ asset('login_asset') }}/assets/media/avatars/300-1.jpg" alt="user" /> --}}
+										<img src="{{ asset('login_asset') }}/assets/media/svg/avatars/blank.svg" alt="user" />
 									</div>
 									<!--begin::User account menu-->
 									<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -1025,14 +1026,14 @@
 											<div class="menu-content d-flex align-items-center px-3">
 												<!--begin::Avatar-->
 												<div class="symbol symbol-50px me-5">
-													<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/avatars/300-1.jpg" />
+													{{-- <img alt="Logo" src="{{ asset('login_asset') }}/assets/media/avatars/300-1.jpg" /> --}}
+													<img alt="Logo" src="{{ asset('login_asset') }}/assets/media/svg/avatars/blank.svg" />
 												</div>
 												<!--end::Avatar-->
 												<!--begin::Username-->
 												<div class="d-flex flex-column">
-													<div class="fw-bold d-flex align-items-center fs-5">Max Smith
-													<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div>
-													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">max@kt.com</a>
+													<div class="fw-bold d-flex align-items-center fs-5">{{Auth::User()->name ?? ""}}</div>
+													<a href="#" class="fw-semibold text-muted text-hover-primary fs-8">{{Auth::User()->email ?? ""}}</a>
 												</div>
 												<!--end::Username-->
 											</div>
@@ -1042,9 +1043,9 @@
 										<div class="separator my-2"></div>
 										<!--end::Menu separator-->
 										<!--begin::Menu item-->
-										<div class="menu-item px-5">
-											<a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a>
-										</div>
+										{{-- <div class="menu-item px-5">
+											<a href="#" class="menu-link px-5">My Profile</a>
+										</div> --}}
 										<!--end::Menu item-->
 										<!--begin::Menu separator-->
 										<div class="separator my-2"></div>

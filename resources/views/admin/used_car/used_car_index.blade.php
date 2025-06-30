@@ -28,27 +28,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-6">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-                                            transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
-                                        <path
-                                            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-                                            fill="currentColor" />
-                                    </svg>
+                    <div class="col-lg-8 d-flex justify-content-end">
+                        @can('used-car-leads-delete')
+                            <button type="submit" class="btn btn-danger me-3" id="deleteAll" style="display:none;">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-trash"></i>
                                 </span>
-                                <input type="text" data-kt-customer-table-filter="search" name="search" id="search"
-                                    class="form-control w-250px ps-15" placeholder="Search" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 d-flex justify-content-end">
-
-
+                                {{ __('Delete All') }}
+                            </button>
+                        @endcan
                         <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-end">
                             <span class="svg-icon svg-icon-2">
@@ -60,91 +47,83 @@
                                 </svg>
                             </span>Filter</button>
 
-                        <div class="menu menu-sub menu-sub-dropdown w-250px w-md-400px" data-kt-menu="true"
-                            id="kt_menu_62fe86549b38d">
-                            <div class="px-7 py-5">
-                                <div class="fs-5 text-dark fw-bold">Filter Options</div>
-                            </div>
-                            <div class="separator border-gray-200"></div>
-                            <form class="form d-flex flex-column flex-lg-row" id="myForm">
-
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-600px" data-kt-menu="true"
+                                id="kt_menu_62fe86549b38d">
                                 <div class="px-7 py-5">
-
-                                @can('used-car-leads-filters')
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                        <div>
-                                            <select class="form-select mb-2" name="city_id" id="city_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value="">--select--</option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                        <div>
-                                            <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                data-control="select" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                <option value=""></option>
-                                                @foreach ($vehicles as $vehicle)
-                                                    <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                        <div>
-                                        <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                            data-control="select" data-placeholder="{{ __('select option') }}"
-                                            data-allow-clear="true">
-                                            <option value=""></option>
-                                            @foreach ($campaigns as $campaign)
-                                                <option value="{{$campaign->id}}">{{$campaign->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        </div>
-                                    </div>
-                                    @endcan
-                                    <div class="mb-3">
-
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ currentDate() }}" name="from" id="from" />
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <input type="date" class="form-control form-control-solid ps-12"
-                                                    placeholder="Select a date" value="{{ currentDate() }}" name="to" id="to" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-end">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <button type="submit" class="btn btn-sm btn-primary"
-                                                    data-kt-menu-dismiss="true" value="apply"
-                                                    id="apply">Apply</button>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <a href="javascript:void(0)" class="btn btn-sm btn-primary"
-                                                    data-kt-menu-dismiss="true" value="reset" id="reset">Reset</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
+                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="separator border-gray-200"></div>
+                                <form class="form d-flex flex-column flex-lg-row" id="myForm">
+
+                                    <div class="px-7 py-5">
+                                        <div class="mb-3">
+                                            @can('used-car-leads-filters')
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.city', ['page_type' => 'sales' ])
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.branch')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.vehicle')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.source')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.campaign')
+                                                    </div>
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.purchase_plan')
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.monthly_salary')
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.preferred_appointment_time')
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.kyc')
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.category')
+                                                    </div> --}}
+                                                    {{-- <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.created_by')
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @include('admin.common_files_filters.updated_by')
+                                                    </div> --}}
+                                                </div>
+                                            @endcan
+                                            <div class="row mt-1">
+                                                @include('admin.common_files_filters.created_date' , ['no_of_months' => getUserNoOfMonths() ])
+                                            </div>
+                                            {{-- <div class="row mt-2">
+                                                    @include('admin.common_files_filters.updated_date' , ['no_of_months' => getUserNoOfMonths()  ])
+                                            </div> --}}
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        data-kt-menu-dismiss="true" value="apply"
+                                                        id="apply">Apply</button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
+                                                        value="reset" id="reset">Reset</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
                         <!--
                         <button type="button" class="btn btn-success me-3 export_excel">
                             <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
@@ -158,7 +137,8 @@
                         </button> -->
 
                         @can('used-car-leads-export')
-                            <form action="{{route('used-car.export')}}" method="GET"  id="exportForm">
+                            <form action="{{route('used-car.export')}}" method="POST"  id="exportForm">
+                                @csrf
                                 <div id="export_form_div" style="display: none">
                                 </div>
                                 <button type="submit" class="btn btn-success me-3" id="exportbutton">
@@ -184,6 +164,29 @@
                         @endcan
                     </div>
                 </div>
+                <div class="row  mt-5">
+                    <div class="col-lg-6">
+                        @include('admin.common_files.top-message-lisitng-page')
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end">
+                        <div class="card-title">
+                            <div class="d-flex align-items-center position-relative my-1">
+                                <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                                            transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                        <path
+                                            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <input type="text" data-kt-customer-table-filter="search" name="search" id="search"
+                                    class="form-control w-250px ps-15" placeholder="Search" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -194,12 +197,19 @@
                     <thead class="table-dark" style="border-radius: 10px 10px 10px 10px;">
                         <tr>
                             <th class="text-center">#</th>
-                            <th>{{ __('First Name') }}</th>
-                            <th>{{ __('Last Name') }}</th>
-                            <th>{{ __('City') }}</th>
-                            <th>{{ __('Vehicle') }}</th>
-                            <th>{{ __('Campaign') }}</th>
-                            <th>{{ __('Action') }}</th>
+                            <th><input type="checkbox" id="selectAll" /></th>
+                            <th class="min-w-100px">{{ __('Full Name') }}</th>
+                            <th class="min-w-100px">{{ __('Mobile') }}</th>
+                            <th class="min-w-100px">{{ __('City') }}</th>
+                            <th class="min-w-100px">{{ __('Vehicle') }}</th>
+                            <th class="min-w-100px">{{ __('Campaign') }}</th>
+                            <th class="min-w-100px">{{ __('Category') }}</th>
+                            <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                            <th class="min-w-100px">{{ __('Created At') }}</th>
+                            <th class="min-w-100px">{{ __('Created By') }}</th>
+                            <th class="min-w-100px">{{ __('Updated At') }}</th>
+                            <th class="min-w-100px">{{ __('Updated By') }}</th>
+                            <th class="min-w-100px">{{ __('Action') }}</th>
                         </tr>
                     </thead>
 
@@ -287,16 +297,28 @@ var table = $('#user_table').DataTable({
     responsive: true,
     searching: true,
     filter: true,
+    pageLength: 100,
 
     ajax: {
         "url": "{{ route('usedCar.pagination') }}",
         "type": "GET",
         'data': function(data) {
-            data.city_id = $('#city_id').val();
-            data.vehicle_id = $('#vehicle_id').val();
-            data.campaign_id = $('#campaign_id').val();
-            data.from = $('#from').val();
-            data.to = $('#to').val();
+                    data.city_id = $('#city_id').val();
+                    data.branch_id = $('#branch_id').val();
+                    data.vehicle_id = $('#vehicle_id').val();
+                    data.source_id = $('#source_id').val();
+                    data.campaign_id = $('#campaign_id').val();
+                    data.purchase_plan = $('#purchase_plan').val();
+                    data.monthly_salary = $('#monthly_salary').val();
+                    data.preferred_appointment_time = $('#preferred_appointment_time').val();
+                    data.kyc = $('#kyc').val();
+                    data.category = $('#category').val();
+                    data.created_by = $('#created_by').val();
+                    data.updated_by = $('#updated_by').val();
+                    data.from = $('#from').val();
+                    data.to = $('#to').val();
+                    data.upd_from = $('#upd_from').val();
+                    data.upd_to = $('#upd_to').val();
         }
     },
     columns: [{
@@ -306,7 +328,15 @@ var table = $('#user_table').DataTable({
             className: 'center'
         },
         {
-            data: 'first_name',
+            data: 'id',
+            render: function(data, type, row) {
+
+                var result = '<input type="checkbox" class="checkbox-item" value="'+ data +'" />';
+                return result;
+            }
+        },
+        {
+            data: 'full_name',
             render: function(data, type, row) {
 
                 var result = '<a href="{{ url('used-car') }}/' + row.id +
@@ -316,7 +346,7 @@ var table = $('#user_table').DataTable({
             }
         },
         {
-            data: 'last_name',
+            data: 'mobile',
             render: function(data, type, row) {
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
@@ -347,15 +377,66 @@ var table = $('#user_table').DataTable({
                 return result;
             }
         },
+        {
+        data: 'category',
+        render: function(data, type, row) {
+
+            var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+            return result;
+        }
+        },
+        {
+            data: 'sub_category',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'created_at',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'created_by',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'updated_at',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
+        {
+            data: 'updated_by',
+            render: function(data, type, row) {
+
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
 
         {
             data: 'id',
             render: function(data, type, row) {
                 var res = '-';
                 var res2 = '-';
+                var res3 = '-';
                 @can('used-car-leads-edit')
-                res = '<a href="{{  url("used-car")  }}/' + data +
+                    res = '<a href="{{  url("used-car")  }}/' + data +
                     '/edit" class="btn btn-sm btn-icon btn-light-primary"  data-toggle="tooltip" title="{{ __("table.edit") }}"><i class="fa fa-pencil"></i></a> ';
+                    res3 = '<a href="{{ url('contact') }}/' + row.customer_id +
+                                '" target="_blank" class="btn btn-sm btn-icon btn-light-primary ms-1"  data-toggle="tooltip" title="View Contact"><i class="fa fa-address-book"></i></a> ';
                 @endcan
                 @can('used-car-leads-delete')
                 res2 =
@@ -363,12 +444,12 @@ var table = $('#user_table').DataTable({
                     data + ')" ><i class="bi-trash"></i></a>';
                 @endcan
 
-                return res + res2;
+                return res + res2 + res3;
             }
         }
     ],
     order: [
-        [3, "desc"]
+        [1, "desc"]
     ],
     dom: 'lBfrtip',
     buttons: [{
@@ -407,6 +488,11 @@ var table = $('#user_table').DataTable({
             orderable: false
         },
         {
+            targets: 3,
+            sortable: false,
+            orderable: false
+        },
+        {
             "className": "dt-center",
             "targets": "_all"
         },
@@ -414,7 +500,7 @@ var table = $('#user_table').DataTable({
     ],
     "oLanguage": {
         "sSearch": "{{ __('search') }}",
-        "sEmptyTable": "{{ __('not data found') }}"
+        "sEmptyTable": "{{ __('No Data Found. Maybe change the Filter') }}"
     },
 });
 table.on('draw.dt', function() {
@@ -434,19 +520,38 @@ $('#myForm').submit(function(e) {
 });
 
 $('#reset').click(function(e) {
-    e.preventDefault();
-    var from = document.querySelector('#from');
-    var to = document.querySelector('#to');
-    from.value = '';
-    to.value = '';
+            e.preventDefault();
 
-    $("#city_id").val([]).change();
-    $("#vehicle_id").val([]).change();
-    $("#campaign_id").val([]).change();
+            @role('SuperAdmin')
+                var from = document.querySelector('#from');
+                var to = document.querySelector('#to');
+                from.value = '';
+                to.value = '';
 
-    table.draw();
+                // Reset date fields
+                var upd_from = document.querySelector('#upd_from');
+                var upd_to = document.querySelector('#upd_to');
+                upd_from.value = '';
+                upd_to.value = '';
+            @endrole
 
-});
+            // Reset select fields
+            $("#city_id").val([]).change();
+            $("#branch_id").val([]).change();
+            $("#vehicle_id").val([]).change();
+            $("#source_id").val([]).change();
+            $("#campaign_id").val([]).change();
+            $("#purchase_plan").val([]).change();
+            $("#kyc").val([]).change();
+            $("#category").val([]).change();
+            $("#created_by").val([]).change();
+            $("#updated_by").val([]).change();
+            $('#monthly_salary').val([]).change();
+            $('#preferred_appointment_time').val([]).change();
+
+            table.draw();
+
+        });
 
 
 

@@ -122,6 +122,7 @@ class SaleDataController extends Controller
                 "chass" => $row->chass ?? "",
                 "vechile_id" => $row->vehicle->name ?? "",
                 "department" => $row->department ?? "",
+                "inv_no" => $row->inv_no ?? "",
                 "created_at" => formateDateTime($row['created_at']),
             );
             $num++;

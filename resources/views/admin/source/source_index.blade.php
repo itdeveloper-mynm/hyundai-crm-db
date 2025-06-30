@@ -73,8 +73,8 @@
                                                 data-placeholder="{{ __('table.select_option',['title'=>__('table.status')]) }}"
                                                 data-allow-clear="true">
                                                 <option></option>
-                                                <option value="true">Active</option>
-                                                <option value="false">De-Active</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">De-Active</option>
                                             </select>
                                         </div>
 
@@ -146,7 +146,9 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th>{{ __('Name') }}</th>
+                            <th>{{ __('Page Type') }}</th>
                             <th>{{ __('Status') }}</th>
+                            <th>{{ __('Created At') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -169,13 +171,12 @@ var table = $('#user_table').DataTable({
     responsive: true,
     searching: true,
     filter: true,
+    pageLength: 100,
 
     ajax: {
         "url": "{{ route('source.pagination') }}",
         "type": "GET",
         'data': function(data) {
-
-            data.state_id = $('#state_id').val();
             data.status = $('#status').val();
             data.from = $('#from').val();
             data.to = $('#to').val();
@@ -193,6 +194,17 @@ var table = $('#user_table').DataTable({
 
                 var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
                 return result;
+            }
+        },
+        {
+            data: 'page_type',
+            render: function(data, type, row) {
+                var checkedSales = (data && data.includes(1)) ? 'checked' : '';
+                var checkedAfterSales = (data && data.includes(2)) ? 'checked' : '';
+                return `
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="source" data-value="sales" ${checkedSales}> Sales</label>
+                    <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="source" data-value="after_sales" ${checkedAfterSales}> After Sales</label>
+                `;
             }
         },
 
@@ -219,7 +231,14 @@ var table = $('#user_table').DataTable({
 
             }
         },
+        {
+            data: 'created_at',
+            render: function(data, type, row) {
 
+                var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                return result;
+            }
+        },
 
         {
             data: 'id',

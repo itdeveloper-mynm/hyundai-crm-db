@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 
 class AfterSaleController extends Controller
 {
+    private $types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -33,14 +35,14 @@ class AfterSaleController extends Controller
      */
     public function index()
     {
-        $data = getCommonData();
+        $data = getCommonFilterData(null,'after_sales');
         return view('admin.after_sale.after_sale_index', $data);
     }
 
 
     public function create()
     {
-        $data = getCommonData();
+        $data = getCommonData(null,'after_sales');
         return view('admin.after_sale.after_sale_add' , $data);
     }
 
@@ -69,7 +71,7 @@ class AfterSaleController extends Controller
     public function edit(string $id)
     {
         $after_sale= Application::findorFail($id);
-        $data =getCommonData($after_sale->city_id);
+        $data =getCommonData($after_sale->city_id, 'after_sales');
         $data['after_sale'] = $after_sale;
 
         return view('admin.after_sale.after_sale_edit', $data);
@@ -114,11 +116,12 @@ class AfterSaleController extends Controller
         $conditions = request()->all();
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::search($conditions)->where('type','after_sales')->count();
+
+        $countAll = Application::search($conditions)->whereIn('type',$this->types)->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
-                ->where('type','after_sales')
+                ->whereIn('type',$this->types)
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -129,14 +132,22 @@ class AfterSaleController extends Controller
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
-                "first_name" => ucwords($row->customer->first_name),
-                "last_name" => ucwords($row->customer->last_name),
+                "full_name" => ucwords($row->customer->full_name),
+                "mobile" => $row->customer->mobile ?? '-',
+                // "first_name" => ucwords($row->customer->first_name),
+                // "last_name" => ucwords($row->customer->last_name),
+                "customer_id" => $row->customer_id,
                 "city_id" => $row->city->name ?? "",
                 "branch_id" => $row->branch->name ?? "",
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "created_at" =>$row['created_at'],
+                "category" => $row['category'] ?? "-",
+                "sub_category" => $row['sub_category'] ?? "-",
+                "created_at" => dateTimeformat($row['created_at']),
+                "created_by" => $row->createdby->name ?? 'System',
+                "updated_at" => $row->updated_by ? dateTimeformat($row['updated_at']) : '-',
+                "updated_by" => $row->updatedby->name ?? '-',
             );
             $num++;
         }
@@ -179,6 +190,8 @@ class AfterSaleController extends Controller
             $conditions = request()->all();
 
             $fileHandle = fopen('php://output', 'w');
+            // Add UTF-8 BOM for Excel compatibility
+            fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
                                 'Created At','Type']);
             $chunkSize = 50000;
@@ -197,8 +210,8 @@ class AfterSaleController extends Controller
                 'applications.campaign_id',
                 'applications.created_at'
             )
-            ->whereNotNull('cust.bank_id')
-            ->where('applications.type', 'after_sales')
+            // ->whereNotNull('cust.bank_id')
+            ->whereIn('applications.type',$this->types)
             ->orderBy('applications.id')
             ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
                 foreach ($records as $record) {
@@ -210,7 +223,7 @@ class AfterSaleController extends Controller
                         $dataName['vehicles'][$record->vehicle_id] ?? "",
                         $dataName['sources'][$record->source_id] ?? "",
                         $dataName['campaigns'][$record->campaign_id] ?? "",
-                        $record->bank_name,
+                        $record->bank_name ?? "",
                         formateDate($record->created_at),
                         'After Sales',
                     ];

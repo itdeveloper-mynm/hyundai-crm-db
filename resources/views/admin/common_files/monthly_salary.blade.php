@@ -4,5 +4,6 @@
     <option value=""></option>
     <option value="Between 5,000 and 10,000" @selected(($data->monthly_salary ?? '') =='Between 5,000 and 10,000')>Between 5,000 and 10,000</option>
     <option value="Above 10,000" @selected(($data->monthly_salary ?? '') =='Above 10,000')>Above 10,000</option>
+    <option value="Below 5,000" @selected(($data->monthly_salary ?? '') =='Below 5,000')>Below 5,000</option>
     <option value="Cash Deal" @selected(($data->monthly_salary ?? '') =='Cash Deal')>Cash Deal</option>
 </select>

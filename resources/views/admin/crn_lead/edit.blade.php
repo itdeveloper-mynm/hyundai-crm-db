@@ -32,12 +32,12 @@
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('First Name') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->first_name}}" class="form-control mb-2"
+                                            <input type="text" name="first_name" id="first_name" value="{{$lead->customer->first_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Last Name') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->last_name}}" class="form-control mb-2"
+                                            <input type="text" name="last_name" id="last_name" value="{{$lead->customer->last_name}}" class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-4 col-md-4">
                                             <label class="required form-label">{{ __('Email') }}</label>
-                                            <input type="text" disabled value="{{$lead->customer->email}}"  class="form-control mb-2"
+                                            <input type="text" name="email" id="email" value="{{$lead->customer->email}}"  class="form-control mb-2"
                                                 required />
                                         </div>
 
@@ -76,7 +76,7 @@
                                             <label class="required form-label">{{ __('Dealer City') }}</label>
                                             <select class="form-select mb-2" name="city_id" id="city_id" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
+                                                data-allow-clear="true"    data-page_type ="sales">
                                                 <option value=""></option>
                                                 @foreach ($cities as $city)
                                                     <option value="{{$city->id}}" @selected($lead->city_id==$city->id)>{{$city->name}}</option>
@@ -147,7 +147,7 @@
 
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="form-label">{{ __('Customers Bank') }}</label>
-                                            <select name="bank_id" id="bank_id" class="form-select mb-2" required="required"
+                                            <select name="bank_id" id="bank_id" class="form-select mb-2"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"
                                                 data-allow-clear="true">
                                                 <option value=""></option>
@@ -164,10 +164,16 @@
                                                     data-allow-clear="true">
                                                     <option value=""></option>
                                                     @foreach ($sources as $source)
+                                                        @if(in_array($source->name, ['Email', 'Whatsapp', 'Inbound','Outbound']))
                                                         <option value="{{$source->id}}"  @selected($lead->source_id==$source->id)>{{$source->name}}</option>
-                                                    @endforeach
+                                                        @endif
+                                                        @endforeach
                                                 </select>
                                             </div>
+
+                                        {{-- <div class="mb-5 fv-row col-lg-6">
+                                            @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => $lead ])
+                                        </div> --}}
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Preferred Time to contact') }}</label>
                                             <select class="form-select mb-2" name="preferred_appointment_time" required="required"
@@ -180,6 +186,30 @@
                                             </select>
                                         </div>
 
+
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            <label class="required form-label">{{ __('Category') }}</label>
+                                            <select class="form-select mb-2" name="category" id="category" onchange="updateSubCategory()" required="required"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                    <option value=""></option>
+                                                    @foreach (getCategories() as $category)
+                                                        <option value="{{$category}}"  @selected($lead->category== $category)>{{$category}}</option>
+                                                    @endforeach
+                                                    {{-- <option value="Qualified"  @selected($lead->category=='Qualified')>Qualified</option>
+                                                    <option value="Not Qualified" @selected($lead->category=='Not Qualified')>Not Qualified</option>
+                                                    <option value="General Inquiry" @selected($lead->category=='General Inquiry')>General Inquiry</option> --}}
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            <label class="required form-label">{{ __('Sub Category') }}</label>
+                                            <select class="form-select mb-2" name="sub_category" id="sub_category" required="required"
+                                                data-control="select2" data-placeholder="{{ __('select option') }}"
+                                                data-allow-clear="true">
+                                                    <option value=""></option>
+                                            </select>
+                                        </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('KYC') }}</label>
                                             <select class="form-select mb-2" name="kyc" id="kyc" required="required"
@@ -191,29 +221,6 @@
                                                     <option value="Outdoor Advertisement" @selected($lead->kyc=='Outdoor Advertisement')>Outdoor Advertisement</option>
                                                     <option value="Influencer" @selected($lead->kyc=='Influencer')>Influencer</option>
                                                     <option value="Others" @selected($lead->kyc=='Others')>Others</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                    <div class="row mt-5">
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Category') }}</label>
-                                            <select class="form-select mb-2" name="category" id="category" onchange="updateSubCategory()" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                    <option value=""></option>
-                                                    <option value="Qualified"  @selected($lead->category=='Qualified')>Qualified</option>
-                                                    <option value="Not Qualified" @selected($lead->category=='Not Qualified')>Not Qualified</option>
-                                                    <option value="General Inquiry" @selected($lead->category=='General Inquiry')>General Inquiry</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-5 fv-row col-lg-6">
-                                            <label class="required form-label">{{ __('Sub Category') }}</label>
-                                            <select class="form-select mb-2" name="sub_category" id="sub_category" required="required"
-                                                data-control="select2" data-placeholder="{{ __('select option') }}"
-                                                data-allow-clear="true">
-                                                    <option value=""></option>
                                             </select>
                                         </div>
                                         <div class="mb-5 fv-row col-lg-12">
@@ -258,11 +265,37 @@ $(document).ready(function() {
         rules: {
             'status': {
                 required: true,
-            }
+            },
+            'mobile': {
+                required: true,
+                remote: {
+                    url: "{{ route('check.name.exist') }}",
+                    type: "get",
+                    data: {
+                        mobile: function(data) {
+                            return $('#mobile').val();
+                        },
+                        check: function(data) {
+                            return "{{$lead->customer_id}}";
+                        },
+                        tableName: function(data) {
+                            return 'customers';
+                        },
+                        fieldName: function(data) {
+                            return 'mobile';
+                        },
+
+                    }
+                }
+            },
         },
         messages: {
             'status': {
                 'required': "{{ __('status field is required') }}"
+            },
+            mobile: {
+                remote: "Mobile Already Exists",
+
             },
         },
 
@@ -326,18 +359,15 @@ function getCategories(){
   const categories = {
     'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
     'General Inquiry': [
-      'Timing & Locations',
-      'Inquiry - Another Company',
-      'Product Specification',
-      'Price',
-      'Disconnect',
-      'Road Assistant',
-      'Showroom Numbers',
-      'After-sales',
-      'Sales Complaint',
-      'AfterSales Complaint',
-      'Transfer',
-      'Callback'
+        'Timing & Locations',
+        'Inquiry - Another Company',
+        'Product Specification',
+        'Price',
+        'Showroom Numbers',
+        'Not interested',
+        'Already bought',
+        'Wrong Number',
+        'Callback'
     ],
     'Not Qualified': [
       'Salary does not allow financing',
@@ -357,7 +387,9 @@ function updateSubCategory() {
 
   let options = '';
 
-  const categories = getCategories(); // Changed from const category to const categories
+//   const categories = getCategories(); // Changed from const category to const categories
+
+    const categories = @json(getsubCategories());
 
   if (selectedCategory in categories) { // Changed from category to selectedCategory
     const optionsArray = categories[selectedCategory]; // Changed from categories[category] to categories[selectedCategory]

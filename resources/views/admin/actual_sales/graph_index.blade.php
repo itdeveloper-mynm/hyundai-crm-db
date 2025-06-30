@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Actual Sales Report')
 
 @section('content')
 
@@ -13,7 +13,20 @@
             <div class="card-header mb-3" style="padding: 0px;">
                 <div class="card-toolbar ">
                     <div class="row  mt-5">
-                        <div class="col-lg-12 d-flex justify-content-end">
+                        <div class="col-lg-4">
+                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Actual Sales Report</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex justify-content-end">
+                            <button id="printButton" type="button" class="btn btn-success me-3">
+                                <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                {{ __('Pdf') }}
+                            </button>
                             <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                 data-kt-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
@@ -31,9 +44,9 @@
                                     <div class="fs-5 text-dark fw-bold">Filter Options</div>
                                 </div>
                                 <div class="separator border-gray-200"></div>
-                                <form method="GET" action="{{ route('actualsales-graph.index') }}"
+                                <form method="POST" action="{{ route('actualsales-graph.index') }}"
                                     class="form d-flex flex-column flex-lg-row" id="myForm">
-                                    {{-- @csrf --}}
+                                    @csrf
                                     <div class="px-7 py-5">
                                         <div class="row">
                                             <div class="mb-3 col-6">
@@ -44,21 +57,9 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                        <div>
-                                                            <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                                data-control="select"
-                                                                data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
-                                                                <option value=""></option>
-                                                                @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                    <option value="{{ $vehicle->id }}"
-                                                                        @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                        @include('admin.common_files_filters.vehicle')
                                                     </div>
+
                                                     <div class="col-lg-6">
                                                         <label class="form-label fw-semibold">{{ __('Department') }}</label>
                                                         <div>
@@ -66,7 +67,7 @@
                                                                 data-control="select"
                                                                 data-placeholder="{{ __('select option') }}"
                                                                 data-allow-clear="true">
-                                                                <option value=""></option>
+                                                                <option value="">--select--</option>
                                                                 <option value="sales">Sales</option>
                                                                 <option value="after_sales">After Sales</option>
                                                             </select>
@@ -100,14 +101,14 @@
                                                     <div class="col-lg-6">
                                                         <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
                                                         <div>
-                                                            <select class="form-select mb-2" name="vehicle_id_comp" id="vehicle_id_comp"
-                                                                data-control="select"
+                                                            <select class="form-select mb-2" name="vehicle_id_comp[]" id="vehicle_id_comp"
+                                                                data-control="select2"
                                                                 data-placeholder="{{ __('select option') }}"
-                                                                data-allow-clear="true">
+                                                                data-allow-clear="true" multiple>
                                                                 <option value=""></option>
                                                                 @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                    <option value="{{ $vehicle->id }}"
-                                                                        @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
+                                                                    <option value="{{ $vehicle->id }}" {{is_selected($vehicle->id, 'vehicle_id_comp')}}
+                                                                        >{{ $vehicle->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -120,7 +121,7 @@
                                                                 data-control="select"
                                                                 data-placeholder="{{ __('select option') }}"
                                                                 data-allow-clear="true">
-                                                                <option value=""></option>
+                                                                <option value="">--select--</option>
                                                                 <option value="sales">Sales</option>
                                                                 <option value="after_sales">After Sales</option>
                                                             </select>
@@ -152,7 +153,7 @@
                                                         id="apply">Apply</button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('sale-graph-comparison.index') }}"
+                                                    <a href="{{ route('actualsales-graph.index') }}"
                                                         class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                         value="reset" id="reset">Reset</a>
                                                 </div>
@@ -164,6 +165,9 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mt-2">
+                        @include('admin.common_files.top-message-graph-page')
                     </div>
                 </div>
             </div>
@@ -317,7 +321,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Actual Sales Data</h3>
+                                <h3 class="fw-bold mb-1">Actual Sales Data ({{array_sum($actual_sales_data)}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -350,7 +354,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Digital Compaign Leads</h3>
+                                <h3 class="fw-bold mb-1">Digital Compaign Leads ({{human_readable_number(array_sum($digital_compaign_Leads))}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -383,7 +387,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Compared Results</h3>
+                                <h3 class="fw-bold mb-1">Compared Results ({{array_sum($getLeadsConversions)}})</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -421,7 +425,7 @@
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
     {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
@@ -446,14 +450,14 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Actual Sales Data',
+                    label: 'Actual Sales Data('+ @json(array_sum($first_count)) +')',
                     data: @json($first_count),
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Digital Compaign Leads',
+                    label: 'Digital Compaign Leads('+ @json(array_sum($second_count['counts'])) +')',
                     data: @json($second_count['counts']),
                     fill: false,
                     borderColor: successColor,

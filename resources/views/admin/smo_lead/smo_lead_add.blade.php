@@ -40,13 +40,14 @@
                                         </div>
 
                                         <div class="col-lg-6 col-sm-4 col-md-4">
-                                            <label class="required form-label">{{ __('Mobile') }}</label>
+                                            @include('admin.common_files.mobile_input', ['page_chk' => 'add' ])
+                                            {{-- <label class="required form-label">{{ __('Mobile') }}</label>
                                             <input type="text" name="mobile" id="mobile" class="form-control mb-2"
-                                                required />
+                                                required /> --}}
                                         </div>
 
                                         <div class="mb-5 fv-row col-lg-6">
-                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ])
+                                            @include('admin.common_files.city' ,[ 'required' =>true, 'data' => null ,'page_type' => 'sales' ])
                                         </div>
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.vehicle' ,[ 'required' =>true, 'data' => null ])

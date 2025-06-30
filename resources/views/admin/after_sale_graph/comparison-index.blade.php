@@ -1,30 +1,74 @@
 @extends('layouts.master')
 
 @section('title', 'Dashboard')
+@section('css')
+<style>
+.with-border {
+  position: relative;
+}
 
+.with-border::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #000; /* Set your desired color for the line */
+}
+.active-tr {
+            background-color: #6495ED;
+            color: white !important;
+        }
+
+        table tbody {
+            border-bottom: 1px solid #505060 !important;
+        }
+
+</style>
+@endsection
 @section('content')
 
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div class="row">
+
+            <div class="col-xxl-12 mb-5 mb-xl-10">
+                <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>To change the comparison, please click on the ‘filter’ button</strong>
+                          </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-6">
-                <div id="kt_app_content_container" class="app-container container-fluid">
+                <div id="kt_app_content_container" class="app-container container-fluid" style="padding-right: 0px !important">
                     <!--begin::Row-->
                     <!--begin::Toolbar container-->
-                    <div class="card-header mb-3" style="padding: 0px;">
-                        <div class="card-toolbar ">
-                            <div class="row  mt-5">
-                                <div class="col-lg-12 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
-                                        data-kt-menu-placement="bottom-end">.</button>
+                         <div class="card-header mb-3" style="padding: 0px;">
+                            <div class="card-toolbar ">
+                                <div class="row  mt-5">
+                                    <div class="col-lg-12 d-flex justify-content-end">
+                                        {{-- <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
+                                            data-kt-menu-placement="bottom-end">.</button> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <!--end::Toolbar container-->
-                    <div class="row gx-5 gx-xl-10">
+                    <div class="row gx-5 gx-xl-10 mt-16">
                         <!--begin::Col-->
+                        <div class="col-xxl-12 mb-5 mb-xl-10">
+                            <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                        Comparison Report Left Side</h1>
+                                </div>
+                            </div>
+                    </div>
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Chart widget 8-->
                             <div class="card card-flush h-xl-100">
@@ -61,18 +105,166 @@
                         </div>
                         <!--end::Col-->
                     </div>
-                    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+
+
+                    <div class="row g-5 g-xl-10 mb-5">
                         <!--begin::Col-->
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Card widget 20-->
                             <div class="card card-bordered">
+                                <div class="card-header pt-5">
+                                    <!--begin::Title-->
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                                    </h3>
+                                    <!--end::Title-->
+                                </div>
                                 <div class="card-body">
-                                    <div id="graph_2" style="height: 350px;"></div>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                            <div class="sales-leads-card" style="background: #FF6384">
+                                                <div>
+                                                    <p class="value">{{ $second_graph_data[0] ?? 0 }}</p>
+                                                    <p class="label">Online Service Booking</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                            <div class="sales-leads-card" style="background: #FF9F40">
+                                                <div>
+                                                    <p class="value">{{ $second_graph_data[1] ?? 0 }}</p>
+                                                    <p class="label">Service Offers</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                            <div class="sales-leads-card" style="background: #9966FF">
+                                                <div>
+                                                    <p class="value">{{ $second_graph_data[2] ?? 0 }}</p>
+                                                    <p class="label">Contact Us (After Sales) </p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="row gx-5 gx-xl-10">
+                        <!--begin::Col-->
+                        <div class="col-xl-6">
+                            <!--begin::Chart widget 31-->
+                            <div class="card card-flush h-xl-100">
+                                <!--begin::Header-->
+                                <div class="card-header pt-7 mb-7">
+                                    <!--begin::Title-->
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                                    </h3>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="card-body align-items-end pt-0 p-0">
+                                    <!--begin::Chart-->
+                                        <div class="tab-content" id="campaignTabsContent">
+                                            <!-- Backtoschool-2024 Content -->
+                                            <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                <table class="table table-striped gy-4 gs-7">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2">
+                                                                        <h5><span style="float: left">Current Campaigns</span></h5>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                        @endphp
+                                                        @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                            <tr class="campaign_wise_row cursor-pointer" data-id="{{ $key }}">
+                                                                <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                </td>
+                                                            </tr>
+
+                                                            <textarea id="campaign_wise_detials_{{ $key }}" style="display: none">
+                                                                <table class="table table-striped gy-4 gs-7">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th colspan="2">
+                                                                                        <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach ($campaign_wise['source'] as $source_data)
+                                                                            @if (isset($source_data))
+                                                                            <tr class="cursor-pointer">
+                                                                                <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </textarea>
+
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::Chart widget 31-->
+                        </div>
+                        <!--end::Col-->
+                        <div class="col-xl-6">
+                            <!--begin::Chart widget 31-->
+                            <div class="card card-flush h-xl-100">
+                                <!--begin::Header-->
+                                <div class="card-header pt-7 mb-7">
+                                    <!--begin::Title-->
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-gray-800">Sources</span>
+                                    </h3>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="card-body align-items-end pt-0  p-0">
+                                    <!--begin::Chart-->
+                                        <div class="tab-content" id="campaignTabsContent">
+                                            <!-- Backtoschool-2024 Content -->
+                                            <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                                <div id="source_detials_div"></div>
+                                            </div>
+                                        </div>
+                                    <!--end::Chart-->
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::Chart widget 31-->
+                        </div>
+
+                    </div>
+                    {{-- <div class="row gx-5 gx-xl-10">
                         <!--begin::Col-->
                         <div class="col-xxl-12 mb-5 mb-xl-10">
                             <!--begin::Chart widget 8-->
@@ -81,7 +273,7 @@
                                 <div class="card-header pt-5">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                        <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
                                     </h3>
                                     <!--end::Title-->
                                 </div>
@@ -153,17 +345,21 @@
                             <!--end::Chart widget 8-->
                         </div>
                         <!--end::Col-->
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-6">
-                <div id="kt_app_content_container" class="app-container container-fluid">
+                <div id="kt_app_content_container" class="app-container container-fluid"  style="padding-left: 0px !important">
                     <!--begin::Row-->
                     <!--begin::Toolbar container-->
                     <div class="card-header mb-3" style="padding: 0px;">
                         <div class="card-toolbar ">
                             <div class="row  mt-5">
                                 <div class="col-lg-12 d-flex justify-content-end">
+                                    <button id="printButton" type="button" class="btn btn-success me-3">
+                                        <span class="svg-icon svg-icon-2"> <i class="bi bi-file-earmark-spreadsheet"></i> </span>
+                                        {{ __('Pdf') }}
+                                    </button>
                                     <button type="button" class="btn btn-info me-3" data-kt-menu-trigger="click"
                                         data-kt-menu-placement="bottom-end">
                                         <span class="svg-icon svg-icon-2">
@@ -175,7 +371,7 @@
                                             </svg>
                                         </span>Filter</button>
 
-                                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-800px" data-kt-menu="true"
+                                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-1000px" data-kt-menu="true"
                                         id="kt_menu_62fe86549b38d">
                                         <div class="px-7 py-5">
                                             <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -186,199 +382,344 @@
                                             {{-- @csrf --}}
                                             <div class="px-7 py-5">
                                                 <div class="row">
-                                                    <div class="mb-3 col-6">
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="city_id" id="city_id"
-                                                                        data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                        @foreach ($dropdown['cities'] as $city)
-                                                                            <option value="{{ $city->id }}"
-                                                                                @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="branch_id" id="branch_id"
-                                                                        data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                    </select>
+                                                    <div class="mb-3 col-6 with-border">
+                                                        <div class="col-xxl-12 mb-2 mb-xl-10">
+                                                            <div id="kt_app_toolbar_container" class=" d-flex flex-stack">
+                                                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                                                        Left Side Comparison Fiters</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="vehicle_id" id="vehicle_id"
-                                                                        data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['vehicles'] as $vehicle)
-                                                                            <option value="{{ $vehicle->id }}"
-                                                                                @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                        @can('sale-graph-comparison-filters')
+                                                            <div class="row">
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.city')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.branch')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.vehicle')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.source')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.campaign')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.purchase_plan')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.monthly_salary')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.preferred_appointment_time')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.kyc')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.category')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.created_by')
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    @include('admin.common_files_filters.updated_by')
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Source') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="source_id" id="source_id"
-                                                                        data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['sources'] as $source)
-                                                                            <option value="{{ $source->id }}"
-                                                                                @selected(request('source_id') == $source->id)>{{ $source->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
-                                                                <div>
-                                                                    <select class="form-select mb-2" name="campaign_id" id="campaign_id"
-                                                                        data-control="select"
-                                                                        data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['campaigns'] as $campaign)
-                                                                            <option value="{{ $campaign->id }}"
-                                                                                @selected(request('campaign_id') == $campaign->id)>{{ $campaign->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @endcan
                                                         <div class="row mt-1">
+                                                            {{-- @include('admin.common_files_filters.created_date') --}}
                                                             <div class="col-lg-6">
-                                                                <input type="date" class="form-control form-control-solid ps-12"
+                                                                <label class="form-label fw-semibold">{{ __('Start Date') }}</label>
+                                                                <input type="date"
+                                                                    class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="start_date"
                                                                     value="{{ formateDate($startDate) }}"
                                                                     id="start_date" />
                                                             </div>
 
                                                             <div class="col-lg-6">
-                                                                <input type="date" class="form-control form-control-solid ps-12"
+                                                                <label class="form-label fw-semibold">{{ __('End Date') }}</label>
+                                                                <input type="date"
+                                                                    class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="end_date"
-                                                                    value="{{ formateDate($endDate) }}" id="end_date" />
+                                                                    value="{{ formateDate($endDate) }}"
+                                                                    id="end_date" />
                                                             </div>
                                                         </div>
+                                                        {{-- <div class="row mt-2">
+                                                                @include('admin.common_files_filters.updated_date')
+                                                        </div> --}}
                                                     </div>
                                                     <div class="mb-3 col-6">
+                                                        <div class="col-xxl-12 mb-2 mb-xl-10">
+                                                            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+                                                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                                                        Right Side Comparison Fiters</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Dealer City') }}</label>
-
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Dealer City') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="city_id_comp" id="city_id_comp"
-                                                                        data-control="select"
+                                                                    <select class="form-select mb-2" name="city_id_comp[]"
+                                                                        id="city_id_comp" data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
-                                                                        @foreach ($dropdown['cities'] as $city)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
-                                                                                @selected(request('city_id') == $city->id)>{{ $city->name }}
-                                                                            </option>
+                                                                                {{ is_selected($city->id, 'city_id_comp') }}>
+                                                                                {{ $city->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Dealer Branch') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="branch_id_comp" id="branch_id_comp"
-                                                                        data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="branch_id_comp[]" id="branch_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value="">--select--</option>
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($branches as $branch)
+                                                                            <option value="{{ $branch->id }}"
+                                                                                {{ is_selected($branch->id, 'branch_id_comp') }}>
+                                                                                {{ $branch->name }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Vehicle') }}</label>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Vehicle') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="vehicle_id_comp" id="vehicle_id_comp"
-                                                                        data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="vehicle_id_comp[]" id="vehicle_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['vehicles'] as $vehicle)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($vehicles as $vehicle)
                                                                             <option value="{{ $vehicle->id }}"
-                                                                                @selected(request('vehicle_id') == $vehicle->id)>{{ $vehicle->name }}
-                                                                            </option>
+                                                                                {{ is_selected($vehicle->id, 'vehicle_id_comp') }}>
+                                                                                {{ $vehicle->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
+
                                                             </div>
-                                                            <div class="col-lg-6">
-                                                                <label class="form-label fw-semibold">{{ __('Source') }}</label>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Source') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="source_id_comp" id="source_id_comp"
-                                                                        data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="source_id_comp[]" id="source_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['sources'] as $source)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($sources as $source)
                                                                             <option value="{{ $source->id }}"
-                                                                                @selected(request('source_id') == $source->id)>{{ $source->name }}
-                                                                            </option>
+                                                                                {{ is_selected($source->id, 'source_id_comp') }}>
+                                                                                {{ $source->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <label class="form-label fw-semibold">{{ __('Campaign') }}</label>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Campaign') }}</label>
                                                                 <div>
-                                                                    <select class="form-select mb-2" name="campaign_id_comp" id="campaign_id_comp"
-                                                                        data-control="select"
+                                                                    <select class="form-select mb-2"
+                                                                        name="campaign_id_comp[]" id="campaign_id_comp"
+                                                                        data-control="select2"
                                                                         data-placeholder="{{ __('select option') }}"
-                                                                        data-allow-clear="true">
-                                                                        <option value=""></option>
-                                                                        @foreach ($dropdown['campaigns'] as $campaign)
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($campaigns as $campaign)
                                                                             <option value="{{ $campaign->id }}"
-                                                                                @selected(request('campaign_id') == $campaign->id)>{{ $campaign->name }}
-                                                                            </option>
+                                                                                {{ is_selected($campaign->id, 'campaign_id_comp') }}>
+                                                                                {{ $campaign->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row mt-1">
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Purchase Plan') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="purchase_plan_comp[]" id="purchase_plan_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="1 month"
+                                                                        {{ is_selected('1 month', 'purchase_plan') }}>1
+                                                                        month</option>
+                                                                    <option value="2-3 month"
+                                                                        {{ is_selected('2-3 month', 'purchase_plan') }}>2-3
+                                                                        month</option>
+                                                                    <option value="After 3 month"
+                                                                        {{ is_selected('After 3 month', 'purchase_plan_comp') }}>
+                                                                        After 3 month</option>
+                                                                </select>
+
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Monthly Salary') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="monthly_salary_comp[]" id="monthly_salary_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Between 5,000 and 10,000"
+                                                                        {{ is_selected('Between 5,000 and 10,000', 'monthly_salary') }}>
+                                                                        Between
+                                                                        5,000 and 10,000</option>
+                                                                    <option value="Above 10,000"
+                                                                        {{ is_selected('Above 10,000', 'monthly_salary_comp') }}>
+                                                                        Above 10,000</option>
+                                                                    <option value="Below 5,000"
+                                                                        {{ is_selected('Below 5,000', 'monthly_salary_comp') }}>
+                                                                        Below 5,000</option>
+                                                                    <option value="Cash Deal"
+                                                                        {{ is_selected('Cash Deal', 'monthly_salary_comp') }}>
+                                                                        Cash Deal</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class=" form-label">{{ __('Preferred Time') }}</label>
+                                                                <select class="form-select mb-2"
+                                                                    name="preferred_appointment_time_comp[]"
+                                                                    id ="preferred_appointment_time_comp"
+                                                                    data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Morning 08:00AM~12:00PM"
+                                                                        {{ is_selected('Morning 08:00AM~12:00PM', 'preferred_appointment_time_comp') }}>
+                                                                        Morning (08:00AM~12:00PM)</option>
+                                                                    <option value="Afternoon 12:00PM~04:00PM"
+                                                                        {{ is_selected('Afternoon 12:00PM~04:00PM', 'preferred_appointment_time_comp') }}>
+                                                                        Afternoon (12:00PM~04:00PM)</option>
+                                                                    <option value="Any Time"
+                                                                        {{ is_selected('Any Time', 'preferred_appointment_time_comp') }}>
+                                                                        Any Time</option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class=" form-label">{{ __('KYC') }}</label>
+                                                                <select class="form-select mb-2" name="kyc_comp[]"
+                                                                    id="kyc_comp" data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Social Media"
+                                                                        {{ is_selected('Social Media', 'kyc_comp') }}>
+                                                                        Social Media</option>
+                                                                    <option value="Friends & Relative"
+                                                                        {{ is_selected('Friends & Relative', 'kyc_comp') }}>
+                                                                        Friends & Relative</option>
+                                                                    <option value="Outdoor Advertisement"
+                                                                        {{ is_selected('Outdoor Advertisement', 'kyc_comp') }}>
+                                                                        Outdoor Advertisement</option>
+                                                                    <option value="Influencer"
+                                                                        {{ is_selected('Influencer', 'kyc_comp') }}>
+                                                                        Influencer</option>
+                                                                    <option value="Others"
+                                                                        {{ is_selected('Others', 'kyc_comp') }}>Others
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class=" form-label">{{ __('Category') }}</label>
+                                                                <select class="form-select mb-2" name="category_comp[]"
+                                                                    id="category_comp" data-control="select2"
+                                                                    data-placeholder="{{ __('select option') }}"
+                                                                    data-allow-clear="true" multiple>
+                                                                    {{-- <option value="">--select--</option> --}}
+                                                                    <option value="Qualified"
+                                                                        {{ is_selected('Qualified', 'category_comp') }}>
+                                                                        Qualified</option>
+                                                                    <option value="Not Qualified"
+                                                                        {{ is_selected('Not Qualified', 'category_comp') }}>
+                                                                        Not Qualified</option>
+                                                                    <option value="General Inquiry"
+                                                                        {{ is_selected('General Inquiry', 'category_comp') }}>
+                                                                        General Inquiry</option>
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label
+                                                                    class="form-label fw-semibold">{{ __('Created By') }}</label>
+                                                                <div>
+                                                                    <select class="form-select mb-2"
+                                                                        name="created_by_comp[]" id="created_by_comp"
+                                                                        data-control="select2"
+                                                                        data-placeholder="{{ __('select option') }}"
+                                                                        data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($users as $user)
+                                                                            <option value="{{ $user->id }}"
+                                                                                {{ is_selected($user->id, 'created_by_comp') }}>
+                                                                                {{ $user->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <label class="form-label fw-semibold">{{ __('Updated By') }}</label>
+                                                                <div>
+                                                                    <select class="form-select mb-2" name="updated_by_comp[]" id="updated_by_comp" data-control="select2"
+                                                                        data-placeholder="{{ __('select option') }}" data-allow-clear="true" multiple>
+                                                                        {{-- <option value="">--select--</option> --}}
+                                                                        @foreach ($users as $user)
+                                                                            <option value="{{ $user->id }}"  {{ is_selected($user->id, 'updated_by_comp') }}>{{ $user->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
                                                             <div class="col-lg-6">
-                                                                <input type="date" class="form-control form-control-solid ps-12"
+                                                                <label class="form-label fw-semibold">{{ __('Start Date') }}</label>
+                                                                <input type="date"
+                                                                    class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="start_date_comp"
                                                                     value="{{ formateDate($startDate_comp) }}"
                                                                     id="start_date_comp" />
                                                             </div>
 
                                                             <div class="col-lg-6">
-                                                                <input type="date" class="form-control form-control-solid ps-12"
+                                                                <label class="form-label fw-semibold">{{ __('End Date') }}</label>
+                                                                <input type="date"
+                                                                    class="form-control form-control-solid ps-12"
                                                                     placeholder="Select a date" name="end_date_comp"
-                                                                    value="{{ formateDate($endDate_comp) }}" id="end_date_comp" />
+                                                                    value="{{ formateDate($endDate_comp) }}"
+                                                                    id="end_date_comp" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -392,7 +733,7 @@
                                                                 id="apply">Apply</button>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <a href="{{ route('sale-graph-comparison.index') }}"
+                                                            <a href="{{ route('after-sale-graph-comparison.index') }}"
                                                                 class="btn btn-sm btn-primary" data-kt-menu-dismiss="true"
                                                                 value="reset" id="reset">Reset</a>
                                                         </div>
@@ -410,6 +751,14 @@
                     <!--end::Toolbar container-->
 
             <div class="row gx-5 gx-xl-10">
+                <div class="col-xxl-12 mb-5 mb-xl-10">
+                    <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                Comparison Report Right Side</h1>
+                        </div>
+                    </div>
+            </div>
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -447,18 +796,165 @@
                 </div>
                 <!--end::Col-->
             </div>
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-10 mb-5">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Card widget 20-->
                     <div class="card card-bordered">
+                        <div class="card-header pt-5">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-dark">Departments Overall Leads</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
                         <div class="card-body">
-                            <div id="graph_2_comp" style="height: 350px;"></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF6384">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data_comp[0] ?? 0 }}</p>
+                                            <p class="label">Online Service Booking</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #FF9F40">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data_comp[1] ?? 0 }}</p>
+                                            <p class="label">Service Offers</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-6 mb-xl-10">
+                                    <div class="sales-leads-card" style="background: #9966FF">
+                                        <div>
+                                            <p class="value">{{ $second_graph_data_comp[2] ?? 0 }}</p>
+                                            <p class="label">Contact Us (After Sales) </p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row gx-5 gx-xl-10">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Campaign Performance ({{collect($countsByCampaign)->sum('count') ?? 0}})</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0 p-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <table class="table table-striped gy-4 gs-7">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">
+                                                                <h5><span style="float: left">Current Campaigns</span></h5>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $badgeClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                                                @endphp
+                                                @foreach ($countsByCampaign as $key => $campaign_wise)
+                                                    <tr class="campaign_wise_comp_row cursor-pointer" data-id="{{ $key }}">
+                                                        <td colspan="2"><span style="float: left"> {{ $campaign_wise['name'] ?? '' }}</span>
+                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <textarea id="campaign_wise_comp_detials_{{ $key }}" style="display: none">
+                                                        <table class="table table-striped gy-4 gs-7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2">
+                                                                                <h5><span style="float: left">{{ $campaign_wise['name'] ?? '' }}</span></h5>
+                                                                                <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $campaign_wise['count'] ?? 0 }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($campaign_wise['source'] as $source_data)
+                                                                    @if (isset($source_data))
+                                                                    <tr class="cursor-pointer">
+                                                                        <td colspan="2"><span style="float: left"> {{ $source_data['name'] ?? '' }}</span>
+                                                                                        <span  style="float: right" class="badge badge-{{Arr::random($badgeClasses)}}">{{ $source_data['count'] ?? 0 }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </textarea>
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+                <!--end::Col-->
+                <div class="col-xl-6">
+                    <!--begin::Chart widget 31-->
+                    <div class="card card-flush h-xl-100">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7 mb-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Sources</span>
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body align-items-end pt-0  p-0">
+                            <!--begin::Chart-->
+                                <div class="tab-content" id="campaignTabsContent">
+                                    <!-- Backtoschool-2024 Content -->
+                                    <div class="tab-pane fade show active" id="content-backtoschool" role="tabpanel" aria-labelledby="tab-backtoschool">
+                                        <div id="source_detials_comp_div"></div>
+                                    </div>
+                                </div>
+                            <!--end::Chart-->
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Chart widget 31-->
+                </div>
+
+            </div>
+
+            {{-- <div class="row gx-5 gx-xl-10">
                 <!--begin::Col-->
                 <div class="col-xxl-12 mb-5 mb-xl-10">
                     <!--begin::Chart widget 8-->
@@ -467,7 +963,7 @@
                         <div class="card-header pt-5">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-dark">Campaign Performance</span>
+                                <span class="card-label fw-bold text-dark">Campaign Performance ({{collect($countsByCampaign_comp)->sum('count') ?? 0}})</span>
                             </h3>
                             <!--end::Title-->
                         </div>
@@ -539,7 +1035,7 @@
                     <!--end::Chart widget 8-->
                 </div>
                 <!--end::Col-->
-            </div>
+            </div> --}}
 
                 </div>
             </div>
@@ -553,7 +1049,7 @@
 @section('js')
 
     <script src="{{ asset('ajx_files/ajx.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
     {{-- <script src="{{ asset('graphs/sale-graph.js') }}"></script> --}}
 
     <script>
@@ -581,21 +1077,21 @@
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($second_graph_data[0]) +')',
                     data: @json($first_count) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Offers',
+                    label: 'Service Offers ('+ @json($second_graph_data[1]) +')',
                     data: @json($second_count) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (After Sales)',
+                    label: 'Contact Us (After Sales) ('+ @json($second_graph_data[2]) +')',
                     data: @json($third_count) ,
                     fill: false,
                     borderColor: successColor,
@@ -612,13 +1108,32 @@
                 plugins: {
                     title: {
                         display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,
-            },
-            defaults: {
-                global: {
-                    defaultFont: fontFamily
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
                 }
             }
         };
@@ -628,90 +1143,6 @@
 
 
 
-        ////second chart
-
-        var options = {
-            series: [{
-                name: 'Count',
-                data: @json($second_graph_data)
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', // top, center, bottom
-                    },
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val;
-                },
-                offsetY: -20,
-                style: {
-                    fontSize: '12px',
-                    colors: ["#304758", '#546E7A']
-                }
-            },
-
-            xaxis: {
-                categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-                position: 'top',
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                },
-                labels: {
-                    show: false,
-                    formatter: function(val) {
-                        return val;
-                    }
-                }
-
-            },
-            title: {
-                text: 'Departments Overall Leads',
-                floating: true,
-                offsetY: 330,
-                align: 'center',
-                style: {
-                    color: '#444'
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#graph_2"), options);
-        chart.render();
 
     // for left side end
 
@@ -738,21 +1169,21 @@ const labels_comp = @json($months_comp);
 const data_comp = {
     labels: labels_comp,
     datasets: [{
-                    label: 'Online Service Booking',
+                    label: 'Online Service Booking ('+ @json($second_graph_data_comp[0]) +')',
                     data: @json($first_count_comp) ,
                     fill: false,
                     borderColor: primaryColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Service Offers',
+                    label: 'Service Offers ('+ @json($second_graph_data_comp[1]) +')',
                     data: @json($second_count_comp) ,
                     fill: false,
                     borderColor: dangerColor,
                     tension: 0.6
                 },
                 {
-                    label: 'Contact Us (After Sales)',
+                    label: 'Contact Us (After Sales) ('+ @json($second_graph_data_comp[2]) +')',
                     data: @json($third_count_comp) ,
                     fill: false,
                     borderColor: successColor,
@@ -762,113 +1193,46 @@ const data_comp = {
 };
 
 // Chart config
+
 const config_comp = {
-    type: 'line',
-    data: data_comp,
-    options: {
-        plugins: {
-            title: {
-                display: false,
+            type: 'line',
+            data: data_comp,
+            options: {
+                plugins: {
+                    title: {
+                        display: false,
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                // Build the label string by iterating over each dataset
+                                let label = tooltipItem.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.raw;
+                                return label;
+                            }
+                        }
+                    }
+                },
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                defaults: {
+                    global: {
+                        defaultFont: fontFamily
+                    }
+                }
             }
-        },
-        responsive: true,
-    },
-    defaults: {
-        global: {
-            defaultFont: fontFamily
-        }
-    }
-};
+        };
 
 // Init ChartJS -- for more info, please visit: https://www.chartjs.org/docs/latest/
 var myChart = new Chart(ctx_comp, config_comp);
-
-
-
-////second chart
-
-var options_comp = {
-    series: [{
-        name: 'Count',
-        data: @json($second_graph_data_comp)
-    }],
-    chart: {
-        height: 350,
-        type: 'bar',
-    },
-    plotOptions: {
-        bar: {
-            borderRadius: 10,
-            dataLabels: {
-                position: 'top', // top, center, bottom
-            },
-        }
-    },
-    dataLabels: {
-        enabled: true,
-        formatter: function(val) {
-            return val;
-        },
-        offsetY: -20,
-        style: {
-            fontSize: '12px',
-            colors: ["#304758", '#546E7A']
-        }
-    },
-
-    xaxis: {
-        categories: ["Online Service Booking", "Service Offers", "Contact Us (After Sales)"],
-        position: 'top',
-        axisBorder: {
-            show: false
-        },
-        axisTicks: {
-            show: false
-        },
-        crosshairs: {
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    colorFrom: '#D8E3F0',
-                    colorTo: '#BED1E6',
-                    stops: [0, 100],
-                    opacityFrom: 0.4,
-                    opacityTo: 0.5,
-                }
-            }
-        },
-        tooltip: {
-            enabled: true,
-        }
-    },
-    yaxis: {
-        axisBorder: {
-            show: false
-        },
-        axisTicks: {
-            show: false,
-        },
-        labels: {
-            show: false,
-            formatter: function(val) {
-                return val;
-            }
-        }
-
-    },
-    title: {
-        text: 'Departments Overall Leads',
-        floating: true,
-        offsetY: 330,
-        align: 'center',
-        style: {
-            color: '#444'
-        }
-    }
-};
-
-var chart_comp = new ApexCharts(document.querySelector("#graph_2_comp"), options_comp);
-chart_comp.render();
 
 
     // for right side end

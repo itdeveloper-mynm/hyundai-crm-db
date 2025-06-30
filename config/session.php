@@ -196,6 +196,9 @@ return [
     |
     */
 
-    'same_site' => 'lax',
+    // 'same_site' => 'lax',
+    // 'same_site' => 'none',
+    'same_site' => env('SESSION_SAMESITE', 'none'),
+
 
 ];

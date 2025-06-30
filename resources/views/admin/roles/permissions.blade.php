@@ -22,6 +22,73 @@
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
+            <td class="text-gray-800">All Leads</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="all-leads-export" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="all-leads-filters" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('all-leads-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
             <td class="text-gray-800">Campaign Leads</td>
             <!--end::Label-->
             <!--begin::Options-->
@@ -88,6 +155,71 @@
         </tr>
         <!--end::Table row-->
 
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Crm Leads</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-create" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-import" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Import</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-export" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
@@ -160,6 +292,152 @@
         </tr>
         <!--end::Table row-->
 
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Request a Test Drive</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="test-drive-request-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('test-drive-request-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+                <!--begin::Table row-->
+                <tr>
+                    <!--begin::Label-->
+                    <td class="text-gray-800">Request a Quote</td>
+                    <!--end::Label-->
+                    <!--begin::Options-->
+                    <td>
+                        <!--begin::Wrapper-->
+                        <div class="d-flex justify-content-between">
+                            <!--begin::Checkbox for Listing-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-list"
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="form-check-label">Listing</span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Create-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-create" disabled
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="badge-light-danger"><span
+                                        class="form-check-label"><del>Create</del></span></span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Edit-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-edit" disabled
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Delete-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-delete"
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="form-check-label">Delete</span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Import-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-import" disabled
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="badge-light-danger"><span
+                                        class="form-check-label"><del>Import</del></span></span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Export-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                                <input class="form-check-input" type="checkbox" value="quote-request-export"
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="form-check-label">Export</span>
+                            </label>
+                            <!--end::Checkbox-->
+                            <!--begin::Checkbox for Filters-->
+                            <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="quote-request-filters"
+                                    name="permission[]"
+                                    {{ !empty($rolePermissionsArr) && in_array('quote-request-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                                <span class="form-check-label">Filters</span>
+                            </label>
+                            <!--end::Checkbox-->
+                        </div>
+                        <!--end::Wrapper-->
+                    </td>
+                    <!--end::Options-->
+                </tr>
+                <!--end::Table row-->
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
@@ -295,7 +573,79 @@
             <!--end::Options-->
         </tr>
         <!--end::Table row-->
-
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Hr Leads</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-list', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-create', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-edit', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-delete', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-import', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-export', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="hr-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-filters', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
@@ -505,6 +855,79 @@
         </tr>
         <!--end::Table row-->
 
+          <!--begin::Table row-->
+          <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Target</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-list', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-create', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-edit" disabled name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-edit', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                            class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-delete', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                            class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-import"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-import', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Import</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="target-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-export', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="target-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('target-filters', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
@@ -649,7 +1072,80 @@
             <!--end::Options-->
         </tr>
         <!--end::Table row-->
-
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">CRM Leads Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-list', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-create', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-edit', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-delete', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-import', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-export', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="crm-leads-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('crm-leads-graph-filters', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
         <!--begin::Table row-->
         <tr>
             <!--begin::Label-->
@@ -1098,1044 +1594,1171 @@
         </tr>
         <!--end::Table row-->
 
-      <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Contact Us Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-list"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-list', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-create"
-                    disabled name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-create', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="badge-light-danger"><span
-                        class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-edit"
-                    disabled name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-edit', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-delete"
-                    disabled name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-delete', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="badge-light-danger"><span
-                        class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-import"
-                    disabled name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-import', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="badge-light-danger"><span
-                        class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-export', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="contact-us-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-filters', $rolePermissionsArr) ? 'checked' : '' }} />
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-<!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Used Cars Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-list"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-create" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-edit" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-delete" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-import" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="used-cars-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Contact Us Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-list', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-create', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-edit', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-delete', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-import', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-export', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="contact-us-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-us-graph-filters', $rolePermissionsArr) ? 'checked' : '' }} />
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
         <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Hr Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('hr-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-create" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-edit" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-delete" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-import" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="hr-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="hr-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('hr-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-   <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">SMO Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('smo-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-create" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-edit" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-delete" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-import" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="smo-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="smo-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('smo-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-<!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Events Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('events-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-create" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-edit" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-delete" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-import" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="events-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="events-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('events-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-<!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Actual Sale Data Graph</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-create" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Create</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-edit" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-delete" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Delete</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-import" disabled
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-export"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="actualsales-graph-filters"
-                    name="permission[]" {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-    <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Crm Leads</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-import" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Import</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="crm-leads-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="crm-leads-filters" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('crm-leads-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-
-  <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Contact</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="contact-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="contact-filters" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('contact-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Filters</span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-  <!--begin::Table row-->
-  <tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Users</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="users-export" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Export</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="users-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('users-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-  <!--begin::Table row-->
-  <tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Roles</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="role-export" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Export</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="role-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('role-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-<!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Cities</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="city-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="city-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('city-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Used Cars Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="used-cars-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('used-cars-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
         <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Branches</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="branch-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="branch-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('branch-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Hr Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="hr-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('hr-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
         <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Vehicles</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="vehicle-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="vehicle-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('vehicle-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
-<!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Sources</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="source-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="source-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('source-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">SMO Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="smo-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('smo-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
-    <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Campaigns</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="campaign-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="campaign-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('campaign-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Events Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="events-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="events-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('events-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
- <!--begin::Table row-->
-<tr>
-    <!--begin::Label-->
-    <td class="text-gray-800">Banks</td>
-    <!--end::Label-->
-    <!--begin::Options-->
-    <td>
-        <!--begin::Wrapper-->
-        <div class="d-flex justify-content-between">
-            <!--begin::Checkbox for Listing-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-list" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-list', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Listing</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Create-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-create" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-create', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Create</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Edit-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-edit" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-edit', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Edit</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Delete-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-delete" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-delete', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Delete</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Import-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-import" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-import', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Import</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Export-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
-                <input class="form-check-input" type="checkbox" value="bank-export" name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-export', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="form-check-label">Export</span>
-            </label>
-            <!--end::Checkbox-->
-            <!--begin::Checkbox for Filters-->
-            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="bank-filters" disabled name="permission[]"
-                    {{ !empty($rolePermissionsArr) && in_array('bank-filters', $rolePermissionsArr) ? 'checked' : '' }}>
-                <span class="badge-light-danger"><span class="form-check-label"><del>Filters</del></span></span>
-            </label>
-            <!--end::Checkbox-->
-        </div>
-        <!--end::Wrapper-->
-    </td>
-    <!--end::Options-->
-</tr>
-<!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Actual Sale Data Graph</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-create" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Create</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-edit" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Edit</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-delete" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Delete</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="actualsales-graph-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('actualsales-graph-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
+
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Contact</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="contact-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="contact-filters"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('contact-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Filters</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Users</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-create" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="users-export" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Export</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="users-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('users-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Roles</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-create" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="role-export" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Export</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="role-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('role-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Email Sending Criteria</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-edit"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-import"
+                            disabled name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-export"
+                            disabled name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Export</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="email-sending-criteria-filters"
+                            disabled name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('email-sending-criteria-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Cities</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-create" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="city-export" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="city-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('city-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Branches</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="branch-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="branch-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('branch-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Vehicles</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="vehicle-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="vehicle-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('vehicle-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Sources</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="source-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="source-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('source-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Campaigns</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-list"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-create"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-edit"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-delete"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="campaign-export"
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="campaign-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('campaign-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Banks</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox for Listing-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Create-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-create" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-create', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Create</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Edit-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-edit" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-edit', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Edit</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Delete-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-delete" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-delete', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Delete</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Import-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-import" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-import', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Import</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Export-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="bank-export" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-export', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Export</span>
+                    </label>
+                    <!--end::Checkbox-->
+                    <!--begin::Checkbox for Filters-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="bank-filters" disabled
+                            name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('bank-filters', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="badge-light-danger"><span
+                                class="form-check-label"><del>Filters</del></span></span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
 
     </tbody>
     <!--end::Table body-->

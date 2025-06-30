@@ -48,6 +48,9 @@
 
                                     <div class="row mt-5">
                                         <div class="mb-10 fv-row col-lg-6">
+                                            @include('admin.common_files.page_type_input', ['page_chk' => 'edit' , 'field_value'=> $branch->page_type ])
+                                        </div>
+                                        <div class="mb-10 fv-row col-lg-6">
                                             <label class="required form-label">{{ __('Status') }}</label>
                                             <select class="form-select mb-2" name="status" required="required"
                                                 data-control="select2" data-placeholder="{{ __('select option') }}"

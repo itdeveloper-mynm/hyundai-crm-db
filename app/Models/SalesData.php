@@ -19,6 +19,7 @@ class SalesData extends Model
         'chass',
         'vehicle_id',
         'department',
+        'inv_no',
     ];
 
         // Define a scope for searching with conditions
@@ -39,14 +40,14 @@ class SalesData extends Model
                         ->orWhere('year', 'like', '%' . $search . '%')
                         ->orWhere('s', 'like', '%' . $search . '%')
                         ->orWhere('chass', 'like', '%' . $search . '%')
-                        ->orWhere('model', 'like', '%' . $search . '%')
+                        // ->orWhere('model', 'like', '%' . $search . '%')
                         ->orWhere('department', 'like', '%' . $search . '%');
                     });
                 }
 
                 if (isset($conditions['vehicle_id'])) {
                     $query->where(function ($query) use ($conditions) {
-                        $query->where('vehicle_id', $conditions['vehicle_id']);
+                        $query->whereIn('vehicle_id', arraycheck($conditions['vehicle_id']));
                     });
                 }
 

@@ -42,7 +42,9 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        $city= City::create($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $city= City::create($input);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -70,7 +72,9 @@ class CityController extends Controller
     public function update(Request $request, string $id)
     {
         $row = City::findorFail($id);
-        $row->update($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $row->update($input);
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
 
@@ -83,6 +87,11 @@ class CityController extends Controller
     public function destroy(string $id)
     {
         $row = City::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this city already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -108,6 +117,7 @@ class CityController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  City::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -115,11 +125,17 @@ class CityController extends Controller
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
 
+            $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
+            $formattedPageType = implode(', ', array_map(function ($word) {
+                if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+           }, explode(',', $page_type)));
+
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
+                "page_type" => $formattedPageType ?? "",
                 "created_at" =>$row['created_at'],
             );
             $num++;
@@ -189,6 +205,40 @@ class CityController extends Controller
             [
                 //'name' => 'unique:cities,name,'.$id,
                 $field_name => 'unique:'.$table_name.','.$field_name.','.$id,
+            ]);
+        }
+
+        if($validator->fails() == false)
+        { echo 'true';}
+        else
+        {echo 'false';}
+   }
+
+   public function checkNameExistchk(Request $request)
+   {
+        //dd($request->all());
+
+        //$field_name= 'name';
+        $field_name= $request->fieldName ?? 'name';
+        $table_name=$request->tableName;
+        $input = request()->all();
+        if($field_name == 'mobile'){
+            $input['mobile'] = formatInputNumber($input['mobile']);
+        }
+        //dd($input);
+        if(request('check')==0){
+            $validator = Validator::make($input,
+            [
+                //'name' => 'unique:cities,name',
+                 $field_name => 'exists:'.$table_name.','.$field_name.'',
+            ]);
+        }
+        if(request('check')!=0){
+            $id=request('check');
+            $validator = Validator::make($input,
+            [
+                //'name' => 'unique:cities,name,'.$id,
+                $field_name => 'exists:'.$table_name.','.$field_name.','.$id,
             ]);
         }
 

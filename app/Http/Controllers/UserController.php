@@ -122,8 +122,12 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $row = User::findorFail($id);
+        $row->delete();
+
+        return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
     }
+
 
 
     public function usersPagination()
@@ -142,12 +146,12 @@ class UserController extends Controller
         //-- END DEFAULT DATATABLE QUERY PARAMETER
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = User::whereHas('roles', function ($query) {
+        $countAll = User::search($conditions)->whereHas('roles', function ($query) {
             $query->where('name','!=','SuperAdmin');
         })->count();
 
         //-- CREATE LARAVEL PAGINATION
-        $paginate =  User::whereHas('roles', function ($query) {
+        $paginate =  User::search($conditions)->whereHas('roles', function ($query) {
             $query->where('name','!=','SuperAdmin');
         })->paginate($limit, ["*"], 'page', $page);
 

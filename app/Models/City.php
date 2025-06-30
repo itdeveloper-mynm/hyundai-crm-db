@@ -14,5 +14,12 @@ class City extends Model
         'id',
         'name',
         'status',
+        'page_type',
     ];
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 }

@@ -146,6 +146,7 @@
                                 <th class="text-center">#</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('City Name') }}</th>
+                                <th>{{ __('Page Type') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
@@ -168,6 +169,7 @@
             responsive: true,
             searching: true,
             filter: true,
+            pageLength: 100,
 
             ajax: {
                 "url": "{{ route('branch.pagination') }}",
@@ -202,7 +204,17 @@
                         return result;
                     }
                 },
-
+                {
+                    data: 'page_type',
+                    render: function(data, type, row) {
+                        var checkedSales = (data && data.includes(1)) ? 'checked' : '';
+                        var checkedAfterSales = (data && data.includes(2)) ? 'checked' : '';
+                        return `
+                            <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="branch" data-value="sales" ${checkedSales}> Sales</label>
+                            <label><input type="checkbox" class="page_type_checkbox" data-id="${row.id}" data-target="branch" data-value="after_sales" ${checkedAfterSales}> After Sales</label>
+                        `;
+                    }
+                },
                 {
                     data: [{
                         id: 'id',

@@ -71,6 +71,19 @@ class CrmLeadsImport implements ToModel ,  WithHeadingRow, WithValidation
             $customer->save();
         }
 
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
+        $currentMonth = $currentDate->month;
+
+        $existingApplication = Application::where('customer_id', $customer->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->first();
+
+        if ($existingApplication) {
+            return null;
+        }
+
         $city = City::where('name', $row['dealer_city'])->first();
         $branch = Branch::where('name', $row['dealer_branch'])->first();
         $vehicle = Vehicle::where('name', $row['vehicle'])->first();

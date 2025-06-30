@@ -37,7 +37,9 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $campaign= Campaign::create($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        Campaign::create($input);
 
         return Response(['result'=>'success','message'=>__('Added Successfully')]);
     }
@@ -65,7 +67,10 @@ class CampaignController extends Controller
     public function update(Request $request, string $id)
     {
         $row = Campaign::findorFail($id);
-        $row->update($request->all());
+        $input = $request->all();
+        $input['page_type'] = implode(',' , $request->page_type);
+        $row->update($input);
+
 
         return Response(['result'=>'success','message'=>__('Updated Successfully')]);
     }
@@ -76,6 +81,11 @@ class CampaignController extends Controller
     public function destroy(string $id)
     {
         $row = Campaign::findorFail($id);
+
+        if($row->applications()->count() > 0){
+            return Response(['result'=>'error','message'=>__('Data for this campaign already exists')]);
+        }
+
         $row->delete();
 
         return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
@@ -102,6 +112,7 @@ class CampaignController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Campaign::search($conditions)
+                ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
 
@@ -109,12 +120,20 @@ class CampaignController extends Controller
         $items = array();
         foreach ($paginate->items() as $idx => $row) {
 
+            $page_type = $row['page_type'] ?? ""; // Get the value or an empty string if not set
+            $formattedPageType = implode(', ', array_map(function ($word) {
+                if($word == 'sales') { return 1; }elseif($word == 'after_sales') { return 2; };
+           }, explode(',', $page_type)));
+
+
             $items[] = array(
                 "no" => $num,
                 "id" => $row['id'],
                 "status" => $row['status'],
                 "name" => ucwords($row['name']),
-                "created_at" =>$row['created_at'],
+                "percentage" => $row['percentage'] .'%',
+                "page_type" => $formattedPageType ?? "",
+                "created_at" => dateTimeformat($row['created_at']),
             );
             $num++;
         }
@@ -129,4 +148,24 @@ class CampaignController extends Controller
         //-- END CREATE JSON RESPONSE FOR DATATABLES
 
    }
+
+   // GeneralController.php
+
+    public function updatePageType(Request $request)
+    {
+        $modelName = $request->model;
+        $modelClass = '\\App\\Models\\' . ucfirst($modelName);
+        if (!class_exists($modelClass)) {
+            return response()->json(['success' => false, 'message' => 'Model not found.']);
+        }
+        $model = $modelClass::find($request->id);
+        if (!$model) {
+            return response()->json(['success' => false, 'message' => 'Model not found with provided ID.']);
+        }
+        $model->page_type = $request->page_type;
+        $model->save();
+
+        return response()->json(['success' => true]);
+    }
+
 }

@@ -13,5 +13,13 @@ class Campaign extends Model
     protected $fillable = [
         'name',
         'status',
+        'page_type',
+        'percentage',
     ];
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 }
