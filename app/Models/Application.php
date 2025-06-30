@@ -189,7 +189,7 @@ class Application extends Model
                 $query->where(function ($query) use ($conditions) {
                     // Define sales and after-sales types
                     $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
-                    $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us'];
+                    $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
                     $types = [];
                     if (in_array('sales', $conditions['department_types'])) {
                         $types = array_merge($types, $sale_types);
