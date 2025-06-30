@@ -161,7 +161,7 @@ class CrmLeadController extends Controller
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
-                //->where('type','crm_leads')
+                ->whereNotIn('type',['online_service_booking', 'service_offers', 'contact_us'])
                 ->latest()
                 ->orderBy($columnName, $columnSortOrder)
                 ->paginate($limit, ["*"], 'page', $page);
