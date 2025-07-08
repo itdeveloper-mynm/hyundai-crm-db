@@ -367,6 +367,7 @@ class ExternalLeadController extends Controller
             ->first();
 
         if ($existingApplication) {
+            $existingApplication->increment('submit_count');
             return response()->json([
                 'success' => true,'message' => 'Already Added Successfully',
                 'data'=> [ 'reference_id' => $existingApplication->id ],

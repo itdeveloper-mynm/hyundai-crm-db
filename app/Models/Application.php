@@ -65,6 +65,7 @@ class Application extends Model
         'deleted_by',
         'qualified_date',
         'lead_id',
+        'submit_count',
     ];
 
 

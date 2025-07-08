@@ -60,20 +60,15 @@ class AfterSalesImport implements  ToModel , WithHeadingRow, WithValidation
 
     //     dd($row,$date->format('Y-m-d'));
 
-        $mobile = $row['mobile'];
-
-        $mobile =formatInputNumber($mobile);
-
-        $customer = Customer::whereMobile($mobile)->first();
-
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $row['first_name'];
-            $customer->last_name =  $row['last_name'];
-            $customer->mobile = $mobile;
-            $customer->email = $row['email'];
-            $customer->save();
-        }
+        $mobile = formatInputNumber($row['mobile']);
+        $customer = Customer::updateOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $row['first_name'],
+                'last_name' => $row['last_name'],
+                'email' => $row['email'] ?? null,
+            ]
+        );
 
         $currentDate = Carbon::now();
         $currentYear = $currentDate->year;
