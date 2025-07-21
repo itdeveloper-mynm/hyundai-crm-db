@@ -105,7 +105,7 @@ class LeadsImport implements ToModel ,  WithHeadingRow, WithBatchInserts, WithCh
         }
 
         $mobile = formatInputNumber($row['mobile']);
-        $customer = Customer::firstOrCreate(
+        $customer = Customer::updateOrCreate(
             ['mobile' => $mobile],
             [
                 'first_name' => $row['first_name'],

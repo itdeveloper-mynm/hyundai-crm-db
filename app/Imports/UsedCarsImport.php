@@ -40,20 +40,17 @@ class UsedCarsImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
-            $mobile = $row['mobile'];
+            $mobile = formatInputNumber($row['mobile']);
 
-            $mobile =formatInputNumber($mobile);
+            $customer = Customer::updateOrCreate(
+                ['mobile' => $mobile],
+                [
+                    'first_name' => $row['first_name'],
+                    'last_name' => $row['last_name'],
+                    'email' => $row['email'] ?? null,
+                ]
+            );
 
-            $customer = Customer::whereMobile($mobile)->first();
-
-            if(is_null($customer)){
-                $customer =new Customer();
-                $customer->first_name = $row['first_name'];
-                $customer->last_name =  $row['last_name'];
-                $customer->mobile = $mobile;
-                $customer->email = $row['email'];
-                $customer->save();
-            }
 
             $city = City::where('name', $row['dealer_city'])->first();
             $vehicle = Vehicle::where('name', $row['vehicle'])->first();

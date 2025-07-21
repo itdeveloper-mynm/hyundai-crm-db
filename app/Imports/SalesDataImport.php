@@ -54,16 +54,17 @@ class SalesDataImport implements ToModel , WithHeadingRow, WithValidation
         $mobile = $row['mobile'];
         $mobile = str_replace(' ', '', $row['mobile']);
         $mobile =formatInputNumber($mobile);
-        $customer = Customer::whereMobile($mobile)->first();
-        if(is_null($customer)){
-            $customer =new Customer();
-            // $customer->first_name = $row['customer_name'];
-            $customer->first_name = $row['first_name'];
-            $customer->last_name = $row['last_name'];
-            $customer->mobile = $mobile;
-            $customer->gender = $row['gender'];
-            $customer->save();
-        }
+
+        $customer = Customer::updateOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $row['first_name'],
+                'last_name' => $row['last_name'],
+                'email' => $row['email'] ?? null,
+                'gender' => $row['gender'] ?? null,
+            ]
+        );
+
 
             return new SalesData([
                 'customer_id' => $customer->id,

@@ -303,6 +303,7 @@
                                 <th class="min-w-100px">{{ __('Type') }}</th>
                                 <th class="min-w-100px">{{ __('Category') }}</th>
                                 <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                                <th class="min-w-100px">{{ __('Submit Count') }}</th>
                                 <th class="min-w-100px">{{ __('Created At') }}</th>
                                 <th class="min-w-100px">{{ __('Created By') }}</th>
                                 <th class="min-w-100px">{{ __('Updated At') }}</th>
@@ -452,6 +453,14 @@
                 },
                 {
                     data: 'sub_category',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'submit_count',
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';

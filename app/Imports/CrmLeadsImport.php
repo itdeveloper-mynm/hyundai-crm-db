@@ -52,24 +52,19 @@ class CrmLeadsImport implements ToModel ,  WithHeadingRow, WithValidation
             $bank = Bank::create(['name' =>  $row['bank'] ]);
         }
 
+        $mobile = formatInputNumber($row['mobile']);
 
-        $mobile = $row['mobile'];
-
-        $mobile =formatInputNumber($mobile);
-
-        $customer = Customer::whereMobile($mobile)->first();
-
-        if(is_null($customer)){
-            $customer =new Customer();
-            $customer->first_name = $row['first_name'];
-            $customer->last_name =  $row['last_name'];
-            $customer->mobile = $mobile;
-            $customer->email = $row['email'];
-            $customer->bank_id = $bank->id;
-            $customer->gender = row['gender'] ?? null;
-            $customer->national_id = $row['national_id'] ?? null;
-            $customer->save();
-        }
+        $customer = Customer::updateOrCreate(
+            ['mobile' => $mobile],
+            [
+                'first_name' => $row['first_name'],
+                'last_name' => $row['last_name'],
+                'email' => $row['email'] ?? null,
+                'bank_id' => $bank->id ?? null,
+                'gender' => $row['gender'] ?? null,
+                'national_id' => $row['national_id'] ?? null,
+            ]
+        );
 
         $currentDate = Carbon::now();
         $currentYear = $currentDate->year;
