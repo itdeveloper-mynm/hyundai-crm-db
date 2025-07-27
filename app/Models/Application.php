@@ -1643,6 +1643,7 @@ class Application extends Model
         return self::with('updatedby')
             ->select(
                 'updated_by',
+                DB::raw('COUNT(*) as mql'),
                 DB::raw("SUM(CASE WHEN category = 'Qualified' THEN 1 ELSE 0 END) as qualified_count"),
                 DB::raw("SUM(CASE WHEN category = 'Not Qualified' THEN 1 ELSE 0 END) as not_qualified_count"),
                 DB::raw("SUM(CASE WHEN category = 'General Inquiry' THEN 1 ELSE 0 END) as general_inquiry_count"),

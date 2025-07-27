@@ -800,7 +800,7 @@ class SaleGraphController extends Controller
 
 
         $dates = Application::getPerformanceLabel($startDate,$endDate);
-
+        // dd($dates);
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
         $months_diff = $dates['months_diff'];
@@ -812,6 +812,7 @@ class SaleGraphController extends Controller
 
 
             $mode = $request->input('mode', 'graph');
+            // dd($mode);
             $first_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
             $filters = $request->all();
             $filters = array_merge( $filters,['upd_graph' =>true]);
