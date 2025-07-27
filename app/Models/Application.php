@@ -9,13 +9,13 @@ use DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Campaign,City,Branch};
+use App\Models\{Campaign, City, Branch};
 
 
 
 class Application extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'customer_id',
@@ -107,35 +107,35 @@ class Application extends Model
 
             if (isset($conditions['source_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
+                    $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
                 });
             }
 
             if (isset($conditions['campaign_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
+                    $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
                 });
             }
 
             if (isset($conditions['purchase_plan'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
+                    $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
                 });
             }
 
             if (isset($conditions['monthly_salary'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
+                    $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
                 });
             }
             if (isset($conditions['preferred_appointment_time'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
+                    $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
                 });
             }
             if (isset($conditions['kyc'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
+                    $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
                 });
             }
             if (isset($conditions['category'])) {
@@ -165,32 +165,31 @@ class Application extends Model
                         }
                     });
                 });
-
             }
 
             if (isset($conditions['created_by'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
+                    $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
                 });
             }
 
             if (isset($conditions['updated_by'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
+                    $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
                 });
             }
 
             if (isset($conditions['type'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.type', arraycheck($conditions['type']));
+                    $query->whereIn('applications.type', arraycheck($conditions['type']));
                 });
             }
 
             if (isset($conditions['department_types'])) {
                 $query->where(function ($query) use ($conditions) {
                     // Define sales and after-sales types
-                    $sale_types = ['request_a_test_quote','request_a_quote','special_offers','leads','events','request_a_test_drive','used_cars','smo_leads','crm_leads'];
-                    $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us','after_sales'];
+                    $sale_types = ['request_a_test_quote', 'request_a_quote', 'special_offers', 'leads', 'events', 'request_a_test_drive', 'used_cars', 'smo_leads', 'crm_leads'];
+                    $after_sales_types = ['online_service_booking', 'service_offers', 'contact_us', 'after_sales'];
                     $types = [];
                     if (in_array('sales', $conditions['department_types'])) {
                         $types = array_merge($types, $sale_types);
@@ -207,8 +206,8 @@ class Application extends Model
 
             if (isset($conditions['from']) &&  isset($conditions['to'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $startDate = $conditions['from'].' 00:00:00';
-                    $endDate = $conditions['to'].' 23:59:59';
+                    $startDate = $conditions['from'] . ' 00:00:00';
+                    $endDate = $conditions['to'] . ' 23:59:59';
                     $query->whereBetween('applications.created_at', [$startDate, $endDate]);
                 });
             }
@@ -262,42 +261,42 @@ class Application extends Model
 
             if (isset($conditions['source_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
+                    $query->whereIn('applications.source_id', arraycheck($conditions['source_id']));
                 });
             }
 
             if (isset($conditions['campaign_id'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
+                    $query->whereIn('applications.campaign_id', arraycheck($conditions['campaign_id']));
                 });
             }
 
             if (isset($conditions['purchase_plan'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
+                    $query->whereIn('applications.purchase_plan', arraycheck($conditions['purchase_plan']));
                 });
             }
 
             if (isset($conditions['monthly_salary'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
+                    $query->whereIn('applications.monthly_salary', arraycheck($conditions['monthly_salary']));
                 });
             }
             if (isset($conditions['preferred_appointment_time'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
+                    $query->whereIn('applications.preferred_appointment_time', arraycheck($conditions['preferred_appointment_time']));
                 });
             }
             if (isset($conditions['kyc'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
+                    $query->whereIn('applications.kyc', arraycheck($conditions['kyc']));
                 });
             }
 
             if (isset($conditions['category_chk'])) {
                 $query->where(function ($query) use ($conditions) {
                     $query->whereNotNull('applications.category')
-                          ->where('applications.category', '!=', '');
+                        ->where('applications.category', '!=', '');
                 });
             }
 
@@ -309,26 +308,26 @@ class Application extends Model
 
             if (isset($conditions['category'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.category', arraycheck($conditions['category']));
+                    $query->whereIn('applications.category', arraycheck($conditions['category']));
                 });
             }
 
             if (isset($conditions['created_by'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
+                    $query->whereIn('applications.created_by', arraycheck($conditions['created_by']));
                 });
             }
 
             if (isset($conditions['updated_by'])) {
                 $query->where(function ($query) use ($conditions) {
-                        $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
+                    $query->whereIn('applications.updated_by', arraycheck($conditions['updated_by']));
                 });
             }
 
             if (isset($conditions['start_date']) &&  isset($conditions['end_date'])) {
                 $query->where(function ($query) use ($conditions) {
-                    $startDate = $conditions['start_date'].' 00:00:00';
-                    $endDate = $conditions['end_date'].' 23:59:59';
+                    $startDate = $conditions['start_date'] . ' 00:00:00';
+                    $endDate = $conditions['end_date'] . ' 23:59:59';
                     $query->whereBetween('applications.created_at', [$startDate, $endDate]);
                 });
             }
@@ -340,7 +339,7 @@ class Application extends Model
 
                 $query->where(function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
-                        //   ->where('applications.updated_by','!=',null);
+                    //   ->where('applications.updated_by','!=',null);
                 });
                 if (!isset($conditions['upd_graph'])) {
                     $query->where('applications.updated_by', '!=', null);
@@ -390,11 +389,10 @@ class Application extends Model
             ->groupBy('monthly_salary')
             ->get();
 
-            $data['monthly_salary'] = $records->pluck('monthly_salary')->toArray();
-            $data['monthly_salary_count'] = $records->pluck('count')->toArray();
+        $data['monthly_salary'] = $records->pluck('monthly_salary')->toArray();
+        $data['monthly_salary_count'] = $records->pluck('count')->toArray();
 
-            return $data;
-
+        return $data;
     }
 
     public static function countByPurchasePlanGroup($startDate, $endDate, $all_types, $filters)
@@ -407,11 +405,10 @@ class Application extends Model
             ->groupBy('purchase_plan')
             ->get();
 
-            $data['purchase_plan'] = $records->pluck('purchase_plan')->toArray();
-            $data['purchase_plan_count'] = $records->pluck('count')->toArray();
+        $data['purchase_plan'] = $records->pluck('purchase_plan')->toArray();
+        $data['purchase_plan_count'] = $records->pluck('count')->toArray();
 
-            return $data;
-
+        return $data;
     }
 
     public static function countByCity($startDate, $endDate, $all_types, $filters)
@@ -426,8 +423,7 @@ class Application extends Model
             ->get();
 
 
-            return $records;
-
+        return $records;
     }
 
 
@@ -441,11 +437,10 @@ class Application extends Model
             ->groupBy('preferred_appointment_time')
             ->get();
 
-            $data['preferred_appointment_time'] = $records->pluck('preferred_appointment_time')->toArray();
-            $data['preferred_appointment_time_count'] = $records->pluck('count')->toArray();
+        $data['preferred_appointment_time'] = $records->pluck('preferred_appointment_time')->toArray();
+        $data['preferred_appointment_time_count'] = $records->pluck('count')->toArray();
 
-            return $data;
-
+        return $data;
     }
 
     public static function countByBank($startDate, $endDate, $all_types, $filters)
@@ -460,13 +455,14 @@ class Application extends Model
             ->groupBy('customers.bank_id', 'banks.name')
             ->get();
 
-            //$data['bank_name'] = $records->pluck('bank_name')->toArray();
-            //$data['bank_name_count'] = $records->pluck('count')->toArray();
+        //$data['bank_name'] = $records->pluck('bank_name')->toArray();
+        //$data['bank_name_count'] = $records->pluck('count')->toArray();
 
-            return $records;
+        return $records;
     }
 
-    public static function getCityWiseData($startDate, $endDate, $all_types, $filters) {
+    public static function getCityWiseData($startDate, $endDate, $all_types, $filters)
+    {
 
         //$all_types = ['request_a_quote', 'special_offers', 'smo_leads', 'contact_us'];
 
@@ -474,14 +470,14 @@ class Application extends Model
             'city_id, branch_id,
             COUNT(*) as count'
             // COUNT(DISTINCT customer_id) as count'
-            )
+        )
             ->with(['city:id,name', 'branch:id,name'])
             ->whereNotNull(['city_id', 'branch_id'])
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy(['city_id', 'branch_id'])
-            ->orderby('count','DESC')
+            ->orderby('count', 'DESC')
             ->get();
 
         $result = [];
@@ -509,7 +505,8 @@ class Application extends Model
     }
 
 
-    public static function getCampaignWiseData($startDate, $endDate, $all_types, $filters) {
+    public static function getCampaignWiseData($startDate, $endDate, $all_types, $filters)
+    {
 
         $allrecords = self::selectRaw('campaign_id, source_id, COUNT(*) as count')
             ->with(['campaign:id,name', 'source:id,name'])
@@ -518,7 +515,7 @@ class Application extends Model
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy(['campaign_id', 'source_id'])
-            ->orderby('count','DESC')
+            ->orderby('count', 'DESC')
             ->get();
         // Transform the result into the desired pattern
         $result = [];
@@ -549,7 +546,8 @@ class Application extends Model
     }
 
 
-    public static function getVechileGraph($startDate, $endDate, $all_types, $filters) {
+    public static function getVechileGraph($startDate, $endDate, $all_types, $filters)
+    {
 
         // $types = [
         //     'request_a_quote',
@@ -561,23 +559,23 @@ class Application extends Model
         $dateColumn = $dateInfo['date_column'];
 
         $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
-        ->select('vehicles.name as vehicle_name', DB::raw('COUNT(*) as count'))
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
-        ->whereIn('applications.type', $all_types)
-        ->graphsearch($filters)
-        ->groupBy('applications.vehicle_id', 'vehicles.name')
-        ->orderBy('count', 'desc')
-        // ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
-        ->get();
+            ->select('vehicles.name as vehicle_name', DB::raw('COUNT(*) as count'))
+            ->whereBetween('applications.' . $dateColumn, [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->groupBy('applications.vehicle_id', 'vehicles.name')
+            ->orderBy('count', 'desc')
+            // ->orderBy('applications.vehicle_id', 'asc') // You can change the order based on your preference
+            ->get();
 
         $data['vehicle_names'] = $alldata->pluck('vehicle_name')->toArray();
         $data['vehicle_count'] = $alldata->pluck('count')->toArray();
 
         return $data;
-
     }
 
-    public static function getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters) {
+    public static function getVechileAnalysisGraph($startDate, $endDate, $all_types, $filters)
+    {
         $alldata = self::join('vehicles', 'applications.vehicle_id', '=', 'vehicles.id')
             ->select(
                 'vehicles.name as vehicle_name',
@@ -605,7 +603,8 @@ class Application extends Model
 
 
 
-    public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters) {
+    public static function countByCategoryGroup($startDate, $endDate, $all_types, $filters)
+    {
 
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
@@ -615,13 +614,13 @@ class Application extends Model
             // DB::raw('COUNT(DISTINCT applications.customer_id) as count')
             DB::raw('COUNT(*) as count')
         )
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
-        ->whereIn('applications.type', $all_types)
-        ->graphsearch($filters)
-        ->groupBy(DB::raw("IFNULL(applications.category, 'Pending CRM LEADS')"))
-        ->orderByRaw("FIELD(category_name, 'Qualified', 'Not Qualified', 'General Inquiry', 'Callback', 'Unreachable','Pending CRM LEADS') ASC")
-        ->orderBy('category_name', 'asc')
-        ->get();
+            ->whereBetween('applications.' . $dateColumn, [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->groupBy(DB::raw("IFNULL(applications.category, 'Pending CRM LEADS')"))
+            ->orderByRaw("FIELD(category_name, 'Qualified', 'Not Qualified', 'General Inquiry', 'Callback', 'Unreachable','Pending CRM LEADS') ASC")
+            ->orderBy('category_name', 'asc')
+            ->get();
 
         $data['category_names'] = $alldata->pluck('category_name')->toArray();
         $data['category_count'] = $alldata->pluck('count')->toArray();
@@ -629,17 +628,18 @@ class Application extends Model
         return $data;
     }
 
-    public static function countByAcceptance($startDate, $endDate, $all_types, $filters) {
+    public static function countByAcceptance($startDate, $endDate, $all_types, $filters)
+    {
         $alldata = self::select(
             DB::raw("SUM(CASE WHEN read_accept = 1 THEN 1 ELSE 0 END) as read_accept_true"),
             DB::raw("SUM(CASE WHEN read_accept = 0 THEN 1 ELSE 0 END) as read_accept_false"),
             // DB::raw("SUM(CASE WHEN letter_accept = 1 THEN 1 ELSE 0 END) as letter_accept_true"),
             // DB::raw("SUM(CASE WHEN letter_accept = 0 THEN 1 ELSE 0 END) as letter_accept_false")
         )
-        ->whereBetween('applications.created_at', [$startDate, $endDate])
-        ->whereIn('applications.type', $all_types)
-        ->graphsearch($filters)
-        ->get();
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->get();
 
         // $data = [
         //     'read_accept_true' => $alldata->pluck('read_accept_true')->first(),
@@ -648,7 +648,7 @@ class Application extends Model
         //     'letter_accept_false' => $alldata->pluck('letter_accept_false')->first(),
         // ];
 
-        $data['names'] =[
+        $data['names'] = [
             'Accepted',
             'Rejected',
             // 'Letter Accept True',
@@ -672,32 +672,32 @@ class Application extends Model
         $dateColumn = $dateInfo['date_column'];
         // Query for campaigns
         $campaigns = Application::select(
-                'campaign_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
             ->groupBy('campaign_id')
-            ->orderby('mql','DESC')
+            ->orderby('mql', 'DESC')
             ->get();
 
         // Query for sources grouped by campaign
         $sources = Application::select(
-                'campaign_id',
-                'source_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            'source_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -749,14 +749,14 @@ class Application extends Model
         $dateColumn = $dateInfo['date_column'];
         // Step 1: Get campaign-level aggregates
         $campaigns = Application::select(
-                'campaign_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -765,15 +765,15 @@ class Application extends Model
 
         // Step 2: Get vehicle-level aggregates for all campaigns
         $vehicles = Application::select(
-                'campaign_id',
-                'vehicle_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            'vehicle_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -943,14 +943,14 @@ class Application extends Model
         $dateColumn = $dateInfo['date_column'];
         // 1. Campaign-level Aggregation
         $campaigns = Application::select(
-                'campaign_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -959,15 +959,15 @@ class Application extends Model
 
         // 2. City-level Aggregation
         $cities = Application::select(
-                'campaign_id',
-                'city_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            'city_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -977,16 +977,16 @@ class Application extends Model
 
         // 3. Branch-level Aggregation
         $branches = Application::select(
-                'campaign_id',
-                'city_id',
-                'branch_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(category = "Qualified") as cql'),
-                DB::raw('SUM(category = "Not Qualified") as cnq'),
-                DB::raw('SUM(category = "General Inquiry") as cgi'),
-                DB::raw('SUM(category = "Unreachable") as unreach'),
-                DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
-            )
+            'campaign_id',
+            'city_id',
+            'branch_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -1300,14 +1300,14 @@ class Application extends Model
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
         $cities = Application::select(
-                'city_id',
-                DB::raw('COUNT(*) as mql'),
-                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
-                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
-                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
-                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
-                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-            )
+            'city_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+        )
             ->whereIn('type', $all_types)
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->graphsearch($filters)
@@ -1315,16 +1315,16 @@ class Application extends Model
             ->groupBy('city_id')
             ->orderBy('mql', 'DESC')
             ->get()
-            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters,$dateColumn) {
+            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters, $dateColumn) {
                 $cityApp->branches = Application::select(
-                        'branch_id',
-                        DB::raw('COUNT(*) as mql'),
-                        DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
-                        DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
-                        DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
-                        DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
-                        DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-                    )
+                    'branch_id',
+                    DB::raw('COUNT(*) as mql'),
+                    DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                    DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                    DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                    DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                    DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                )
                     ->whereIn('type', $all_types)
                     ->whereBetween($dateColumn, [$startDate, $endDate])
                     ->graphsearch($filters)
@@ -1333,16 +1333,16 @@ class Application extends Model
                     ->groupBy('branch_id')
                     ->orderBy('mql', 'DESC')
                     ->get()
-                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp,$dateColumn) {
+                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp, $dateColumn) {
                         $branchApp->campaigns = Application::select(
-                                'campaign_id',
-                                DB::raw('COUNT(*) as mql'),
-                                DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
-                                DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
-                                DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
-                                DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
-                                DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
-                            )
+                            'campaign_id',
+                            DB::raw('COUNT(*) as mql'),
+                            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+                            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+                            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+                            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                            DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+                        )
                             ->whereIn('type', $all_types)
                             ->whereBetween($dateColumn, [$startDate, $endDate])
                             ->graphsearch($filters)
@@ -1409,29 +1409,27 @@ class Application extends Model
             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
         )
-        ->whereIn('type', $all_types)
-        ->whereBetween($dateColumn, [$startDate, $endDate])
-        ->graphsearch($filters)
-        ->with('vehicle:id,name')
-        ->groupBy('vehicle_id')
-        ->orderBy('mql', 'DESC')
-        ->get()
-        ->map(function ($vehicleApplication) {
-            return [
-                'vehicle_id' => $vehicleApplication->vehicle_id,
-                'vehicle_name' => $vehicleApplication->vehicle->name ?? 'Others',
-                'mql' => $vehicleApplication->mql,
-                'cql' => $vehicleApplication->cql,
-                'cnq' => $vehicleApplication->cnq,
-                'cgi' => $vehicleApplication->cgi,
-                'unreach' => $vehicleApplication->unreach,
-                'inv' => $vehicleApplication->inv,
-            ];
-        });
+            ->whereIn('type', $all_types)
+            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->with('vehicle:id,name')
+            ->groupBy('vehicle_id')
+            ->orderBy('mql', 'DESC')
+            ->get()
+            ->map(function ($vehicleApplication) {
+                return [
+                    'vehicle_id' => $vehicleApplication->vehicle_id,
+                    'vehicle_name' => $vehicleApplication->vehicle->name ?? 'Others',
+                    'mql' => $vehicleApplication->mql,
+                    'cql' => $vehicleApplication->cql,
+                    'cnq' => $vehicleApplication->cnq,
+                    'cgi' => $vehicleApplication->cgi,
+                    'unreach' => $vehicleApplication->unreach,
+                    'inv' => $vehicleApplication->inv,
+                ];
+            });
 
         return $vehicles;
-
-
     }
 
 
@@ -1441,15 +1439,15 @@ class Application extends Model
             DB::raw("name as source_name"),
             DB::raw('COUNT(*) as count')
         )
-        ->leftJoin('sources', 'applications.source_id', '=', 'sources.id') // Joining with the sources table
-        ->whereIn('applications.source_id', [161, 163, 164, 171])
-        // ->whereIn('sources.name', $sourceNames) // Filtering based on source name
-        ->whereBetween('applications.created_at', [$startDate, $endDate])
-        ->whereIn('applications.type', $all_types)
-        ->graphsearch($filters)
-        ->groupBy(DB::raw("IFNULL(applications.source_id, 'Not Assigned')"), 'sources.name') // Grouping by source_id and source_name
-        ->orderBy('source_name', 'asc')
-        ->get();
+            ->leftJoin('sources', 'applications.source_id', '=', 'sources.id') // Joining with the sources table
+            ->whereIn('applications.source_id', [161, 163, 164, 171])
+            // ->whereIn('sources.name', $sourceNames) // Filtering based on source name
+            ->whereBetween('applications.created_at', [$startDate, $endDate])
+            ->whereIn('applications.type', $all_types)
+            ->graphsearch($filters)
+            ->groupBy(DB::raw("IFNULL(applications.source_id, 'Not Assigned')"), 'sources.name') // Grouping by source_id and source_name
+            ->orderBy('source_name', 'asc')
+            ->get();
 
         $data['sources_names'] = $alldata->pluck('source_name')->toArray();
         $data['sources_count'] = $alldata->pluck('count')->toArray();
@@ -1462,17 +1460,18 @@ class Application extends Model
 
 
 
-    public static function getPerformanceLabel($startDate,$endDate) {
+    public static function getPerformanceLabel($startDate, $endDate)
+    {
 
 
-        if(!is_null($startDate)){
+        if (!is_null($startDate)) {
             $startDate = Carbon::parse($startDate);
             $endDate = Carbon::parse($endDate);
             $days_diff = $startDate->diffInDays($endDate);
             $months_diff = $days_diff / 30.44; // Approximate average days in a month
         }
 
-        if(is_null($endDate)){
+        if (is_null($endDate)) {
             $startDate = now()->subMonths(5)->startOfMonth(); // Start of the month 4 months ago
             $endDate = now()->endOfMonth(); // End of the current month
             $months_diff = $startDate->diffInMonths($endDate);
@@ -1491,7 +1490,7 @@ class Application extends Model
 
         // }
         // else
-        if($months_diff >= 3){
+        if ($months_diff >= 3) {
             // Generate an array of months between start and end dates
             $monthsArray = [];
             $currentMonth = $startDate->copy()->startOfMonth();
@@ -1503,8 +1502,7 @@ class Application extends Model
             }
 
             $data['months'] = $monthsArray;
-
-        }else{
+        } else {
             // Generate an array of dates between start and end dates
             $datesArray = [];
             $currentDate = $startDate->copy();
@@ -1575,7 +1573,8 @@ class Application extends Model
     //     return $counts;
     // }
 
-    public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = []) {
+    public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = [])
+    {
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
         // $dateFormat = ($months_diff > 12) ? '%Y' : (($months_diff > 3) ? '%M %Y' : '%Y-%m-%d');
@@ -1587,11 +1586,11 @@ class Application extends Model
         $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
 
         $maincounts = self::select(
-                DB::raw("DATE_FORMAT($dateColumn, '$dateFormat') as month_year"),
-               DB::raw('COUNT(*) as count'),
-                // DB::raw('COUNT(DISTINCT customer_id) as count')
-                //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
-            )
+            DB::raw("DATE_FORMAT($dateColumn, '$dateFormat') as month_year"),
+            DB::raw('COUNT(*) as count'),
+            // DB::raw('COUNT(DISTINCT customer_id) as count')
+            //DB::raw('GROUP_CONCAT(DISTINCT customer_id ORDER BY customer_id ASC) as customer_ids')
+        )
             ->whereBetween($dateColumn, [$startDate, $endDate])
             ->whereIn('type', $types)
             // ->whereNotNull(['campaign_id', 'source_id'])
@@ -1603,28 +1602,28 @@ class Application extends Model
             })
             ->get()
             ->pluck('count', 'month_year');
-            // dd($maincounts);
-            $results = [];
-            foreach ($dates as $date) {
-                // $results[$date] = $maincounts->get($date, 0);
-                $results[$date] = $maincounts->get($date, 0);
-            }
+        // dd($maincounts);
+        $results = [];
+        foreach ($dates as $date) {
+            // $results[$date] = $maincounts->get($date, 0);
+            $results[$date] = $maincounts->get($date, 0);
+        }
 
-            return array_values($results);
-
+        return array_values($results);
     }
 
 
-    public static function getTargetMonthWise($startDate, $endDate, $months_diff) {
+    public static function getTargetMonthWise($startDate, $endDate, $months_diff)
+    {
 
         $dateFormat = ($months_diff > 3) ? '%M %Y' : '%Y-%m-%d';
         $dates = self::generateDateRange($startDate, $endDate, $dateFormat);
         $data = Target::selectRaw('date, SUM(count) as total_count')
-        ->whereBetween('date', [dateformat($startDate), dateformat($endDate)])
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get()
-        ->pluck('total_count', 'date');
+            ->whereBetween('date', [dateformat($startDate), dateformat($endDate)])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->pluck('total_count', 'date');
 
         $results = [];
         foreach ($dates as $date) {
@@ -1636,7 +1635,8 @@ class Application extends Model
 
     }
 
-    public static function getCrmUserGraph($startDate,$endDate,$first_types,$filters) {
+    public static function getCrmUserGraph($startDate, $endDate, $first_types, $filters)
+    {
 
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
@@ -1660,41 +1660,40 @@ class Application extends Model
             })
             ->groupBy('updated_by')
             ->get()->toArray();
-
     }
 
-    public static function getCrmUserSourcesGraph($startDate,$endDate,$first_types,$filters) {
+    public static function getCrmUserSourcesGraph($startDate, $endDate, $first_types, $filters)
+    {
 
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
         return self::with('updatedby')
-        ->select(
-            'updated_by',
-            DB::raw("SUM(CASE WHEN sources.name = 'Email' THEN 1 ELSE 0 END) as email_count"),
-            DB::raw("SUM(CASE WHEN sources.name = 'Whatsapp' THEN 1 ELSE 0 END) as whatsapp_count"),
-            DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
-            DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count"),
-            // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count"),
-            // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
-            DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count")
-        )
-        // ->join('sources', 'applications.source_id', '=', 'sources.id')
-        ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
-        ->whereIn('type', $first_types)
-        ->whereBetween('applications.' .$dateColumn, [$startDate, $endDate])
-        ->graphsearch($filters)
-        ->whereNotNull('updated_by')
-        ->whereHas('updatedby', function ($query) {
-            $query->whereHas('roles', function ($roleQuery) {
-                $roleQuery->where('name', 'Crm Lead User');
-            });
-        })
-        ->groupBy('updated_by')
-        ->get()->toArray();
-
+            ->select(
+                'updated_by',
+                DB::raw("SUM(CASE WHEN sources.name = 'Email' THEN 1 ELSE 0 END) as email_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Whatsapp' THEN 1 ELSE 0 END) as whatsapp_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Inbound' THEN 1 ELSE 0 END) as inbound_count"),
+                DB::raw("SUM(CASE WHEN sources.name = 'Outbound' THEN 1 ELSE 0 END) as outbound_count"),
+                // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count"),
+                // DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') THEN 1 ELSE 0 END) as other_count")
+                DB::raw("SUM(CASE WHEN sources.name NOT IN ('Email', 'Whatsapp', 'Inbound', 'Outbound') OR sources.name IS NULL THEN 1 ELSE 0 END) as other_count")
+            )
+            // ->join('sources', 'applications.source_id', '=', 'sources.id')
+            ->leftjoin('sources', 'applications.source_id', '=', 'sources.id')
+            ->whereIn('type', $first_types)
+            ->whereBetween('applications.' . $dateColumn, [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->whereNotNull('updated_by')
+            ->whereHas('updatedby', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Crm Lead User');
+                });
+            })
+            ->groupBy('updated_by')
+            ->get()->toArray();
     }
 
-      // Helper function to generate the date range
+    // Helper function to generate the date range
     //   public static function generateDateRange($startDate, $endDate, $dateFormat) {
     //     $start = new \DateTime($startDate);
     //     $end = new \DateTime($endDate);
@@ -1725,7 +1724,8 @@ class Application extends Model
     //     return $dates;
     // }
 
-      public static function generateDateRange($startDate, $endDate, $dateFormat) {
+    public static function generateDateRange($startDate, $endDate, $dateFormat)
+    {
         $start = new \DateTime($startDate);
         $end = new \DateTime($endDate);
         $end->modify('+1 day'); // to include end date in the range
@@ -1743,26 +1743,32 @@ class Application extends Model
 
 
 
-    public function customer(){
+    public function customer()
+    {
         return $this->belongsTo(Customer::class);
     }
 
-    public function city(){
+    public function city()
+    {
         return $this->belongsTo(City::class);
     }
 
-    public function branch(){
+    public function branch()
+    {
         return $this->belongsTo(Branch::class);
     }
 
-    public function vehicle(){
+    public function vehicle()
+    {
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function source(){
+    public function source()
+    {
         return $this->belongsTo(Source::class);
     }
-    public function campaign(){
+    public function campaign()
+    {
         return $this->belongsTo(Campaign::class);
     }
 
@@ -1822,7 +1828,8 @@ class Application extends Model
     }
 
 
-    static function storeData($request,$type) {
+    static function storeData($request, $type)
+    {
 
         $customer = addCustomer($request);
 
@@ -1854,9 +1861,9 @@ class Application extends Model
         $application->yearr = $request->input('yearr');
         $application->kyc = $request->input('kyc');
         $application->comments = $request->input('comments');
-        $application->customer_id= $customer->id;
-        $application->crm_lead_status= $request->crm_lead_status ?? 0;
-        $application->type= $type;
+        $application->customer_id = $customer->id;
+        $application->crm_lead_status = $request->crm_lead_status ?? 0;
+        $application->type = $type;
 
         if ($request->has('select_date')) {
             // Assuming 'created_at' is in a format that Carbon can parse
@@ -1870,17 +1877,24 @@ class Application extends Model
         $application->save();
 
         return $application;
-
     }
 
-    static function updateData($request,$id) {
+    static function updateData($request, $id)
+    {
 
         $application = self::findorFail($id);
-        // if($application->category == 'Qualified'){
-        //     return redirect()->back()->with('error','You cannnot update this lead');
+
+        if ($application->category == 'Qualified' && $request->category != 'Qualified') {
+            return [
+                'result' => 'error',
+                'message' => 'You cannot update category, it is already qualified'
+            ];
+        }
+        // if ($request->category == 'Qualified') {
+        //     return Response(['result' => 'error', 'message' => __('You cannot update this record, it is already qualified')]);
         // }
         // if ($request->has('mobile')) {
-            $customer = updCustomer($request,$application->customer_id);
+        $customer = updCustomer($request, $application->customer_id);
         // }
 
         //$customer = Customer::findorFail($application->customer_id);

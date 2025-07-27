@@ -21,9 +21,9 @@ class CrmLeadController extends Controller
     public function __construct(AutoLineService $apiService)
     {
         $this->middleware('auth');
-        $this->middleware('permission:crm-leads-list', ['only' => ['index','show']]);
-        $this->middleware('permission:crm-leads-create', ['only' => ['create','store']]);
-        $this->middleware('permission:crm-leads-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:crm-leads-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:crm-leads-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:crm-leads-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:crm-leads-delete', ['only' => ['destroy']]);
         $this->middleware('permission:crm-leads-import', ['only' => ['crmleadsImport']]);
         $this->middleware('permission:crm-leads-export', ['only' => ['crmleadsExport']]);
@@ -37,30 +37,30 @@ class CrmLeadController extends Controller
     public function index()
     {
         // dd(sendSmsPdPl('+923125115216'));
-        $data = getCommonFilterData(null,'sales');
+        $data = getCommonFilterData(null, 'sales');
 
-        return view('admin.crn_lead.index' ,$data);
+        return view('admin.crn_lead.index', $data);
     }
 
     public function qualifiedCrmLeads()
     {
-        $data = getCommonFilterData(null,'sales');
+        $data = getCommonFilterData(null, 'sales');
 
-        return view('admin.crn_lead.qualified_index' ,$data);
+        return view('admin.crn_lead.qualified_index', $data);
     }
 
     public function nonQualifiedCrmLeads()
     {
-        $data = getCommonFilterData(null,'sales');
+        $data = getCommonFilterData(null, 'sales');
 
-        return view('admin.crn_lead.non_qualified_index' ,$data);
+        return view('admin.crn_lead.non_qualified_index', $data);
     }
 
     public function generalCrmLeads()
     {
-        $data = getCommonFilterData(null,'sales');
+        $data = getCommonFilterData(null, 'sales');
 
-        return view('admin.crn_lead.general_index' ,$data);
+        return view('admin.crn_lead.general_index', $data);
     }
 
     /**
@@ -69,9 +69,9 @@ class CrmLeadController extends Controller
     public function create()
     {
 
-        $data = getCommonData(null,'sales');
+        $data = getCommonData(null, 'sales');
 
-        return view('admin.crn_lead.add' , $data);
+        return view('admin.crn_lead.add', $data);
     }
 
     /**
@@ -80,9 +80,9 @@ class CrmLeadController extends Controller
     public function store(Request $request)
     {
 
-        Application::storeData($request,'crm_leads');
+        Application::storeData($request, 'crm_leads');
 
-        return Response(['result'=>'success','message'=>__('Added Successfully')]);
+        return Response(['result' => 'success', 'message' => __('Added Successfully')]);
     }
 
     /**
@@ -100,7 +100,7 @@ class CrmLeadController extends Controller
     {
 
         $lead = Application::findorFail($id);
-        $data = getCommonData($lead->city_id ,'sales');
+        $data = getCommonData($lead->city_id, 'sales');
         $data['lead'] = $lead;
 
         return view('admin.crn_lead.edit', $data);
@@ -112,9 +112,13 @@ class CrmLeadController extends Controller
     public function update(Request $request, string $id)
     {
         // dd($request->all());
-        Application::updateData($request,$id);
+        $response = Application::updateData($request, $id);
 
-        return Response(['result'=>'success','message'=>__('Updated Successfully')]);
+        if (is_array($response) && isset($response['result']) && $response['result'] === 'error') {
+            return response($response);
+        }
+
+        return Response(['result' => 'success', 'message' => __('Updated Successfully')]);
     }
 
     /**
@@ -125,7 +129,7 @@ class CrmLeadController extends Controller
         $row = Application::findorFail($id);
         $row->delete();
 
-        return Response(['result'=>'success','message'=>__('Deleted Successfully')]);
+        return Response(['result' => 'success', 'message' => __('Deleted Successfully')]);
     }
 
 
@@ -145,7 +149,7 @@ class CrmLeadController extends Controller
         $conditions = request()->all();
         //dd($conditions,$conditions['search']['value']);
 
-          // Check if the request has a mobile input
+        // Check if the request has a mobile input
         // if (empty($searchValue)) {
         //     // Return empty data if mobile input is not present
         //     return response()->json([
@@ -157,14 +161,14 @@ class CrmLeadController extends Controller
         // }
 
         //-- WE MUST HAVE COUNT ALL RECORDS WITHOUT ANY FILTERS
-        $countAll = Application::search($conditions)->whereNotIn('type',['online_service_booking', 'service_offers', 'contact_us','after_sales','career'])->count();
+        $countAll = Application::search($conditions)->whereNotIn('type', ['online_service_booking', 'service_offers', 'contact_us', 'after_sales', 'career'])->count();
 
         //-- CREATE LARAVEL PAGINATION
         $paginate =  Application::search($conditions)
-                ->whereNotIn('type',['online_service_booking', 'service_offers', 'contact_us','after_sales','career'])
-                ->latest()
-                ->orderBy($columnName, $columnSortOrder)
-                ->paginate($limit, ["*"], 'page', $page);
+            ->whereNotIn('type', ['online_service_booking', 'service_offers', 'contact_us', 'after_sales', 'career'])
+            ->latest()
+            ->orderBy($columnName, $columnSortOrder)
+            ->paginate($limit, ["*"], 'page', $page);
 
         $num = 1;
         $items = array();
@@ -182,7 +186,7 @@ class CrmLeadController extends Controller
                 "vehicle_id" => $row->vehicle->name ?? "",
                 "source_id" => $row->source->name ?? "",
                 "campaign_id" => $row->campaign->name ?? "",
-                "type" => reverseCheckApplicationType($row->type) == 'Crm Leads' ? 'Inbound': reverseCheckApplicationType($row->type),
+                "type" => reverseCheckApplicationType($row->type) == 'Crm Leads' ? 'Inbound' : reverseCheckApplicationType($row->type),
                 "category" => $row['category'] ?? "-",
                 "sub_category" => $row['sub_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
@@ -202,22 +206,23 @@ class CrmLeadController extends Controller
         return response()->json($response);
         //-- END CREATE JSON RESPONSE FOR DATATABLES
 
-   }
+    }
 
-   public function subCategoryUpdate(Request $request) {
+    public function subCategoryUpdate(Request $request)
+    {
         // dd($request->all());
-        $id =$request->rowid;
+        $id = $request->rowid;
         $application = Application::findorFail($id);
         $application->category = $request->action_category;
         $application->sub_category = $request->action_sub_category;
 
-        if($request->action_category == 'Qualified'){
+        if ($request->action_category == 'Qualified') {
             $application->qualified_date = now();
         }
 
         $application->save();
 
-        if($request->action_category == 'Qualified'){
+        if ($request->action_category == 'Qualified') {
             // autoLineAPI($application);
             $response = $this->apiService->callApi($application); // Call the third-party API
             // dd($response);
@@ -260,14 +265,14 @@ class CrmLeadController extends Controller
         // ->first();
 
 
-    // Convert the record to an array
-    // $record = (array) $record;
-    // $record['DataType'] = reverseCheckApplicationType($record['DataType']);
-    // dd($record);
-    // Send the email
-    // $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];
-    // $recipients = ['ateeb@sohoby.sa'];
-    // $recipients = ['hyundai.crm@hyundai.mynaghi.com'];
+        // Convert the record to an array
+        // $record = (array) $record;
+        // $record['DataType'] = reverseCheckApplicationType($record['DataType']);
+        // dd($record);
+        // Send the email
+        // $recipients = ['ateeb@sohoby.sa','ahmad@sohoby.sa'];
+        // $recipients = ['ateeb@sohoby.sa'];
+        // $recipients = ['hyundai.crm@hyundai.mynaghi.com'];
 
         // try {
         //     // Mail::to($recipients)->send(new RecordDetailsMail($record));
@@ -280,12 +285,11 @@ class CrmLeadController extends Controller
         // }
 
 
-        return Response(['result'=>'success','message'=>__('Updated Successfully')]);
+        return Response(['result' => 'success', 'message' => __('Updated Successfully')]);
+    }
 
-   }
-
-   public function crmleadsImport()
-   {
+    public function crmleadsImport()
+    {
         try {
             $import = new CrmLeadsImport();
             $import->import(request()->file('csvfile'));
@@ -296,7 +300,7 @@ class CrmLeadController extends Controller
             }
         }
 
-        return Response(['result'=>'success','message'=>__('Crm Leads Import Successfully')]);
+        return Response(['result' => 'success', 'message' => __('Crm Leads Import Successfully')]);
     }
 
     public function crmLeadsExport(Request $request)
@@ -321,67 +325,85 @@ class CrmLeadController extends Controller
             $fileHandle = fopen('php://output', 'w');
             // Add UTF-8 BOM for Excel compatibility
             fwrite($fileHandle, "\xEF\xBB\xBF");
-            fputcsv($fileHandle, ['Name', 'Mobile','National Id', 'City','Branch','Vehicle','Year','Source','Campaign','Bank Name',
-                                'Purchase Plan','Monthly Salary','Preferred Appointment Time','KYC','Category','Sub Category',
-                                'Created At','Type','CRM User Name']);
+            fputcsv($fileHandle, [
+                'Name',
+                'Mobile',
+                'National Id',
+                'City',
+                'Branch',
+                'Vehicle',
+                'Year',
+                'Source',
+                'Campaign',
+                'Bank Name',
+                'Purchase Plan',
+                'Monthly Salary',
+                'Preferred Appointment Time',
+                'KYC',
+                'Category',
+                'Sub Category',
+                'Created At',
+                'Type',
+                'CRM User Name'
+            ]);
             $chunkSize = 50000;
 
             Application::search($conditions)
-            ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
-            ->leftJoin('users as upduser', 'applications.updated_by', '=', 'upduser.id')
-            ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
-            ->select(
-                DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
-                'cust.mobile',
-                'cust.national_id',
-                'upduser.name as crm_user_upd_name',
-                'bank.name as bank_name',
-                'applications.city_id',
-                'applications.branch_id',
-                'applications.vehicle_id',
-                'applications.yearr',
-                'applications.source_id',
-                'applications.campaign_id',
-                'applications.purchase_plan',
-                'applications.monthly_salary',
-                'applications.preferred_appointment_time',
-                'applications.kyc',
-                'applications.category',
-                'applications.sub_category',
-                'applications.created_at',
-                'applications.type',
-            )
-            ->orderBy('applications.id' , 'DESC')
-            ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
-                foreach ($records as $record) {
-                    $row = [
-                        $record->full_name,
-                        $record->mobile,
-                        $record->national_id,
-                        $dataName['cities'][$record->city_id] ?? "",
-                        $dataName['branches'][$record->branch_id] ?? "",
-                        $dataName['vehicles'][$record->vehicle_id] ?? "",
-                        $record->yearr,
-                        $dataName['sources'][$record->source_id] ?? "",
-                        $dataName['campaigns'][$record->campaign_id] ?? "",
-                        $record->bank_name,
-                        $record->purchase_plan,
-                        $record->monthly_salary,
-                        $record->preferred_appointment_time,
-                        $record->kyc,
-                        $record->category,
-                        $record->sub_category,
-                        formateDate($record->created_at),
-                        reverseCheckApplicationType($record->type),
-                        $record->crm_user_upd_name ?? "",
-                    ];
-                    fputcsv($fileHandle, (array)$row);
-                }
+                ->join('customers as cust', 'applications.customer_id', '=', 'cust.id')
+                ->leftJoin('users as upduser', 'applications.updated_by', '=', 'upduser.id')
+                ->leftJoin('banks as bank', 'cust.bank_id', '=', 'bank.id')
+                ->select(
+                    DB::raw('CONCAT(cust.first_name, " ", cust.last_name) as full_name'),
+                    'cust.mobile',
+                    'cust.national_id',
+                    'upduser.name as crm_user_upd_name',
+                    'bank.name as bank_name',
+                    'applications.city_id',
+                    'applications.branch_id',
+                    'applications.vehicle_id',
+                    'applications.yearr',
+                    'applications.source_id',
+                    'applications.campaign_id',
+                    'applications.purchase_plan',
+                    'applications.monthly_salary',
+                    'applications.preferred_appointment_time',
+                    'applications.kyc',
+                    'applications.category',
+                    'applications.sub_category',
+                    'applications.created_at',
+                    'applications.type',
+                )
+                ->orderBy('applications.id', 'DESC')
+                ->chunk($chunkSize, function ($records) use ($fileHandle, $dataName) {
+                    foreach ($records as $record) {
+                        $row = [
+                            $record->full_name,
+                            $record->mobile,
+                            $record->national_id,
+                            $dataName['cities'][$record->city_id] ?? "",
+                            $dataName['branches'][$record->branch_id] ?? "",
+                            $dataName['vehicles'][$record->vehicle_id] ?? "",
+                            $record->yearr,
+                            $dataName['sources'][$record->source_id] ?? "",
+                            $dataName['campaigns'][$record->campaign_id] ?? "",
+                            $record->bank_name,
+                            $record->purchase_plan,
+                            $record->monthly_salary,
+                            $record->preferred_appointment_time,
+                            $record->kyc,
+                            $record->category,
+                            $record->sub_category,
+                            formateDate($record->created_at),
+                            reverseCheckApplicationType($record->type),
+                            $record->crm_user_upd_name ?? "",
+                        ];
+                        fputcsv($fileHandle, (array)$row);
+                    }
 
-                // Flush the output buffer every chunk to keep the connection alive
-                ob_flush();
-                flush();
-            });
+                    // Flush the output buffer every chunk to keep the connection alive
+                    ob_flush();
+                    flush();
+                });
 
             fclose($fileHandle);
         });
@@ -391,6 +413,4 @@ class CrmLeadController extends Controller
 
         return $response;
     }
-
 }
-
