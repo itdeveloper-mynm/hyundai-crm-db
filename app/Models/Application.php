@@ -1876,7 +1876,9 @@ class Application extends Model
     static function updateData($request,$id) {
 
         $application = self::findorFail($id);
-
+        // if($application->category == 'Qualified'){
+        //     return redirect()->back()->with('error','You cannnot update this lead');
+        // }
         // if ($request->has('mobile')) {
             $customer = updCustomer($request,$application->customer_id);
         // }
