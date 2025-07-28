@@ -57,7 +57,7 @@
                 </td>
                 <td>
                     <span
-                        class="float-left badge" style="background-color: #002c5f !important;">{{ calculatePercentage($mql, $qualified) }}</span>
+                        class="float-left badge" style="background-color: #002c5f !important;">{{ calculatePercentage($total, $qualified) }}</span>
                 </td>
                 <td>
                     <span style="float: left" class="badge badge-success">{{ $crm_users['inv'] ?? 0 }}</span>
@@ -93,7 +93,7 @@
                 <h5><span class="float-left badge badge-{{ $badgeClass }}">{{ $grandTotal }}</span></h5>
             </th>
             <th>
-                <h5><span class="float-left badge" style="background-color: #002c5f !important;">{{ calculatePercentage($mql, $cql) }}</span></h5>
+                <h5><span class="float-left badge" style="background-color: #002c5f !important;">{{ calculatePercentage($total, $cql) }}</span></h5>
             </th>
             <th>
                 <h5><span style="float: left"
