@@ -188,6 +188,7 @@ class UsedCarController extends Controller
             $conditions = request()->all();
 
             $fileHandle = fopen('php://output', 'w');
+            fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile', 'City','Vehicle','Campaign','Preferred Appointment Time','Created At','Type']);
             $chunkSize = 50000;
 
