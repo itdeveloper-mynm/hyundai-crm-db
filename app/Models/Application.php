@@ -1573,6 +1573,8 @@ class Application extends Model
     //     return $counts;
     // }
 
+
+
     public static function getPerformanceMonthWise($types, $startDate, $endDate, $months_diff, $filters, $opt_filters = [])
     {
 
@@ -1926,5 +1928,394 @@ class Application extends Model
         $application->save();
 
         return $application;
+    }
+
+    public static function getSummaryCountsByTypeAndDate($startDate, $endDate, $types, $filters = [])
+    {
+        $query = self::select(
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv'),
+            DB::raw('SUM(CASE WHEN category = "PCL" THEN 1 ELSE 0 END) as pcl'),
+
+        )
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereIn('type', $types)
+            ->graphsearch($filters);
+
+        $result = $query->first();
+
+        $remaining = $result->mql - $result->cql - $result->cgi - $result->cnq - $result->unreach;
+        $conversion = calculatePercentage($result->mql, $result->cql);
+        $saleConversion = calculatePercentage($result->mql, $result->inv);
+
+        return [
+            'mql' => (int) $result->mql,
+            'cql' => (int) $result->cql,
+            'cnq' => (int) $result->cnq,
+            'cgi' => (int) $result->cgi,
+            'unreach' => (int) $result->unreach,
+            'inv' => (int) $result->inv,
+            'pcl' => (int) $remaining,
+            'conversion' => $conversion,
+            'sale_conversion' => $saleConversion,
+        ];
+    }
+
+    public static function getSourceWiseApplication($startDate, $endDate, $all_types, $filters)
+    {
+        $dateInfo = getDateRangeAndColumn();
+        $dateColumn = $dateInfo['date_column'];
+
+        $sources = Application::select('source_id', DB::raw('COUNT(*) as total'))
+            ->whereIn('type', $all_types)
+            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->groupBy('source_id')
+            ->with('source:id,name')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        $names = $sources->map(function ($source) {
+            return $source->source->name ?? 'Others';
+        });
+
+        $counts = $sources->pluck('total');
+
+        return [
+            'names' => $names->values(),
+            'counts' => $counts->values(),
+        ];
+    }
+
+    // public static function getCampaignWiseCompleteDetails($startDate, $endDate, $all_types, $filters)
+    // {
+    //     $dateInfo = getDateRangeAndColumn();
+    //     $dateColumn = $dateInfo['date_column'];
+
+    //     // Load campaigns with aggregated performance
+    //     $campaigns = Application::select(
+    //         'campaign_id',
+    //         DB::raw('COUNT(*) as mql'),
+    //         DB::raw('SUM(category = "Qualified") as sql'),
+    //         DB::raw('SUM(category = "General Inquiry") as sgi'),
+    //         DB::raw('SUM(category = "Not Qualified") as snq'),
+    //         DB::raw('SUM(category = "Unreachable") as unreach'),
+    //         DB::raw('SUM(category = "PCL") as pcl'),
+    //         DB::raw('SUM(category = "CRM Converted") as crm_conv'),
+    //         DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv'),
+    //         DB::raw('SUM(is_sale_converted = 1) as sale_conv') // Optional: if such a column exists
+    //     )
+    //         ->whereIn('type', $all_types)
+    //         ->whereBetween($dateColumn, [$startDate, $endDate])
+    //         ->graphsearch($filters)
+    //         ->groupBy('campaign_id')
+    //         ->get();
+
+    //     $campaignNames = Campaign::whereIn('id', $campaigns->pluck('campaign_id'))
+    //         ->pluck('name', 'id');
+
+    //     // For each campaign, get breakdowns
+    //     return $campaigns->map(function ($campaign) use ($startDate, $endDate, $all_types, $filters, $dateColumn, $campaignNames) {
+    //         $campaign_id = $campaign->campaign_id;
+
+    //         // Common filter
+    //         $query = Application::where('campaign_id', $campaign_id)
+    //             ->whereIn('type', $all_types)
+    //             ->whereBetween($dateColumn, [$startDate, $endDate])
+    //             ->graphsearch($filters);
+
+    //         $grouped = function ($field) use ($query) {
+    //             return (clone $query)
+    //                 ->select($field, DB::raw('COUNT(*) as mql'))
+    //                 ->groupBy($field)
+    //                 ->get()
+    //                 ->map(function ($item) use ($field) {
+    //                     return [
+    //                         'name' => $item->{$field} ?? 'Unknown',
+    //                         'mql' => $item->mql,
+    //                     ];
+    //                 })
+    //                 ->values();
+    //         };
+
+    //         return [
+    //             'campaign_id' => $campaign_id,
+    //             'campaign_name' => $campaignNames[$campaign_id] ?? 'Others',
+    //             'mql' => $campaign->mql,
+    //             'sql' => $campaign->sql,
+    //             'sgi' => $campaign->sgi,
+    //             'snq' => $campaign->snq,
+    //             'unreach' => $campaign->unreach,
+    //             'pcl' => $campaign->pcl,
+    //             'crm_conv' => $campaign->crm_conv,
+    //             'inv' => $campaign->inv,
+    //             'sale_conv' => $campaign->sale_conv,
+
+    //             'cities' => $grouped('city'),
+    //             'branches' => $grouped('dealer_branch'),
+    //             'vehicles' => $grouped('vehicle_id'), // consider joining for vehicle name
+    //             'channels' => $grouped('source_id'),  // consider joining for source name
+    //             'monthly_salary' => $grouped('monthly_salary'),
+    //             'purchase_plan' => $grouped('purchase_plan'),
+    //         ];
+    //     });
+    // }
+    public static function getAllCampaignGroups($startDate, $endDate, $all_types, $filters)
+    {
+        $dateInfo = getDateRangeAndColumn();
+        $dateColumn = $dateInfo['date_column'];
+
+        // Get distinct campaign_ids with count
+        $campaigns = Application::whereIn('type', $all_types)
+            ->whereBetween($dateColumn, [$startDate, $endDate])
+            ->graphsearch($filters)
+            ->select('campaign_id', DB::raw('COUNT(*) as total'))
+            ->groupBy('campaign_id')
+            ->get();
+
+        // Fetch campaign names for known IDs
+        $campaignNames = Campaign::whereIn('id', $campaigns->pluck('campaign_id')->filter()->values())
+            ->pluck('name', 'id');
+
+        // Map final list
+        return $campaigns->map(function ($row) use ($campaignNames) {
+            $id = $row->campaign_id;
+            return [
+                'campaign_id' => $id, // use 0 as virtual ID for "Others"
+                'campaign_name' => $campaignNames[$id] ?? 'Others',
+                'total' => $row->total,
+            ];
+        });
+    }
+
+    // public static function getSummaryCountsByCampaign($campaign_id, $startDate, $endDate, $types, $filters = [])
+    // {
+    //     $dateInfo = getDateRangeAndColumn();
+    //     $dateColumn = $dateInfo['date_column'];
+
+    //     $query = self::select(
+    //         DB::raw('COUNT(*) as mql'),
+    //         DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+    //         DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+    //         DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+    //         DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+    //         DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv'),
+    //         DB::raw('SUM(CASE WHEN category = "PCL" THEN 1 ELSE 0 END) as pcl')
+    //     )
+    //         ->whereBetween($dateColumn, [$startDate, $endDate])
+    //         ->whereIn('type', $types)
+    //         ->graphsearch($filters);
+
+    //     if ($campaign_id == 0) {
+    //         $query->whereNull('campaign_id');
+    //     } else {
+    //         $query->where('campaign_id', $campaign_id);
+    //     }
+
+    //     $result = $query->first();
+
+    //     $remaining = $result->mql - $result->cql - $result->cgi - $result->cnq - $result->unreach;
+    //     $conversion = calculatePercentage($result->mql, $result->cql);
+    //     $saleConversion = calculatePercentage($result->mql, $result->inv);
+
+    //     return [
+    //         "compaign" => [
+    //             'campaign_id' => $campaign_id,
+    //             'campaign_name' => $campaign_id == 0 ? 'Others' : Campaign::find($campaign_id)->name ?? 'Unknown',
+    //         ],
+    //         'summary' => [
+    //             'mql' => (int) $result->mql,
+    //             'cql' => (int) $result->cql,
+    //             'cnq' => (int) $result->cnq,
+    //             'cgi' => (int) $result->cgi,
+    //             'unreach' => (int) $result->unreach,
+    //             'crm_conv' => (int) $result->crm_conv,
+    //             'inv' => (int) $result->inv,
+    //             'pcl' => (int) $remaining,
+    //             'conversion' => $conversion,
+    //             'sale_conversion' => $saleConversion,
+    //         ]
+    //     ];
+    // }
+    public static function getSummaryCountsByCampaign($campaign_id, $startDate, $endDate, $types, $filters = [])
+    {
+        $dateInfo = getDateRangeAndColumn();
+        $dateColumn = $dateInfo['date_column'];
+
+        $baseQuery = self::whereBetween($dateColumn, [$startDate, $endDate])
+            ->whereIn('type', $types)
+            ->graphsearch($filters);
+
+        if ($campaign_id == 0) {
+            $baseQuery->whereNull('campaign_id');
+        } else {
+            $baseQuery->where('campaign_id', $campaign_id);
+        }
+
+        // === MAIN SUMMARY ===
+        $result = (clone $baseQuery)->select(
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
+            DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
+            DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
+            DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw('SUM(CASE WHEN category = "CRM Converted" THEN 1 ELSE 0 END) as crm_conv'),
+            DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
+        )->first();
+
+        $remaining = $result->mql - $result->cql - $result->cgi - $result->cnq - $result->unreach;
+        $conversion = calculatePercentage($result->mql, $result->cql);
+        $saleConversion = calculatePercentage($result->mql, $result->inv);
+
+        // === CITIES ===
+        $cityData = (clone $baseQuery)->select(
+            'city_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+            // DB::raw('SUM(category = "Unreachable") as unreach'),
+            // DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
+        )
+            ->groupBy('city_id')
+            ->with('city:id,name')
+            ->orderBy('mql', 'desc')
+            ->get();
+
+        // === BRANCHES ===
+        $branchData = (clone $baseQuery)->select(
+            'branch_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+        )
+            ->groupBy('branch_id')
+            ->with('branch:id,name')
+            ->orderBy('mql', 'desc')
+            ->get();
+
+        // === VEHICLES ===
+        $vehicleData = (clone $baseQuery)->select(
+            'vehicle_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+        )
+            ->groupBy('vehicle_id')
+            ->with('vehicle:id,name')
+            ->orderBy('mql', 'desc')
+            ->get();
+
+        // === CHANNELS ===
+        $channelData = (clone $baseQuery)->select(
+            'source_id',
+            DB::raw('COUNT(*) as mql'),
+            DB::raw('SUM(category = "Qualified") as cql'),
+            DB::raw('SUM(category = "Not Qualified") as cnq'),
+            DB::raw('SUM(category = "General Inquiry") as cgi'),
+        )
+            ->groupBy('source_id')
+            ->with('source:id,name')
+            ->orderBy('mql', 'desc')
+            ->get();
+
+        // === RETURN STRUCTURE ===
+        return [
+            "campaign" => [
+                'campaign_id' => $campaign_id,
+                'campaign_name' => $campaign_id == 0 ? 'Others' : Campaign::find($campaign_id)->name ?? 'Unknown',
+            ],
+            'summary' => [
+                'mql' => (int) $result->mql,
+                'cql' => (int) $result->cql,
+                'cnq' => (int) $result->cnq,
+                'cgi' => (int) $result->cgi,
+                'unreach' => (int) $result->unreach,
+                'crm_conv' => (int) $result->crm_conv,
+                'inv' => (int) $result->inv,
+                'pcl' => (int) $remaining,
+                'conversion' => $conversion,
+                'sale_conversion' => $saleConversion,
+            ],
+            'cities' => $cityData->map(function ($city) {
+                return [
+                    'city_id' => $city->city_id,
+                    'city_name' => $city->city->name ?? 'Others',
+                    'mql' => $city->mql,
+                    'cql' => $city->cql,
+                    'cnq' => $city->cnq,
+                    'cgi' => $city->cgi,
+                ];
+            })->values(),
+
+            'branches' => $branchData->map(function ($branch) {
+                return [
+                    'branch_id' => $branch->branch_id,
+                    'branch_name' => $branch->branch->name ?? 'Others',
+                    'mql' => $branch->mql,
+                    'cql' => $branch->cql,
+                    'cnq' => $branch->cnq,
+                    'cgi' => $branch->cgi,
+                ];
+            })->values(),
+
+            'vehicles' => $vehicleData->map(function ($v) {
+                return [
+                    'vehicle_id' => $v->vehicle_id,
+                    'vehicle_name' => $v->vehicle->name ?? 'Others',
+                    'mql' => $v->mql,
+                    'cql' => $v->cql,
+                    'cnq' => $v->cnq,
+                    'cgi' => $v->cgi,
+                ];
+            })->values(),
+
+            'channels' => $channelData->map(function ($s) {
+                return [
+                    'source_id' => $s->source_id,
+                    'source_name' => $s->source->name ?? 'Others',
+                    'mql' => $s->mql,
+                    'cql' => $s->cql,
+                    'cnq' => $s->cnq,
+                    'cgi' => $s->cgi,
+                ];
+            })->values(),
+
+            'salaries' => (clone $baseQuery)->select(
+                'monthly_salary',
+                DB::raw('COUNT(*) as value')
+            )
+                ->whereNotNull('monthly_salary')
+                ->groupBy('monthly_salary')
+                ->orderBy('value', 'desc')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'name' => $item->monthly_salary ?? 'Unknown',
+                        'value' => (int) $item->value,
+                    ];
+                })->values(),
+
+            'purchase_plans' => (clone $baseQuery)->select(
+                'purchase_plan',
+                DB::raw('COUNT(*) as value')
+            )
+                ->whereNotNull('purchase_plan')
+                ->groupBy('purchase_plan')
+                ->orderBy('value', 'desc')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'name' => $item->purchase_plan ?? 'Unknown',
+                        'value' => (int) $item->value,
+                    ];
+                })->values(),
+        ];
     }
 }

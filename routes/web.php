@@ -179,6 +179,7 @@ Route::group(['middleware' => ['auth'] ], function () {
 
     Route::controller(SaleGraphController::class)->group(function(){
         Route::any('sale-graph',  'index')->name('sale-graph.index');
+        Route::any('sale-graph-print',  'saleGraphPrint')->name('sale-graph.print');
         Route::any('sale-graph-comparison',  'comparisonIndex')->name('sale-graph-comparison.index');
         Route::any('after-sale-graph',  'indexAfterSale')->name('after-sale-graph.index');
         Route::any('after-sale-graph-comparison',  'comparisonIndexAfterSale')->name('after-sale-graph-comparison.index');
