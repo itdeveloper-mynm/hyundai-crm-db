@@ -11,8 +11,24 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
         body {
             background-color: #FFFFFF;
             font-family: 'Inter', sans-serif;
@@ -372,6 +388,11 @@
         <h4 class="m-0">Hyundai MYNM-Marketing Performance</h4>
     </div>
 
+    <button class="btn btn-info print-btn hide-for-print" onclick="window.print()">
+        <i class="bi bi-printer"></i>
+    </button>
+
+
     <div class="container-fluid mt-4">
         <h5 style="font-weight: 600; color: #333;">YTD Performance</h5>
 
@@ -532,9 +553,9 @@
                         <p class="value">{{ array_sum($data['first_count']) }}</p>
                         <p class="label">Request a Quote</p>
                     </div>
-                    <div class="icon">
+                    {{-- <div class="icon">
                         <i class="bi bi-geo-alt"></i>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-sm-2 col-xl-2 mb-xl-10">
@@ -543,9 +564,9 @@
                         <p class="value">{{ array_sum($data['second_count']) }}</p>
                         <p class="label">Special Offers</p>
                     </div>
-                    <div class="icon">
+                    {{-- <div class="icon">
                         <i class="bi bi-geo-alt"></i>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-sm-3 col-xl-2 mb-xl-10">
@@ -554,9 +575,9 @@
                         <p class="value">{{ array_sum($data['third_count']) }}</p>
                         <p class="label">Request a Test Drive</p>
                     </div>
-                    <div class="icon">
+                    {{-- <div class="icon">
                         <i class="bi bi-geo-alt"></i>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-sm-2 col-xl-2 mb-xl-10">
@@ -565,9 +586,9 @@
                         <p class="value">{{ array_sum($data['fifth_count']) }}</p>
                         <p class="label">Leads</p>
                     </div>
-                    <div class="icon">
+                    {{-- <div class="icon">
                         <i class="bi bi-geo-alt"></i>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-sm-2 col-xl-2 mb-xl-10">
@@ -576,9 +597,9 @@
                         <p class="value">{{ array_sum($data['other_count']) }}</p>
                         <p class="label">Others</p>
                     </div>
-                    <div class="icon">
+                    {{-- <div class="icon">
                         <i class="bi bi-geo-alt"></i>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
