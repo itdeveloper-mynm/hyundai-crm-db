@@ -998,18 +998,39 @@ class SaleGraphController extends Controller
         return $mapped;
     }
 
+    // public static function getAllCampaignDetails($startDate, $endDate, $types, $filters)
+    // {
+    //     $allCompaignsId = Application::getAllCampaignGroups($startDate, $endDate, $types, $filters);
+    //     // dd($allCompaignsId);
+
+    //     $data = [];
+    //     foreach ($allCompaignsId as $compaign) {
+    //         // dd($compaign);
+    //         $data[] = Application::getSummaryCountsByCampaign($compaign['campaign_id'], $startDate, $endDate, $types, $filters);
+    //     }
+
+    //     // dd($data);
+    //     return $data;
+    // }
     public static function getAllCampaignDetails($startDate, $endDate, $types, $filters)
     {
         $allCompaignsId = Application::getAllCampaignGroups($startDate, $endDate, $types, $filters);
-        // dd($allCompaignsId);
 
         $data = [];
         foreach ($allCompaignsId as $compaign) {
-            // dd($compaign);
-            $data[] = Application::getSummaryCountsByCampaign($compaign['campaign_id'], $startDate, $endDate, $types, $filters);
+            $data[] = Application::getSummaryCountsByCampaign(
+                $compaign['campaign_id'],
+                $startDate,
+                $endDate,
+                $types,
+                $filters
+            );
         }
 
-        // dd($data);
-        return $data;
+        // Sort by total MQL (desc) and reset indexes
+        return collect($data)
+            ->sortByDesc(fn($c) => $c['summary']['mql'])
+            ->values()
+            ->all();
     }
 }
