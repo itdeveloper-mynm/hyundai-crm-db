@@ -72,7 +72,7 @@ class SaleGraphController extends Controller
         if ($request->ajax()) {
 
             $mode = $request->input('mode', 'graph');
-            $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote', 'leads', 'events'];
+            $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote', 'leads', 'events', 'contact_us'];
 
             if ($mode === 'graph') {
                 $data['first_count'] = Application::getPerformanceMonthWise($first_types, $startDate, $endDate, $months_diff, $filters);
@@ -818,7 +818,7 @@ class SaleGraphController extends Controller
 
             $mode = $request->input('mode', 'graph');
             // dd($mode);
-            $first_types = ['request_a_test_quote', 'request_a_quote', 'special_offers', 'leads', 'events', 'request_a_test_drive', 'used_cars', 'smo_leads', 'crm_leads'];
+            $first_types = ['request_a_test_quote', 'request_a_quote', 'special_offers', 'leads', 'events', 'request_a_test_drive', 'used_cars', 'smo_leads', 'crm_leads', 'contact_us'];
             $filters = $request->all();
             $filters = array_merge($filters, ['upd_graph' => true]);
             if ($mode === 'graph') {
@@ -833,10 +833,12 @@ class SaleGraphController extends Controller
                 $category_graph = Application::countByCategoryGroup($startDate, $endDate, $first_types, $filters);
                 $data['category_graph_count'] = collect($category_graph['category_count'])->sum() ?? 0;
                 $data['category_graph'] =  $category_graph;
+                // dd($data['category_graph']);
                 $data['vehcile_graph'] = Application::getVechileGraph($startDate, $endDate, $first_types, $filters);
                 return response()->json($data);
             } elseif ($mode === 'table') {
                 $campaigns_detial_data = Application::getCampaignWiseDetialData($startDate, $endDate, $first_types, $filters);
+                // dd($campaigns_detial_data);
                 $campaigns_vehcile_data = Application::getCampaignVehcileWiseDetialData($startDate, $endDate, $first_types, $filters);
                 $campaigns_detial_data_html = view('admin.crn_lead.campaign_first_graph', compact('campaigns_detial_data'))->render();
                 $campaigns_vehcile_data_html = view('admin.crn_lead.campaign_vehcile_second_graph', compact('campaigns_vehcile_data'))->render();

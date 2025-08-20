@@ -670,6 +670,9 @@ class Application extends Model
     {
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
+
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         // Query for campaigns
         $campaigns = Application::select(
             'campaign_id',
@@ -678,6 +681,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -696,6 +700,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -726,6 +731,7 @@ class Application extends Model
                 'cnq' => $campaign->cnq,
                 'cgi' => $campaign->cgi,
                 'unreach' => $campaign->unreach,
+                'pending_crm_leads' => $campaign->pending_crm_leads,
                 'inv' => $campaign->inv,
                 'sources' => $campaignSources->map(function ($src) {
                     return [
@@ -736,6 +742,7 @@ class Application extends Model
                         'cnq' => $src->cnq,
                         'cgi' => $src->cgi,
                         'unreach' => $src->unreach,
+                        'pending_crm_leads' => $src->pending_crm_leads,
                         'inv' => $src->inv,
                     ];
                 })->values()
