@@ -31,7 +31,7 @@
                         $cnq = $vehcile['cnq'] ?? 0;
                         $unreachable = $vehcile['unreach'] ?? 0;
                         $inv = $vehcile['inv'] ?? 0;
-                        $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
+                        $remaining = $vehcile['pending_crm_leads'] ?? 0;
 
                         // Calculate percentage value and sum it
                         $percentage_value = calculatePercentageValue($mql, 30);
@@ -66,7 +66,7 @@
                 $cnq = collect($vehcile_detial_graph)->sum('cnq') ?? 0;
                 $inv = collect($vehcile_detial_graph)->sum('inv') ?? 0;
                 $unreachable = collect($vehcile_detial_graph)->sum('unreach') ?? 0;
-                $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
+                $remaining = collect($vehcile_detial_graph)->sum('pending_crm_leads') ?? 0;
             @endphp
             <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
             <th><h5><span class="badge badge-primary">{{ $total_percentage_value }}</span></h5></th>

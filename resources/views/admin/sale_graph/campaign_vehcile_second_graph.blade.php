@@ -31,7 +31,7 @@
                     $cnq = $campaign['cnq'] ?? 0;
                     $unreachable = $campaign['unreach'] ?? 0;
                     $inv = $campaign['inv'] ?? 0;
-                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
+                    $remaining = $campaign['pending_crm_leads'] ?? 0;
 
                     // Calculate percentage value and sum it
                     $percentage_value = calculatePercentageValue($mql, $campaign['percentage']);
@@ -69,7 +69,7 @@
                     $cnq = $source['cnq'] ?? 0;
                     $unreachable = $source['unreach'] ?? 0;
                     $inv = $source['inv'] ?? 0;
-                    $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
+                    $remaining = $source['pending_crm_leads'] ?? 0;
                 @endphp
 
                 <td colspan="2" style="border-left: 2px solid black;">
@@ -107,7 +107,7 @@
                 $cnq = collect($campaigns_vehcile_data)->sum('cnq') ?? 0;
                 $unreachable = collect($campaigns_vehcile_data)->sum('unreach') ?? 0;
                 $inv = collect($campaigns_vehcile_data)->sum('inv') ?? 0;
-                $remaining = $mql - $cql - $cgi - $cnq - $unreachable;
+                $remaining = collect($campaigns_vehcile_data)->sum('pending_crm_leads') ?? 0;
             @endphp
             <th><h5><span class="badge badge-primary">{{ $mql }}</span></h5></th>
             {{-- <th><h5><span class="badge badge-primary">{{    $total_percentage_value }}</span></h5></th> --}}

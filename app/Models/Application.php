@@ -754,6 +754,9 @@ class Application extends Model
     {
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
+
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         // Step 1: Get campaign-level aggregates
         $campaigns = Application::select(
             'campaign_id',
@@ -762,6 +765,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -779,6 +783,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -811,6 +816,7 @@ class Application extends Model
                 'cgi' => $campaign->cgi,
                 'unreach' => $campaign->unreach,
                 'inv' => $campaign->inv,
+                'pending_crm_leads' => $campaign->pending_crm_leads,
                 'vehicles' => $campaignVehicles->map(function ($v) {
                     return [
                         'vehicle_id' => $v->vehicle_id,
@@ -820,6 +826,7 @@ class Application extends Model
                         'cnq' => $v->cnq,
                         'cgi' => $v->cgi,
                         'unreach' => $v->unreach,
+                        'pending_crm_leads' => $v->pending_crm_leads,
                         'inv' => $v->inv,
                     ];
                 })->values()
@@ -946,6 +953,8 @@ class Application extends Model
 
     public static function getCampaignCityWiseDetailData($startDate, $endDate, $all_types, $filters)
     {
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
         // 1. Campaign-level Aggregation
@@ -956,6 +965,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -973,6 +983,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -992,6 +1003,7 @@ class Application extends Model
             DB::raw('SUM(category = "Not Qualified") as cnq'),
             DB::raw('SUM(category = "General Inquiry") as cgi'),
             DB::raw('SUM(category = "Unreachable") as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(customer_id IN (SELECT customer_id FROM sales_data)) as inv')
         )
             ->whereIn('type', $all_types)
@@ -1027,6 +1039,7 @@ class Application extends Model
                     'cgi' => $city->cgi,
                     'unreach' => $city->unreach,
                     'inv' => $city->inv,
+                    'pending_crm_leads' => $city->pending_crm_leads,
                     'branches' => $branchData->map(function ($branch) {
                         return [
                             'branch_id' => $branch->branch_id,
@@ -1036,6 +1049,7 @@ class Application extends Model
                             'cnq' => $branch->cnq,
                             'cgi' => $branch->cgi,
                             'unreach' => $branch->unreach,
+                            'pending_crm_leads' => $branch->pending_crm_leads,
                             'inv' => $branch->inv,
                         ];
                     })->values(),
@@ -1052,6 +1066,7 @@ class Application extends Model
                 'cgi' => $campaign->cgi,
                 'unreach' => $campaign->unreach,
                 'inv' => $campaign->inv,
+                'pending_crm_leads' => $campaign->pending_crm_leads,
                 'cities' => $cities->values(),
             ];
         })->sortByDesc('mql')->values();
@@ -1304,6 +1319,9 @@ class Application extends Model
 
     public static function getCityBranchCampaignData($startDate, $endDate, $all_types, $filters)
     {
+
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
         $cities = Application::select(
@@ -1313,6 +1331,7 @@ class Application extends Model
             DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
             DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
         )
             ->whereIn('type', $all_types)
@@ -1322,7 +1341,7 @@ class Application extends Model
             ->groupBy('city_id')
             ->orderBy('mql', 'DESC')
             ->get()
-            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters, $dateColumn) {
+            ->map(function ($cityApp) use ($all_types, $startDate, $endDate, $filters, $dateColumn, $pendingExpr) {
                 $cityApp->branches = Application::select(
                     'branch_id',
                     DB::raw('COUNT(*) as mql'),
@@ -1330,6 +1349,7 @@ class Application extends Model
                     DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                     DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
                     DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                    DB::raw("$pendingExpr as pending_crm_leads"),
                     DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                 )
                     ->whereIn('type', $all_types)
@@ -1340,7 +1360,7 @@ class Application extends Model
                     ->groupBy('branch_id')
                     ->orderBy('mql', 'DESC')
                     ->get()
-                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp, $dateColumn) {
+                    ->map(function ($branchApp) use ($all_types, $startDate, $endDate, $filters, $cityApp, $dateColumn, $pendingExpr) {
                         $branchApp->campaigns = Application::select(
                             'campaign_id',
                             DB::raw('COUNT(*) as mql'),
@@ -1348,6 +1368,7 @@ class Application extends Model
                             DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
                             DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
                             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+                            DB::raw("$pendingExpr as pending_crm_leads"),
                             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
                         )
                             ->whereIn('type', $all_types)
@@ -1368,6 +1389,7 @@ class Application extends Model
                                     'cql' => $campApp->cql,
                                     'cnq' => $campApp->cnq,
                                     'cgi' => $campApp->cgi,
+                                    'pending_crm_leads' => $campApp->pending_crm_leads,
                                     'unreach' => $campApp->unreach,
                                     'inv' => $campApp->inv,
                                 ];
@@ -1382,6 +1404,7 @@ class Application extends Model
                             'cgi' => $branchApp->cgi,
                             'unreach' => $branchApp->unreach,
                             'inv' => $branchApp->inv,
+                            'pending_crm_leads' => $branchApp->pending_crm_leads,
                             'campaigns' => $branchApp->campaigns,
                         ];
                     });
@@ -1395,6 +1418,7 @@ class Application extends Model
                     'cgi' => $cityApp->cgi,
                     'unreach' => $cityApp->unreach,
                     'inv' => $cityApp->inv,
+                    'pending_crm_leads' => $cityApp->pending_crm_leads,
                     'branches' => $cityApp->branches,
                 ];
             });
@@ -1405,6 +1429,8 @@ class Application extends Model
 
     public static function getVehcileDetialData($startDate, $endDate, $all_types, $filters)
     {
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
         $vehicles = Application::select(
@@ -1414,6 +1440,7 @@ class Application extends Model
             DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
             DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
         )
             ->whereIn('type', $all_types)
@@ -1431,6 +1458,7 @@ class Application extends Model
                     'cql' => $vehicleApplication->cql,
                     'cnq' => $vehicleApplication->cnq,
                     'cgi' => $vehicleApplication->cgi,
+                    'pending_crm_leads' => $vehicleApplication->pending_crm_leads,
                     'unreach' => $vehicleApplication->unreach,
                     'inv' => $vehicleApplication->inv,
                 ];
@@ -1939,12 +1967,15 @@ class Application extends Model
 
     public static function getSummaryCountsByTypeAndDate($startDate, $endDate, $types, $filters = [])
     {
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         $query = self::select(
             DB::raw('COUNT(*) as mql'),
             DB::raw('SUM(CASE WHEN category = "Qualified" THEN 1 ELSE 0 END) as cql'),
             DB::raw('SUM(CASE WHEN category = "Not Qualified" THEN 1 ELSE 0 END) as cnq'),
             DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv'),
             DB::raw('SUM(CASE WHEN category = "PCL" THEN 1 ELSE 0 END) as pcl'),
 
@@ -1966,7 +1997,7 @@ class Application extends Model
             'cgi' => (int) $result->cgi,
             'unreach' => (int) $result->unreach,
             'inv' => (int) $result->inv,
-            'pcl' => (int) $remaining,
+            'pcl' => (int) $result->pending_crm_leads,
             'conversion' => $conversion,
             'sale_conversion' => $saleConversion,
         ];
@@ -2150,6 +2181,8 @@ class Application extends Model
     // }
     public static function getSummaryCountsByCampaign($campaign_id, $startDate, $endDate, $types, $filters = [])
     {
+        $pendingExpr = "SUM(CASE WHEN category IS NULL OR TRIM(category) = '' THEN 1 ELSE 0 END)";
+
         $dateInfo = getDateRangeAndColumn();
         $dateColumn = $dateInfo['date_column'];
 
@@ -2171,10 +2204,11 @@ class Application extends Model
             DB::raw('SUM(CASE WHEN category = "General Inquiry" THEN 1 ELSE 0 END) as cgi'),
             DB::raw('SUM(CASE WHEN category = "Unreachable" THEN 1 ELSE 0 END) as unreach'),
             DB::raw('SUM(CASE WHEN category = "CRM Converted" THEN 1 ELSE 0 END) as crm_conv'),
+            DB::raw("$pendingExpr as pending_crm_leads"),
             DB::raw('SUM(CASE WHEN customer_id IN (SELECT customer_id FROM sales_data) THEN 1 ELSE 0 END) as inv')
         )->first();
 
-        $remaining = $result->mql - $result->cql - $result->cgi - $result->cnq - $result->unreach;
+        $remaining = $result->pending_crm_leads;
         $conversion = calculatePercentage($result->mql, $result->cql);
         $saleConversion = calculatePercentage($result->mql, $result->inv);
 

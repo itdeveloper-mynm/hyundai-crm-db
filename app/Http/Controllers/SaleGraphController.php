@@ -896,7 +896,7 @@ class SaleGraphController extends Controller
         $data['endDate'] = $endDate;
         $filters = $request->all();
         $mode = $request->input('mode', 'graph');
-        $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote', 'leads', 'events', 'used_cars', 'smo_leads', 'crm_leads'];
+        $all_types = ['request_a_quote', 'special_offers', 'request_a_test_drive', 'request_a_test_quote', 'leads', 'events', 'used_cars', 'smo_leads', 'crm_leads', 'contact_us'];
         $types = array_diff($all_types, ['used_cars', 'smo_leads', 'crm_leads']);
 
         $data = $this->getSalesPageCrmPerformance($startDate, $endDate, $filters, $months_diff, $all_types);
