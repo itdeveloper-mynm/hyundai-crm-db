@@ -276,7 +276,7 @@ class AutoLineService
                         "value" => 120000
                     ]
                 ],
-                "fuelTypes" => ["DIESEL"],
+                // "fuelTypes" => ["DIESEL"],
                 "class" => "CAR",
                 "condition" => "NEW",
                 "specifications" => [
