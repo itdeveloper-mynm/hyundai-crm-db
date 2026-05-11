@@ -192,6 +192,9 @@ class PermissionTableSeeder extends Seeder
             'target-import',
             'target-filters',
             'target-export',
+            'autoline-report-list',
+            'autoline-verification-list',
+            'genesys-report-list',
          ];
 
          foreach ($permissions as $permission) {

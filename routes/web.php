@@ -28,6 +28,10 @@ use App\Http\Controllers\TestDriveRequestContoller;
 use App\Http\Controllers\QuoteRequestContoller;
 use App\Http\Controllers\HrLeadController;
 use App\Http\Controllers\TargetController;
+use App\Http\Controllers\AutoLineReportController;
+use App\Http\Controllers\AutoLineVerificationController;
+use App\Http\Controllers\GenesysSyncReportController;
+use App\Http\Controllers\AuditLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +43,10 @@ use App\Http\Controllers\TargetController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/testing', function () {
+    return "hello";
+});
 
 Route::get('/', function () {
     return to_route('login');
@@ -212,6 +220,14 @@ Route::group(['middleware' => ['auth'] ], function () {
         Route::get('non-qualified-crm-leads',  'nonQualifiedCrmLeads')->name('non-qualified-crm-leads.index');
         Route::get('general-inquiry-crm-leads',  'generalCrmLeads')->name('general-inquiry-crm-leads.index');
     });
+
+    Route::get('audit-log', [AuditLogController::class, 'index'])->name('audit-log.index');
+
+    Route::get('autoline-report', [AutoLineReportController::class, 'index'])->name('autoline-report.index');
+    Route::get('genesys-report', [GenesysSyncReportController::class, 'index'])->name('genesys-report.index');
+    Route::get('autoline-verification', [AutoLineVerificationController::class, 'index'])->name('autoline-verification.index');
+    Route::post('autoline-verification/{application}/verify', [AutoLineVerificationController::class, 'verify'])->name('autoline-verification.verify');
+    Route::post('autoline-verification/{application}/clear', [AutoLineVerificationController::class, 'clearLeadId'])->name('autoline-verification.clear');
 
     Route::resource('targets', TargetController::class);
     Route::controller(TargetController::class)->group(function(){

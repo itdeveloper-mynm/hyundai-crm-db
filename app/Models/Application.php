@@ -1826,6 +1826,8 @@ class Application extends Model
 
     protected static bool $skipTracking = false;
 
+    protected static array $pendingAuditLog = [];
+
     public static function skipTracking(bool $skip = true)
     {
         static::$skipTracking = $skip;
@@ -1853,6 +1855,44 @@ class Application extends Model
 
             if (Auth::check() && !Auth::user()->hasRole('Super Admin')) {
                 $application->updated_by = Auth::id();
+            }
+
+            // Capture changed fields for audit log (written after save in 'updated' event)
+            if (Auth::check()) {
+                $excluded = ['updated_by', 'updated_at', 'created_at', 'deleted_at'];
+                $dirty = [];
+                foreach ($application->getDirty() as $field => $newValue) {
+                    if (in_array($field, $excluded)) {
+                        continue;
+                    }
+                    $dirty[$field] = [
+                        'from' => $application->getOriginal($field),
+                        'to'   => $newValue,
+                    ];
+                }
+                if (!empty($dirty)) {
+                    static::$pendingAuditLog[$application->id] = [
+                        'user_id' => Auth::id(),
+                        'changes' => $dirty,
+                    ];
+                }
+            }
+        });
+
+        static::updated(function ($application) {
+            if (self::$skipTracking) {
+                return;
+            }
+
+            if (!empty(static::$pendingAuditLog[$application->id])) {
+                $entry = static::$pendingAuditLog[$application->id];
+                DB::table('application_audit_logs')->insert([
+                    'application_id' => $application->id,
+                    'user_id'        => $entry['user_id'],
+                    'changes'        => json_encode($entry['changes']),
+                    'created_at'     => now(),
+                ]);
+                unset(static::$pendingAuditLog[$application->id]);
             }
         });
 
@@ -1936,8 +1976,8 @@ class Application extends Model
 
         //$customer = Customer::findorFail($application->customer_id);
 
-        $application->city_id = $request->input('city_id');
-        $application->branch_id = $request->input('branch_id');
+        $application->city_id = $request->input('city_id') ?: $application->city_id;
+        $application->branch_id = $request->input('branch_id') ?: $application->branch_id;
         $application->vehicle_id = $request->input('vehicle_id');
         $application->source_id = $request->input('source_id');
         $application->campaign_id = $request->input('campaign_id');

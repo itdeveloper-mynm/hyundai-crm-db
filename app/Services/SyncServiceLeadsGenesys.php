@@ -36,13 +36,15 @@ class SyncServiceLeadsGenesys
 
     public function readToken()
     {
-        return Storage::exists('app/syncServiceLeadsGenesys/token.json')
-               ? Storage::get('app/syncServiceLeadsGenesys/token.json')
+        return Storage::exists('syncServiceLeadsGenesys/token.json')
+               ? Storage::get('syncServiceLeadsGenesys/token.json')
                : null;
     }
 
     public function authorize()
     {
+Log::channel('sync_service_log')->info('Genesys authorize() CALLED');
+
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -67,9 +69,10 @@ class SyncServiceLeadsGenesys
 		curl_close($curl);
 
 		$response_decoded = json_decode($response,true);
+Log::channel('sync_service_log')->info('Genesys auth response', $response_decoded ?? []);
 
         if (isset($response_decoded['access_token'])) {
-            Storage::put('app/syncServiceLeadsGenesys/token.json', $response_decoded['access_token']);
+            Storage::put('syncServiceLeadsGenesys/token.json', $response_decoded['access_token']);
             $this->setToken($response_decoded['access_token']);
         } else {
             Log::channel('sync_service_log')->info("syncServiceLeadsGenesys authorize");
@@ -80,10 +83,21 @@ class SyncServiceLeadsGenesys
 
     public function syncApplications()
     {
-        $token = $this->getToken();
-		if(empty($token)) {
-			$this->authorize();
-		}
+       // $token = $this->getToken();
+	//	if(empty($token)) {
+	//		$this->authorize();
+	//	}
+
+$token = $this->getToken();
+if (empty($token)) {
+    $this->authorize();
+    $token = $this->getToken(); // reload after authorize
+}
+if (empty($token)) {
+    Log::channel('sync_service_log')->error('Genesys token missing after authorization');
+    return;
+}
+
 
         $contactsData = $this->getUnsyncedApplicationsArr();
         // dd($contactsData);

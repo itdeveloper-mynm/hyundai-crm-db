@@ -154,9 +154,10 @@ return [
     | available to in your application. A sensible default has been set.
     |
     */
-
-    'domain' => env('SESSION_DOMAIN'),
-
+'domain' => env('SESSION_DOMAIN', null),
+    //'domain' => env('SESSION_DOMAIN'),
+//'domain' => null,
+//'secure' => false,
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
@@ -168,7 +169,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+  //  'secure' => env('SESSION_SECURE_COOKIE'),
+
+'secure' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +184,7 @@ return [
     |
     */
 
-    'http_only' => true,
+//    'http_only' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -197,8 +200,8 @@ return [
     */
 
     // 'same_site' => 'lax',
-    // 'same_site' => 'none',
-    'same_site' => env('SESSION_SAMESITE', 'none'),
+     'same_site' => 'none',
+    //'same_site' => env('SESSION_SAMESITE', 'none'),
 
 
 ];

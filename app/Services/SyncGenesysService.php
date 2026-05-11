@@ -179,8 +179,9 @@ class SyncGenesysService
         return Application::where('sync_genesys', 0)
             // ->where('created_at', '>', now()->subDay()) // for new records
             // ->where('created_at', '>=', now()->subDay(16)) // for new records
+            ->whereDate('created_at', '>=', '2026-03-30')
             ->whereNotNull('city_id')
-            ->whereNotNull('branch_id')
+          //  ->whereNotNull('branch_id')
             ->where(function ($query) {
                 $query->where('type', 'request_a_test_quote')
                       ->orWhere('type', 'request_a_test_drive')

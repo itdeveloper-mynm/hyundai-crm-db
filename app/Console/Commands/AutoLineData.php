@@ -51,7 +51,7 @@ class AutoLineData extends Command
     {
         return Application::where('category','Qualified')
             ->whereNull('lead_id')
-            ->whereDate('updated_at','>=','2025-06-01')
+            ->whereDate('updated_at','>=','2026-03-29')
             ->orderby('id','asc')
             ->limit(50)
             ->get();

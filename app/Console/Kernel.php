@@ -47,10 +47,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('translate:customer-names')->everyTwoMinutes();
         // $schedule->command('seed:application-data')->dailyAt('07:00');
         if(date('Y-m-d') >= '2024-12-05'){
-            $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
-            $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
-            $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
-            $schedule->command('app:auto-line-data')->everyTwoMinutes();
+           // $schedule->command('sync:sendsms-applications')->everyTwoMinutes();
+           $schedule->command('app:sync-genesys-service-applications')->everyTwoMinutes();
+           $schedule->command('app:sync-service-leads-genesys-cron')->everyTwoMinutes();
+           $schedule->command('app:auto-line-data')->everyTwoMinutes();
         }
     }
 

@@ -734,6 +734,86 @@
                     </div>
                 @endcanany
 
+                @canany(['autoline-report-list', 'autoline-verification-list', 'genesys-report-list'])
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click"
+                    class="menu-item menu-accordion {{ activeMenuRoute([route('audit-log.index'), route('autoline-report.index'), route('genesys-report.index'), route('autoline-verification.index')]) }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link {{ activeMenuRoute([route('audit-log.index'), route('autoline-report.index'), route('genesys-report.index'), route('autoline-verification.index')]) }}">
+                        <span class="menu-icon">
+                            <span class="svg-icon svg-icon-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z" fill="currentColor"/>
+                                    <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8ZM7 12H12C12.6 12 13 11.6 13 11C13 10.4 12.6 10 12 10H7C6.4 10 6 10.4 6 11C6 11.6 6.4 12 7 12ZM7 16H17C17.6 16 18 15.6 18 15C18 14.4 17.6 14 17 14H7C6.4 14 6 14.4 6 15C6 15.6 6.4 16 7 16ZM7 20H17C17.6 20 18 19.6 18 19C18 18.4 17.6 18 17 18H7C6.4 18 6 18.4 6 19C6 19.6 6.4 20 7 20Z" fill="currentColor"/>
+                                </svg>
+                            </span>
+                        </span>
+                        <span class="menu-title">Admin Reports</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    @role('SuperAdmin')
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ newactiveRoute([route('audit-log.index')]) }}"
+                                    href="{{ route('audit-log.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Lead Audit Log</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--end:Menu sub-->
+                    @endrole
+
+                    @can('autoline-report-list')
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ newactiveRoute([route('autoline-report.index')]) }}"
+                                    href="{{ route('autoline-report.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">AutoLine Report</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--end:Menu sub-->
+                    @endcan
+
+                    @can('genesys-report-list')
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ newactiveRoute([route('genesys-report.index')]) }}"
+                                    href="{{ route('genesys-report.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Genesys Report</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--end:Menu sub-->
+                    @endcan
+
+                    @can('autoline-verification-list')
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ newactiveRoute([route('autoline-verification.index')]) }}"
+                                    href="{{ route('autoline-verification.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">AutoLine Verification</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--end:Menu sub-->
+                    @endcan
+
+                </div>
+                <!--end:Menu item-->
+                @endcanany
+
+
                 @can('contact-list')
                     <!--begin:Menu item-->
                     <div class="menu-item">

@@ -169,7 +169,9 @@ class AutoLineService
             ],
             "leadReferenceData" => [
                 // "externalCampaignId" => "0320", // is ki jaga sheet sy data aya ga
-                "externalCampaignId" => $row->branch->cc_code ?? 'h100', // is ki jaga sheet sy data aya ga
+                "externalCampaignId" => ($row->sub_category === 'Lead - Test Drive' && $row->city_id == 15)
+                    ? 'h105'
+                    : ($row->branch->cc_code ?? 'h100'),
                 "externalDealerId" => "44014796-B"
             ],
             "source" => "WEBSITE",
@@ -222,13 +224,13 @@ class AutoLineService
                             "mobile" => $row->customer->mobile ?? "",
                             "landline" => "",
                             "fax" => "",
-                            "email" => $row->customer->email ?? "",
+                            "email" => filter_var($row->customer->email ?? "", FILTER_VALIDATE_EMAIL) ? $row->customer->email : "",
                         ],
                         "work" => [
                             "mobile" => $row->customer->mobile ?? "",
                             "landline" => "",
                             "fax" => "",
-                            "email" => $row->customer->email ?? "",
+                            "email" => filter_var($row->customer->email ?? "", FILTER_VALIDATE_EMAIL) ? $row->customer->email : "",
                         ]
                     ],
                     "externalReferences" => [
@@ -386,12 +388,46 @@ class AutoLineService
                     "description" => "Activity indicating vehicle sale."
                 ],
                 "activityDateTime" => currdateTime(),
-                "activityNote" => "Test consider vehicle note"
+                "activityNote" => "Qualified by CRM from Dashboard."
             ]
         ];
 
         // return response()->json($leadData);
         return $leadData;
+    }
+
+
+    /**
+     * Verify whether a lead actually exists in AutoLine by its leadId.
+     * Returns true if found, false if not found or on error.
+     */
+    public function verifyLead($leadId, $retry = true)
+    {
+        $token = $this->getValidToken();
+        $url   = $this->saleLeadUrl . '/' . $leadId;
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => [
+                'Authorization: Bearer ' . $token,
+                'Content-Type: application/json',
+            ],
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        Log::channel('auto_line')->info("verifyLead [{$leadId}] HTTP {$httpCode}");
+
+        if ($httpCode === 401 && $retry) {
+            $this->getNewToken();
+            return $this->verifyLead($leadId, false);
+        }
+
+        return $httpCode === 200;
     }
 
 }

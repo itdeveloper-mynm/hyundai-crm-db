@@ -2760,6 +2760,73 @@
         </tr>
         <!--end::Table row-->
 
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">AutoLine Report</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="autoline-report-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('autoline-report-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">AutoLine Verification</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="autoline-verification-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('autoline-verification-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+        <!--begin::Table row-->
+        <tr>
+            <!--begin::Label-->
+            <td class="text-gray-800">Genesys Report</td>
+            <!--end::Label-->
+            <!--begin::Options-->
+            <td>
+                <!--begin::Wrapper-->
+                <div class="d-flex justify-content-between">
+                    <!--begin::Checkbox-->
+                    <label class="form-check form-check-sm form-check-custom form-check-solid me-2">
+                        <input class="form-check-input" type="checkbox" value="genesys-report-list" name="permission[]"
+                            {{ !empty($rolePermissionsArr) && in_array('genesys-report-list', $rolePermissionsArr) ? 'checked' : '' }}>
+                        <span class="form-check-label">Listing</span>
+                    </label>
+                    <!--end::Checkbox-->
+                </div>
+                <!--end::Wrapper-->
+            </td>
+            <!--end::Options-->
+        </tr>
+        <!--end::Table row-->
+
     </tbody>
     <!--end::Table body-->
 </table>

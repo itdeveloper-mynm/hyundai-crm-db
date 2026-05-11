@@ -386,6 +386,7 @@
             const categories = {
                 'Qualified': ['New Leads', 'Follow Up', 'Lead - Test Drive'],
                 'General Inquiry': [
+                    'Competition',
                     'Timing & Locations',
                     'Inquiry - Another Company',
                     'Product Specification',
