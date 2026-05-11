@@ -292,13 +292,15 @@ class ExternalLeadController extends Controller
         // FIX #3: Case-insensitive branch lookup — no auto-create, no hard reject, log mismatches
         $branchInput = $request->input('branch');
         if ($branchInput) {
-            $branchQuery = Branch::whereRaw('LOWER(name) = ?', [strtolower(trim($branchInput))]);
+            // Strip trailing parenthetical suffixes e.g. "(Sales)", "(After Sales)" before matching
+            $branchNormalised = trim(preg_replace('/\s*\([^)]*\)\s*$/', '', $branchInput));
+            $branchQuery = Branch::whereRaw('LOWER(name) = ?', [strtolower($branchNormalised)]);
             if ($city) {
                 $branchQuery->where('city_id', $city->id);
             }
             $branch = $branchQuery->first();
             if (!$branch) {
-                \Log::warning('saveformjson: unmatched branch "' . $branchInput . '" (city: ' . ($cityInput ?? 'none') . ')');
+                \Log::warning('saveformjson: unmatched branch "' . $branchInput . '" normalised to "' . $branchNormalised . '" (city: ' . ($cityInput ?? 'none') . ')');
             }
         }
 
