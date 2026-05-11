@@ -407,6 +407,13 @@ function checkApplicationType($type) {
             return 'sales_marketing';
         case 'after sales':
             return 'after_sales';
+        case 'periodic maintenance':
+        case 'صيانة دورية':
+        case 'recall':
+        case 'استدعاء':
+        case 'technical faults / breakdown':
+        case 'الأعطال الفنية':
+            return 'online_service_booking';
         case 'smo leads':
             return 'smo_leads';
         case 'career':
