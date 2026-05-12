@@ -73,6 +73,10 @@
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => $after_sale ])
                                         </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            <label class="form-label">{{ __('Service Type') }}</label>
+                                            <input type="text" class="form-control mb-2" value="{{ $after_sale->booking_category ?? '-' }}" disabled />
+                                        </div>
                                     </div>
 
                                 </div>
