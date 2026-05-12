@@ -72,6 +72,15 @@
                                         <div class="mb-5 fv-row col-lg-6">
                                             @include('admin.common_files.campaign' ,[ 'required' =>true, 'data' => null ])
                                         </div>
+                                        <div class="mb-5 fv-row col-lg-6">
+                                            <label class="form-label">{{ __('Service Type') }}</label>
+                                            <select name="booking_category" id="booking_category" class="form-select mb-2">
+                                                <option value="">-- Select Service Type --</option>
+                                                <option value="Periodic Maintenance">Periodic Maintenance</option>
+                                                <option value="Recall">Recall</option>
+                                                <option value="Technical Faults / Breakdown">Technical Faults / Breakdown</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                 </div>

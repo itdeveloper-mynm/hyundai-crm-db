@@ -1938,6 +1938,7 @@ class Application extends Model
         $application->yearr = $request->input('yearr');
         $application->kyc = $request->input('kyc');
         $application->comments = $request->input('comments');
+        $application->booking_category = $request->input('booking_category');
         $application->customer_id = $customer->id;
         $application->crm_lead_status = $request->crm_lead_status ?? 0;
         $application->type = $type;
