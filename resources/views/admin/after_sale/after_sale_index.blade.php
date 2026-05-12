@@ -210,6 +210,7 @@
                                 <th class="min-w-100px">{{ __('Campaign') }}</th>
                                 <th class="min-w-100px">{{ __('Category') }}</th>
                                 <th class="min-w-100px">{{ __('Sub Category') }}</th>
+                                <th class="min-w-100px">{{ __('Service Type') }}</th>
                                 <th class="min-w-100px">{{ __('Created At') }}</th>
                                 <th class="min-w-100px">{{ __('Created By') }}</th>
                                 <th class="min-w-100px">{{ __('Updated At') }}</th>
@@ -414,6 +415,14 @@
                     render: function(data, type, row) {
 
                         var result = '<a class=" text-dark fw-bold "  >' + data + '</a>';
+                        return result;
+                    }
+                },
+                {
+                    data: 'booking_category',
+                    render: function(data, type, row) {
+
+                        var result = '<a class=" text-dark fw-bold "  >' + (data || '-') + '</a>';
                         return result;
                     }
                 },

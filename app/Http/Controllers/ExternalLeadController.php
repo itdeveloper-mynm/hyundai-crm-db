@@ -247,179 +247,9 @@ class ExternalLeadController extends Controller
 
     public function saveformjson(Request $request) {
 
-        // FIX #5: Normalise mobile before validation so all formats (+966, 966, 05) are accepted
-        $normalizedMobile = formatInputNumber($request->input('mobile') ?? '');
-
-        $validator = Validator::make(
-            array_merge($request->all(), ['mobile' => $normalizedMobile]),
-            [
-                'firstName' => 'required|string|max:255',
-                'mobile'    => 'required|string|regex:/^\+966\d{9}$/',
-                'page'      => 'nullable|string|max:255',
-                'email'     => 'nullable|email',
-                // FIX #2 & #3: city and branch removed from validator — handled in logic with
-                // case-insensitive lookup and no hard reject on mismatch
-            ],
-            [
-                'mobile.regex' => 'The mobile number must be a valid Saudi mobile number.',
-            ]
-        );
-
-        if ($validator->fails()) {
-            // FIX #6: Return 422 for validation errors instead of 200
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
-        }
-
-        \Log::info('saveformjson api hit');
-        \Log::info($request->all());
-
-        $bank     = null;
-        $city     = null;
-        $branch   = null;
-        $vehicle  = null;
-        $sourcee  = null;
-        $campaign = null;
-
-        // FIX #2: Case-insensitive city lookup — no auto-create, no hard reject
-        $cityInput = $request->input('dealerCity');
-        if ($cityInput) {
-            $city = City::whereRaw('LOWER(name) = ?', [strtolower(trim($cityInput))])->first();
-            if (!$city) {
-                \Log::warning('saveformjson: unmatched city "' . $cityInput . '"');
-            }
-        }
-
-        // FIX #3: Case-insensitive branch lookup — no auto-create, no hard reject, log mismatches
-        $branchInput = $request->input('branch');
-        if ($branchInput) {
-            // Strip trailing parenthetical suffixes e.g. "(Sales)", "(After Sales)" before matching
-            $branchNormalised = trim(preg_replace('/\s*\([^)]*\)\s*$/', '', $branchInput));
-            $branchQuery = Branch::whereRaw('LOWER(name) = ?', [strtolower($branchNormalised)]);
-            if ($city) {
-                $branchQuery->where('city_id', $city->id);
-            }
-            $branch = $branchQuery->first();
-            if (!$branch) {
-                \Log::warning('saveformjson: unmatched branch "' . $branchInput . '" normalised to "' . $branchNormalised . '" (city: ' . ($cityInput ?? 'none') . ')');
-            }
-        }
-
-        // Lookup or create remaining optional references (vehicle, source, campaign auto-create is acceptable)
-        $bankInput = $request->input('customerBank');
-        if ($bankInput) {
-            $bank = Bank::firstOrCreate(['name' => $bankInput]);
-        }
-
-        $vehicleInput = $request->input('vehicle');
-        if ($vehicleInput) {
-            $vehicle = Vehicle::firstOrCreate(['name' => $vehicleInput]);
-        }
-
-        $sourceInput = $request->input('sourcee');
-        if ($sourceInput) {
-            $sourcee = Source::firstOrCreate(['name' => $sourceInput]);
-        }
-
-        $campaignInput = $request->input('pagesub');
-        if ($campaignInput) {
-            $campaign = Campaign::firstOrCreate(['name' => $campaignInput]);
-        }
-
-        // FIX #5: Use already-normalised mobile from above
-        $mobile = $normalizedMobile;
-
-        $customer = Customer::updateOrCreate(
-            ['mobile' => $mobile],
-            [
-                'first_name' => $request->input('firstName'),
-                'last_name'  => $request->input('lastName'),
-                'email'      => $request->input('email') ?? null,
-                'city_id'    => $city->id ?? null,
-                'bank_id'    => $bank->id ?? null,
-                'national_id'=> $request->input('nationalId') ?? null,
-            ]
-        );
-
-        // FIX #1: Use serviceType as fallback when page is absent or unrecognised
-        $type = checkApplicationType($request->input('page'))
-             ?: checkApplicationType($request->input('serviceType'))
-             ?: 'leads';
-
-        $currentDate  = Carbon::now();
-        $currentYear  = $currentDate->year;
-        $currentMonth = $currentDate->month;
-
-        // FIX #4: Duplicate check is now type-aware — same customer can submit different lead types in same month
-        $existingApplication = Application::where('customer_id', $customer->id)
-            ->where('type', $type)
-            ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->first();
-
-        if ($existingApplication) {
-            $existingApplication->increment('submit_count');
-            return response()->json([
-                'success' => true,
-                'message' => 'Already Added Successfully',
-                'data'    => ['reference_id' => $existingApplication->id],
-            ], 200);
-        }
-
-        $lead = new Application();
-        $lead->type           = $type;
-        $lead->city_id        = $city->id ?? null;
-        $lead->branch_id      = $branch->id ?? null;
-        $lead->vehicle_id     = $vehicle->id ?? null;
-        $lead->source_id      = $sourcee->id ?? null;
-        $lead->campaign_id    = $campaign->id ?? null;
-        $lead->customer_id    = $customer->id;
-
-        $lead->purchase_plan              = $request->input('purchasePlan');
-        $lead->monthly_salary             = $request->input('monthlySalary');
-        $lead->preferred_appointment_time = $request->input('preferredTime');
-        $lead->apply_for                  = $request->input('applyFor');
-        $lead->booking_reason             = $request->input('bookingreason');
-        // FIX #1 & #8: serviceType stored in booking_category; falls back to bookingcategory for other form types
-        $lead->booking_category           = $request->input('serviceType') ?? $request->input('bookingcategory');
-        $lead->department                 = $request->input('department');
-        $lead->title                      = $request->input('salutation');
-        $lead->second_surname             = $request->input('middleName');
-        $lead->zip_code                   = $request->input('zipCode');
-        $lead->vin                        = $request->input('vin');
-        $lead->yearr                      = $request->input('manufacturingYear');
-        $lead->plateno                    = $request->input('plateNumbers');
-        $lead->plate_alphabets            = $request->input('plateAlphabets');
-        $lead->klmm                       = $request->input('mileage');
-        $lead->intention                  = $request->input('purchasePlan');
-        $lead->request_date               = $request->input('date');
-        // FIX #8: preferred_time removed — preferred_appointment_time is the canonical column
-        $lead->comments                   = $request->input('comments');
-        $lead->sharingcv                  = $request->input('sharingCv');
-        $lead->privacy_check              = $request->input('privacyCheck');
-        $lead->marketingagreement         = $request->input('marketingAgreement');
-        $lead->language                   = $request->input('language');
-        $lead->company                    = $request->input('companyName');
-        $lead->customers_type             = $request->input('customers_type');
-        $lead->number_of_vehicles         = $request->input('number_of_vehicles');
-        $lead->fleet_range                = $request->input('fleet_range');
-        $lead->read_accept                = (bool) $request->input('read_accept', 0);
-        $lead->letter_accept              = (bool) $request->input('letter_accept', 0);
-
-        $lead->save();
-
-        \Log::info('saveformjson api hit end — lead #' . $lead->id . ' type=' . $type);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Added Successfully',
-            'data'    => ['reference_id' => $lead->id],
-        ], 200);
-    }
-
-    public function saveformjsonLegacy(Request $request) {
-
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
+            // 'mobile' => 'required|string|max:15',
             'mobile' => 'required|string|regex:/^05\d{8}$/',
             'page' => 'nullable|string|max:255',
             'email' => 'nullable|email',
@@ -432,12 +262,17 @@ class ExternalLeadController extends Controller
                         $branchExists = \App\Models\Branch::where('name', $value)
                                             ->where('city_id', $city->id ?? null)
                                             ->exists();
+
                         if (!$branchExists) {
                             $fail(__('The selected branch does not belong to the selected dealer city.'));
                         }
                     }
                 },
             ],
+            // 'vehicle' => 'sometimes|exists:vehicles,name',
+            // 'sourcee' => 'sometimes|exists:sources,name',
+            // 'pagesub' => 'sometimes|exists:campaigns,name',
+            // 'customerBank' => 'sometimes|exists:banks,name',
         ],
         [
             'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 05.',
@@ -447,52 +282,83 @@ class ExternalLeadController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        \Log::info('saveformjsonLegacy api hit');
+
+        // $validatedData = $request->validate([
+        //     'firstName' => 'required|string|max:255',
+        //     'mobile' => 'required|string|max:15',
+        //     'page' => 'nullable|string|max:255',
+        //     'email' => 'nullable|email'
+        // ]);
+
+        \Log::info('saveformjson api hit');
         \Log::info($request->all());
 
-        $bank = null; $city = null; $branch = null;
-        $vehicle = null; $sourcee = null; $campaign = null;
 
+        $bank = null;
+        $city = null;
+        $branch = null;
+        $vehicle = null;
+        $sourcee = null;
+        $campaign = null;
+
+        // Collect data that can be null safely
         $optionalData = [
-            'bank'          => $request->input('customerBank') ?? null,
-            'dealer_city'   => $request->input('dealerCity') ?? null,
+            'bank' => $request->input('customerBank') ?? null,
+            'dealer_city' => $request->input('dealerCity') ?? null,
             'dealer_branch' => $request->input('branch') ?? null,
-            'vehicle'       => $request->input('vehicle') ?? null,
-            'channel'       => $request->input('sourcee') ?? null,
-            'campaign'      => $request->input('pagesub') ?? null,
+            'vehicle' => $request->input('vehicle') ?? null,
+            'channel' => $request->input('sourcee') ?? null,
+            'campaign' => $request->input('pagesub') ?? null,
         ];
 
+        // Fetch or create related models in one go
         foreach ($optionalData as $key => $value) {
             if ($value) {
                 switch ($key) {
-                    case 'bank':     $bank     = Bank::firstOrCreate(['name' => $value]); break;
-                    case 'dealer_city':   $city = City::firstOrCreate(['name' => $value]); break;
-                    case 'dealer_branch': if ($city) { $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]); } break;
-                    case 'vehicle':  $vehicle  = Vehicle::firstOrCreate(['name' => $value]); break;
-                    case 'channel':  $sourcee  = Source::firstOrCreate(['name' => $value]); break;
-                    case 'campaign': $campaign = Campaign::firstOrCreate(['name' => $value]); break;
+                    case 'bank':
+                        $bank = Bank::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_city':
+                        $city = City::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'dealer_branch':
+                        if ($city) {
+                            $branch = Branch::firstOrCreate(['name' => $value, 'city_id' => $city->id]);
+                        }
+                        break;
+                    case 'vehicle':
+                        $vehicle = Vehicle::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'channel':
+                        $sourcee = Source::firstOrCreate(['name' => $value]);
+                        break;
+                    case 'campaign':
+                        $campaign = Campaign::firstOrCreate(['name' => $value]);
+                        break;
                 }
             }
         }
 
-        $mobile = formatInputNumber($request->input('mobile'));
+        $mobile = $request->input('mobile');
+        $mobile =formatInputNumber($mobile);
 
         $customer = Customer::updateOrCreate(
             ['mobile' => $mobile],
             [
-                'first_name'  => $request->input('firstName'),
-                'last_name'   => $request->input('lastName'),
-                'email'       => $request->input('email') ?? null,
-                'city_id'     => $city->id ?? null,
-                'bank_id'     => $bank->id ?? null,
+                'first_name' => $request->input('firstName'),
+                'last_name' => $request->input('lastName'),
+                'email' => $request->input('email') ?? null,
+                'city_id' => $city->id ?? null,
+                'bank_id' => $bank->id ?? null,
                 'national_id' => $request->input('nationalId') ?? null,
             ]
         );
 
-        $type = checkApplicationType($request->input('page')) ?? 'leads';
+        $type= checkApplicationType($request->input('page')) ?? 'leads';
 
-        $currentDate  = Carbon::now();
-        $currentYear  = $currentDate->year;
+        // Get the current date and extract the year and month
+        $currentDate = Carbon::now();
+        $currentYear = $currentDate->year;
         $currentMonth = $currentDate->month;
 
         $existingApplication = Application::where('customer_id', $customer->id)
@@ -503,54 +369,123 @@ class ExternalLeadController extends Controller
         if ($existingApplication) {
             $existingApplication->increment('submit_count');
             return response()->json([
-                'success' => true, 'message' => 'Already Added Successfully',
-                'data' => ['reference_id' => $existingApplication->id],
+                'success' => true,'message' => 'Already Added Successfully',
+                'data'=> [ 'reference_id' => $existingApplication->id ],
             ], 200);
+            // return $existingApplication;
         }
+
+
+        $apply_for = $request->input('applyFor');
+        $booking_reason = $request->input('bookingreason');
+        $booking_category = $request->input('bookingcategory');
+        $department = $request->input('department');
+        $title = $request->input('salutation');
+        $second_surname = $request->input('middleName');
+        // $nationalid = $request->input('nationalId');
+        $zip_code = $request->input('zipCode');
+        $vin = $request->input('vin');
+        $yearr = $request->input('manufacturingYear');
+        $plateno = $request->input('plateNumbers');
+        $plate_alphabets = $request->input('plateAlphabets');
+        $klmm = $request->input('mileage');
+        $intention = $request->input('purchasePlan');
+        $monthly_salary = $request->input('monthlySalary');
+        $request_date = $request->input('date');
+        $preferred_time = $request->input('preferredTime');
+        $comments = $request->input('comments');
+        $sharingcv = $request->input('sharingCv');
+        $privacy_check = $request->input('privacyCheck');
+        $marketingagreement = $request->input('marketingAgreement');
+        $language = $request->input('language');
+        $company = $request->input('companyName');
+        $customers_type = $request->input('customers_type');
+        $number_of_vehicles = $request->input('number_of_vehicles');
+        $fleet_range = $request->input('fleet_range');
 
         $lead = new Application();
         $lead->type = $type;
-        $lead->city_id = $city->id ?? null; $lead->branch_id = $branch->id ?? null;
-        $lead->vehicle_id = $vehicle->id ?? null; $lead->source_id = $sourcee->id ?? null;
+        $lead->city_id = $city->id ?? null;
+        $lead->branch_id = $branch->id ?? null;
+        $lead->vehicle_id = $vehicle->id ?? null;
+        $lead->source_id = $sourcee->id ?? null;
         $lead->campaign_id = $campaign->id ?? null;
-        $lead->purchase_plan = $request->input('purchasePlan');
-        $lead->monthly_salary = $request->input('monthlySalary');
-        $lead->customer_id = $customer->id;
-        $lead->apply_for = $request->input('applyFor');
-        $lead->booking_reason = $request->input('bookingreason');
-        $lead->booking_category = $request->input('bookingcategory');
-        $lead->department = $request->input('department');
-        $lead->title = $request->input('salutation');
-        $lead->second_surname = $request->input('middleName');
-        $lead->zip_code = $request->input('zipCode');
-        $lead->vin = $request->input('vin');
-        $lead->yearr = $request->input('manufacturingYear');
-        $lead->plateno = $request->input('plateNumbers');
-        $lead->plate_alphabets = $request->input('plateAlphabets');
-        $lead->klmm = $request->input('mileage');
-        $lead->intention = $request->input('purchasePlan');
-        $lead->request_date = $request->input('date');
-        $lead->preferred_appointment_time = $request->input('preferredTime');
-        $lead->preferred_time = $request->input('preferredTime');
-        $lead->comments = $request->input('comments');
-        $lead->sharingcv = $request->input('sharingCv');
-        $lead->privacy_check = $request->input('privacyCheck');
-        $lead->marketingagreement = $request->input('marketingAgreement');
-        $lead->language = $request->input('language');
-        $lead->company = $request->input('companyName');
-        $lead->customers_type = $request->input('customers_type');
-        $lead->number_of_vehicles = $request->input('number_of_vehicles');
-        $lead->fleet_range = $request->input('fleet_range');
+        $lead->purchase_plan = $intention ?? null;
+        $lead->monthly_salary = $monthly_salary ?? null;
+        $lead->customer_id= $customer->id;
+        $lead->apply_for = $apply_for ?? null;
+        $lead->booking_reason = $booking_reason ?? null;
+        $lead->booking_category = $booking_category ?? null;
+        $lead->department = $department ?? null;
+        $lead->title = $title ?? null;
+        $lead->second_surname = $second_surname ?? null;
+        $lead->zip_code = $zip_code ?? null;
+        $lead->vin = $vin ?? null;
+        $lead->yearr = $yearr ?? null;
+        $lead->plateno = $plateno ?? null;
+        $lead->plate_alphabets = $plate_alphabets ?? null;
+        $lead->klmm = $klmm ?? null;
+        $lead->intention = $intention ?? null;
+        $lead->request_date = $request_date ?? null;
+        $lead->preferred_appointment_time = $preferred_time ?? null;
+        $lead->preferred_time = $preferred_time ?? null;
+        $lead->comments = $comments ?? null;
+        $lead->sharingcv = $sharingcv ?? null;
+        $lead->privacy_check = $privacy_check ?? null;
+        $lead->marketingagreement = $marketingagreement ?? null;
+        $lead->language = $language ?? null;
+        $lead->company = $company ?? null;
+        $lead->customers_type = $customers_type ?? null;
+        $lead->number_of_vehicles = $number_of_vehicles ?? null;
+        $lead->fleet_range = $fleet_range ?? null;
         $lead->read_accept = (bool) $request->read_accept ?? 0;
         $lead->letter_accept = (bool) $request->letter_accept ?? 0;
+
         $lead->save();
 
-        \Log::info('saveformjsonLegacy api hit end');
+        // if ($lead) {
+
+        //     $code = $lead->id."-".$lead->branch->name ?? "";
+        //     $msg=$code;
+        //     // $msgar=$code;
+        //     // // Prepare email body
+        //     //     $body = "
+        //     //     <table width='100%' cellpadding='0' cellspacing='0'>
+        //     //     <tr>
+        //     //         <td valign='top' width='50%'>
+        //     //             Dear  {$request->input('firstName')}<br><br>
+        //     //             Thanks for your submission. Our customer care team will confirm it to you soon. Meanwhile, you can call us any time for further information on 920028008 and by email customer.care@Hyundai.mynaghi.com
+        //     //         </td>
+        //     //         <td valign='top' width='50%'>
+        //     //             <div style='direction:rtl'>
+        //     //             العميل عزيزي  {$request->input('firstName')}<br><br>
+        //     //             شكراً للحجز. سيتم تأكيد الحجز وإبلاغكم عن طريق مركز خدمة العملاء <br>
+        //     //             920028008 <br>
+        //     //             customer.care@Hyundai.mynaghi.com<br>
+        //     //             </div>
+        //     //         </td>
+        //     //     </tr>
+        //     //     </table>";
+
+        // }else {
+        //     $msg = "failed";
+        // }
+
+        \Log::info('saveformjson api hit end');
 
         return response()->json([
-            'success' => true, 'message' => 'Added Successfully',
-            'data' => ['reference_id' => $lead->id],
+            'success' => true,'message' => 'Added Successfully',
+            'data'=> [ 'reference_id' => $lead->id ],
         ], 200);
+
+        // return response()->json(['message' => $msg]);
+
+
+        // return response()->json([
+        //     'success' => true,'message' => 'Added Successfully',
+        //     'data'=> [],
+        // ], 200);
+
     }
 
     public function crmLeadsListing(Request $request){

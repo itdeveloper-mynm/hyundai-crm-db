@@ -144,6 +144,7 @@ class AfterSaleController extends Controller
                 "campaign_id" => $row->campaign->name ?? "",
                 "category" => $row['category'] ?? "-",
                 "sub_category" => $row['sub_category'] ?? "-",
+                "booking_category" => $row['booking_category'] ?? "-",
                 "created_at" => dateTimeformat($row['created_at']),
                 "created_by" => $row->createdby->name ?? 'System',
                 "updated_at" => $row->updated_by ? dateTimeformat($row['updated_at']) : '-',
