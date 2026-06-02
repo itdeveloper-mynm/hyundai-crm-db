@@ -725,6 +725,7 @@ class ExternalLeadController extends Controller
             DB::raw('COALESCE(sources.name, "") as Source'),
             DB::raw('COALESCE(applications.category, "") as Category'),
             DB::raw('COALESCE(applications.sub_category, "") as SubCategory'),
+            DB::raw('COALESCE(applications.booking_category, "") as ServiceType'),
             DB::raw('COALESCE(applications.qualified_date, "") as QualifiedDate')
         )
         ->join('customers', 'applications.customer_id', '=', 'customers.id')
