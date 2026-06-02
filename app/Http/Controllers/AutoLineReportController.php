@@ -18,7 +18,7 @@ class AutoLineReportController extends Controller
 
     public function index(Request $request)
     {
-        $from = $request->input('from', self::SYNC_START_DATE);
+        $from = $request->input('from', now()->startOfMonth()->toDateString());
         $to   = $request->input('to', now()->toDateString());
 
         $base = Application::where('category', 'Qualified')

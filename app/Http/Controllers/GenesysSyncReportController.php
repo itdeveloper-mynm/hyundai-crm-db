@@ -25,7 +25,7 @@ class GenesysSyncReportController extends Controller
 
     public function index(Request $request)
     {
-        $from = $request->input('from', self::SYNC_START_DATE);
+        $from = $request->input('from', now()->startOfMonth()->toDateString());
         $to   = $request->input('to', now()->toDateString());
 
         $base = Application::whereIn('type', self::SYNCED_TYPES)
