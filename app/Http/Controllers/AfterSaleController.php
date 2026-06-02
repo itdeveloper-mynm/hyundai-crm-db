@@ -194,7 +194,7 @@ class AfterSaleController extends Controller
             // Add UTF-8 BOM for Excel compatibility
             fwrite($fileHandle, "\xEF\xBB\xBF");
             fputcsv($fileHandle, ['Name', 'Mobile', 'City','Branch','Vehicle','Source','Campaign','Bank Name',
-                                'Created At','Type']);
+                                'Service Type','Created At','Type']);
             $chunkSize = 50000;
 
             Application::search($conditions)
@@ -209,6 +209,7 @@ class AfterSaleController extends Controller
                 'applications.vehicle_id',
                 'applications.source_id',
                 'applications.campaign_id',
+                'applications.booking_category',
                 'applications.created_at'
             )
             // ->whereNotNull('cust.bank_id')
@@ -225,6 +226,7 @@ class AfterSaleController extends Controller
                         $dataName['sources'][$record->source_id] ?? "",
                         $dataName['campaigns'][$record->campaign_id] ?? "",
                         $record->bank_name ?? "",
+                        $record->booking_category ?? "",
                         formateDate($record->created_at),
                         'After Sales',
                     ];
