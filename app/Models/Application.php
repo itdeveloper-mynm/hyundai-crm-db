@@ -74,18 +74,20 @@ class Application extends Model
     public function scopeSearch($query, $conditions)
     {
         // dd($conditions, isset($conditions['from']) ,isset($conditions['to']));
+        // Use a JOIN instead of whereHas for the customer text search so MySQL can
+        // pick a better execution plan (avoids a correlated EXISTS subquery on 1M+ rows).
+        if (!empty($conditions['search']['value'] ?? null)) {
+            $search = $conditions['search']['value'];
+            $query->join('customers as cust_search', 'cust_search.id', '=', 'applications.customer_id')
+                  ->where(function ($q) use ($search) {
+                      $q->whereRaw("CONCAT(cust_search.first_name, ' ', cust_search.last_name) LIKE ?", ['%' . $search . '%'])
+                        ->orWhere('cust_search.mobile', 'like', '%' . ltrim($search, '0') . '%')
+                        ->orWhere('cust_search.email', 'like', '%' . $search . '%');
+                  });
+        }
+
         return $query->where(function ($query) use ($conditions) {
             // Add your where conditions here based on $conditions array
-            if (isset($conditions['search']['value'])) {
-                $search = $conditions['search']['value'];
-                $query->where(function ($query) use ($search) {
-                    $query->whereHas('customer', function ($query) use ($search) {
-                        $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
-                            ->orWhere('mobile', 'like', '%' . ltrim($search, '0') . '%')
-                            ->orWhere('email', 'like', '%' . $search . '%');
-                    });
-                });
-            }
 
             if (isset($conditions['city_id'])) {
                 $query->where(function ($query) use ($conditions) {
@@ -204,32 +206,18 @@ class Application extends Model
             }
 
 
-            if (isset($conditions['from']) &&  isset($conditions['to'])) {
-                $query->where(function ($query) use ($conditions) {
-                    $startDate = $conditions['from'] . ' 00:00:00';
-                    $endDate = $conditions['to'] . ' 23:59:59';
-                    $query->whereBetween('applications.created_at', [$startDate, $endDate]);
-                });
+            if (!empty($conditions['from'])) {
+                $query->where('applications.created_at', '>=', $conditions['from'] . ' 00:00:00');
+            }
+            if (!empty($conditions['to'])) {
+                $query->where('applications.created_at', '<=', $conditions['to'] . ' 23:59:59');
             }
 
-            // if (isset($conditions['upd_from']) && isset($conditions['upd_to'])) {
-            //     // dd(1);
-            //     $startDate = $conditions['upd_from'] . ' 00:00:00';
-            //     $endDate = $conditions['upd_to'] . ' 23:59:59';
-            //     $query->where(function ($query) use ($startDate, $endDate) {
-            //         $query->whereNotNull('applications.updated_by')
-            //               ->whereBetween('applications.updated_at', [$startDate, $endDate]);
-            //     });
-            // }
-
-            if (isset($conditions['upd_from']) &&  isset($conditions['upd_to'])) {
-
-                $startDate = $conditions['upd_from'] . ' 00:00:00';
-                $endDate = $conditions['upd_to'] . ' 23:59:59';
-
-                $query->where(function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('applications.updated_at', [$startDate, $endDate]);
-                });
+            if (!empty($conditions['upd_from'])) {
+                $query->where('applications.updated_at', '>=', $conditions['upd_from'] . ' 00:00:00');
+            }
+            if (!empty($conditions['upd_to'])) {
+                $query->where('applications.updated_at', '<=', $conditions['upd_to'] . ' 23:59:59');
             }
 
 
