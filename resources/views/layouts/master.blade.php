@@ -21,14 +21,22 @@ License: For each use you must have a valid license purchased only from above li
     data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
     data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on"
     class="app-default">
-        {{-- <!--begin::Page loading(append to body)-->
-    <!--begin::Page loading(append to body)-->
-    <div class="page-loader flex-column bg-dark bg-opacity-25">
-        <span class="spinner-border text-primary" role="status"></span>
-        <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+    <!--begin::DataTable loading overlay (div only — JS listener is below, after jQuery loads)-->
+    <div id="dt_loading_overlay" style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+    ">
+        <div class="spinner-border text-light" style="width:3rem;height:3rem;" role="status"></div>
+        <span style="color:#fff;font-size:1rem;font-weight:600;letter-spacing:.02em;">Loading...</span>
     </div>
-    <!--end::Page loading--> --}}
-	<!--end::Page loading-->
+    <!--end::DataTable loading overlay-->
     <!--begin::Theme mode setup on page load-->
     <script>
         var defaultThemeMode = "light";
@@ -79,6 +87,15 @@ License: For each use you must have a valid license purchased only from above li
                         @include('layouts.footer')
                         @include('layouts.footer_scripts')
                         @yield('js')
+                        <!--begin::DataTable loading overlay listener (after jQuery + DataTables are loaded)-->
+                        <script>
+                            $(document).on('preXhr.dt', function () {
+                                document.getElementById('dt_loading_overlay').style.display = 'flex';
+                            }).on('xhr.dt', function () {
+                                document.getElementById('dt_loading_overlay').style.display = 'none';
+                            });
+                        </script>
+                        <!--end::DataTable loading overlay listener-->
                         <!--end::Footer container-->
                     </div>
                     <!--end::Footer-->
