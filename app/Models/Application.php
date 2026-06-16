@@ -74,16 +74,20 @@ class Application extends Model
     public function scopeSearch($query, $conditions)
     {
         // dd($conditions, isset($conditions['from']) ,isset($conditions['to']));
-        // Use a JOIN instead of whereHas for the customer text search so MySQL can
-        // pick a better execution plan (avoids a correlated EXISTS subquery on 1M+ rows).
+        // Use whereIn with a subquery instead of whereHas (correlated EXISTS) so MySQL
+        // can materialize the customer ID set once. Avoids the JOIN column-ambiguity
+        // issue (both tables have created_at) that would break ORDER BY from DataTables.
         if (!empty($conditions['search']['value'] ?? null)) {
             $search = $conditions['search']['value'];
-            $query->join('customers as cust_search', 'cust_search.id', '=', 'applications.customer_id')
-                  ->where(function ($q) use ($search) {
-                      $q->whereRaw("CONCAT(cust_search.first_name, ' ', cust_search.last_name) LIKE ?", ['%' . $search . '%'])
-                        ->orWhere('cust_search.mobile', 'like', '%' . ltrim($search, '0') . '%')
-                        ->orWhere('cust_search.email', 'like', '%' . $search . '%');
-                  });
+            $query->whereIn('applications.customer_id', function ($sub) use ($search) {
+                $sub->select('id')
+                    ->from('customers')
+                    ->where(function ($q) use ($search) {
+                        $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $search . '%'])
+                          ->orWhere('mobile', 'like', '%' . ltrim($search, '0') . '%')
+                          ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+            });
         }
 
         return $query->where(function ($query) use ($conditions) {
