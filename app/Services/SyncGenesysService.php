@@ -14,8 +14,8 @@ class SyncGenesysService
     const AUTH_URL = "https://login.mypurecloud.ie/oauth/token";
     const CONTACT_SYNC_URL = "https://api.mypurecloud.ie/api/v2/outbound/contactlists/";
 
-    const CLIENT_ID = "480c9bdc-e6d2-4854-9408-73241f7eab7b";
-    const CLIENT_SECRET = "YL5JxGKVdhHkMmmqfajXGMT4kvO_vTyRZy8WSuGvAtY";
+    const CLIENT_ID = "645e46db-2a0e-4031-8046-8017b6d0c6ef";
+    const CLIENT_SECRET = "nIAjrbbO2lLXPM596AqsdUkulabqm-5OkRX1GoGTlqE";
     private $token;
     private $syncd_ids = [];
 
