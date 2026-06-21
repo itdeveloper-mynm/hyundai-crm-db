@@ -36,8 +36,8 @@ class SyncGenesysService
 
     public function readToken()
     {
-        return Storage::exists('app/syncGenesysService/token.json')
-               ? Storage::get('app/syncGenesysService/token.json')
+        return Storage::exists('syncGenesysService/token.json')
+               ? Storage::get('syncGenesysService/token.json')
                : null;
     }
 
@@ -69,7 +69,7 @@ class SyncGenesysService
 		$response_decoded = json_decode($response,true);
 
         if (isset($response_decoded['access_token'])) {
-            Storage::put('app/syncGenesysService/token.json', $response_decoded['access_token']);
+            Storage::put('syncGenesysService/token.json', $response_decoded['access_token']);
             $this->setToken($response_decoded['access_token']);
         } else {
             Log::channel('sync_service_log')->info("syncGenesysService");
