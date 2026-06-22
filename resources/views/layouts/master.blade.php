@@ -94,6 +94,17 @@ License: For each use you must have a valid license purchased only from above li
                             }).on('xhr.dt', function () {
                                 document.getElementById('dt_loading_overlay').style.display = 'none';
                             });
+
+                            // Redirect to login on session expiry (401) instead of showing DataTables Ajax error
+                            $.ajaxSetup({
+                                statusCode: {
+                                    401: function () {
+                                        document.getElementById('dt_loading_overlay').style.display = 'none';
+                                        alert('Your session has expired. You will be redirected to the login page.');
+                                        window.location.href = '{{ route("login") }}';
+                                    }
+                                }
+                            });
                         </script>
                         <!--end::DataTable loading overlay listener-->
                         <!--end::Footer container-->
