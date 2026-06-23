@@ -373,6 +373,54 @@ function updCustomer(Request $request,$id) {
     return $customer;
 }
 
+function normalizePurchasePlan($value)
+{
+    $map = [
+        '1_month'         => '1 month',
+        '0 month'         => '1 month',
+        '2-3 month'       => '2-3 months',
+        '2-3_months'      => '2-3 months',
+        '2 month'         => '2-3 months',
+        '2 Months'        => '2-3 months',
+        '3 month'         => '2-3 months',
+        '3 months'        => '2-3 months',
+        'Within 3 months' => '2-3 months',
+        'After 3 month'   => 'After 3 months',
+        'after_3_months'  => 'After 3 months',
+        '4 month'         => 'After 3 months',
+        '4 months'        => 'After 3 months',
+        '5 month'         => 'After 3 months',
+        '5 months'        => 'After 3 months',
+        '6 month'         => 'After 3 months',
+        '6 months'        => 'After 3 months',
+        '7 month'         => 'After 3 months',
+        '7 months'        => 'After 3 months',
+        '8 month'         => 'After 3 months',
+    ];
+    if (is_null($value)) return null;
+    return $map[trim($value)] ?? $value;
+}
+
+function normalizeMonthlySalary($value)
+{
+    $map = [
+        'below_5000'               => 'Below 5,000',
+        'Below 5,001'              => 'Below 5,000',
+        '5000-7000'                => 'Between 5,000 and 7,000',
+        'Between 5,000 & 7,000'    => 'Between 5,000 and 7,000',
+        'Between 5,000 and 10,000' => 'Between 5,000 and 7,000',
+        '5000-10000'               => 'Between 5,000 and 7,000',
+        '7000-10000'               => 'Between 7,000 and 10,000',
+        'Between 7,000 & 10,000'   => 'Between 7,000 and 10,000',
+        'Between 6,000 & 10,000'   => 'Between 7,000 and 10,000',
+        'above_10000'              => 'Above 10,000',
+        'More than 10,000'         => 'Above 10,000',
+        'cash_deal'                => 'Cash Deal',
+    ];
+    if (is_null($value)) return null;
+    return $map[trim($value)] ?? $value;
+}
+
 function checkApplicationType($type) {
     switch (strtolower($type)) {
         case 'leads':
@@ -407,6 +455,13 @@ function checkApplicationType($type) {
             return 'sales_marketing';
         case 'after sales':
             return 'after_sales';
+        case 'periodic maintenance':
+        case 'صيانة دورية':
+        case 'recall':
+        case 'استدعاء':
+        case 'technical faults / breakdown':
+        case 'الأعطال الفنية':
+            return 'online_service_booking';
         case 'smo leads':
             return 'smo_leads';
         case 'career':

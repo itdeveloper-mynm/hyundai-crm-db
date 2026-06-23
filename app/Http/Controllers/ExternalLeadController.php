@@ -165,8 +165,8 @@ class ExternalLeadController extends Controller
         $lead->vehicle_id = $vehicle->id;
         $lead->source_id = $sourcee->id;
         $lead->campaign_id = $campaign->id;
-        $lead->purchase_plan = $request->input('purchasePlan');
-        $lead->monthly_salary = $request->input('monthlySalary');
+        $lead->purchase_plan = normalizePurchasePlan($request->input('purchasePlan'));
+        $lead->monthly_salary = normalizeMonthlySalary($request->input('monthlySalary'));
         $lead->preferred_appointment_time = $request->input('preferredTime');
         $lead->customer_id= $customer->id;
         $lead->type = 'leads';
@@ -410,8 +410,8 @@ class ExternalLeadController extends Controller
         $lead->vehicle_id = $vehicle->id ?? null;
         $lead->source_id = $sourcee->id ?? null;
         $lead->campaign_id = $campaign->id ?? null;
-        $lead->purchase_plan = $intention ?? null;
-        $lead->monthly_salary = $monthly_salary ?? null;
+        $lead->purchase_plan = normalizePurchasePlan($intention ?? null);
+        $lead->monthly_salary = normalizeMonthlySalary($monthly_salary ?? null);
         $lead->customer_id= $customer->id;
         $lead->apply_for = $apply_for ?? null;
         $lead->booking_reason = $booking_reason ?? null;

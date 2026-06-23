@@ -1270,13 +1270,16 @@
             datasets: [{
                 label: 'Dataset',
                 data: @json($salary_graph['monthly_salary_count']),
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                ],
+                backgroundColor: (function() {
+                    const map = {
+                        'Below 5,000':              'rgb(54, 162, 235)',
+                        'Between 5,000 and 7,000':  'rgb(75, 192, 192)',
+                        'Between 7,000 and 10,000': 'rgb(255, 205, 86)',
+                        'Above 10,000':             'rgb(255, 99, 132)',
+                        'Cash Deal':                'rgb(153, 102, 255)',
+                    };
+                    return @json($salary_graph['monthly_salary']).map(l => map[l] || 'rgb(201, 203, 207)');
+                })(),
             }]
         };
 
