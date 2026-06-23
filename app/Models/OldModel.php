@@ -373,13 +373,14 @@ class Application extends Model
 
     public static function countBySalaryGroup($startDate, $endDate, $all_types, $filters)
     {
-        $records = self::select('monthly_salary', \DB::raw('COUNT(*) as count'))
-            ->whereNotNull('monthly_salary')
-            ->where('monthly_salary', '!=', '')
+        $records = self::select(
+                \DB::raw("COALESCE(NULLIF(monthly_salary, ''), 'Not Specified') as monthly_salary"),
+                \DB::raw('COUNT(*) as count')
+            )
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
-            ->groupBy('monthly_salary')
+            ->groupBy(\DB::raw("COALESCE(NULLIF(monthly_salary, ''), 'Not Specified')"))
             ->get();
 
             $data['monthly_salary'] = $records->pluck('monthly_salary')->toArray();
