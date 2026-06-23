@@ -4,6 +4,6 @@
     data-allow-clear="true" {{ $required ? 'required' : '' }}>
     <option value=""></option>
     <option value="1 month" @selected(($data->purchase_plan ?? '') == '1 month')>1 month</option>
-    <option value="2-3 month" @selected(($data->purchase_plan ?? '') == '2-3 month')>2-3 month</option>
-    <option value="After 3 month" @selected(($data->purchase_plan ?? '') == 'After 3 month')>After 3 month</option>
+    <option value="2-3 months" @selected(($data->purchase_plan ?? '') == '2-3 months')>2-3 months</option>
+    <option value="After 3 months" @selected(($data->purchase_plan ?? '') == 'After 3 months')>After 3 months</option>
 </select>

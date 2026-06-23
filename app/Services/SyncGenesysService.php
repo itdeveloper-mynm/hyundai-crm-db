@@ -190,6 +190,7 @@ class SyncGenesysService
                       ->orWhere('type', 'request_a_brochure')
                       ->orWhere('type', 'request_a_quote')
                       ->orWhere('type', 'special_offers')
+                      ->orWhere('type', 'contact_us')
                       ->orWhere('type', 'leads')
                       ->orWhere('type', 'events')
                       ->orWhere('type', 'employees_program');

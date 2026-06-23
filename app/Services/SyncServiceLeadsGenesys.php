@@ -193,8 +193,7 @@ if (empty($token)) {
             ->where('created_at', '>', now()->subDay()) // for new records
             ->where(function ($query) {
                 $query->where('type', 'online_service_booking')
-                      ->orWhere('type', 'service_offers')
-                      ->orWhere('type', 'contact_us');
+                      ->orWhere('type', 'service_offers');
                     //   ->orWhere(function ($query) {
                     //       $query->where('type', 'contact_us')
                     //             ->where('department', 'after_sales');
