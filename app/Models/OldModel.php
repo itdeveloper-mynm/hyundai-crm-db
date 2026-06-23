@@ -374,7 +374,8 @@ class Application extends Model
     public static function countBySalaryGroup($startDate, $endDate, $all_types, $filters)
     {
         $records = self::select('monthly_salary', \DB::raw('COUNT(*) as count'))
-            ->whereNotNull('purchase_plan')
+            ->whereNotNull('monthly_salary')
+            ->where('monthly_salary', '!=', '')
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
