@@ -377,6 +377,7 @@ class Application extends Model
                 \DB::raw("COALESCE(NULLIF(monthly_salary, ''), 'Not Specified') as monthly_salary"),
                 \DB::raw('COUNT(*) as count')
             )
+            ->whereNotNull('purchase_plan')
             ->whereIn('type', $all_types)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->graphsearch($filters)
