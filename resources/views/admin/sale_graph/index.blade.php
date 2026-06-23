@@ -998,13 +998,12 @@
         let purchasePlanChartInstance = null; // Global chart instance for reuse/destroy
 
         function renderPurchasePlanPieChart(labels, dataValues) {
-            const backgroundColors = [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)',
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)'
-            ];
+            const purchasePlanColorMap = {
+                '1 month':       'rgb(54, 162, 235)',
+                '2-3 months':    'rgb(255, 159, 64)',
+                'After 3 months':'rgb(75, 192, 192)',
+            };
+            const backgroundColors = labels.map(l => purchasePlanColorMap[l] || 'rgb(201, 203, 207)');
 
             const data = {
                 labels: labels,

@@ -1325,13 +1325,14 @@
             datasets: [{
                 label: 'Dataset',
                 data: @json($purchase_plan_graph['purchase_plan_count']),
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                ],
+                backgroundColor: (function() {
+                    const map = {
+                        '1 month':        'rgb(54, 162, 235)',
+                        '2-3 months':     'rgb(255, 159, 64)',
+                        'After 3 months': 'rgb(75, 192, 192)',
+                    };
+                    return @json($purchase_plan_graph['purchase_plan']).map(l => map[l] || 'rgb(201, 203, 207)');
+                })(),
             }]
         };
 
